@@ -19,10 +19,10 @@ public class Timetable {
      * Generates a list of tasks based on the user's requested filter.
      * The tasks will be categorized by their dates using the TimetableDay class.
      *
-     * @param taskFilter Filter based on user request.
+     * @param taskFilters Criteria to filter the list of tasks.
      * @return A list of tasks stored in TimetableDay objects.
      */
-    public ArrayList<TimetableDay> getTasksByFilter(TaskFilter taskFilter) {
+    public ArrayList<TimetableDay> getTasksByFilters(ArrayList<TaskFilter> taskFilters) {
         // TODO: Implement
 
         return null;
