@@ -6,7 +6,7 @@ import athena.tasklist.TaskList;
 import java.util.ArrayList;
 
 /**
- * Takes a TaskList to generate a timetable for the user
+ * Takes a TaskList to generate a timetable for the user.
  */
 public class Timetable {
     private TaskList taskList;
