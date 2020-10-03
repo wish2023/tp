@@ -24,6 +24,9 @@ public class TaskList {
         System.out.println("You entered an invalid number");
     }
 
+    private int getTaskNumber(String index) {
+        return Integer.parseInt(index) - 1;
+    }
 
 
     private ArrayList<Task> getShortlistedTasks(String instance) {
@@ -70,7 +73,7 @@ public class TaskList {
      * @param task Task to be marked
      */
     public void markTaskAsDone(String task) {
-        int taskNumber = Integer.parseInt(task) - 1;
+        int taskNumber = getTaskNumber(task);
         try {
             tasks.get(taskNumber).setDone();
             System.out.println("I have marked your task as done!");
@@ -115,7 +118,7 @@ public class TaskList {
      * @param index Position of task in task list
      */
     public void deleteTask(String index) {
-        int taskNumber = Integer.parseInt(index) - 1;
+        int taskNumber = getTaskNumber(index);
         try {
             String deletedTask = "\t" + tasks.get(taskNumber);
             printDeleteMessage();
@@ -128,14 +131,16 @@ public class TaskList {
     }
 
 
+
+
     /**
      * Edit the task at the specified position in the task list
      *
-     * @param index
-     * @param task
+     * @param index Position of task in task list
+     * @param task The new task it should be edited to
      */
     public void editTask(String index, Task task) {
-        int taskNumber = Integer.parseInt(index) - 1;
+        int taskNumber = getTaskNumber(index);
         try {
             tasks.set(taskNumber, task);
         }
