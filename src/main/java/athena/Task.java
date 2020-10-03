@@ -14,7 +14,7 @@ public class Task {
     private String notes = null;
 
     private String getStatus() {
-        return (isDone? YES: NO);
+        return (isDone ? YES : NO);
     }
 
 
