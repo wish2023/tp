@@ -1,10 +1,5 @@
 package athena;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
+import java.io.*;
 
 
 public class Storage {
@@ -52,6 +47,21 @@ public class Storage {
         this.filePath = filepath;
 
     }
+    public void saveTaskListData(taskList tasks) {
+        this.tasks=tasks;
+        try {
+            FileWriter csvWriter = new FileWriter(filePath);
+            for(String task : tasks.getList()) {
+                csvWriter.append(task+","+"\n");
+            }
+            csvWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 
     public taskList loadTaskListData() {
         File csvFile = new File(filePath);
