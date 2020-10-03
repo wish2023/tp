@@ -47,7 +47,7 @@ public class TaskList {
 
 
     /**
-     * Prints every task in the task list
+     * Prints every task in the task list.
      */
     public void displayList() {
         System.out.println("Here's your TASK LIST");
@@ -56,7 +56,7 @@ public class TaskList {
 
 
     /**
-     * Returns size of the task list
+     * Returns size of the task list.
      *
      * @return Size of the task list
      */
@@ -85,8 +85,8 @@ public class TaskList {
 
 
     /**
-     * Adds specified task to the task list
-     * Lets the user know specified task has been added to the task list
+     * Adds specified task to the task list.
+     * Lets the user know specified task has been added to the task list.
      *
      * @param task Task to be added
      */
@@ -101,7 +101,7 @@ public class TaskList {
 
 
     /**
-     * Returns the task description at the specified position in task list
+     * Returns the task description at the specified position in task list.
      *
      * @param index Position of task in the task list
      * @return Task description
@@ -112,7 +112,7 @@ public class TaskList {
 
 
     /**
-     * Deletes the task at the specified position in the task list
+     * Deletes the task at the specified position in the task list.
      *
      * @param index Position of task in task list
      */
@@ -133,7 +133,7 @@ public class TaskList {
 
 
     /**
-     * Edit the task at the specified position in the task list
+     * Edit the task at the specified position in the task list.
      *
      * @param index Position of task in task list
      * @param task The new task it should be edited to
@@ -142,8 +142,7 @@ public class TaskList {
         int taskNumber = getTaskNumber(index);
         try {
             tasks.set(taskNumber, task);
-        }
-        catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             printErrorMessage();
         }
     }
