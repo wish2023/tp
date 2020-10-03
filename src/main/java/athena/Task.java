@@ -1,8 +1,8 @@
 package athena;
 
 public class Task {
-    public static final String TICK = "[\u2713]";
-    public static final String CROSS = "[\u2718]";
+    public static final String YES = "Y";
+    public static final String NO = "N";
     private String description;
 
     private String startTime;
@@ -13,14 +13,20 @@ public class Task {
     private Importance importance = Importance.MEDIUM;
     private String notes = null;
 
-
-    public Task(String description) {
-        this.description = description;
-        isDone = false;
+    private String getStatus() {
+        return (isDone? YES: NO);
     }
 
+
+    public Task(String description, String startTime, String deadline) {
+        this.description = description;
+        this.startTime = startTime;
+        this.deadline = deadline;
+    }
+
+
     /**
-     * Marks the task as done
+     * Marks the task as done.
      *
      */
     public void setDone() {
@@ -29,11 +35,17 @@ public class Task {
 
 
     /**
-     * Returns the description of the task
+     * Returns the description of the task.
      *
      * @return Description of task
      */
     public String getDescription() {
         return description;
     }
+
+    @Override
+    public String toString() {
+        return getStatus() + " " + getDescription() +  ". Complete by " + deadline;
+    }
+
 }
