@@ -3,7 +3,7 @@ package athena;
 public class Task {
     public static final String YES = "Y";
     public static final String NO = "N";
-    private String description;
+    private String name;
 
     private String startTime;
     private int duration = 1;
@@ -18,8 +18,8 @@ public class Task {
     }
 
 
-    public Task(String description, String startTime, String deadline) {
-        this.description = description;
+    public Task(String name, String startTime, String deadline) {
+        this.name = name;
         this.startTime = startTime;
         this.deadline = deadline;
     }
@@ -39,13 +39,13 @@ public class Task {
      *
      * @return Description of task
      */
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
     @Override
     public String toString() {
-        return getStatus() + " " + getDescription() +  ". Complete by " + deadline;
+        return getStatus() + " " + getName() +  ". Complete by " + deadline;
     }
 
 }

@@ -31,7 +31,7 @@ public class TaskList {
     private ArrayList<Task> getShortlistedTasks(String instance) {
         ArrayList<Task> shortlistedTasks = new ArrayList<>();
         for (Task task: tasks) {
-            if (task.getDescription().contains(instance)) {
+            if (task.getName().contains(instance)) {
                 shortlistedTasks.add(task);
             }
         }
