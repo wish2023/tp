@@ -10,14 +10,34 @@ import java.util.ArrayList;
  */
 public class Timetable {
     private TaskList taskList;
+    private ArrayList<TimetableDay> timetableDays;
 
     public Timetable(TaskList taskList) {
         this.taskList = taskList;
+        populateTimetable();
     }
 
     /**
-     * Generates a list of tasks based on the user's requested filter.
+     * Populates the timetable, represented by a list of TimetableDays with the information from the task list.
+     * For this version, we only populate the timetable with the tasks for this week (starting from Monday).
+     */
+    private void populateTimetable() {
+        this.timetableDays = new ArrayList<TimetableDay>();
+    }
+
+    /**
+     * Gets the timetable for this week (starting from Monday).
+     * @return A list of TimetableDay objects representing the timetable for this week.
+     */
+    public ArrayList<TimetableDay> getTimetable() {
+        return timetableDays;
+    }
+
+    /**
+     * Gets a list of tasks based on the user's requested filter.
      * The tasks will be categorized by their dates using the TimetableDay class.
+     * For days without any tasks, a TimetableDay with an empty TaskList
+     * will be returned.
      *
      * @param taskFilters Criteria to filter the list of tasks.
      * @return A list of tasks stored in TimetableDay objects.
