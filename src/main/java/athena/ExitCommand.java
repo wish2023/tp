@@ -12,12 +12,11 @@ public class ExitCommand extends Commands{
 
     /**
      * Calls Ui to print exit message.
-     * @param t TaskList
-     * @param u Ui
-     * @param s Storage
+     * @param taskList TaskList
+     * @param ui Ui
      */
     @Override
-    public void execute(TaskList t, Ui u, Storage s) {
-        u.exitLine();
+    public void execute(TaskList taskList, Ui ui) {
+        ui.exitLine();
     }
 }

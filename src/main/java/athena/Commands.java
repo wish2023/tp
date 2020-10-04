@@ -16,7 +16,7 @@ public abstract class Commands {
      * @param u Ui
      * @param s Storage
      */
-    public abstract void execute(TaskList t, Ui u, Storage s);
+    public abstract void execute(TaskList taskList, Ui ui);
 
     public static boolean isExit() {
         return isExit;

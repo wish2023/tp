@@ -15,19 +15,13 @@ public class DeleteCommand extends Commands {
     /**
      * Deletes a task from the taskList and
      * calls Ui to print delete message.
-     * @param t TaskList
-     * @param u Ui
-     * @param s Storage
+     * @param taskList TaskList
+     * @param ui Ui
      */
     @Override
-    public void execute(TaskList t, Ui u, Storage s) {
-        Task task = t.taskList.get(delete);
-        t.taskList.remove(delete);
-        try {
-            s.writeTaskToFile(false, "", t);
-        } catch (IOException e) {
-            u.showError(e.getMessage());
-        }
-        u.deleteOutput(task.toString(), t.taskList.size());
+    public void execute(TaskList taskList, Ui ui) {
+        Task task = taskList.tasks.get(delete);
+        taskList.tasks.remove(delete);
+        ui.deleteOutput(task.toString(), taskList.tasks.size());
     }
 }

@@ -7,12 +7,11 @@ public class HelpCommand extends Commands {
 
     /**
      * Calls Ui to print TaskList.
-     * @param t TaskList
-     * @param u Ui
-     * @param s Storage
+     * @param taskList TaskList
+     * @param ui Ui
      */
     @Override
-    public void execute(TaskList t, Ui u, Storage s) {
-        u.helpOutput();
+    public void execute(TaskList taskList, Ui ui) {
+        ui.helpOutput();
     }
 }
