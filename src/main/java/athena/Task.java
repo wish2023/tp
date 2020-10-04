@@ -43,6 +43,30 @@ public class Task {
         return name;
     }
 
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public Importance getImportance() {
+        return importance;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
     @Override
     public String toString() {
         return getStatus() + " " + getName() +  ". Complete by " + deadline;

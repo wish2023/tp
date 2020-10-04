@@ -4,7 +4,7 @@ import java.io.*;
 
 public class Storage {
     private String filePath;
-    private taskList tasks;
+    private TaskList tasks;
 
     /**
      * methods needed from tasklist
@@ -47,12 +47,12 @@ public class Storage {
         this.filePath = filepath;
 
     }
-    public void saveTaskListData(taskList tasks) {
+    public void saveTaskListData(TaskList tasks) {
         this.tasks=tasks;
         try {
             FileWriter csvWriter = new FileWriter(filePath);
-            for(String task : tasks.getList()) {
-                csvWriter.append(task+","+"\n");
+            for(Task task : tasks.getList()) {
+                csvWriter.append(task.getName()+","+task.getStartTime()+","+task.getDeadline()+","+"\n");
             }
             csvWriter.close();
         } catch (IOException e) {
@@ -63,18 +63,18 @@ public class Storage {
     }
 
 
-    public taskList loadTaskListData() {
+    public TaskList loadTaskListData() {
         File csvFile = new File(filePath);
-        taskList output = null;
+        TaskList output = new TaskList();
         if (csvFile.isFile()) {
             String row;
             BufferedReader csvReader = null;
             try {
                 csvReader = new BufferedReader(new FileReader(filePath));
                 while ((row = csvReader.readLine()) != null) {
-                    String[] data = row.split("\t");
-                    output= new taskList(row);
-                    output.add(data);
+                    String[] data = row.split(",");
+                    Task currentTask = new Task( data[0],  data[1],  data[2]);
+                    output.addToList(currentTask);
                 }
                 csvReader.close();
             } catch (FileNotFoundException e) {
