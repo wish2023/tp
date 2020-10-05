@@ -10,26 +10,18 @@ public class TaskList {
         tasks = new ArrayList<>();
     }
 
-    private ArrayList<Task> getShortlistedTasks(String instance) {
-        ArrayList<Task> shortlistedTasks = new ArrayList<>();
+    public TaskList(ArrayList<Task> taskList) {
+        tasks = new ArrayList<>();
+        for (Task task: taskList) {
+            tasks.add(task);
+        }
+    }
+
+    private ArrayList<Task> getFilteredTasks(String filter) {
+        ArrayList<Task> filteredTasks = new ArrayList<>();
         for (Task task: tasks) {
-            if (task.getName().contains(instance)) {
-                shortlistedTasks.add(task);
-            }
-        }
-        return shortlistedTasks;
-    }
-
-    private void printAllTasks() {
-        for (Task task : tasks) {
-            System.out.println(task);
-        }
-    }
-
-    private void printTasksWithFilter(String importanceFilter) {
-        for (Task task : tasks) {
-            if (task.getImportance().equals(importanceFilter)) {
-                System.out.println(task);
+            if (task.getImportance().equals(filter)) {
+                filteredTasks.add(task);
             }
         }
     }
