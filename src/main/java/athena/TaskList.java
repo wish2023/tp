@@ -19,6 +19,12 @@ public class TaskList {
         return shortlistedTasks;
     }
 
+    private Task createTask(String name, String startTime, String duration, String deadline, String recurrence, String importance, String notes) {
+        Task task = new Task(name, startTime, duration,
+                deadline, recurrence, importance, notes);
+        return task;
+    }
+
     /**
      * Returns size of the task list.
      *
@@ -38,12 +44,21 @@ public class TaskList {
         tasks.get(taskNumber).setDone();
     }
 
+
     /**
-     * Adds specified task to the task list.
+     * Adds a task to the task list
      *
-     * @param task Task to be added
+     * @param name Name of task
+     * @param startTime Start time of task
+     * @param duration Duration of task
+     * @param deadline Deadline of task
+     * @param recurrence Recurrence of task
+     * @param importance Importance of task
+     * @param notes Additional notes of task
      */
-    public void addToList(Task task) {
+    public void addToList(String name, String startTime, String duration,
+                          String deadline, String recurrence, String importance, String notes) {
+        Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes);
         tasks.add(task);
     }
 
@@ -66,15 +81,39 @@ public class TaskList {
         tasks.remove(taskNumber);
     }
 
+
     /**
-     * Edit the task at the specified position in the task list.
+     * Edits a task in the task list.
      *
-     * @param taskNumber Position of task in task list
-     * @param task The new task it should be edited to
+     * @param taskNumber Index of task
+     * @param name Name of task
+     * @param startTime Start time of task
+     * @param duration Duration of task
+     * @param deadline Deadline of task
+     * @param recurrence Recurrence of task
+     * @param importance Importance of task
+     * @param notes Additional notes of task
      */
-    public void editTask(int taskNumber, Task task) {
-        tasks.set(taskNumber, task);
+    public void editTask(int taskNumber, String name, String startTime, String duration,
+                         String deadline, String recurrence, String importance, String notes) {
+
+        tasks.get(taskNumber).changeAttributesTo(name, startTime, duration,
+                deadline, recurrence, importance, notes);
     }
-    
+
+    /**
+     * Displays a filtered task list based on importance
+     *
+     * @param importanceFilter The filter that decides which tasks are printed
+     * @param ui User interface
+     */
+    public void displayList(String importanceFilter, Ui ui) {
+        for (Task task : tasks) {
+            if (task.getImportance().equals(importanceFilter)) {
+                ui.printTask(task);
+            }
+        }
+    }
+
 
 }
