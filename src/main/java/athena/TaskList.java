@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class TaskList {
     public static final String NO_FILTER = "";
     private ArrayList<Task> tasks;
+    private Ui ui = new Ui();
 
     public TaskList() {
         tasks = new ArrayList<>();
@@ -24,14 +25,21 @@ public class TaskList {
                 filteredTasks.add(task);
             }
         }
+        return filteredTasks;
     }
-
 
     private Task createTask(String name, String startTime,
             String duration, String deadline, String recurrence, String importance, String notes) {
         Task task = new Task(name, startTime, duration,
                 deadline, recurrence, importance, notes);
         return task;
+    }
+
+    /**
+     * Prints the task list.
+     */
+    public void printList() {
+        ui.printList(tasks);
     }
 
     /**
@@ -65,10 +73,12 @@ public class TaskList {
      * @param importance Importance of task
      * @param notes Additional notes of task
      */
-    public void addToList(String name, String startTime, String duration,
+    public void addTask(String name, String startTime, String duration,
                 String deadline, String recurrence, String importance, String notes) {
+
         Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes);
         tasks.add(task);
+        ui.printTaskAdded(task);
     }
 
     /**
@@ -77,7 +87,7 @@ public class TaskList {
      * @param index Position of task in the task list
      * @return Task description
      */
-    public String getLine(int index) {
+    public String getDescription(int index) {
         return tasks.get(index).toString();
     }
 
@@ -87,9 +97,10 @@ public class TaskList {
      * @param taskNumber Position of task in task list
      */
     public void deleteTask(int taskNumber) {
+        Task taskToDelete = tasks.get(taskNumber);
         tasks.remove(taskNumber);
+        ui.printTaskDeleted(taskToDelete);
     }
-
 
     /**
      * Edits a task in the task list.
@@ -106,8 +117,9 @@ public class TaskList {
     public void editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, String importance, String notes) {
 
-        tasks.get(taskNumber).changeAttributesTo(name, startTime, duration,
+        tasks.get(taskNumber).edit(name, startTime, duration,
                 deadline, recurrence, importance, notes);
+        ui.printTaskEdited(tasks.get(taskNumber));
     }
 
     /**
@@ -116,13 +128,13 @@ public class TaskList {
      * @param importanceFilter The filter that decides which tasks are printed
      */
     public void displayList(String importanceFilter) {
+
         if (importanceFilter.equals(NO_FILTER)) {
-            printAllTasks();
+            printList();
         } else {
-            printTasksWithFilter(importanceFilter);
+            TaskList filteredTasks = new TaskList(getFilteredTasks(importanceFilter));
+            filteredTasks.printList();
         }
     }
-
-
 
 }
