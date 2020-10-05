@@ -4,7 +4,7 @@ package athena;
  * Handles the done command.
  */
 public class DoneCommand extends Command {
-    protected static int doneIndex;
+    private int doneIndex;
 
     public DoneCommand(int index) {
         doneIndex = index-1;

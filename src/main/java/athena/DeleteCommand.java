@@ -4,7 +4,7 @@ package athena;
  * Handles the delete command.
  */
 public class DeleteCommand extends Command {
-    protected static int deleteIndex;
+    private int deleteIndex;
 
     public DeleteCommand(int index) {
         deleteIndex = index-1;

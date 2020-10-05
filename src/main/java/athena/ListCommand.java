@@ -4,7 +4,7 @@ package athena;
  * Handles the list command.
  */
 public class ListCommand extends Command {
-    protected static String taskImportance;
+    private String taskImportance;
 
     public ListCommand(String importance) {
         taskImportance = importance;

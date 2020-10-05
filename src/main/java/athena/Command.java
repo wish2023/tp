@@ -4,7 +4,7 @@ package athena;
  * Abstract Command class for Command objects.
  */
 public abstract class Command {
-    protected static boolean isExit;
+    protected boolean isExit;
 
     public Command() {
         isExit = false;
@@ -12,8 +12,8 @@ public abstract class Command {
 
     /**
      * For Commands execution.
-     * @param t Tasks List
-     * @param u Ui
+     * @param taskList Tasks List
+     * @param ui Ui
      */
     public abstract void execute(TaskList taskList, Ui ui);
 

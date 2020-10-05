@@ -1,14 +1,14 @@
 package athena;
 
 public class EditCommand extends Command {
-    protected static int taskIndex;
-    protected static String taskName;
-    protected static String taskStartTime;
-    protected static String taskDuration;
-    protected static String taskDeadline;
-    protected static String taskRecurrence;
-    protected static String taskImportance;
-    protected static String taskNotes;
+    private int taskIndex;
+    private String taskName;
+    private String taskStartTime;
+    private String taskDuration;
+    private String taskDeadline;
+    private String taskRecurrence;
+    private String taskImportance;
+    private String taskNotes;
 
     public EditCommand(int index, String name, String startTime, String duration, String deadline, String recurrence, String importance, String notes) {
         taskIndex = index;
