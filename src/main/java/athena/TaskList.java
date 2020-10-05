@@ -35,7 +35,8 @@ public class TaskList {
     }
 
 
-    private Task createTask(String name, String startTime, String duration, String deadline, String recurrence, String importance, String notes) {
+    private Task createTask(String name, String startTime,
+            String duration, String deadline, String recurrence, String importance, String notes) {
         Task task = new Task(name, startTime, duration,
                 deadline, recurrence, importance, notes);
         return task;
@@ -62,7 +63,7 @@ public class TaskList {
 
 
     /**
-     * Adds a task to the task list
+     * Adds a task to the task list.
      *
      * @param name Name of task
      * @param startTime Start time of task
@@ -73,7 +74,7 @@ public class TaskList {
      * @param notes Additional notes of task
      */
     public void addToList(String name, String startTime, String duration,
-                          String deadline, String recurrence, String importance, String notes) {
+                String deadline, String recurrence, String importance, String notes) {
         Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes);
         tasks.add(task);
     }
@@ -118,7 +119,7 @@ public class TaskList {
     }
 
     /**
-     * Displays a filtered task list based on importance
+     * Displays a filtered task list based on importance.
      *
      * @param importanceFilter The filter that decides which tasks are printed
      */

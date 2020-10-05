@@ -18,7 +18,8 @@ public class Task {
         return (isDone ? YES : NO);
     }
 
-    public Task(String name, String startTime, String duration, String deadline, String recurrence, String importance, String notes) {
+    public Task(String name, String startTime, String duration, String deadline,
+            String recurrence, String importance, String notes) {
         this.name = name;
         this.startTime = startTime;
         this.duration = duration;
@@ -40,7 +41,8 @@ public class Task {
      * @param importance New task importance
      * @param notes New task notes
      */
-    public void changeAttributesTo(String name, String startTime, String duration, String deadline, String recurrence, String importance, String notes) {
+    public void changeAttributesTo(String name, String startTime, String duration,
+            String deadline, String recurrence, String importance, String notes) {
         this.name = name;
         this.startTime = startTime;
         this.duration = duration;
