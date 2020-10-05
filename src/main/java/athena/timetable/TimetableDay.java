@@ -2,6 +2,7 @@ package athena.timetable;
 
 import athena.tasklist.TaskList;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -10,11 +11,28 @@ import java.util.Date;
  * that the user registered into the program.
  */
 public class TimetableDay {
-    private Date date;
+    private LocalDate date;
     private TaskList taskList;
 
-    public TimetableDay(Date date, TaskList taskList) {
+    /**
+     * Initializes the object with the date and an empty task list.
+     *
+     * @param date Date represented by this object.
+     */
+    public TimetableDay(LocalDate date) {
+        this.date = date;
+        this.taskList = new TaskList();
+    }
 
+    /**
+     * Initializes the object with the date and a task list.
+     *
+     * @param date     Date represented by this object.
+     * @param taskList Task list for this day.
+     */
+    public TimetableDay(LocalDate date, TaskList taskList) {
+        this.date = date;
+        this.taskList = taskList;
     }
 
     /**
