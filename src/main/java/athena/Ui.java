@@ -12,8 +12,8 @@ public class Ui {
      * Prints the first message that the user sees upon launching the application.
      */
     public void printWelcomeMessage() {
-        System.out.println("Hello! I'm the God of Wisdom and War, the mighty ATHENA!\n" + "...\n"
-                + "Okay okay I'm not a God but I am your Automated Timetable Helper Encourager n' Assistant!\n"
+        System.out.println("Hello! I'm the Goddess of Wisdom and War, the mighty ATHENA!\n" + "...\n"
+                + "Okay okay I'm not a Goddess but I am your Automated Timetable Helper Encourager n' Assistant!\n"
                 + "What can I do? Are you challenging me to a duel?\n" + "...\n"
                 + "Oh you mean in terms of tasks? Just type \"help\" to witness my mighty repertoire!\n"
                 + "So, what would you like to do today?\n");
