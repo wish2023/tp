@@ -3,6 +3,7 @@ package athena;
 import java.util.ArrayList;
 
 public class TaskList {
+    public static final String NO_FILTER = "";
     private ArrayList<Task> tasks;
 
     public TaskList() {
@@ -18,6 +19,21 @@ public class TaskList {
         }
         return shortlistedTasks;
     }
+
+    private void printAllTasks() {
+        for (Task task : tasks) {
+            System.out.println(task);
+        }
+    }
+
+    private void printTasksWithFilter(String importanceFilter) {
+        for (Task task : tasks) {
+            if (task.getImportance().equals(importanceFilter)) {
+                System.out.println(task);
+            }
+        }
+    }
+
 
     private Task createTask(String name, String startTime, String duration, String deadline, String recurrence, String importance, String notes) {
         Task task = new Task(name, startTime, duration,
@@ -105,15 +121,15 @@ public class TaskList {
      * Displays a filtered task list based on importance
      *
      * @param importanceFilter The filter that decides which tasks are printed
-     * @param ui User interface
      */
-    public void displayList(String importanceFilter, Ui ui) {
-        for (Task task : tasks) {
-            if (task.getImportance().equals(importanceFilter)) {
-                ui.printTask(task);
-            }
+    public void displayList(String importanceFilter) {
+        if (importanceFilter.equals(NO_FILTER)) {
+            printAllTasks();
+        } else {
+            printTasksWithFilter(importanceFilter);
         }
     }
+
 
 
 }
