@@ -79,7 +79,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return getStatus() + " " + getName() +  ". Complete by " + deadline;
+        return getStatus() + " " + name + " at " + startTime +  " finish by " + deadline;
     }
 
 }
