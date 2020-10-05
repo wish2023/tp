@@ -1,9 +1,16 @@
 package athena.timetable;
 
+import athena.task.Task;
 import athena.task.taskfilter.TaskFilter;
 import athena.tasklist.TaskList;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TreeMap;
 
 /**
  * Takes a TaskList to generate a timetable for the user.
@@ -23,10 +30,32 @@ public class Timetable {
      */
     private void populateTimetable() {
         this.timetableDays = new ArrayList<TimetableDay>();
+
+        TreeMap<LocalDate, TimetableDay> timetableDayMap = new TreeMap<LocalDate, TimetableDay>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM HHmm");
+
+        for (Task task : taskList.getTasks()) {
+            LocalDate date = LocalDate.parse(task.recurrence, formatter);
+
+            TimetableDay timetableDay;
+            if (timetableDayMap.containsKey(date)) {
+                timetableDay = timetableDayMap.get(date);
+            } else {
+                timetableDay = new TimetableDay(date);
+                timetableDayMap.put(date, timetableDay);
+            }
+
+            timetableDay.addTask(task);
+        }
+
+        for (LocalDate key : timetableDayMap.keySet()) {
+            timetableDays.add(timetableDayMap.get(key));
+        }
     }
 
     /**
      * Gets the timetable for this week (starting from Monday).
+     *
      * @return A list of TimetableDay objects representing the timetable for this week.
      */
     public ArrayList<TimetableDay> getTimetable() {
@@ -43,9 +72,9 @@ public class Timetable {
      * @return A list of tasks stored in TimetableDay objects.
      */
     public ArrayList<TimetableDay> getTasksByFilters(ArrayList<TaskFilter> taskFilters) {
-        // TODO: Implement
+        // TODO: Implement this
 
-        return null;
+        return timetableDays;
     }
 
 }

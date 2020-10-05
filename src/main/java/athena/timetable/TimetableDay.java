@@ -1,5 +1,6 @@
 package athena.timetable;
 
+import athena.task.Task;
 import athena.tasklist.TaskList;
 
 import java.time.LocalDate;
@@ -33,6 +34,15 @@ public class TimetableDay {
     public TimetableDay(LocalDate date, TaskList taskList) {
         this.date = date;
         this.taskList = taskList;
+    }
+
+    /**
+     * Adds a task to the list.
+     *
+     * @param task Task to be added.
+     */
+    public void addTask(Task task) {
+        taskList.addTask(task);
     }
 
     /**
