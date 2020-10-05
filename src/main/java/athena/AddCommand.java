@@ -1,22 +1,20 @@
 package athena;
 
-import java.io.IOException;
-
 /**
- * Handles adding tasks to the TaskList.
+ * Handles adding tasks to the Tasks list.
  */
 public class AddCommand extends Commands {
     protected static String taskName;
-    protected static String taskTime;
+    protected static String taskStartTime;
     protected static String taskDuration;
     protected static String taskDeadline;
     protected static String taskRecurrence;
     protected static String taskImportance;
     protected static String taskNotes;
 
-    public AddCommand(String name, String time, String duration, String deadline, String recurrence, String importance, String notes) {
+    public AddCommand(String name, String startTime, String duration, String deadline, String recurrence, String importance, String notes) {
         taskName = name;
-        taskTime = time;
+        taskStartTime = startTime;
         taskDuration = duration;
         taskDeadline = deadline;
         taskRecurrence = recurrence;
@@ -25,14 +23,13 @@ public class AddCommand extends Commands {
     }
 
     /**
-     * Adds a task to the taskList based on command and
-     * calls Ui to print add message.
-     * @param taskList TaskList
+     * Adds a task to the Tasks list.
+     * @param taskList Tasks List
      * @param ui Ui
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-           ui.addOutput(task.toString(), t.taskList.size());
+        taskList.addToList(taskName, taskStartTime,taskDuration, taskDeadline, taskRecurrence, taskImportance, taskNotes);
     }
 
 }

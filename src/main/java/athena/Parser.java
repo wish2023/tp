@@ -13,10 +13,9 @@ public class Parser {
     public static final String RECURRENCE_DELIMITER = "r/";
     public static final String IMPORTANCE_DELIMITER = "i/";
     public static final String ADDITIONAL_NOTES_DELIMITER = "a/";
-    public static final String FORECAST_DELIMITER = "f/";
     /**
      * Parses user input and recognises what type of command
-     * the user is looking for
+     * and parameters the user typed
      * @param input String representing user input
      * @return new Command object based on what the user input is
      */
@@ -33,7 +32,6 @@ public class Parser {
         int rPosition = taskInfo.indexOf(RECURRENCE_DELIMITER);
         int iPosition = taskInfo.indexOf(IMPORTANCE_DELIMITER);
         int aPosition = taskInfo.indexOf(ADDITIONAL_NOTES_DELIMITER);
-        int fPosition = taskInfo.indexOf(FORECAST_DELIMITER);
 
         if (commandType.equals("add")) {
             String[] retrieveName = taskInfo.split(NAME_DELIMITER, 2);
@@ -100,7 +98,7 @@ public class Parser {
 
             String importance;
             if (iPosition == -1) {
-                importance = "medium";
+                importance = "MEDIUM";
             } else {
                 String[] retrieveImportance = taskInfo.split(IMPORTANCE_DELIMITER, 2);
                 String retrievedImportance = retrieveImportance[1];
@@ -231,20 +229,6 @@ public class Parser {
 
             c = new EditCommand(index, name, time, duration, deadline, recurrence, importance, notes);
         } else if (commandType.equals("list")) {
-            String forecast;
-            if (fPosition == -1) {
-                forecast = null;
-            } else {
-                String[] retrieveForecast = taskInfo.split(FORECAST_DELIMITER, 2);
-                String retrievedForecast = retrieveForecast[1];
-                int forecastNextSlash = retrievedForecast.indexOf("/");
-                if (forecastNextSlash == -1) {
-                    forecast = retrievedForecast;
-                } else {
-                    forecast = retrievedForecast.substring(0, (forecastNextSlash - 2));
-                }
-            }
-
             String importance;
             if (iPosition == -1) {
                 importance = null;
@@ -258,7 +242,7 @@ public class Parser {
                     importance = retrievedImportance.substring(0, (importanceNextSlash - 2));
                 }
             }
-            c = new ListCommand(forecast, importance);
+            c = new ListCommand(importance);
         } else if (commandType.equals("done")) {
             int taskIndex = Integer.parseInt(taskInfo);
             c = new DoneCommand(taskIndex);

@@ -1,27 +1,22 @@
 package athena;
 
-import java.io.IOException;
-
 /**
  * Handles the delete command.
  */
 public class DeleteCommand extends Commands {
-    protected static int delete;
+    protected static int deleteIndex;
 
-    public DeleteCommand(int d) {
-        delete = d;
+    public DeleteCommand(int index) {
+        deleteIndex = index-1;
     }
 
     /**
-     * Deletes a task from the taskList and
-     * calls Ui to print delete message.
-     * @param taskList TaskList
+     * Deletes a task from the Tasks list.
+     * @param taskList Tasks List
      * @param ui Ui
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        Task task = taskList.tasks.get(delete);
-        taskList.tasks.remove(delete);
-        ui.deleteOutput(task.toString(), taskList.tasks.size());
+        taskList.deleteTask(deleteIndex);
     }
 }

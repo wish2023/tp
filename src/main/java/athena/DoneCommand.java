@@ -1,27 +1,22 @@
 package athena;
 
-import java.io.IOException;
-
 /**
  * Handles the done command.
  */
 public class DoneCommand extends Commands {
-    protected static int done;
+    protected static int doneIndex;
 
-    public DoneCommand(int d) {
-        done = d;
+    public DoneCommand(int index) {
+        doneIndex = index-1;
     }
 
     /**
-     * Marks a task as done from the taskList and
-     * calls Ui to print done message.
-     * @param taskList TaskList
+     * Marks a task as done from the Tasks list.
+     * @param taskList Tasks List
      * @param ui Ui
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        Task task = taskList.tasks.get(done);
-        task.setDone();
-        ui.doneOutput(task.toString());
+        taskList.markTaskAsDone(doneIndex);
     }
 }

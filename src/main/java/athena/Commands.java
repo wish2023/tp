@@ -12,9 +12,8 @@ public abstract class Commands {
 
     /**
      * For Commands execution.
-     * @param t TaskList
+     * @param t Tasks List
      * @param u Ui
-     * @param s Storage
      */
     public abstract void execute(TaskList taskList, Ui ui);
 

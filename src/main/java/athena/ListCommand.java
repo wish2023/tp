@@ -4,20 +4,18 @@ package athena;
  * Handles the list command.
  */
 public class ListCommand extends Commands {
-    protected static String taskForecast;
     protected static String taskImportance;
 
-    public ListCommand(String forecast, String importance) {
-        taskForecast = forecast;
+    public ListCommand(String importance) {
         taskImportance = importance;
     }
     /**
-     * Calls Ui to print TaskList.
-     * @param taskList TaskList
+     * Calls Ui to print the list of tasks.
+     * @param taskList Tasks List
      * @param ui Ui
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        ui.list(taskList);
+        taskList.displayList(taskImportance);
     }
 }
