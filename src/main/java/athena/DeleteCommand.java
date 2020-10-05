@@ -3,7 +3,7 @@ package athena;
 /**
  * Handles the delete command.
  */
-public class DeleteCommand extends Commands {
+public class DeleteCommand extends Command {
     protected static int deleteIndex;
 
     public DeleteCommand(int index) {

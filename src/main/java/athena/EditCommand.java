@@ -1,6 +1,6 @@
 package athena;
 
-public class EditCommand extends Commands {
+public class EditCommand extends Command {
     protected static int taskIndex;
     protected static String taskName;
     protected static String taskStartTime;

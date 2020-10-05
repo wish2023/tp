@@ -3,7 +3,7 @@ package athena;
 /**
  * Handles adding tasks to the Tasks list.
  */
-public class AddCommand extends Commands {
+public class AddCommand extends Command {
     protected static String taskName;
     protected static String taskStartTime;
     protected static String taskDuration;

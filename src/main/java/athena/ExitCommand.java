@@ -3,7 +3,7 @@ package athena;
 /**
  * Handles the exit command.
  */
-public class ExitCommand extends Commands{
+public class ExitCommand extends Command {
 
     public ExitCommand() {
         super();

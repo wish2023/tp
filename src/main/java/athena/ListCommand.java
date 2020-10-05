@@ -3,7 +3,7 @@ package athena;
 /**
  * Handles the list command.
  */
-public class ListCommand extends Commands {
+public class ListCommand extends Command {
     protected static String taskImportance;
 
     public ListCommand(String importance) {

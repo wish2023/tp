@@ -3,7 +3,7 @@ package athena;
 /**
  * Handles the help command.
  */
-public class HelpCommand extends Commands {
+public class HelpCommand extends Command {
 
     /**
      * Calls Ui to print help output.

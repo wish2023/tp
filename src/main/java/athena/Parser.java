@@ -19,11 +19,11 @@ public class Parser {
      * @param input String representing user input
      * @return new Command object based on what the user input is
      */
-    public static Commands parse(String input) {
+    public static Command parse(String input) {
         String[] commandAndDetails = input.split(COMMAND_WORD_DELIMITER, 2);
         String commandType = commandAndDetails[0];
         String taskInfo = commandAndDetails[1];
-        Commands c = null;
+        Command command = null;
 
         int nPosition = taskInfo.indexOf(NAME_DELIMITER);
         int tPosition = taskInfo.indexOf(TIME_DELIMITER);
@@ -98,7 +98,7 @@ public class Parser {
 
             String importance;
             if (iPosition == -1) {
-                importance = "MEDIUM";
+                importance = "medium";
             } else {
                 String[] retrieveImportance = taskInfo.split(IMPORTANCE_DELIMITER, 2);
                 String retrievedImportance = retrieveImportance[1];
@@ -124,7 +124,7 @@ public class Parser {
                 }
             }
 
-            c = new AddCommand(name, time, duration, deadline, recurrence, importance, notes);
+            command = new AddCommand(name, time, duration, deadline, recurrence, importance, notes);
         } else if (commandType.equals("edit")) {
             int indexNextSlash = taskInfo.indexOf("/");
             int index = Integer.parseInt(taskInfo.substring(0, (indexNextSlash - 2)));
@@ -227,7 +227,7 @@ public class Parser {
                 }
             }
 
-            c = new EditCommand(index, name, time, duration, deadline, recurrence, importance, notes);
+            command = new EditCommand(index, name, time, duration, deadline, recurrence, importance, notes);
         } else if (commandType.equals("list")) {
             String importance;
             if (iPosition == -1) {
@@ -242,20 +242,20 @@ public class Parser {
                     importance = retrievedImportance.substring(0, (importanceNextSlash - 2));
                 }
             }
-            c = new ListCommand(importance);
+            command = new ListCommand(importance);
         } else if (commandType.equals("done")) {
             int taskIndex = Integer.parseInt(taskInfo);
-            c = new DoneCommand(taskIndex);
+            command = new DoneCommand(taskIndex);
         } else if (commandType.equals("delete")) {
             int taskIndex = Integer.parseInt(taskInfo);
-            c = new DeleteCommand(taskIndex);
+            command = new DeleteCommand(taskIndex);
         }  else if (commandType.equals("help")) {
-            c = new HelpCommand();
+            command = new HelpCommand();
         } else {
             if (commandType.equals("bye")) {
-                c = new ExitCommand();
+                command = new ExitCommand();
             }
         }
-        return c;
+        return command;
     }
 }

@@ -3,10 +3,10 @@ package athena;
 /**
  * Abstract Command class for Command objects.
  */
-public abstract class Commands {
+public abstract class Command {
     protected static boolean isExit;
 
-    public Commands() {
+    public Command() {
         isExit = false;
     }
 

@@ -3,7 +3,7 @@ package athena;
 /**
  * Handles the done command.
  */
-public class DoneCommand extends Commands {
+public class DoneCommand extends Command {
     protected static int doneIndex;
 
     public DoneCommand(int index) {
