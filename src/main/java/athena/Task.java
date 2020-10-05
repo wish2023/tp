@@ -29,7 +29,6 @@ public class Task {
         this.notes = notes;
     }
 
-
     /**
      * Edits the features of the task.
      *
@@ -41,7 +40,7 @@ public class Task {
      * @param importance New task importance
      * @param notes New task notes
      */
-    public void changeAttributesTo(String name, String startTime, String duration,
+    public void edit(String name, String startTime, String duration,
             String deadline, String recurrence, String importance, String notes) {
         this.name = name;
         this.startTime = startTime;
@@ -68,7 +67,6 @@ public class Task {
     public void setDone() {
         isDone = true;
     }
-
 
     /**
      * Returns the description of the task.
