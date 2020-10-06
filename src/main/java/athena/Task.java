@@ -42,6 +42,7 @@ public class Task {
      */
     public void edit(String name, String startTime, String duration,
             String deadline, String recurrence, String importance, String notes) {
+        // TODO: only update when parameters are not null
         this.name = name;
         this.startTime = startTime;
         this.duration = duration;
