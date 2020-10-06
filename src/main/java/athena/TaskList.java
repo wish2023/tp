@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class TaskList {
     public static final String NO_FILTER = "";
     private ArrayList<Task> tasks;
-    private Ui ui = new Ui();
 
     public TaskList() {
         tasks = new ArrayList<>();
@@ -82,7 +81,6 @@ public class TaskList {
 
         Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes);
         tasks.add(task);
-        ui.printTaskAdded(task);
     }
 
     /**
@@ -103,7 +101,6 @@ public class TaskList {
     public void deleteTask(int taskNumber) {
         Task taskToDelete = tasks.get(taskNumber);
         tasks.remove(taskNumber);
-        ui.printTaskDeleted(taskToDelete);
     }
 
     /**
@@ -123,7 +120,6 @@ public class TaskList {
 
         tasks.get(taskNumber).edit(name, startTime, duration,
                 deadline, recurrence, importance, notes);
-        ui.printTaskEdited(tasks.get(taskNumber));
     }
 
     /**
