@@ -38,12 +38,7 @@ public class TaskList {
         return task;
     }
 
-    /**
-     * Prints the task list.
-     */
-    public void printList() {
-        ui.printList(tasks);
-    }
+
 
     /**
      * Returns size of the task list.
@@ -123,17 +118,18 @@ public class TaskList {
     }
 
     /**
-     * Displays a filtered task list based on importance.
+     * Returns a filtered task list based on importance.
      *
      * @param importanceFilter The filter that decides which tasks are printed
+     * @return Filtered task list
      */
-    public void displayList(String importanceFilter) {
+    public TaskList getFilteredList(String importanceFilter) {
 
         if (importanceFilter.equals(NO_FILTER)) {
-            printList();
+            return this;
         } else {
             TaskList filteredTasks = new TaskList(getFilteredTasks(importanceFilter));
-            filteredTasks.printList();
+            return filteredTasks;
         }
     }
 
