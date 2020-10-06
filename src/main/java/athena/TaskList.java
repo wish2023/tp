@@ -18,6 +18,10 @@ public class TaskList {
         }
     }
 
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
+
     private ArrayList<Task> getFilteredTasks(String filter) {
         ArrayList<Task> filteredTasks = new ArrayList<>();
         for (Task task: tasks) {
