@@ -60,7 +60,7 @@ public class Task {
         if (!importance.equals(null)) {
             this.importance = importance;
         }
-        if (!importance.equals(null)) {
+        if (!notes.equals(null)) {
             this.notes = notes;
         }
 
