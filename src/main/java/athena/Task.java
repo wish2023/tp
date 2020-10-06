@@ -78,6 +78,31 @@ public class Task {
         return name;
     }
 
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public String getRecurrence() {
+        return recurrence;
+    }
+
     @Override
     public String toString() {
         return getStatus() + " " + name + " at " + startTime +  " finish by " + deadline;
