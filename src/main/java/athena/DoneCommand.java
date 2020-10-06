@@ -11,12 +11,14 @@ public class DoneCommand extends Command {
     }
 
     /**
-     * Marks a task as done from the Tasks list.
+     * Marks a task as done from the Tasks list and
+     * calls Ui to print task marked as done.
      * @param taskList Tasks List
      * @param ui Ui
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
         taskList.markTaskAsDone(doneIndex);
+        ui.printTaskDone(doneIndex);
     }
 }
