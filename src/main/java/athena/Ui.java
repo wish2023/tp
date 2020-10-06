@@ -1,5 +1,7 @@
 package athena;
 
+import java.util.ArrayList;
+
 /**
  * Represents all of the text that the user sees on the command line.
  */

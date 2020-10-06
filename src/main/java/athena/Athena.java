@@ -14,9 +14,10 @@ public class Athena {
     }
 
     public void runProgram() {
-        ui.printTaskAdded();
-        ui.printTaskDeleted();
-        ui.printTaskDone();
-        ui.printTaskEdited();
+        // TODO: pass task as argument
+//        ui.printTaskAdded();
+//        ui.printTaskDeleted();
+//        ui.printTaskDone();
+//        ui.printTaskEdited();
     }
 }
