@@ -6,24 +6,59 @@ public class Task {
     private String name;
 
     private String startTime;
-    private int duration = 1;
+    private String duration;
     private String deadline;
 
+    private String recurrence;
     private boolean isDone = false;
-    private Importance importance = Importance.MEDIUM;
-    private String notes = null;
+    private String importance;
+    private String notes;
 
     private String getStatus() {
         return (isDone ? YES : NO);
     }
 
-
-    public Task(String name, String startTime, String deadline) {
+    public Task(String name, String startTime, String duration, String deadline,
+            String recurrence, String importance, String notes) {
         this.name = name;
         this.startTime = startTime;
+        this.duration = duration;
         this.deadline = deadline;
+        this.recurrence = recurrence;
+        this.importance = importance;
+        this.notes = notes;
     }
 
+    /**
+     * Edits the features of the task.
+     *
+     * @param name New task name
+     * @param startTime New task start time
+     * @param duration New task duration
+     * @param deadline New task deadline
+     * @param recurrence New task recurrence
+     * @param importance New task importance
+     * @param notes New task notes
+     */
+    public void edit(String name, String startTime, String duration,
+            String deadline, String recurrence, String importance, String notes) {
+        this.name = name;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.deadline = deadline;
+        this.recurrence = recurrence;
+        this.importance = importance;
+        this.notes = notes;
+    }
+
+    /**
+     * Return the importance of the task.
+     *
+     * @return Importance of task
+     */
+    public String getImportance() {
+        return importance;
+    }
 
     /**
      * Marks the task as done.
@@ -32,7 +67,6 @@ public class Task {
     public void setDone() {
         isDone = true;
     }
-
 
     /**
      * Returns the description of the task.
@@ -47,7 +81,7 @@ public class Task {
         return startTime;
     }
 
-    public int getDuration() {
+    public String getDuration() {
         return duration;
     }
 
@@ -59,17 +93,18 @@ public class Task {
         return isDone;
     }
 
-    public Importance getImportance() {
-        return importance;
-    }
 
     public String getNotes() {
         return notes;
     }
 
+    public String getRecurrence() {
+        return recurrence;
+    }
+
     @Override
     public String toString() {
-        return getStatus() + " " + getName() +  ". Complete by " + deadline;
+        return getStatus() + " " + name + " at " + startTime +  " finish by " + deadline;
     }
 
 }

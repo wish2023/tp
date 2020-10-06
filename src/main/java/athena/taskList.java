@@ -3,57 +3,48 @@ package athena;
 import java.util.ArrayList;
 
 public class TaskList {
+    public static final String NO_FILTER = "";
     private ArrayList<Task> tasks;
+    private Ui ui = new Ui();
 
     public TaskList() {
         tasks = new ArrayList<>();
     }
 
-
-    private void printNumberOfTasks() {
-        System.out.printf("Now you have %d task%s in the list.\n", tasks.size(),
-                (tasks.size() == 1) ? "" : "s");
+    public TaskList(ArrayList<Task> taskList) {
+        tasks = new ArrayList<>();
+        for (Task task: taskList) {
+            tasks.add(task);
+        }
     }
 
-    private void printDeleteMessage() {
-        System.out.println("I have deleted this task!");
+    public ArrayList<Task> getTasks() {
+        return tasks;
     }
 
-    private void printErrorMessage() {
-        System.out.println("You entered an invalid number");
-    }
-
-    private int getTaskNumber(String index) {
-        return Integer.parseInt(index) - 1;
-    }
-
-
-    private ArrayList<Task> getShortlistedTasks(String instance) {
-        ArrayList<Task> shortlistedTasks = new ArrayList<>();
+    private ArrayList<Task> getFilteredTasks(String filter) {
+        ArrayList<Task> filteredTasks = new ArrayList<>();
         for (Task task: tasks) {
-            if (task.getName().contains(instance)) {
-                shortlistedTasks.add(task);
+            if (task.getImportance().equals(filter)) {
+                filteredTasks.add(task);
             }
         }
-        return shortlistedTasks;
+        return filteredTasks;
     }
 
-    void printTasks() {
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.printf("%d.%s\n", i + 1, tasks.get(i));
-        }
+    private Task createTask(String name, String startTime,
+            String duration, String deadline, String recurrence, String importance, String notes) {
+        Task task = new Task(name, startTime, duration,
+                deadline, recurrence, importance, notes);
+        return task;
     }
-
-
 
     /**
-     * Prints every task in the task list.
+     * Prints the task list.
      */
-    public void displayList() {
-        System.out.println("Here's your TASK LIST");
-        printTasks();
+    public void printList() {
+        ui.printList(tasks);
     }
-
 
     /**
      * Returns size of the task list.
@@ -64,41 +55,35 @@ public class TaskList {
         return tasks.size();
     }
 
-
     /**
      * Marks specified task as done.
      * Lets the user know specified task has been marked as done.
      *
-     * @param task Task to be marked
+     * @param taskNumber Position of task in task list
      */
-    public void markTaskAsDone(String task) {
-        int taskNumber = getTaskNumber(task);
-        try {
-            tasks.get(taskNumber).setDone();
-            System.out.println("I have marked your task as done!");
-            System.out.printf("\t%s\n", tasks.get(taskNumber));
-        } catch (IndexOutOfBoundsException e) {
-            printErrorMessage();
-        }
-
+    public void markTaskAsDone(int taskNumber) {
+        tasks.get(taskNumber).setDone();
     }
 
 
     /**
-     * Adds specified task to the task list.
-     * Lets the user know specified task has been added to the task list.
+     * Adds a task to the task list.
      *
-     * @param task Task to be added
+     * @param name Name of task
+     * @param startTime Start time of task
+     * @param duration Duration of task
+     * @param deadline Deadline of task
+     * @param recurrence Recurrence of task
+     * @param importance Importance of task
+     * @param notes Additional notes of task
      */
-    public void addToList(Task task) {
+    public void addTask(String name, String startTime, String duration,
+                String deadline, String recurrence, String importance, String notes) {
+
+        Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes);
         tasks.add(task);
-        System.out.println("Okay! I have added this:");
-        System.out.printf("\t%s\n", task);
-        printNumberOfTasks();
+        ui.printTaskAdded(task);
     }
-
-
-
 
     /**
      * Returns the task description at the specified position in task list.
@@ -106,49 +91,54 @@ public class TaskList {
      * @param index Position of task in the task list
      * @return Task description
      */
-    public String getLine(int index) {
+    public String getDescription(int index) {
         return tasks.get(index).toString();
     }
-
 
     /**
      * Deletes the task at the specified position in the task list.
      *
-     * @param index Position of task in task list
+     * @param taskNumber Position of task in task list
      */
-    public void deleteTask(String index) {
-        int taskNumber = getTaskNumber(index);
-        try {
-            String deletedTask = "\t" + tasks.get(taskNumber);
-            printDeleteMessage();
-            System.out.println(deletedTask);
-            tasks.remove(taskNumber);
-        } catch (IndexOutOfBoundsException e) {
-            printErrorMessage();
-        }
-        printNumberOfTasks();
+    public void deleteTask(int taskNumber) {
+        Task taskToDelete = tasks.get(taskNumber);
+        tasks.remove(taskNumber);
+        ui.printTaskDeleted(taskToDelete);
     }
-
-
-
 
     /**
-     * Edit the task at the specified position in the task list.
+     * Edits a task in the task list.
      *
-     * @param index Position of task in task list
-     * @param task The new task it should be edited to
+     * @param taskNumber Index of task
+     * @param name Name of task
+     * @param startTime Start time of task
+     * @param duration Duration of task
+     * @param deadline Deadline of task
+     * @param recurrence Recurrence of task
+     * @param importance Importance of task
+     * @param notes Additional notes of task
      */
-    public void editTask(String index, Task task) {
-        int taskNumber = getTaskNumber(index);
-        try {
-            tasks.set(taskNumber, task);
-        } catch (IndexOutOfBoundsException e) {
-            printErrorMessage();
+    public void editTask(int taskNumber, String name, String startTime, String duration,
+                         String deadline, String recurrence, String importance, String notes) {
+
+        tasks.get(taskNumber).edit(name, startTime, duration,
+                deadline, recurrence, importance, notes);
+        ui.printTaskEdited(tasks.get(taskNumber));
+    }
+
+    /**
+     * Displays a filtered task list based on importance.
+     *
+     * @param importanceFilter The filter that decides which tasks are printed
+     */
+    public void displayList(String importanceFilter) {
+
+        if (importanceFilter.equals(NO_FILTER)) {
+            printList();
+        } else {
+            TaskList filteredTasks = new TaskList(getFilteredTasks(importanceFilter));
+            filteredTasks.printList();
         }
     }
 
-
-    public ArrayList<Task> getList() {
-        return this.tasks;
-    }
 }
