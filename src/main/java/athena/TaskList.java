@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class TaskList {
     public static final String NO_FILTER = "";
     private ArrayList<Task> tasks;
-    private Ui ui = new Ui();
 
     public TaskList() {
         tasks = new ArrayList<>();
@@ -39,12 +38,7 @@ public class TaskList {
         return task;
     }
 
-    /**
-     * Prints the task list.
-     */
-    public void printList() {
-        ui.printList(tasks);
-    }
+
 
     /**
      * Returns size of the task list.
@@ -82,7 +76,6 @@ public class TaskList {
 
         Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes);
         tasks.add(task);
-        ui.printTaskAdded(task);
     }
 
     /**
@@ -103,7 +96,6 @@ public class TaskList {
     public void deleteTask(int taskNumber) {
         Task taskToDelete = tasks.get(taskNumber);
         tasks.remove(taskNumber);
-        ui.printTaskDeleted(taskToDelete);
     }
 
     /**
@@ -123,21 +115,21 @@ public class TaskList {
 
         tasks.get(taskNumber).edit(name, startTime, duration,
                 deadline, recurrence, importance, notes);
-        ui.printTaskEdited(tasks.get(taskNumber));
     }
 
     /**
-     * Displays a filtered task list based on importance.
+     * Returns a filtered task list based on importance.
      *
      * @param importanceFilter The filter that decides which tasks are printed
+     * @return Filtered task list
      */
-    public void displayList(String importanceFilter) {
+    public TaskList getFilteredList(String importanceFilter) {
 
         if (importanceFilter.equals(NO_FILTER)) {
-            printList();
+            return this;
         } else {
             TaskList filteredTasks = new TaskList(getFilteredTasks(importanceFilter));
-            filteredTasks.printList();
+            return filteredTasks;
         }
     }
 

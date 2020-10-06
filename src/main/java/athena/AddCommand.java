@@ -23,13 +23,15 @@ public class AddCommand extends Command {
     }
 
     /**
-     * Adds a task to the Tasks list.
+     * Adds a task to the Tasks list and
+     * calls Ui to print out the task added.
      * @param taskList Tasks List
      * @param ui Ui
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
         taskList.addTask(taskName, taskStartTime,taskDuration, taskDeadline, taskRecurrence, taskImportance, taskNotes);
+        ui.printTaskAdded(taskName, taskStartTime,taskDuration, taskDeadline, taskRecurrence, taskImportance, taskNotes);
     }
 
 }
