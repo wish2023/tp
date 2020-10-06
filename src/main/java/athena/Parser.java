@@ -13,16 +13,21 @@ public class Parser {
     public static final String RECURRENCE_DELIMITER = "r/";
     public static final String IMPORTANCE_DELIMITER = "i/";
     public static final String ADDITIONAL_NOTES_DELIMITER = "a/";
+
     /**
      * Parses user input and recognises what type of command
      * and parameters the user typed
+     *
      * @param input String representing user input
      * @return new Command object based on what the user input is
      */
     public static Command parse(String input) {
         String[] commandAndDetails = input.split(COMMAND_WORD_DELIMITER, 2);
         String commandType = commandAndDetails[0];
-        String taskInfo = commandAndDetails[1];
+        String taskInfo = "";
+        if (commandAndDetails.length > 1)
+            taskInfo = commandAndDetails[1];
+
         Command command = null;
 
         int nPosition = taskInfo.indexOf(NAME_DELIMITER);
@@ -144,7 +149,7 @@ public class Parser {
             }
 
             String time;
-            if (tPosition == -1){
+            if (tPosition == -1) {
                 time = null;
             } else {
                 String[] retrieveTime = taskInfo.split(TIME_DELIMITER, 2);
@@ -229,9 +234,9 @@ public class Parser {
 
             command = new EditCommand(index, name, time, duration, deadline, recurrence, importance, notes);
         } else if (commandType.equals("list")) {
-            String importance;
+            String importance = "";
             if (iPosition == -1) {
-                importance = null;
+                importance = "";
             } else {
                 String[] retrieveImportance = taskInfo.split(IMPORTANCE_DELIMITER, 2);
                 String retrievedImportance = retrieveImportance[1];
@@ -249,7 +254,7 @@ public class Parser {
         } else if (commandType.equals("delete")) {
             int taskIndex = Integer.parseInt(taskInfo);
             command = new DeleteCommand(taskIndex);
-        }  else if (commandType.equals("help")) {
+        } else if (commandType.equals("help")) {
             command = new HelpCommand();
         } else {
             if (commandType.equals("bye")) {
