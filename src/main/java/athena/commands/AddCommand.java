@@ -1,4 +1,7 @@
-package athena;
+package athena.commands;
+
+import athena.TaskList;
+import athena.Ui;
 
 /**
  * Handles adding tasks to the Tasks list.

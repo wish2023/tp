@@ -1,4 +1,8 @@
-package athena;
+package athena.commands;
+
+import athena.Task;
+import athena.TaskList;
+import athena.Ui;
 
 /**
  * Handles the done command.

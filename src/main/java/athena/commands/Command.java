@@ -1,4 +1,7 @@
-package athena;
+package athena.commands;
+
+import athena.TaskList;
+import athena.Ui;
 
 /**
  * Abstract Command class for Command objects.
