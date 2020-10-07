@@ -23,15 +23,27 @@ public class Ui {
 
     /**
      * Prints out a message verifying which task the user has added to their list.
-     * @param task The task that the user just added.
+     *
+     * @param taskName       The name of the task
+     * @param taskStartTime  When the task is scheduled to start
+     * @param taskDuration   How long the task will last for
+     * @param taskDeadline   When the task is due
+     * @param taskRecurrence When will the task repeat
+     * @param taskImportance What is the importance of the task
+     * @param taskNotes      Any additional notes the user has added to the task
      */
-    public void printTaskAdded(Task task) {
-        System.out.println("You've successfully added " + task + "!\n"
-                + "Another mission to complete? Let's do it!\n");
+    public void printTaskAdded(String taskName, String taskStartTime, String taskDuration, String taskDeadline,
+                               String taskRecurrence, String taskImportance, String taskNotes) {
+        System.out.println("You've successfully added " + taskName + " to your list!\n"
+                + "This task will start at " + taskStartTime + ", last for " + taskDuration + ", and end at " + taskDeadline + ".\n"
+                + "It is set to happen " + taskRecurrence + " and has an importance of " + taskImportance + ".\n"
+                + "Additionally, you've also added these additional notes!\n" + taskNotes + ".\n"
+                + "Looks like another mission to complete! Let's do it!\n");
     }
 
     /**
      * Lists out the the tasks that the user has added.
+     *
      * @param taskList The list of tasks.
      */
     public void printList(ArrayList<Task> taskList) {
@@ -44,6 +56,7 @@ public class Ui {
 
     /**
      * Prints out a message verifying that the task the user specified has been marked as done.
+     *
      * @param task The task that the user marked as done.
      */
     public void printTaskDone(Task task) {
@@ -51,20 +64,40 @@ public class Ui {
     }
 
     /**
-     * Prints out a message verifying that the task the user specified has been edited.
-     * @param task The task that the user has edited.
+     * Prints out a message verifying that the task the user specified has been edited, and shows the user the
+     * new task details
+     *
+     * @param taskIndex      The index of the task on the task list
+     * @param taskName       The name of the task
+     * @param taskStartTime  When the task is scheduled to start
+     * @param taskDuration   How long the task will last for
+     * @param taskDeadline   When the task is due
+     * @param taskRecurrence When will the task repeat
+     * @param taskImportance What is the importance of the task
+     * @param taskNotes      Any additional notes the user has added to the task
      */
-    public void printTaskEdited(Task task) {
-        System.out.println("You've changed the details of the task " + task + "?\n"
+    public void printTaskEdited(int taskIndex, String taskName, String taskStartTime, String taskDuration, String taskDeadline,
+                                String taskRecurrence, String taskImportance, String taskNotes) {
+        System.out.println("You've changed the details of task number " + taskIndex + ": " + taskName + "?\n"
+                + "Here are the new details of your task!\n"
+                + "Start Time: " + taskStartTime + "\n"
+                + "Duration: " + taskDuration + "\n"
+                + "Due Date: " + taskDeadline + "\n"
+                + "Recurrence: " + taskRecurrence + "\n"
+                + "Importance: " + taskImportance + "\n"
+                + "Additional Notes: " + taskNotes + "\n"
                 + "The mistakes of the past have been vanquished!\n");
     }
 
     /**
      * Prints out a message verifying that the task the user specified has been deleted.
+     *
      * @param task The task that the user has deleted.
      */
-    public void printTaskDeleted(Task task) {
+    public void printTaskDeleted(Task task, String taskRestore) {
         System.out.println("Are we pretending the task " + task + " never existed? Very well...\n");
+        System.out.println("We both know the human propensity to make mistakes, if you want it back just type\n"
+                + taskRestore + "\nYou can thank me later \n");
     }
 
     /**
@@ -90,6 +123,14 @@ public class Ui {
                 + "To say farewell to me, ATHENA:\n"
                 + "exit\n"
                 + "But why would you want to leave me anyways? Hmph.\n");
+    }
+
+    public void printInvalidTask() {
+        System.out.println("One of the tasks in the archives seems to be cursed, I have disposed of it!");
+    }
+
+    public void printTaskNotFound(int taskNumber) {
+        System.out.println("The task with the label " + taskNumber + " cannot be found");
     }
 
     /**
