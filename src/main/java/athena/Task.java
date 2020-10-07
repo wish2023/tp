@@ -42,14 +42,28 @@ public class Task {
      */
     public void edit(String name, String startTime, String duration,
             String deadline, String recurrence, String importance, String notes) {
-        // TODO: only update when parameters are not null
-        this.name = name;
-        this.startTime = startTime;
-        this.duration = duration;
-        this.deadline = deadline;
-        this.recurrence = recurrence;
-        this.importance = importance;
-        this.notes = notes;
+        if (!name.equals(null)) {
+            this.name = name;
+        }
+        if (!startTime.equals(null)) {
+            this.startTime = startTime;
+        }
+        if (!duration.equals(null)) {
+            this.duration = duration;
+        }
+        if (!deadline.equals(null)) {
+            this.deadline = deadline;
+        }
+        if (!recurrence.equals(null)) {
+            this.recurrence = recurrence;
+        }
+        if (!importance.equals(null)) {
+            this.importance = importance;
+        }
+        if (!notes.equals(null)) {
+            this.notes = notes;
+        }
+
     }
 
     /**
