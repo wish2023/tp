@@ -17,6 +17,6 @@ public class DoneCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        taskList.markTaskAsDoneAndReturn(doneIndex);
+        taskList.markTaskAsDone(doneIndex);
     }
 }

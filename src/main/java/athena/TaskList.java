@@ -56,7 +56,7 @@ public class TaskList {
      * @param taskNumber Position of task in task list
      * @return Task marked as done
      */
-    public Task markTaskAsDoneAndReturn(int taskNumber) {
+    public Task markTaskAsDone(int taskNumber) {
         tasks.get(taskNumber).setDone();
         return tasks.get(taskNumber);
     }
@@ -96,7 +96,7 @@ public class TaskList {
      * @param taskNumber Position of task in task list
      * @return Task deleted
      */
-    public Task deleteTaskAndReturn(int taskNumber) {
+    public Task deleteTask(int taskNumber) {
         Task taskToDelete = tasks.get(taskNumber);
         tasks.remove(taskNumber);
         return taskToDelete;
