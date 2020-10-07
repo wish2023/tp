@@ -32,7 +32,7 @@ public class TaskList {
     }
 
     private Task createTask(String name, String startTime,
-            String duration, String deadline, String recurrence, String importance, String notes) {
+                            String duration, String deadline, String recurrence, String importance, String notes) {
         Task task = new Task(name, startTime, duration,
                 deadline, recurrence, importance, notes);
         return task;
@@ -54,9 +54,11 @@ public class TaskList {
      * Lets the user know specified task has been marked as done.
      *
      * @param taskNumber Position of task in task list
+     * @return Task marked as done
      */
-    public void markTaskAsDone(int taskNumber) {
+    public Task markTaskAsDoneAndReturn(int taskNumber) {
         tasks.get(taskNumber).setDone();
+        return tasks.get(taskNumber);
     }
 
 
@@ -72,7 +74,7 @@ public class TaskList {
      * @param notes Additional notes of task
      */
     public void addTask(String name, String startTime, String duration,
-                String deadline, String recurrence, String importance, String notes) {
+                        String deadline, String recurrence, String importance, String notes) {
 
         Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes);
         tasks.add(task);
@@ -92,10 +94,12 @@ public class TaskList {
      * Deletes the task at the specified position in the task list.
      *
      * @param taskNumber Position of task in task list
+     * @return Task deleted
      */
-    public void deleteTask(int taskNumber) {
+    public Task deleteTaskAndReturn(int taskNumber) {
         Task taskToDelete = tasks.get(taskNumber);
         tasks.remove(taskNumber);
+        return taskToDelete;
     }
 
     /**
