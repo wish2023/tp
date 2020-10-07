@@ -7,7 +7,7 @@ public class DoneCommand extends Command {
     private int doneIndex;
 
     public DoneCommand(int index) {
-        doneIndex = index-1;
+        doneIndex = index - 1;
     }
 
     /**
@@ -18,7 +18,7 @@ public class DoneCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        taskList.markTaskAsDone(doneIndex);
-        ui.printTaskDone(doneIndex);
+        Task taskDone = taskList.markTaskAsDone(doneIndex);
+        ui.printTaskDone(taskDone);
     }
 }

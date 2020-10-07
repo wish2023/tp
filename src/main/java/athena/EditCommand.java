@@ -10,7 +10,8 @@ public class EditCommand extends Command {
     private String taskImportance;
     private String taskNotes;
 
-    public EditCommand(int index, String name, String startTime, String duration, String deadline, String recurrence, String importance, String notes) {
+    public EditCommand(int index, String name, String startTime, String duration, String deadline,
+                       String recurrence, String importance, String notes) {
         taskIndex = index;
         taskName = name;
         taskStartTime = startTime;
@@ -29,7 +30,9 @@ public class EditCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        taskList.editTask(taskIndex, taskName, taskStartTime,taskDuration, taskDeadline, taskRecurrence, taskImportance, taskNotes);
-        ui.printTaskEdited(taskIndex, taskName, taskStartTime,taskDuration, taskDeadline, taskRecurrence, taskImportance, taskNotes);
+        taskList.editTask(taskIndex, taskName, taskStartTime,taskDuration, taskDeadline,
+                taskRecurrence, taskImportance, taskNotes);
+        ui.printTaskEdited(taskIndex, taskName, taskStartTime,taskDuration, taskDeadline,
+                taskRecurrence, taskImportance, taskNotes);
     }
 }

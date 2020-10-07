@@ -12,7 +12,8 @@ public class AddCommand extends Command {
     private String taskImportance;
     private String taskNotes;
 
-    public AddCommand(String name, String startTime, String duration, String deadline, String recurrence, String importance, String notes) {
+    public AddCommand(String name, String startTime, String duration, String deadline,
+                      String recurrence, String importance, String notes) {
         taskName = name;
         taskStartTime = startTime;
         taskDuration = duration;
@@ -30,8 +31,10 @@ public class AddCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        taskList.addTask(taskName, taskStartTime,taskDuration, taskDeadline, taskRecurrence, taskImportance, taskNotes);
-        ui.printTaskAdded(taskName, taskStartTime,taskDuration, taskDeadline, taskRecurrence, taskImportance, taskNotes);
+        taskList.addTask(taskName, taskStartTime,taskDuration, taskDeadline,
+                taskRecurrence, taskImportance, taskNotes);
+        ui.printTaskAdded(taskName, taskStartTime,taskDuration, taskDeadline,
+                taskRecurrence, taskImportance, taskNotes);
     }
 
 }
