@@ -28,8 +28,9 @@ public class EditCommand extends Command {
     /**
      * Edits a task from the Tasks list and
      * calls Ui to print task edited.
+     *
      * @param taskList Tasks List
-     * @param ui Ui
+     * @param ui       Ui
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {

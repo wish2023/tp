@@ -29,8 +29,9 @@ public class AddCommand extends Command {
     /**
      * Adds a task to the Tasks list and
      * calls Ui to print out the task added.
+     *
      * @param taskList Tasks List
-     * @param ui Ui
+     * @param ui       Ui
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {

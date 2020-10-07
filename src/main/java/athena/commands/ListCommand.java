@@ -16,8 +16,9 @@ public class ListCommand extends Command {
     /**
      * Calls TaskList to filter the list based on importance and
      * calls Ui to print the list of tasks.
+     *
      * @param taskList Tasks List
-     * @param ui Ui
+     * @param ui       Ui
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
