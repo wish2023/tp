@@ -1,4 +1,5 @@
 package athena;
+
 import java.io.*;
 
 
@@ -47,13 +48,14 @@ public class Storage {
         this.filePath = filepath;
 
     }
+
     public void saveTaskListData(TaskList tasks) {
-        this.tasks=tasks;
+        this.tasks = tasks;
         try {
             FileWriter csvWriter = new FileWriter(filePath);
-            for(Task task : tasks.getTasks()) {
-                csvWriter.append(task.getName()+","+task.getStartTime()+","+task.getDuration()+","+task.getDeadline()+","+
-                                task.getRecurrence()+","+task.getImportance()+","+task.getNotes()+"\n");
+            for (Task task : tasks.getTasks()) {
+                csvWriter.append(task.getName() + "," + task.getStartTime() + "," + task.getDuration() + "," + task.getDeadline() + "," +
+                        task.getRecurrence() + "," + task.getImportance() + "," + task.getNotes() + "\n");
             }
             csvWriter.close();
         } catch (IOException e) {
@@ -74,7 +76,7 @@ public class Storage {
                 csvReader = new BufferedReader(new FileReader(filePath));
                 while ((row = csvReader.readLine()) != null) {
                     String[] data = row.split(",");
-                    output.addTask(data[0],data[1],data[2],data[3],data[4],data[5],data[6]);
+                    output.addTask(data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
                 }
                 csvReader.close();
             } catch (FileNotFoundException e) {

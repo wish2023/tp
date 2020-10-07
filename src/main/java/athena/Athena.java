@@ -1,4 +1,5 @@
 package athena;
+
 import java.util.ArrayList;
 
 public class Athena {
@@ -16,7 +17,6 @@ public class Athena {
         Storage storage = new Storage("save.csv");
         TaskList oldTask = new TaskList();
         oldTask = storage.loadTaskListData();
-
 
 
         TaskList taskList = new TaskList();
