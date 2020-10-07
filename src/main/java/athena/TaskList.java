@@ -116,9 +116,9 @@ public class TaskList {
      * @return Task deleted
      */
     public Task deleteTask(int taskNumber) throws IndexOutOfBoundsException {
-        Task taskToDelete=null;
+        Task taskToDelete = null;
         int counter = -1;
-        int index=-1;
+        int index = -1;
         for (Task t : tasks) {
             counter += 1;
             if (t.getIndex() == taskNumber) {

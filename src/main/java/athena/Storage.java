@@ -1,6 +1,11 @@
 package athena;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 public class Storage {
@@ -8,40 +13,7 @@ public class Storage {
     private TaskList tasks;
     private Ui ui;
 
-    /**
-     * methods needed from tasklist
-     * Name
-     * Time
-     * Duration
-     * Deadline
-     * Recurrence
-     * Importance
-     * Notes
-     * Index
-     * Restore
-     * task and tasklist constructor
-     * <p>
-     * methods given to tasklist
-     * saveTaskListData(index) if index -1 then save everything
-     * loadTaskListData return taskList and highest index(-1 if no existing data)
-     * <p>
-     * methods needed from Timetable
-     * date
-     * time
-     * task
-     * index
-     * <p>
-     * methods given to Timetable
-     * saveTimetableData()
-     * loadTimetableData return timetable
-     * <p>
-     * methods given to UI
-     * lastSaved
-     * index
-     * <p>
-     * methods given to Parser
-     * ???
-     */
+
 
     private int size;
 
@@ -56,9 +28,9 @@ public class Storage {
         try {
             FileWriter csvWriter = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {
-                csvWriter.append(task.getName() + "," + task.getStartTime() + "," + task.getDuration() + "," + task.getDeadline() + "," +
-                        task.getRecurrence() + "," + task.getImportance() + "," + task.getNotes() + ","
-                        + task.getIndex() + "\n");
+                csvWriter.append(task.getName() + "," + task.getStartTime() + "," + task.getDuration() + ","
+                        + task.getDeadline() + "," + task.getRecurrence() + "," + task.getImportance() + ","
+                        + task.getNotes() + "," + task.getIndex() + "\n");
             }
             csvWriter.close();
         } catch (IOException e) {

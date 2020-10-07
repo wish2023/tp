@@ -27,7 +27,7 @@ public class DeleteCommand extends Command {
             Task deletedTask = taskList.deleteTask(deleteIndex);
             String taskRestore = deletedTask.getTaskRestore();
             ui.printTaskDeleted(deletedTask, taskRestore);
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             ui.printTaskNotFound(deleteIndex);
         }
 
