@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class TaskList {
     public static final String NO_FILTER = "";
     private ArrayList<Task> tasks;
+    private int maxIndex = -1;
 
     public TaskList() {
         tasks = new ArrayList<>();
@@ -12,7 +13,15 @@ public class TaskList {
 
     public TaskList(ArrayList<Task> taskList) {
         tasks = new ArrayList<>();
-        for (Task task: taskList) {
+        for (Task task : taskList) {
+            tasks.add(task);
+        }
+    }
+
+    public TaskList(ArrayList<Task> taskList, int maxIndex) {
+        this.maxIndex = maxIndex;
+        tasks = new ArrayList<>();
+        for (Task task : taskList) {
             tasks.add(task);
         }
     }
@@ -23,7 +32,7 @@ public class TaskList {
 
     private ArrayList<Task> getFilteredTasks(String filter) {
         ArrayList<Task> filteredTasks = new ArrayList<>();
-        for (Task task: tasks) {
+        for (Task task : tasks) {
             if (task.getImportance().equals(filter)) {
                 filteredTasks.add(task);
             }
@@ -32,12 +41,13 @@ public class TaskList {
     }
 
     private Task createTask(String name, String startTime,
-                            String duration, String deadline, String recurrence, String importance, String notes) {
+                            String duration, String deadline, String recurrence, String importance, String notes,
+                            int index) {
+
         Task task = new Task(name, startTime, duration,
-                deadline, recurrence, importance, notes);
+                deadline, recurrence, importance, notes, index);
         return task;
     }
-
 
 
     /**
@@ -65,18 +75,27 @@ public class TaskList {
     /**
      * Adds a task to the task list.
      *
-     * @param name Name of task
-     * @param startTime Start time of task
-     * @param duration Duration of task
-     * @param deadline Deadline of task
+     * @param name       Name of task
+     * @param startTime  Start time of task
+     * @param duration   Duration of task
+     * @param deadline   Deadline of task
      * @param recurrence Recurrence of task
      * @param importance Importance of task
-     * @param notes Additional notes of task
+     * @param notes      Additional notes of task
      */
     public void addTask(String name, String startTime, String duration,
-                        String deadline, String recurrence, String importance, String notes) {
+                        String deadline, String recurrence, String importance, String notes, int index) {
 
-        Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes);
+        Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes, index);
+        tasks.add(task);
+    }
+
+    public void addTask(String name, String startTime, String duration,
+                        String deadline, String recurrence, String importance, String notes) {
+        this.maxIndex += 1;
+        int index = maxIndex;
+
+        Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes, index);
         tasks.add(task);
     }
 
@@ -96,9 +115,18 @@ public class TaskList {
      * @param taskNumber Position of task in task list
      * @return Task deleted
      */
-    public Task deleteTask(int taskNumber) {
-        Task taskToDelete = tasks.get(taskNumber);
-        tasks.remove(taskNumber);
+    public Task deleteTask(int taskNumber) throws IndexOutOfBoundsException {
+        Task taskToDelete=null;
+        int counter = -1;
+        int index=-1;
+        for (Task t : tasks) {
+            counter += 1;
+            if (t.getIndex() == taskNumber) {
+                taskToDelete = tasks.get(taskNumber);
+                index = counter;
+            }
+        }
+        tasks.remove(index);
         return taskToDelete;
     }
 
@@ -106,13 +134,13 @@ public class TaskList {
      * Edits a task in the task list.
      *
      * @param taskNumber Index of task
-     * @param name Name of task
-     * @param startTime Start time of task
-     * @param duration Duration of task
-     * @param deadline Deadline of task
+     * @param name       Name of task
+     * @param startTime  Start time of task
+     * @param duration   Duration of task
+     * @param deadline   Deadline of task
      * @param recurrence Recurrence of task
      * @param importance Importance of task
-     * @param notes Additional notes of task
+     * @param notes      Additional notes of task
      */
     public void editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, String importance, String notes) {
@@ -137,4 +165,11 @@ public class TaskList {
         }
     }
 
+    public int getMaxIndex() {
+        return maxIndex;
+    }
+
+    public void setMaxIndex(int maxIndex) {
+        this.maxIndex = maxIndex;
+    }
 }

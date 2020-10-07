@@ -23,7 +23,14 @@ public class DeleteCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        Task taskDeleted = taskList.deleteTask(deleteIndex);
-        ui.printTaskDeleted(taskDeleted);
+        try {
+            Task deletedTask = taskList.deleteTask(deleteIndex);
+            String taskRestore = deletedTask.getTaskRestore();
+            ui.printTaskDeleted(deletedTask, taskRestore);
+        }catch (IndexOutOfBoundsException e){
+            ui.printTaskNotFound(deleteIndex);
+        }
+
     }
+
 }
