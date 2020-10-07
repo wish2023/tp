@@ -6,6 +6,7 @@ package athena;
 public class DeleteCommand extends Command {
     private int deleteIndex;
 
+
     public DeleteCommand(int index) {
         deleteIndex = index-1;
     }
@@ -17,6 +18,8 @@ public class DeleteCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        taskList.deleteTask(deleteIndex);
+        Task deletedTask = taskList.deleteTask(deleteIndex);
+        String taskRestore = deletedTask.getTaskRestore();
+        ui.printTaskDeleted(deletedTask,taskRestore);
     }
 }
