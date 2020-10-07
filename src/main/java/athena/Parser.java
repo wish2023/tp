@@ -16,10 +16,11 @@ public class Parser {
 
     /**
      * Get parameters description.
+     *
      * @param taskInformation String representing task information
-     * @param delimiter String representing parameter delimiter
-     * @param paramPosition Integer representing position of parameter
-     * @param defaultValue String representing default value
+     * @param delimiter       String representing parameter delimiter
+     * @param paramPosition   Integer representing position of parameter
+     * @param defaultValue    String representing default value
      * @return Description of parameter
      */
     public static String getParameterDesc(String taskInformation, String delimiter, int paramPosition, String defaultValue) {
@@ -40,8 +41,87 @@ public class Parser {
     }
 
     /**
+     * Parses user input when command is add.
+     *
+     * @param taskInfo      String representing task information
+     * @param namePos       Integer representing position of name parameter
+     * @param timePos       Integer representing position of time parameter
+     * @param durationPos   Integer representing position of duration parameter
+     * @param deadlinePos   Integer representing position of deadline parameter
+     * @param recurrencePos Integer representing position of recurrence parameter
+     * @param importancePos Integer representing position of importance parameter
+     * @param addNotesPos   Integer representing position of additional notes parameter
+     * @return command object
+     */
+    public static Command parseAddCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
+                                          int recurrencePos, int importancePos, int addNotesPos) {
+        String nullDefault = "";
+        String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullDefault);
+        String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullDefault);
+        String durationDefault = "1 hour";
+        String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, durationDefault);
+        String deadlineDefault = "No deadline";
+        String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos, deadlineDefault);
+        String recurrenceDefault = "Once-off, happening today";
+        String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, recurrenceDefault);
+        String importanceDefault = "medium";
+        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
+        String notesDefault = "No notes";
+        String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos, notesDefault);
+        Command command = new AddCommand(name, time, duration, deadline, recurrence, importance, notes);
+
+        return command;
+    }
+
+    /**
+     * Parses user input when command is edit.
+     *
+     * @param taskInfo      String representing task information
+     * @param namePos       Integer representing position of name parameter
+     * @param timePos       Integer representing position of time parameter
+     * @param durationPos   Integer representing position of duration parameter
+     * @param deadlinePos   Integer representing position of deadline parameter
+     * @param recurrencePos Integer representing position of recurrence parameter
+     * @param importancePos Integer representing position of importance parameter
+     * @param addNotesPos   Integer representing position of additional notes parameter
+     * @return command object
+     */
+    public static Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
+                                           int recurrencePos, int importancePos, int addNotesPos) {
+        int indexNextSlash = taskInfo.indexOf("/");
+        int index = Integer.parseInt(taskInfo.substring(0, (indexNextSlash - 2)));
+        String nullValue = "";
+        String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullValue);
+        String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullValue);
+        String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, nullValue);
+        String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos, nullValue);
+        String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, nullValue);
+        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
+        String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos, nullValue);
+        Command command = new EditCommand(index, name, time, duration, deadline, recurrence, importance, notes);
+
+        return command;
+    }
+
+    /**
+     * Parses user input when command is list.
+     *
+     * @param taskInfo      String representing task information
+     * @param importancePos Integer representing position of importance parameter
+     * @return command object
+     */
+    public static Command parseListCommand(String taskInfo, int importancePos) {
+        String nullValue = "";
+        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
+        Command command = new ListCommand(importance);
+
+        return command;
+    }
+
+    /**
      * Parses user input and recognises what type of command
      * and parameters the user typed.
+     *
      * @param input String representing user input
      * @return new Command object based on what the user input is
      */
@@ -63,36 +143,13 @@ public class Parser {
         int addNotesPos = taskInfo.indexOf(ADDITIONAL_NOTES_DELIMITER);
 
         if (commandType.equals("add")) {
-            String nullDefault = "";
-            String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullDefault);
-            String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullDefault);
-            String durationDefault = "1 hour";
-            String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, durationDefault);
-            String deadlineDefault = "No deadline";
-            String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos, deadlineDefault);
-            String recurrenceDefault = "Once-off, happening today";
-            String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, recurrenceDefault);
-            String importanceDefault = "medium";
-            String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
-            String notesDefault = "No notes";
-            String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos, notesDefault);
-            command = new AddCommand(name, time, duration, deadline, recurrence, importance, notes);
+            command = parseAddCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
+                    recurrencePos, importancePos, addNotesPos);
         } else if (commandType.equals("edit")) {
-            int indexNextSlash = taskInfo.indexOf("/");
-            int index = Integer.parseInt(taskInfo.substring(0, (indexNextSlash - 2)));
-            String nullValue = "";
-            String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullValue);
-            String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullValue);
-            String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, nullValue);
-            String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos, nullValue);
-            String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, nullValue);
-            String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
-            String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos, nullValue);
-            command = new EditCommand(index, name, time, duration, deadline, recurrence, importance, notes);
+            command = parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
+                    recurrencePos, importancePos, addNotesPos);
         } else if (commandType.equals("list")) {
-            String nullValue = "";
-            String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
-            command = new ListCommand(importance);
+            command = parseListCommand(taskInfo, importancePos);
         } else if (commandType.equals("done")) {
             int taskIndex = Integer.parseInt(taskInfo);
             command = new DoneCommand(taskIndex);
