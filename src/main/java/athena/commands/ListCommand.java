@@ -12,6 +12,7 @@ public class ListCommand extends Command {
     public ListCommand(String importance) {
         taskImportance = importance;
     }
+
     /**
      * Calls TaskList to filter the list based on importance and
      * calls Ui to print the list of tasks.

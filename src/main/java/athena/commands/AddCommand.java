@@ -34,9 +34,9 @@ public class AddCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        taskList.addTask(taskName, taskStartTime,taskDuration, taskDeadline,
+        taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
-        ui.printTaskAdded(taskName, taskStartTime,taskDuration, taskDeadline,
+        ui.printTaskAdded(taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
     }
 

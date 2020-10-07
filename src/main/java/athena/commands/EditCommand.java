@@ -33,9 +33,9 @@ public class EditCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        taskList.editTask(taskIndex, taskName, taskStartTime,taskDuration, taskDeadline,
+        taskList.editTask(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
-        ui.printTaskEdited(taskIndex, taskName, taskStartTime,taskDuration, taskDeadline,
+        ui.printTaskEdited(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
     }
 }
