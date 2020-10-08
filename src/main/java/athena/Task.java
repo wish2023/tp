@@ -19,7 +19,7 @@ public class Task {
     }
 
     public Task(String name, String startTime, String duration, String deadline,
-                String recurrence, String importance, String notes) {
+            String recurrence, String importance, String notes) {
         this.name = name;
         this.startTime = startTime;
         this.duration = duration;
@@ -32,16 +32,16 @@ public class Task {
     /**
      * Edits the features of the task.
      *
-     * @param name       New task name
-     * @param startTime  New task start time
-     * @param duration   New task duration
-     * @param deadline   New task deadline
+     * @param name New task name
+     * @param startTime New task start time
+     * @param duration New task duration
+     * @param deadline New task deadline
      * @param recurrence New task recurrence
      * @param importance New task importance
-     * @param notes      New task notes
+     * @param notes New task notes
      */
     public void edit(String name, String startTime, String duration,
-                     String deadline, String recurrence, String importance, String notes) {
+            String deadline, String recurrence, String importance, String notes) {
         if (!name.equals(null)) {
             this.name = name;
         }
@@ -77,6 +77,7 @@ public class Task {
 
     /**
      * Marks the task as done.
+     *
      */
     public void setDone() {
         isDone = true;
@@ -116,16 +117,9 @@ public class Task {
         return recurrence;
     }
 
-    public String getTaskRestore() {
-        String taskRestore = "add n/" + this.getName() + " t/" + this.getStartTime() + " d/" + this.getDuration()
-                + " D/" + this.getDeadline() + " r/" + this.getRecurrence() + " t/" + this.getImportance()
-                + " a/" + this.getNotes();
-        return taskRestore;
-    }
-
     @Override
     public String toString() {
-        return getStatus() + " " + name + " at " + startTime + " finish by " + deadline;
+        return getStatus() + " " + name + " at " + startTime +  " finish by " + deadline;
     }
 
 }
