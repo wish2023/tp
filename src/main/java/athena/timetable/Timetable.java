@@ -1,11 +1,9 @@
 package athena.timetable;
 
+import athena.TaskList;
 import athena.task.Task;
 import athena.task.taskfilter.TaskFilter;
-import athena.TaskList;
 
-import java.sql.Array;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
