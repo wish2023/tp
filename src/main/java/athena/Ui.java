@@ -90,10 +90,8 @@ public class Ui {
      * Prints out a message verifying that the task the user specified has been deleted.
      * @param task The task that the user has deleted.
      */
-    public void printTaskDeleted(Task task,String taskRestore) {
+    public void printTaskDeleted(Task task) {
         System.out.println("Are we pretending the task " + task + " never existed? Very well...\n");
-        System.out.println("We both know the human propensity to make mistakes, if you want it back just type\n"
-                + taskRestore + "\nYou can thank me later \n");
     }
 
     /**
