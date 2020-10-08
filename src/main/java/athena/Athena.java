@@ -29,10 +29,13 @@ public class Athena {
         command.execute(taskList, athena.ui);
         command = parser.parse("list");
         command.execute(taskList, athena.ui);
-        command = parser.parse("help");
-        command.execute(taskList, athena.ui);
+//        command = parser.parse("help");
+//        command.execute(taskList, athena.ui);
         command = parser.parse("list");
         command.execute(oldTask, athena.ui);
+        storage.saveTaskListData(taskList);
+        command= parser.parse("delete 2");
+        command.execute(taskList, athena.ui);
         storage.saveTaskListData(taskList);
 
     }
