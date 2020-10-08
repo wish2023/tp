@@ -35,7 +35,8 @@ public class Ui {
     public void printTaskAdded(String taskName, String taskStartTime, String taskDuration, String taskDeadline,
                                String taskRecurrence, String taskImportance, String taskNotes) {
         System.out.println("You've successfully added " + taskName + " to your list!\n"
-                + "This task will start at " + taskStartTime + ", last for " + taskDuration + ", and end at " + taskDeadline + ".\n"
+                + "It will start at " + taskStartTime + " and finish on " + taskDeadline + ".\n"
+                + "You should spend a total of " + taskDuration + " hours on it.\n"
                 + "It is set to happen " + taskRecurrence + " and has an importance of " + taskImportance + ".\n"
                 + "Additionally, you've also added these additional notes!\n" + taskNotes + ".\n"
                 + "Looks like another mission to complete! Let's do it!\n");
@@ -115,7 +116,8 @@ public class Ui {
                 + "done INDEX\n"
                 + "e.g. done 2\n\n"
                 + "To edit a task (parameters in square brackets are optional fields):\n"
-                + "edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]\n"
+                + "edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE]"
+                + "[a/ADDITIONAL-NOTES]\n"
                 + "e.g. edit 2 n/Assignment1 t/1100 d/16/09 D/2 r/Monday i/high a/Refer to lecture notes\n\n"
                 + "To delete a task:\n"
                 + "delete INDEX\n"
