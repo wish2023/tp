@@ -124,8 +124,9 @@ public class Parser {
      */
     public static Command parseListCommand(String taskInfo, int importancePos) {
         String nullValue = "";
-        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
-        Command command = new ListCommand(Importance.valueOf(importance));
+        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos,
+                Importance.MEDIUM.toString());
+        Command command = new ListCommand(Importance.valueOf(importance.toUpperCase()));
 
         return command;
     }

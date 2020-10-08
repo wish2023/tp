@@ -23,7 +23,7 @@ public class AddCommand extends Command {
         taskDuration = duration;
         taskDeadline = deadline;
         taskRecurrence = recurrence;
-        taskImportance = Importance.valueOf(importance);
+        taskImportance = Importance.valueOf(importance.toUpperCase());
         taskNotes = notes;
     }
 
