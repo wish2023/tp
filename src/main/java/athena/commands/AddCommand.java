@@ -1,5 +1,6 @@
 package athena.commands;
 
+import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
 
@@ -12,7 +13,7 @@ public class AddCommand extends Command {
     private String taskDuration;
     private String taskDeadline;
     private String taskRecurrence;
-    private String taskImportance;
+    private Importance taskImportance;
     private String taskNotes;
 
     public AddCommand(String name, String startTime, String duration, String deadline,
@@ -22,7 +23,7 @@ public class AddCommand extends Command {
         taskDuration = duration;
         taskDeadline = deadline;
         taskRecurrence = recurrence;
-        taskImportance = importance;
+        taskImportance = Importance.valueOf(importance);
         taskNotes = notes;
     }
 
@@ -38,7 +39,7 @@ public class AddCommand extends Command {
         taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
         ui.printTaskAdded(taskName, taskStartTime, taskDuration, taskDeadline,
-                taskRecurrence, taskImportance, taskNotes);
+                taskRecurrence, taskImportance.toString(), taskNotes);
     }
 
 }

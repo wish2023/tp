@@ -1,5 +1,6 @@
 package athena.commands;
 
+import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
 
@@ -10,11 +11,11 @@ public class EditCommand extends Command {
     private String taskDuration;
     private String taskDeadline;
     private String taskRecurrence;
-    private String taskImportance;
+    private Importance taskImportance;
     private String taskNotes;
 
     public EditCommand(int index, String name, String startTime, String duration, String deadline,
-                       String recurrence, String importance, String notes) {
+                       String recurrence, Importance importance, String notes) {
         taskIndex = index;
         taskName = name;
         taskStartTime = startTime;
@@ -37,6 +38,6 @@ public class EditCommand extends Command {
         taskList.editTask(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
         ui.printTaskEdited(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
-                taskRecurrence, taskImportance, taskNotes);
+                taskRecurrence, taskImportance.toString(), taskNotes);
     }
 }

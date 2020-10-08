@@ -15,5 +15,5 @@ public abstract class TaskFilter {
      * @param task Task to check.
      * @return Whether the task should be included.
      */
-    public abstract boolean filterTask(Task task);
+    public abstract boolean isTaskIncluded(Task task);
 }
