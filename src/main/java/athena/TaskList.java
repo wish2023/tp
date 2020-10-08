@@ -13,18 +13,9 @@ public class TaskList {
 
     public TaskList(ArrayList<Task> taskList) {
         tasks = new ArrayList<>();
-        for (Task task : taskList) {
-            tasks.add(task);
-        }
+        tasks.addAll(taskList);
     }
 
-    public TaskList(ArrayList<Task> taskList, int maxIndex) {
-        this.maxIndex = maxIndex;
-        tasks = new ArrayList<>();
-        for (Task task : taskList) {
-            tasks.add(task);
-        }
-    }
 
     public ArrayList<Task> getTasks() {
         return tasks;
@@ -116,11 +107,11 @@ public class TaskList {
      * @return Task deleted
      */
     public Task deleteTask(int taskNumber) throws IndexOutOfBoundsException {
-        Task taskToDelete=null;
+        Task taskToDelete = null;
         int counter = -1;
-        int index=-1;
+        int index = -1;
         for (Task t : tasks) {
-            counter += 1;
+            counter++;
             if (t.getIndex() == taskNumber) {
                 taskToDelete = tasks.get(taskNumber);
                 index = counter;

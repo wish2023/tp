@@ -3,8 +3,6 @@ package athena;
 import athena.commands.Command;
 
 public class Athena {
-
-
     private static Ui ui;
 
     public Athena() {
