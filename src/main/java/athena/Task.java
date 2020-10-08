@@ -13,13 +13,14 @@ public class Task {
     private boolean isDone = false;
     private String importance;
     private String notes;
+    private int index;
 
     private String getStatus() {
         return (isDone ? YES : NO);
     }
 
     public Task(String name, String startTime, String duration, String deadline,
-                String recurrence, String importance, String notes) {
+                String recurrence, String importance, String notes, int index) {
         this.name = name;
         this.startTime = startTime;
         this.duration = duration;
@@ -27,6 +28,7 @@ public class Task {
         this.recurrence = recurrence;
         this.importance = importance;
         this.notes = notes;
+        this.index = index;
     }
 
     /**
@@ -114,6 +116,14 @@ public class Task {
 
     public String getRecurrence() {
         return recurrence;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public String getTaskRestore() {
