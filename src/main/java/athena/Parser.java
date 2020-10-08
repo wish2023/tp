@@ -10,7 +10,7 @@ import athena.commands.HelpCommand;
 import athena.commands.ListCommand;
 
 /**
- * Handles parsing of user input
+ * Handles parsing of user input.
  */
 public class Parser {
 
@@ -24,8 +24,112 @@ public class Parser {
     public static final String ADDITIONAL_NOTES_DELIMITER = "a/";
 
     /**
+     * Get parameters description.
+     *
+     * @param taskInformation String representing task information
+     * @param delimiter       String representing parameter delimiter
+     * @param paramPosition   Integer representing position of parameter
+     * @param defaultValue    String representing default value
+     * @return Description of parameter
+     */
+    public static String getParameterDesc(String taskInformation, String delimiter, int paramPosition, String defaultValue) {
+        String param;
+        if (paramPosition == -1) {
+            param = defaultValue;
+        } else {
+            String[] retrieveParamInfo = taskInformation.split(delimiter, 2);
+            String retrievedParamInfo = retrieveParamInfo[1];
+            int paramNextSlash = retrievedParamInfo.indexOf("/");
+            if (paramNextSlash == -1) {
+                param = retrievedParamInfo;
+            } else {
+                param = retrievedParamInfo.substring(0, (paramNextSlash - 2));
+            }
+        }
+        return param;
+    }
+
+    /**
+     * Parses user input when command is add.
+     *
+     * @param taskInfo      String representing task information
+     * @param namePos       Integer representing position of name parameter
+     * @param timePos       Integer representing position of time parameter
+     * @param durationPos   Integer representing position of duration parameter
+     * @param deadlinePos   Integer representing position of deadline parameter
+     * @param recurrencePos Integer representing position of recurrence parameter
+     * @param importancePos Integer representing position of importance parameter
+     * @param addNotesPos   Integer representing position of additional notes parameter
+     * @return command object
+     */
+    public static Command parseAddCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
+                                          int recurrencePos, int importancePos, int addNotesPos) {
+        String nullDefault = "";
+        String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullDefault);
+        String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullDefault);
+        String durationDefault = "1 hour";
+        String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, durationDefault);
+        String deadlineDefault = "No deadline";
+        String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos, deadlineDefault);
+        String recurrenceDefault = "Once-off, happening today";
+        String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, recurrenceDefault);
+        String importanceDefault = "medium";
+        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
+        String notesDefault = "No notes";
+        String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos, notesDefault);
+        Command command = new AddCommand(name, time, duration, deadline, recurrence, importance, notes);
+
+        return command;
+    }
+
+    /**
+     * Parses user input when command is edit.
+     *
+     * @param taskInfo      String representing task information
+     * @param namePos       Integer representing position of name parameter
+     * @param timePos       Integer representing position of time parameter
+     * @param durationPos   Integer representing position of duration parameter
+     * @param deadlinePos   Integer representing position of deadline parameter
+     * @param recurrencePos Integer representing position of recurrence parameter
+     * @param importancePos Integer representing position of importance parameter
+     * @param addNotesPos   Integer representing position of additional notes parameter
+     * @return command object
+     */
+    public static Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
+                                           int recurrencePos, int importancePos, int addNotesPos) {
+        int indexNextSlash = taskInfo.indexOf("/");
+        int index = Integer.parseInt(taskInfo.substring(0, (indexNextSlash - 2)));
+        String nullValue = "";
+        String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullValue);
+        String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullValue);
+        String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, nullValue);
+        String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos, nullValue);
+        String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, nullValue);
+        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
+        String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos, nullValue);
+        Command command = new EditCommand(index, name, time, duration, deadline, recurrence, importance, notes);
+
+        return command;
+    }
+
+    /**
+     * Parses user input when command is list.
+     *
+     * @param taskInfo      String representing task information
+     * @param importancePos Integer representing position of importance parameter
+     * @return command object
+     */
+    public static Command parseListCommand(String taskInfo, int importancePos) {
+        String nullValue = "";
+        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
+        Command command = new ListCommand(importance);
+
+        return command;
+    }
+
+    /**
      * Parses user input and recognises what type of command
-     * and parameters the user typed
+     * and parameters the user typed.
      *
      * @param input String representing user input
      * @return new Command object based on what the user input is
@@ -34,229 +138,28 @@ public class Parser {
         String[] commandAndDetails = input.split(COMMAND_WORD_DELIMITER, 2);
         String commandType = commandAndDetails[0];
         String taskInfo = "";
-        if (commandAndDetails.length > 1)
+        if (commandAndDetails.length > 1) {
             taskInfo = commandAndDetails[1];
-
+        }
         Command command = null;
 
-        int nPosition = taskInfo.indexOf(NAME_DELIMITER);
-        int tPosition = taskInfo.indexOf(TIME_DELIMITER);
-        int dPosition = taskInfo.indexOf(DURATION_DELIMITER);
-        int DPosition = taskInfo.indexOf(DEADLINE_DELIMITER);
-        int rPosition = taskInfo.indexOf(RECURRENCE_DELIMITER);
-        int iPosition = taskInfo.indexOf(IMPORTANCE_DELIMITER);
-        int aPosition = taskInfo.indexOf(ADDITIONAL_NOTES_DELIMITER);
+        int namePos = taskInfo.indexOf(NAME_DELIMITER);
+        int timePos = taskInfo.indexOf(TIME_DELIMITER);
+        int durationPos = taskInfo.indexOf(DURATION_DELIMITER);
+        int deadlinePos = taskInfo.indexOf(DEADLINE_DELIMITER);
+        int recurrencePos = taskInfo.indexOf(RECURRENCE_DELIMITER);
+        int importancePos = taskInfo.indexOf(IMPORTANCE_DELIMITER);
+        int addNotesPos = taskInfo.indexOf(ADDITIONAL_NOTES_DELIMITER);
 
         if (commandType.equals("add")) {
-            String[] retrieveName = taskInfo.split(NAME_DELIMITER, 2);
-            String retrievedName = retrieveName[1];
-            String name;
-            int nameNextSlash = retrievedName.indexOf("/");
-            if (nameNextSlash == -1) {
-                name = retrievedName;
-            } else {
-                name = retrievedName.substring(0, (nameNextSlash - 2));
-            }
-
-            String[] retrieveTime = taskInfo.split(TIME_DELIMITER, 2);
-            String retrievedTime = retrieveTime[1];
-            String time;
-            int timeNextSlash = retrievedTime.indexOf("/");
-            if (timeNextSlash == -1) {
-                time = retrievedTime;
-            } else {
-                time = retrievedTime.substring(0, (timeNextSlash - 2));
-            }
-
-            String duration;
-            if (dPosition == -1) {
-                duration = "1 hour";
-            } else {
-                String[] retrieveDuration = taskInfo.split(DURATION_DELIMITER, 2);
-                String retrievedDuration = retrieveDuration[1];
-                int durationNextSlash = retrievedDuration.indexOf("/");
-                if (durationNextSlash == -1) {
-                    duration = retrievedDuration;
-                } else {
-                    duration = retrievedDuration.substring(0, (durationNextSlash - 2));
-                }
-            }
-
-            String deadline;
-            if (DPosition == -1) {
-                deadline = "No deadline";
-            } else {
-                String[] retrieveDeadline = taskInfo.split(DEADLINE_DELIMITER, 2);
-                String retrievedDeadline = retrieveDeadline[1];
-                int deadlineNextSlash = retrievedDeadline.indexOf("/");
-                if (deadlineNextSlash == -1) {
-                    deadline = retrievedDeadline;
-                } else {
-                    deadline = retrievedDeadline.substring(0, (deadlineNextSlash - 2));
-                }
-            }
-
-            String recurrence;
-            if (rPosition == -1) {
-                recurrence = "Once-off, happening today";
-            } else {
-                String[] retrieveRecurrence = taskInfo.split(RECURRENCE_DELIMITER, 2);
-                String retrievedRecurrence = retrieveRecurrence[1];
-                int recurrenceNextSlash = retrievedRecurrence.indexOf("/");
-                if (recurrenceNextSlash == -1) {
-                    recurrence = retrievedRecurrence;
-                } else {
-                    recurrence = retrievedRecurrence.substring(0, (recurrenceNextSlash - 2));
-                }
-            }
-
-            String importance;
-            if (iPosition == -1) {
-                importance = "medium";
-            } else {
-                String[] retrieveImportance = taskInfo.split(IMPORTANCE_DELIMITER, 2);
-                String retrievedImportance = retrieveImportance[1];
-                int importanceNextSlash = retrievedImportance.indexOf("/");
-                if (importanceNextSlash == -1) {
-                    importance = retrievedImportance;
-                } else {
-                    importance = retrievedImportance.substring(0, (importanceNextSlash - 2));
-                }
-            }
-
-            String notes;
-            if (aPosition == -1) {
-                notes = "No notes";
-            } else {
-                String[] retrieveNotes = taskInfo.split(ADDITIONAL_NOTES_DELIMITER, 2);
-                String retrievedNotes = retrieveNotes[1];
-                int notesNextSlash = retrievedNotes.indexOf("/");
-                if (notesNextSlash == -1) {
-                    notes = retrievedNotes;
-                } else {
-                    notes = retrievedNotes.substring(0, (notesNextSlash - 2));
-                }
-            }
-
-            command = new AddCommand(name, time, duration, deadline, recurrence, importance, notes);
+            command = parseAddCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
+                    recurrencePos, importancePos, addNotesPos);
         } else if (commandType.equals("edit")) {
-            int indexNextSlash = taskInfo.indexOf("/");
-            int index = Integer.parseInt(taskInfo.substring(0, (indexNextSlash - 2))) - 1;
+            command = parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
+                    recurrencePos, importancePos, addNotesPos);
 
-            String name;
-            if (nPosition == -1) {
-                name = null;
-            } else {
-                String[] retrieveName = taskInfo.split(NAME_DELIMITER, 2);
-                String retrievedName = retrieveName[1];
-                int nameNextSlash = retrievedName.indexOf("/");
-                if (nameNextSlash == -1) {
-                    name = retrievedName;
-                } else {
-                    name = retrievedName.substring(0, (nameNextSlash - 2));
-                }
-            }
-
-            String time;
-            if (tPosition == -1) {
-                time = null;
-            } else {
-                String[] retrieveTime = taskInfo.split(TIME_DELIMITER, 2);
-                String retrievedTime = retrieveTime[1];
-                int timeNextSlash = retrievedTime.indexOf("/");
-                if (timeNextSlash == -1) {
-                    time = retrievedTime;
-                } else {
-                    time = retrievedTime.substring(0, (timeNextSlash - 2));
-                }
-            }
-
-            String duration;
-            if (dPosition == -1) {
-                duration = null;
-            } else {
-                String[] retrieveDuration = taskInfo.split(DURATION_DELIMITER, 2);
-                String retrievedDuration = retrieveDuration[1];
-                int durationNextSlash = retrievedDuration.indexOf("/");
-                if (durationNextSlash == -1) {
-                    duration = retrievedDuration;
-                } else {
-                    duration = retrievedDuration.substring(0, (durationNextSlash - 2));
-                }
-            }
-
-            String deadline;
-            if (DPosition == -1) {
-                deadline = null;
-            } else {
-                String[] retrieveDeadline = taskInfo.split(DEADLINE_DELIMITER, 2);
-                String retrievedDeadline = retrieveDeadline[1];
-                int deadlineNextSlash = retrievedDeadline.indexOf("/");
-                if (deadlineNextSlash == -1) {
-                    deadline = retrievedDeadline;
-                } else {
-                    deadline = retrievedDeadline.substring(0, (deadlineNextSlash - 2));
-                }
-            }
-
-            String recurrence;
-            if (rPosition == -1) {
-                recurrence = null;
-            } else {
-                String[] retrieveRecurrence = taskInfo.split(RECURRENCE_DELIMITER, 2);
-                String retrievedRecurrence = retrieveRecurrence[1];
-                int recurrenceNextSlash = retrievedRecurrence.indexOf("/");
-                if (recurrenceNextSlash == -1) {
-                    recurrence = retrievedRecurrence;
-                } else {
-                    recurrence = retrievedRecurrence.substring(0, (recurrenceNextSlash - 2));
-                }
-            }
-
-            String importance;
-            if (iPosition == -1) {
-                importance = null;
-            } else {
-                String[] retrieveImportance = taskInfo.split(IMPORTANCE_DELIMITER, 2);
-                String retrievedImportance = retrieveImportance[1];
-                int importanceNextSlash = retrievedImportance.indexOf("/");
-                if (importanceNextSlash == -1) {
-                    importance = retrievedImportance;
-                } else {
-                    importance = retrievedImportance.substring(0, (importanceNextSlash - 2));
-                }
-            }
-
-            String notes;
-            if (aPosition == -1) {
-                notes = null;
-            } else {
-                String[] retrieveNotes = taskInfo.split(ADDITIONAL_NOTES_DELIMITER, 2);
-                String retrievedNotes = retrieveNotes[1];
-                int notesNextSlash = retrievedNotes.indexOf("/");
-                if (notesNextSlash == -1) {
-                    notes = retrievedNotes;
-                } else {
-                    notes = retrievedNotes.substring(0, (notesNextSlash - 2));
-                }
-            }
-
-            command = new EditCommand(index, name, time, duration, deadline, recurrence, importance, notes);
         } else if (commandType.equals("list")) {
-            String importance = "";
-            if (iPosition == -1) {
-                importance = "";
-            } else {
-                String[] retrieveImportance = taskInfo.split(IMPORTANCE_DELIMITER, 2);
-                String retrievedImportance = retrieveImportance[1];
-                int importanceNextSlash = retrievedImportance.indexOf("/");
-                if (importanceNextSlash == -1) {
-                    importance = retrievedImportance;
-                } else {
-                    importance = retrievedImportance.substring(0, (importanceNextSlash - 2));
-                }
-            }
-            command = new ListCommand(importance);
+            command = parseListCommand(taskInfo, importancePos);
         } else if (commandType.equals("done")) {
             int taskIndex = Integer.parseInt(taskInfo);
             command = new DoneCommand(taskIndex);
