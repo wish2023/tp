@@ -1,5 +1,14 @@
 package athena;
 
+import athena.commands.Command;
+import athena.commands.AddCommand;
+import athena.commands.DeleteCommand;
+import athena.commands.DoneCommand;
+import athena.commands.EditCommand;
+import athena.commands.ExitCommand;
+import athena.commands.HelpCommand;
+import athena.commands.ListCommand;
+
 /**
  * Handles parsing of user input
  */
@@ -132,7 +141,7 @@ public class Parser {
             command = new AddCommand(name, time, duration, deadline, recurrence, importance, notes);
         } else if (commandType.equals("edit")) {
             int indexNextSlash = taskInfo.indexOf("/");
-            int index = Integer.parseInt(taskInfo.substring(0, (indexNextSlash - 2)));
+            int index = Integer.parseInt(taskInfo.substring(0, (indexNextSlash - 2))) - 1;
 
             String name;
             if (nPosition == -1) {

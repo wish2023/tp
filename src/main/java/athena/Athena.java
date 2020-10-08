@@ -1,6 +1,8 @@
 package athena;
 
 import java.util.ArrayList;
+import athena.commands.Command;
+
 
 public class Athena {
 
