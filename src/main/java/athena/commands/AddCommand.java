@@ -1,4 +1,7 @@
-package athena;
+package athena.commands;
+
+import athena.TaskList;
+import athena.Ui;
 
 /**
  * Handles adding tasks to the Tasks list.
@@ -12,7 +15,8 @@ public class AddCommand extends Command {
     private String taskImportance;
     private String taskNotes;
 
-    public AddCommand(String name, String startTime, String duration, String deadline, String recurrence, String importance, String notes) {
+    public AddCommand(String name, String startTime, String duration, String deadline,
+                      String recurrence, String importance, String notes) {
         taskName = name;
         taskStartTime = startTime;
         taskDuration = duration;
@@ -23,13 +27,18 @@ public class AddCommand extends Command {
     }
 
     /**
-     * Adds a task to the Tasks list.
+     * Adds a task to the Tasks list and
+     * calls Ui to print out the task added.
+     *
      * @param taskList Tasks List
-     * @param ui Ui
+     * @param ui       Ui
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        taskList.addTask(taskName, taskStartTime,taskDuration, taskDeadline, taskRecurrence, taskImportance, taskNotes);
+        taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
+                taskRecurrence, taskImportance, taskNotes);
+        ui.printTaskAdded(taskName, taskStartTime, taskDuration, taskDeadline,
+                taskRecurrence, taskImportance, taskNotes);
     }
 
 }
