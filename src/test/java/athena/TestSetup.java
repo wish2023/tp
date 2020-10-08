@@ -1,7 +1,5 @@
 package athena;
 
-import athena.task.Task;
-
 public class TestSetup {
 
     public static TaskList getTestTaskList() {

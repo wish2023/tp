@@ -7,20 +7,17 @@ import athena.task.Task;
 import athena.task.taskfilter.ImportanceFilter;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Array;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashSet;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TimetableTest {
 
     @Test
     void getTimetable_noFilter_returnsAllTasks() {
-        ArrayList<TimetableDay> days = new ArrayList<TimetableDay>();
+        final ArrayList<TimetableDay> days = new ArrayList<TimetableDay>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate date;
         TimetableDay day;
@@ -73,7 +70,7 @@ class TimetableTest {
 
     @Test
     void getTimetable_highImportanceFilter_returnsHighImportanceTasks() {
-        ArrayList<TimetableDay> days = new ArrayList<TimetableDay>();
+        final ArrayList<TimetableDay> days = new ArrayList<TimetableDay>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate date;
         TimetableDay day;
@@ -118,7 +115,9 @@ class TimetableTest {
             }
 
             for (int j = 0; j < tasks1.size(); ++j) {
-                if (!tasks1.get(j).equals(tasks2.get(j))) return false;
+                if (!tasks1.get(j).equals(tasks2.get(j))) {
+                    return false;
+                }
             }
         }
 
