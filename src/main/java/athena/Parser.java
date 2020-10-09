@@ -152,27 +152,28 @@ public class Parser {
         int importancePos = taskInfo.indexOf(IMPORTANCE_DELIMITER);
         int addNotesPos = taskInfo.indexOf(ADDITIONAL_NOTES_DELIMITER);
 
-        if (commandType.equals("add")) {
-            command = parseAddCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
-                    recurrencePos, importancePos, addNotesPos);
-        } else if (commandType.equals("edit")) {
-            command = parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
-                    recurrencePos, importancePos, addNotesPos);
-        } else if (commandType.equals("list")) {
-            command = parseListCommand(taskInfo, importancePos);
-        } else if (commandType.equals("done")) {
-            int taskIndex = Integer.parseInt(taskInfo);
-            command = new DoneCommand(taskIndex);
-        } else if (commandType.equals("delete")) {
-            int taskIndex = Integer.parseInt(taskInfo);
-            command = new DeleteCommand(taskIndex);
-        } else if (commandType.equals("help")) {
-            command = new HelpCommand();
-        } else {
-            if (commandType.equals("bye")) {
-                command = new ExitCommand();
+        switch (commandType) {
+            case "add":
+                return parseAddCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
+                        recurrencePos, importancePos, addNotesPos);
+            case "edit":
+                return parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
+                        recurrencePos, importancePos, addNotesPos);
+            case "list":
+                return parseListCommand(taskInfo, importancePos);
+            case "done": {
+                int taskIndex = Integer.parseInt(taskInfo);
+                return new DoneCommand(taskIndex);
             }
+            case "delete": {
+                int taskIndex = Integer.parseInt(taskInfo);
+                return new DeleteCommand(taskIndex);
+            }
+            case "bye":
+                return new ExitCommand();
+            case "help":
+            default:
+                return new HelpCommand();
         }
-        return command;
     }
 }
