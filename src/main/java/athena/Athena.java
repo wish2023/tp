@@ -54,18 +54,24 @@ public class Athena {
     }
 
     public void runProgram() {
+        Scanner input;
+        String inputString;
+        Command userCommand;
+
         ui.printWelcomeMessage();
 
         oldTask = storage.loadTaskListData();
-        Scanner input = new Scanner(System.in);
-        String inputString = input.nextLine();
 
         while(true) {
             try {
-                parser.parse(inputString);
-            } catch (Exception e) {
-                e.getMessage();
+                input = new Scanner(System.in);
+                inputString = input.nextLine();
+                userCommand = parser.parse(inputString);
+                userCommand.execute(oldTask, ui);
+            } catch (AddException e) {
+                e.getErrorMessage();
             }
+            continue;
         }
     }
 
