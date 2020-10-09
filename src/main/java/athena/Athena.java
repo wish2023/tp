@@ -1,7 +1,6 @@
 package athena;
 import java.util.ArrayList;
 
-import athena.commands.AddCommand;
 import athena.commands.Command;
 
 public class Athena {
@@ -11,7 +10,7 @@ public class Athena {
         ui = new Ui();
     }
 
-    public static void main(String[] args) throws AddCommand.AddException {
+    public static void main(String[] args) {
         Athena athena = new Athena();
         athena.runProgram();
         Storage storage = new Storage("save.csv");

@@ -135,6 +135,11 @@ public class Ui {
         System.out.println("The task with the label " + taskNumber + " cannot be found");
     }
 
+    public void printAddException() {
+        System.out.println("You haven't specified some details of the task! How can we go on a conquest if we don't "
+                + "know what to slay?\n");
+    }
+
     /**
      * Prints a message when the user chooses to exit the program.
      */
