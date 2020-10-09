@@ -1,4 +1,7 @@
-package athena;
+package athena.commands;
+
+import athena.TaskList;
+import athena.Ui;
 
 public class EditCommand extends Command {
     private int taskIndex;
@@ -10,7 +13,8 @@ public class EditCommand extends Command {
     private String taskImportance;
     private String taskNotes;
 
-    public EditCommand(int index, String name, String startTime, String duration, String deadline, String recurrence, String importance, String notes) {
+    public EditCommand(int index, String name, String startTime, String duration, String deadline,
+                       String recurrence, String importance, String notes) {
         taskIndex = index;
         taskName = name;
         taskStartTime = startTime;
@@ -22,12 +26,17 @@ public class EditCommand extends Command {
     }
 
     /**
-     * Edits a task from the Tasks list.
+     * Edits a task from the Tasks list and
+     * calls Ui to print task edited.
+     *
      * @param taskList Tasks List
-     * @param ui Ui
+     * @param ui       Ui
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-         taskList.editTask(taskIndex, taskName, taskStartTime,taskDuration, taskDeadline, taskRecurrence, taskImportance, taskNotes);
+        taskList.editTask(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
+                taskRecurrence, taskImportance, taskNotes);
+        ui.printTaskEdited(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
+                taskRecurrence, taskImportance, taskNotes);
     }
 }

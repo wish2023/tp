@@ -1,4 +1,7 @@
-package athena;
+package athena.commands;
+
+import athena.TaskList;
+import athena.Ui;
 
 /**
  * Handles the exit command.
@@ -12,8 +15,9 @@ public class ExitCommand extends Command {
 
     /**
      * Calls Ui to print exit message.
+     *
      * @param taskList Tasks List
-     * @param ui Ui
+     * @param ui       Ui
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
