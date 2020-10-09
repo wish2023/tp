@@ -1,5 +1,6 @@
 package athena.commands;
 
+import athena.Task;
 import athena.TaskList;
 import athena.Ui;
 
@@ -34,9 +35,13 @@ public class EditCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        taskList.editTask(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
-                taskRecurrence, taskImportance, taskNotes);
-        ui.printTaskEdited(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
-                taskRecurrence, taskImportance, taskNotes);
+        try {
+            taskList.editTask(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
+                    taskRecurrence, taskImportance, taskNotes);
+            ui.printTaskEdited(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
+                    taskRecurrence, taskImportance, taskNotes);
+        } catch (IndexOutOfBoundsException e) {
+            ui.printTaskNotFound(taskIndex);
+        }
     }
 }
