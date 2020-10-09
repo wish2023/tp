@@ -1,20 +1,15 @@
 package athena;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 
 public class Storage {
     private String filePath;
     private TaskList tasks;
     private Ui ui;
-
-
-
     private int size;
 
     public Storage(String filepath, Ui ui) {
@@ -36,8 +31,6 @@ public class Storage {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
 

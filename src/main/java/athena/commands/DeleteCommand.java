@@ -30,7 +30,5 @@ public class DeleteCommand extends Command {
         } catch (IndexOutOfBoundsException e) {
             ui.printTaskNotFound(deleteIndex);
         }
-
     }
-
 }
