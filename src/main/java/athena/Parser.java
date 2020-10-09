@@ -1,4 +1,5 @@
 package athena;
+
 import athena.commands.Command;
 import athena.commands.AddCommand;
 import athena.commands.DeleteCommand;
@@ -153,27 +154,38 @@ public class Parser {
         int addNotesPos = taskInfo.indexOf(ADDITIONAL_NOTES_DELIMITER);
 
         switch (commandType) {
-            case "add":
-                return parseAddCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
-                        recurrencePos, importancePos, addNotesPos);
-            case "edit":
-                return parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
-                        recurrencePos, importancePos, addNotesPos);
-            case "list":
-                return parseListCommand(taskInfo, importancePos);
-            case "done": {
-                int taskIndex = Integer.parseInt(taskInfo);
-                return new DoneCommand(taskIndex);
-            }
-            case "delete": {
-                int taskIndex = Integer.parseInt(taskInfo);
-                return new DeleteCommand(taskIndex);
-            }
-            case "bye":
-                return new ExitCommand();
-            case "help":
-            default:
-                return new HelpCommand();
+
+        case "add": {
+            return parseAddCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
+                    recurrencePos, importancePos, addNotesPos);
+        }
+
+        case "edit": {
+            return parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
+                    recurrencePos, importancePos, addNotesPos);
+        }
+
+        case "list": {
+            return parseListCommand(taskInfo, importancePos);
+        }
+
+        case "done": {
+            int taskIndex = Integer.parseInt(taskInfo);
+            return new DoneCommand(taskIndex);
+        }
+
+        case "delete": {
+            int taskIndex = Integer.parseInt(taskInfo);
+            return new DeleteCommand(taskIndex);
+        }
+
+        case "bye": {
+            return new ExitCommand();
+        }
+
+        case "help":
+        default:
+            return new HelpCommand();
         }
     }
 }
