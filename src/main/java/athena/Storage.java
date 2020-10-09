@@ -10,6 +10,8 @@ public class Storage {
     private String filePath;
     private TaskList tasks;
     private Ui ui;
+
+
     private int size;
 
     public Storage(String filepath, Ui ui) {
@@ -23,9 +25,9 @@ public class Storage {
         try {
             FileWriter csvWriter = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {
-                csvWriter.append(task.getName() + "," + task.getStartTime() + "," + task.getDuration() + ","
-                        + task.getDeadline() + "," + task.getRecurrence() + "," + task.getImportance() + ","
-                        + task.getNotes() + "," + task.getIndex() + "\n");
+                csvWriter.append(task.getName() + "," + task.getStartTime() + "," + task.getDuration() + "," + task.getDeadline() + "," +
+                        task.getRecurrence() + "," + task.getImportance() + "," + task.getNotes() + ","
+                        + task.getIndex() + "\n");
             }
             csvWriter.close();
         } catch (IOException e) {
