@@ -34,11 +34,23 @@ public class AddCommand extends Command {
      * @param ui       Ui
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) {
+    public void execute(TaskList taskList, Ui ui) throws AddException {
+        if (taskName == "" || taskStartTime == ""){
+            throw new AddException("Please input task name and start time!");
+        }
         taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
         ui.printTaskAdded(taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
+    }
+
+    /**
+     * Signals that the user input has to contain task name and start time.
+     */
+    public static class AddException extends Exception {
+        AddException(String message) {
+            super(message);
+        }
     }
 
 }
