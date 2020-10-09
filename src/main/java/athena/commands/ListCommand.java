@@ -8,9 +8,11 @@ import athena.Ui;
  */
 public class ListCommand extends Command {
     private String taskImportance;
+    private String taskForecast;
 
-    public ListCommand(String importance) {
+    public ListCommand(String importance, String forecast) {
         taskImportance = importance;
+        taskForecast = forecast;
     }
 
     /**
@@ -22,7 +24,7 @@ public class ListCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        TaskList tasksFiltered = taskList.getFilteredList(taskImportance);
+        TaskList tasksFiltered = taskList.getFilteredList(taskImportance, taskForecast);
         ui.printList(tasksFiltered.getTasks());
     }
 }
