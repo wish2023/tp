@@ -1,5 +1,4 @@
 package athena;
-import java.util.ArrayList;
 
 import athena.commands.Command;
 import athena.exceptions.AddException;
