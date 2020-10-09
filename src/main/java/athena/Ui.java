@@ -66,7 +66,7 @@ public class Ui {
 
     /**
      * Prints out a message verifying that the task the user specified has been edited, and shows the user the
-     * new task details
+     * new task details.
      *
      * @param taskIndex      The index of the task on the task list
      * @param taskName       The name of the task
@@ -77,8 +77,8 @@ public class Ui {
      * @param taskImportance What is the importance of the task
      * @param taskNotes      Any additional notes the user has added to the task
      */
-    public void printTaskEdited(int taskIndex, String taskName, String taskStartTime, String taskDuration, String taskDeadline,
-                                String taskRecurrence, String taskImportance, String taskNotes) {
+    public void printTaskEdited(int taskIndex, String taskName, String taskStartTime, String taskDuration,
+                                String taskDeadline, String taskRecurrence, String taskImportance, String taskNotes) {
         System.out.println("You've changed the details of task number " + taskIndex + ": " + taskName + "?\n"
                 + "Here are the new details of your task!\n"
                 + "Start Time: " + taskStartTime + "\n"
@@ -116,8 +116,8 @@ public class Ui {
                 + "done INDEX\n"
                 + "e.g. done 2\n\n"
                 + "To edit a task (parameters in square brackets are optional fields):\n"
-                + "edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE]"
-                + "[a/ADDITIONAL-NOTES]\n"
+                + "edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE]"
+                + " [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]\n"
                 + "e.g. edit 2 n/Assignment1 t/1100 d/16/09 D/2 r/Monday i/high a/Refer to lecture notes\n\n"
                 + "To delete a task:\n"
                 + "delete INDEX\n"
