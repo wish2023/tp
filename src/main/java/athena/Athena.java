@@ -62,7 +62,7 @@ public class Athena {
 
         oldTask = storage.loadTaskListData();
 
-        while(true) {
+        while (true) {
             try {
                 input = new Scanner(System.in);
                 inputString = input.nextLine();

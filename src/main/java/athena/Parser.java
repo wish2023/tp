@@ -33,7 +33,8 @@ public class Parser {
      * @param defaultValue    String representing default value
      * @return Description of parameter
      */
-    public static String getParameterDesc(String taskInformation, String delimiter, int paramPosition, String defaultValue) {
+    public static String getParameterDesc(String taskInformation, String delimiter, int paramPosition,
+                                          String defaultValue) {
         String param;
         if (paramPosition == -1) {
             param = defaultValue;

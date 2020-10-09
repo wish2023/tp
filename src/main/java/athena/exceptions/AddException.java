@@ -2,7 +2,7 @@ package athena.exceptions;
 
 import athena.Ui;
 
-public class AddException extends Exception{
+public class AddException extends Exception {
     public AddException() {
 
     }
