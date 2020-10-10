@@ -110,7 +110,8 @@ public class Parser {
         String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, nullValue);
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos, nullValue);
-        Command command = new EditCommand(index, name, time, duration, deadline, recurrence, importance, notes);
+        Command command = new EditCommand(index, name, time, duration, deadline, recurrence,
+                Importance.valueOf(importance), notes);
 
         return command;
     }
@@ -127,7 +128,7 @@ public class Parser {
         String nullValue = "";
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
         String forecast = getParameterDesc(taskInfo, FORECAST_DELIMITER, forecastPos, nullValue);
-        Command command = new ListCommand(importance, forecast);
+        Command command = new ListCommand(Importance.valueOf(importance.toUpperCase()), forecast);
 
         return command;
     }

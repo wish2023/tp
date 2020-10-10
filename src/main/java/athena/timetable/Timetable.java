@@ -1,15 +1,12 @@
 package athena.timetable;
 
+import athena.TaskList;
 import athena.task.Task;
 import athena.task.taskfilter.TaskFilter;
-import athena.tasklist.TaskList;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.TreeMap;
 
 /**
@@ -24,6 +21,27 @@ public class Timetable {
         populateTimetable();
     }
 
+    public Timetable(TaskList taskList, TaskFilter taskFilter) {
+        this.taskList = taskList.getFilteredList(taskFilter);
+        populateTimetable();
+    }
+
+    /**
+     * Getter for timetableDays.
+     *
+     * @return timetableDays.
+     */
+    public ArrayList<TimetableDay> getTimetableDays() {
+        return timetableDays;
+    }
+
+    /**
+     * Setter for timetableDays.
+     */
+    public void setTimetableDays(ArrayList<TimetableDay> timetableDays) {
+        this.timetableDays = timetableDays;
+    }
+
     /**
      * Populates the timetable, represented by a list of TimetableDays with the information from the task list.
      * For this version, we only populate the timetable with the tasks for this week (starting from Monday).
@@ -32,10 +50,10 @@ public class Timetable {
         this.timetableDays = new ArrayList<TimetableDay>();
 
         TreeMap<LocalDate, TimetableDay> timetableDayMap = new TreeMap<LocalDate, TimetableDay>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM HHmm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         for (Task task : taskList.getTasks()) {
-            LocalDate date = LocalDate.parse(task.recurrence, formatter);
+            LocalDate date = LocalDate.parse(task.getRecurrence(), formatter);
 
             TimetableDay timetableDay;
             if (timetableDayMap.containsKey(date)) {
@@ -54,27 +72,17 @@ public class Timetable {
     }
 
     /**
-     * Gets the timetable for this week (starting from Monday).
+     * Generates a string to show the user the timetable.
      *
-     * @return A list of TimetableDay objects representing the timetable for this week.
+     * @return A string representing the timetable.
      */
-    public ArrayList<TimetableDay> getTimetable() {
-        return timetableDays;
+    @Override
+    public String toString() {
+        String message = "";
+        for (TimetableDay timetableDay : timetableDays) {
+            message += timetableDay;
+            message += "\n";
+        }
+        return message;
     }
-
-    /**
-     * Gets a list of tasks based on the user's requested filter.
-     * The tasks will be categorized by their dates using the TimetableDay class.
-     * For days without any tasks, a TimetableDay with an empty TaskList
-     * will be returned.
-     *
-     * @param taskFilters Criteria to filter the list of tasks.
-     * @return A list of tasks stored in TimetableDay objects.
-     */
-    public ArrayList<TimetableDay> getTasksByFilters(ArrayList<TaskFilter> taskFilters) {
-        // TODO: Implement this
-
-        return timetableDays;
-    }
-
 }

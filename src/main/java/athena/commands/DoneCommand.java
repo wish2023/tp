@@ -1,6 +1,6 @@
 package athena.commands;
 
-import athena.Task;
+import athena.task.Task;
 import athena.TaskList;
 import athena.Ui;
 

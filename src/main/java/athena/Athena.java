@@ -16,13 +16,14 @@ public class Athena {
         TaskList taskList = new TaskList();
         taskList = storage.loadTaskListData();
         Parser parser = new Parser();
-        Command command = parser.parse("add n/Assignment2 t/1100 d/16-09 D/2 r/Monday i/high a/Refer to lecture notes");
+        Command command = parser.parse("add n/Assignment2 t/1100 d/16-09 D/2 r/12-10-2020 i/high "
+                + "a/Refer to lecture notes");
         command.execute(taskList, athena.ui);
         for (int i = 0; i < 10; i++) {
-            command = parser.parse("add n/Assignment2 t/1100 d/16-09 D/2 r/Monday i/high a/Refer to lecture notes");
+            command = parser.parse("add n/Assignment2 t/1100 d/16-09 D/2 r/12-10-2020 i/high a/Refer to lecture notes");
             command.execute(taskList, athena.ui);
         }
-        command = parser.parse("list");
+        command = parser.parse("list i/HIGH");
         command.execute(taskList, athena.ui);
         command = parser.parse("help");
         command.execute(taskList, athena.ui);
