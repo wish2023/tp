@@ -74,6 +74,7 @@ public class TaskList {
      * @param recurrence Recurrence of task
      * @param importance Importance of task
      * @param notes      Additional notes of task
+     * @param index      Index of the task
      */
     public void addTask(String name, String startTime, String duration,
                         String deadline, String recurrence, Importance importance, String notes, int index) {
@@ -82,13 +83,21 @@ public class TaskList {
         tasks.add(task);
     }
 
+    /**
+     * Adds a task to the task list.
+     *
+     * @param name       Name of task
+     * @param startTime  Start time of task
+     * @param duration   Duration of task
+     * @param deadline   Deadline of task
+     * @param recurrence Recurrence of task
+     * @param importance Importance of task
+     * @param notes      Additional notes of task
+     */
     public void addTask(String name, String startTime, String duration,
                         String deadline, String recurrence, Importance importance, String notes) {
-        this.maxIndex += 1;
-        int index = maxIndex;
-
-        Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes, index);
-        tasks.add(task);
+        maxIndex++;
+        addTask(name, startTime, duration, deadline, recurrence, importance, notes, maxIndex);
     }
 
     /**
