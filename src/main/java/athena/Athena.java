@@ -1,7 +1,7 @@
 package athena;
 
 import athena.commands.Command;
-import athena.exceptions.AddException;
+import athena.exceptions.CommandException;
 
 public class Athena {
     private static Ui ui;
@@ -22,8 +22,8 @@ public class Athena {
         try {
             Command command = parser.parse("add n/ t/ d/16-09 D/2 r/Monday i/high a/Refer to lecture notes");
             command.execute(taskList, athena.ui);
-        } catch (AddException e) {
-            e.getErrorMessage();
+        } catch (CommandException e) {
+            e.printErrorMessage();
         }
 
     }
