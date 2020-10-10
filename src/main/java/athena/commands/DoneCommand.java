@@ -23,7 +23,11 @@ public class DoneCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        Task taskDone = taskList.markTaskAsDone(doneIndex);
-        ui.printTaskDone(taskDone);
+        try {
+            Task taskDone = taskList.markTaskAsDone(doneIndex);
+            ui.printTaskDone(taskDone);
+        } catch (IndexOutOfBoundsException e) {
+            ui.printTaskNotFound(doneIndex);
+        }
     }
 }
