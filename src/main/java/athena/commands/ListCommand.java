@@ -8,9 +8,11 @@ import athena.Ui;
  */
 public class ListCommand extends Command {
     private String taskImportance;
+    private String taskForecast;
 
-    public ListCommand(String importance) {
+    public ListCommand(String importance, String forecast) {
         taskImportance = importance;
+        taskForecast = forecast;
     }
 
     /**
