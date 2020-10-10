@@ -1,5 +1,8 @@
 package athena;
 
+import athena.task.Task;
+import athena.task.taskfilter.TaskFilter;
+
 import java.util.ArrayList;
 
 public class TaskList {
@@ -21,18 +24,8 @@ public class TaskList {
         return tasks;
     }
 
-    private ArrayList<Task> getFilteredTasks(String filter) {
-        ArrayList<Task> filteredTasks = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.getImportance().equals(filter)) {
-                filteredTasks.add(task);
-            }
-        }
-        return filteredTasks;
-    }
-
     private Task createTask(String name, String startTime,
-                            String duration, String deadline, String recurrence, String importance, String notes,
+                            String duration, String deadline, String recurrence, Importance importance, String notes,
                             int index) {
 
         Task task = new Task(name, startTime, duration,
@@ -62,6 +55,33 @@ public class TaskList {
         return tasks.get(taskNumber);
     }
 
+    /**
+     * Adds a task to the task list.
+     *
+     * @param task Task to be added.
+     */
+    public void addTask(Task task) {
+        tasks.add(task);
+    }
+
+    /**
+     * Adds a task to the task list.
+     *
+     * @param name       Name of task
+     * @param startTime  Start time of task
+     * @param duration   Duration of task
+     * @param deadline   Deadline of task
+     * @param recurrence Recurrence of task
+     * @param importance Importance of task
+     * @param notes      Additional notes of task
+     * @param index      Index of the task
+     */
+    public void addTask(String name, String startTime, String duration,
+                        String deadline, String recurrence, Importance importance, String notes, int index) {
+
+        Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes, index);
+        tasks.add(task);
+    }
 
     /**
      * Adds a task to the task list.
@@ -75,19 +95,9 @@ public class TaskList {
      * @param notes      Additional notes of task
      */
     public void addTask(String name, String startTime, String duration,
-                        String deadline, String recurrence, String importance, String notes, int index) {
-
-        Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes, index);
-        tasks.add(task);
-    }
-
-    public void addTask(String name, String startTime, String duration,
-                        String deadline, String recurrence, String importance, String notes) {
-        this.maxIndex += 1;
-        int index = maxIndex;
-
-        Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes, index);
-        tasks.add(task);
+                        String deadline, String recurrence, Importance importance, String notes) {
+        maxIndex++;
+        addTask(name, startTime, duration, deadline, recurrence, importance, notes, maxIndex);
     }
 
     /**
@@ -134,26 +144,26 @@ public class TaskList {
      * @param notes      Additional notes of task
      */
     public void editTask(int taskNumber, String name, String startTime, String duration,
-                         String deadline, String recurrence, String importance, String notes) {
+                         String deadline, String recurrence, Importance importance, String notes) {
 
         tasks.get(taskNumber).edit(name, startTime, duration,
                 deadline, recurrence, importance, notes);
     }
 
     /**
-     * Returns a filtered task list based on importance.
+     * Returns a filtered task list.
      *
-     * @param importanceFilter The filter that decides which tasks are printed
+     * @param taskFilter The filter that decides which tasks are printed
      * @return Filtered task list
      */
-    public TaskList getFilteredList(String importanceFilter) {
-
-        if (importanceFilter.equals(NO_FILTER)) {
-            return this;
-        } else {
-            TaskList filteredTasks = new TaskList(getFilteredTasks(importanceFilter));
-            return filteredTasks;
+    public TaskList getFilteredList(TaskFilter taskFilter) {
+        ArrayList<Task> filteredTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (taskFilter.isTaskIncluded(task)) {
+                filteredTasks.add(task);
+            }
         }
+        return new TaskList(filteredTasks);
     }
 
     public int getMaxIndex() {

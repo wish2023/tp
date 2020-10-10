@@ -1,5 +1,8 @@
 package athena;
 
+import athena.task.Task;
+import athena.timetable.Timetable;
+
 import java.util.ArrayList;
 
 /**
@@ -147,13 +150,18 @@ public class Ui {
         System.out.println("Going so soon? Well I'll be here the next time you need me. Farewell!");
     }
 
+    /**
+     * Prints the timetable.
+     *
+     * @param timetable Timetable to be printed.
+     */
+    public void printTimetable(Timetable timetable) {
+        System.out.println(timetable);
+    }
+
     /*
     //message that is printed out while awaiting the next command
     public void nextCommandPrompt() {
-
-    }
-
-    public void printTimetable(Timetable timetable) {
 
     }
 

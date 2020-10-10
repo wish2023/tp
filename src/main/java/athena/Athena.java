@@ -1,5 +1,4 @@
 package athena;
-import java.util.ArrayList;
 
 import athena.commands.Command;
 import athena.exceptions.AddException;
@@ -26,20 +25,6 @@ public class Athena {
         } catch (AddException e) {
             e.getErrorMessage();
         }
-        /*Command command = parser.parse("add n/Assignment2 t/1100 d/16-09 D/2 r/Monday i/high a/Refer to lecture notes");
-        command.execute(taskList, athena.ui);
-        for (int i = 0; i < 10; i++) {
-            command = parser.parse("add n/Assignment2 t/1100 d/16-09 D/2 r/Monday i/high a/Refer to lecture notes");
-            command.execute(taskList, athena.ui);
-        }
-        command = parser.parse("list");
-        command.execute(taskList, athena.ui);
-        command = parser.parse("help");
-        command.execute(taskList, athena.ui);
-        storage.saveTaskListData(taskList);
-        command = parser.parse("delete 2");
-        command.execute(taskList, athena.ui);
-        storage.saveTaskListData(taskList);*/
 
     }
 
