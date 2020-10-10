@@ -1,16 +1,22 @@
 package athena.commands;
 
+import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
+import athena.task.taskfilter.ImportanceFilter;
+import athena.task.taskfilter.TaskFilter;
+import athena.timetable.Timetable;
 
 /**
  * Handles the list command.
  */
 public class ListCommand extends Command {
-    private String taskImportance;
+    private Importance taskImportance;
+    private String taskForecast;
 
-    public ListCommand(String importance) {
+    public ListCommand(Importance importance, String forecast) {
         taskImportance = importance;
+        taskForecast = forecast;
     }
 
     /**
@@ -22,7 +28,8 @@ public class ListCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        TaskList tasksFiltered = taskList.getFilteredList(taskImportance);
-        ui.printList(tasksFiltered.getTasks());
+        ImportanceFilter importanceFilter = new ImportanceFilter(taskImportance);
+        Timetable timetable = new Timetable(taskList, importanceFilter);
+        ui.printTimetable(timetable);
     }
 }

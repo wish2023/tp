@@ -23,6 +23,7 @@ public class Parser {
     public static final String RECURRENCE_DELIMITER = "r/";
     public static final String IMPORTANCE_DELIMITER = "i/";
     public static final String ADDITIONAL_NOTES_DELIMITER = "a/";
+    public static final String FORECAST_DELIMITER = "f/";
 
     /**
      * Get parameters description.
@@ -109,7 +110,8 @@ public class Parser {
         String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, nullValue);
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos, nullValue);
-        Command command = new EditCommand(index, name, time, duration, deadline, recurrence, importance, notes);
+        Command command = new EditCommand(index, name, time, duration, deadline, recurrence,
+                Importance.valueOf(importance), notes);
 
         return command;
     }
@@ -119,12 +121,14 @@ public class Parser {
      *
      * @param taskInfo      String representing task information
      * @param importancePos Integer representing position of importance parameter
+     * @param forecastPos   Integer representing position of forecast parameter
      * @return command object
      */
-    public static Command parseListCommand(String taskInfo, int importancePos) {
+    public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos) {
         String nullValue = "";
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
-        Command command = new ListCommand(importance);
+        String forecast = getParameterDesc(taskInfo, FORECAST_DELIMITER, forecastPos, nullValue);
+        Command command = new ListCommand(Importance.valueOf(importance.toUpperCase()), forecast);
 
         return command;
     }
@@ -152,6 +156,7 @@ public class Parser {
         int recurrencePos = taskInfo.indexOf(RECURRENCE_DELIMITER);
         int importancePos = taskInfo.indexOf(IMPORTANCE_DELIMITER);
         int addNotesPos = taskInfo.indexOf(ADDITIONAL_NOTES_DELIMITER);
+        int forecastPos = taskInfo.indexOf(FORECAST_DELIMITER);
 
         switch (commandType) {
 
@@ -166,7 +171,7 @@ public class Parser {
         }
 
         case "list": {
-            return parseListCommand(taskInfo, importancePos);
+            return parseListCommand(taskInfo, importancePos, forecastPos);
         }
 
         case "done": {
