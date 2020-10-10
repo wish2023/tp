@@ -1,11 +1,9 @@
 package athena.exceptions;
 
-public class CommandException extends Exception {
+public abstract class CommandException extends Exception {
     public CommandException() {
 
     }
 
-    public void printErrorMessage() {
-
-    }
+    public abstract void printErrorMessage();
 }
