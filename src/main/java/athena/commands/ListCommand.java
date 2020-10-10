@@ -12,9 +12,11 @@ import athena.timetable.Timetable;
  */
 public class ListCommand extends Command {
     private Importance taskImportance;
+    private String taskForecast;
 
-    public ListCommand(Importance importance) {
+    public ListCommand(String importance, String forecast) {
         taskImportance = importance;
+        taskForecast = forecast;
     }
 
     /**

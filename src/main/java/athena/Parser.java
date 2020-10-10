@@ -23,6 +23,7 @@ public class Parser {
     public static final String RECURRENCE_DELIMITER = "r/";
     public static final String IMPORTANCE_DELIMITER = "i/";
     public static final String ADDITIONAL_NOTES_DELIMITER = "a/";
+    public static final String FORECAST_DELIMITER = "f/";
 
     /**
      * Get parameters description.
@@ -120,13 +121,14 @@ public class Parser {
      *
      * @param taskInfo      String representing task information
      * @param importancePos Integer representing position of importance parameter
+     * @param forecastPos   Integer representing position of forecast parameter
      * @return command object
      */
-    public static Command parseListCommand(String taskInfo, int importancePos) {
+    public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos) {
         String nullValue = "";
-        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos,
-                Importance.MEDIUM.toString());
-        Command command = new ListCommand(Importance.valueOf(importance.toUpperCase()));
+        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
+        String forecast = getParameterDesc(taskInfo, FORECAST_DELIMITER, forecastPos, nullValue);
+        Command command = new ListCommand(Importance.valueOf(importance.toUpperCase()), forecast);
 
         return command;
     }
@@ -154,6 +156,7 @@ public class Parser {
         int recurrencePos = taskInfo.indexOf(RECURRENCE_DELIMITER);
         int importancePos = taskInfo.indexOf(IMPORTANCE_DELIMITER);
         int addNotesPos = taskInfo.indexOf(ADDITIONAL_NOTES_DELIMITER);
+        int forecastPos = taskInfo.indexOf(FORECAST_DELIMITER);
 
         if (commandType.equals("add")) {
             command = parseAddCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
@@ -162,7 +165,7 @@ public class Parser {
             command = parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
                     recurrencePos, importancePos, addNotesPos);
         } else if (commandType.equals("list")) {
-            command = parseListCommand(taskInfo, importancePos);
+            command = parseListCommand(taskInfo, importancePos, forecastPos);
         } else if (commandType.equals("done")) {
             int taskIndex = Integer.parseInt(taskInfo);
             command = new DoneCommand(taskIndex);
