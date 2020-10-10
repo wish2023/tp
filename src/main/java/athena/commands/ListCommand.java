@@ -14,7 +14,7 @@ public class ListCommand extends Command {
     private Importance taskImportance;
     private String taskForecast;
 
-    public ListCommand(String importance, String forecast) {
+    public ListCommand(Importance importance, String forecast) {
         taskImportance = importance;
         taskForecast = forecast;
     }
