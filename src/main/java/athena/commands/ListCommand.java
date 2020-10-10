@@ -24,7 +24,7 @@ public class ListCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        TaskList tasksFiltered = taskList.getFilteredList(taskImportance, taskForecast);
+        TaskList tasksFiltered = taskList.getFilteredList(taskImportance);
         ui.printList(tasksFiltered.getTasks());
     }
 }
