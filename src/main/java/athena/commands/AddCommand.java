@@ -37,7 +37,7 @@ public class AddCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) throws AddException {
-        if (taskName.equals("") || taskStartTime.equals("")){
+        if (taskName.equals("") || taskStartTime.equals("")) {
             throw new AddException();
         }
         taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,

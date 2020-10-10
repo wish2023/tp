@@ -3,37 +3,43 @@ package athena;
 import athena.commands.Command;
 import athena.exceptions.CommandException;
 
+import java.util.Scanner;
+
 public class Athena {
-    private static Ui ui;
+    private Ui ui;
+    private Parser parser;
+    private Storage storage;
+    private TaskList taskList;
 
     public Athena() {
         ui = new Ui();
+        parser = new Parser();
+        storage = new Storage("save.csv", ui);
     }
 
     public static void main(String[] args) {
         Athena athena = new Athena();
         athena.runProgram();
-        Storage storage = new Storage("save.csv", ui);
-        TaskList oldTask = new TaskList();
-        oldTask = storage.loadTaskListData();
-        TaskList taskList = new TaskList();
-        taskList = storage.loadTaskListData();
-        Parser parser = new Parser();
-        try {
-            Command command = parser.parse("add n/ t/ d/16-09 D/2 r/Monday i/high a/Refer to lecture notes");
-            command.execute(taskList, athena.ui);
-        } catch (CommandException e) {
-            e.printErrorMessage();
-        }
-
     }
 
     public void runProgram() {
-        // TODO: pass task as argument
-//        ui.printTaskAdded();
-//        ui.printTaskDeleted();
-//        ui.printTaskDone();
-//        ui.printTaskEdited();
-    }
+        String inputString;
+        Command userCommand;
 
+        ui.printWelcomeMessage();
+
+        taskList = storage.loadTaskListData();
+        Scanner input = new Scanner(System.in);
+
+        while (true) {
+            try {
+                inputString = input.nextLine();
+                userCommand = parser.parse(inputString);
+                userCommand.execute(taskList, ui);
+            } catch (CommandException e) {
+                e.printErrorMessage();
+            }
+            continue;
+        }
+    }
 }
