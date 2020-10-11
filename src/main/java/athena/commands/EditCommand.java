@@ -6,7 +6,7 @@ import athena.Ui;
 import athena.exceptions.TaskNotFoundException;
 
 public class EditCommand extends Command {
-    private int taskIndex;
+    private int taskNumber;
     private String taskName;
     private String taskStartTime;
     private String taskDuration;
@@ -15,9 +15,9 @@ public class EditCommand extends Command {
     private Importance taskImportance;
     private String taskNotes;
 
-    public EditCommand(int index, String name, String startTime, String duration, String deadline,
+    public EditCommand(int number, String name, String startTime, String duration, String deadline,
                        String recurrence, Importance importance, String notes) {
-        taskIndex = index;
+        taskNumber = number;
         taskName = name;
         taskStartTime = startTime;
         taskDuration = duration;
@@ -36,9 +36,9 @@ public class EditCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException {
-        taskList.editTask(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
+        taskList.editTask(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
-        ui.printTaskEdited(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
+        ui.printTaskEdited(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
     }
 }
