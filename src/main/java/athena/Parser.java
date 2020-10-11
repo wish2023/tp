@@ -158,27 +158,39 @@ public class Parser {
         int addNotesPos = taskInfo.indexOf(ADDITIONAL_NOTES_DELIMITER);
         int forecastPos = taskInfo.indexOf(FORECAST_DELIMITER);
 
-        if (commandType.equals("add")) {
-            command = parseAddCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
+        switch (commandType) {
+
+        case "add": {
+            return parseAddCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
                     recurrencePos, importancePos, addNotesPos);
-        } else if (commandType.equals("edit")) {
-            command = parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
-                    recurrencePos, importancePos, addNotesPos);
-        } else if (commandType.equals("list")) {
-            command = parseListCommand(taskInfo, importancePos, forecastPos);
-        } else if (commandType.equals("done")) {
-            int taskIndex = Integer.parseInt(taskInfo);
-            command = new DoneCommand(taskIndex);
-        } else if (commandType.equals("delete")) {
-            int taskIndex = Integer.parseInt(taskInfo);
-            command = new DeleteCommand(taskIndex);
-        } else if (commandType.equals("help")) {
-            command = new HelpCommand();
-        } else {
-            if (commandType.equals("bye")) {
-                command = new ExitCommand();
-            }
         }
-        return command;
+
+        case "edit": {
+            return parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
+                    recurrencePos, importancePos, addNotesPos);
+        }
+
+        case "list": {
+            return parseListCommand(taskInfo, importancePos, forecastPos);
+        }
+
+        case "done": {
+            int taskIndex = Integer.parseInt(taskInfo);
+            return new DoneCommand(taskIndex);
+        }
+
+        case "delete": {
+            int taskIndex = Integer.parseInt(taskInfo);
+            return new DeleteCommand(taskIndex);
+        }
+
+        case "bye": {
+            return new ExitCommand();
+        }
+
+        case "help":
+        default:
+            return new HelpCommand();
+        }
     }
 }

@@ -81,7 +81,8 @@ public class Ui {
      * @param taskNotes      Any additional notes the user has added to the task
      */
     public void printTaskEdited(int taskIndex, String taskName, String taskStartTime, String taskDuration,
-                                String taskDeadline, String taskRecurrence, String taskImportance, String taskNotes) {
+                                String taskDeadline, String taskRecurrence, Importance taskImportance,
+                                String taskNotes) {
         System.out.println("You've changed the details of task number " + taskIndex + ": " + taskName + "?\n"
                 + "Here are the new details of your task!\n"
                 + "Start Time: " + taskStartTime + "\n"
