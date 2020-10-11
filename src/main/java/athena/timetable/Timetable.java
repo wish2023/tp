@@ -1,11 +1,9 @@
 package athena.timetable;
 
-import athena.Forecast;
 import athena.TaskList;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
-import athena.task.taskfilter.TaskFilter;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

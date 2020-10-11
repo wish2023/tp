@@ -1,7 +1,6 @@
 package athena;
 
 import athena.task.Task;
-import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.TaskFilter;
 
 import java.util.ArrayList;

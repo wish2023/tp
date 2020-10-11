@@ -3,7 +3,6 @@ package athena.task.taskfilter;
 import athena.task.Task;
 import athena.Forecast;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
