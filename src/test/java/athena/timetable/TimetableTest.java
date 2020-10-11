@@ -25,7 +25,7 @@ class TimetableTest {
         date = LocalDate.parse("12-12-2020", formatter);
         day = new TimetableDay(date);
         day.addTask(new Task("Assignment 1", "4pm", "2 hrs", "6pm",
-                "12-12-2020", Importance.HIGH, "Tough assignment", 1));
+                "12-12-2020", Importance.HIGH, "Tough assignment", 0));
         days.add(day);
 
         date = LocalDate.parse("13-12-2020", formatter);
@@ -37,29 +37,29 @@ class TimetableTest {
         date = LocalDate.parse("14-12-2020", formatter);
         day = new TimetableDay(date);
         day.addTask(new Task("Assignment 3", "4pm", "2 hrs", "6pm",
-                "14-12-2020", Importance.LOW, "Tough assignment", 1));
+                "14-12-2020", Importance.LOW, "Tough assignment", 2));
         day.addTask(new Task("Assignment 4", "4pm", "2 hrs", "6pm",
-                "14-12-2020", Importance.MEDIUM, "Tough assignment", 1));
+                "14-12-2020", Importance.MEDIUM, "Tough assignment", 3));
         day.addTask(new Task("Assignment 5", "4pm", "2 hrs", "6pm",
-                "14-12-2020", Importance.HIGH, "Tough assignment", 1));
+                "14-12-2020", Importance.HIGH, "Tough assignment", 4));
         days.add(day);
 
         date = LocalDate.parse("15-12-2020", formatter);
         day = new TimetableDay(date);
         day.addTask(new Task("Assignment 6", "4pm", "2 hrs", "6pm",
-                "15-12-2020", Importance.MEDIUM, "Tough assignment", 1));
+                "15-12-2020", Importance.MEDIUM, "Tough assignment", 5));
         day.addTask(new Task("Assignment 7", "4pm", "2 hrs", "6pm",
-                "15-12-2020", Importance.HIGH, "Tough assignment", 1));
+                "15-12-2020", Importance.HIGH, "Tough assignment", 6));
         day.addTask(new Task("Assignment 8", "4pm", "2 hrs", "6pm",
-                "15-12-2020", Importance.MEDIUM, "Tough assignment", 1));
+                "15-12-2020", Importance.MEDIUM, "Tough assignment", 7));
         days.add(day);
 
         date = LocalDate.parse("16-12-2020", formatter);
         day = new TimetableDay(date);
         day.addTask(new Task("Assignment 9", "4pm", "2 hrs", "6pm",
-                "16-12-2020", Importance.LOW, "Tough assignment", 1));
+                "16-12-2020", Importance.LOW, "Tough assignment", 8));
         day.addTask(new Task("Assignment 10", "4pm", "2 hrs", "6pm",
-                "16-12-2020", Importance.MEDIUM, "Tough assignment", 1));
+                "16-12-2020", Importance.MEDIUM, "Tough assignment", 9));
         days.add(day);
 
         TaskList taskList = TestSetup.getTestTaskList();
@@ -78,19 +78,19 @@ class TimetableTest {
         date = LocalDate.parse("12-12-2020", formatter);
         day = new TimetableDay(date);
         day.addTask(new Task("Assignment 1", "4pm", "2 hrs", "6pm",
-                "12-12-2020", Importance.HIGH, "Tough assignment", 1));
+                "12-12-2020", Importance.HIGH, "Tough assignment", 0));
         days.add(day);
 
         date = LocalDate.parse("14-12-2020", formatter);
         day = new TimetableDay(date);
         day.addTask(new Task("Assignment 5", "4pm", "2 hrs", "6pm",
-                "14-12-2020", Importance.HIGH, "Tough assignment", 1));
+                "14-12-2020", Importance.HIGH, "Tough assignment", 4));
         days.add(day);
 
         date = LocalDate.parse("15-12-2020", formatter);
         day = new TimetableDay(date);
         day.addTask(new Task("Assignment 7", "4pm", "2 hrs", "6pm",
-                "15-12-2020", Importance.HIGH, "Tough assignment", 1));
+                "15-12-2020", Importance.HIGH, "Tough assignment", 6));
         days.add(day);
 
         TaskList taskList = TestSetup.getTestTaskList();
