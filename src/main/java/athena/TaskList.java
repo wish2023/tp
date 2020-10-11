@@ -78,8 +78,8 @@ public class TaskList {
      */
     public void addTask(String name, String startTime, String duration,
                         String deadline, String recurrence, Importance importance, String notes, int index) {
-        if (index>this.maxIndex){
-            this.maxIndex=index+1;
+        if (index > this.maxIndex) {
+            this.maxIndex = index + 1;
         }
 
         Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes, index);

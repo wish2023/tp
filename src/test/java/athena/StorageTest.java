@@ -30,7 +30,7 @@ class StorageTest {
             BufferedReader attempt = new BufferedReader(new FileReader(file2));
             String answerLine = answer.readLine();
             String attemptLine = attempt.readLine();
-            while ((answerLine != null) || (attemptLine != null)){
+            while ((answerLine != null) || (attemptLine != null)) {
                 if (!answerLine.contentEquals(attemptLine)) {
                     return false;
                 } else {
@@ -67,8 +67,6 @@ class StorageTest {
 
 
     }
-
-
 
 
 }
