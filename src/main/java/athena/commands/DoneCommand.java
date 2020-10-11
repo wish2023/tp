@@ -1,5 +1,6 @@
 package athena.commands;
 
+import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.TaskList;
 import athena.Ui;
@@ -22,12 +23,8 @@ public class DoneCommand extends Command {
      * @param ui       Ui
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) {
-        try {
-            Task taskDone = taskList.markTaskAsDone(doneIndex);
-            ui.printTaskDone(taskDone);
-        } catch (IndexOutOfBoundsException e) {
-            ui.printTaskNotFound(doneIndex);
-        }
+    public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException {
+        Task taskDone = taskList.markTaskAsDone(doneIndex);
+        ui.printTaskDone(taskDone);
     }
 }

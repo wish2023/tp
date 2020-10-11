@@ -1,5 +1,6 @@
 package athena;
 
+import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.taskfilter.TaskFilter;
 
@@ -36,17 +37,6 @@ public class TaskList {
      */
     public int getTaskListSize() {
         return tasks.size();
-    }
-
-    /**
-     * Marks specified task as done.
-     *
-     * @param taskNumber Task number.
-     * @return Task marked as done.
-     */
-    public Task markTaskAsDone(int taskNumber) {
-        tasks.get(taskNumber).setDone();
-        return tasks.get(taskNumber);
     }
 
     /**
@@ -99,7 +89,7 @@ public class TaskList {
      * @param taskNumber Task number.
      * @return Task description.
      */
-    public String getTaskDescription(int taskNumber) {
+    public String getTaskDescription(int taskNumber) throws TaskNotFoundException {
         Task task = getTaskFromNumber(taskNumber);
         return task.toString();
     }
@@ -110,11 +100,9 @@ public class TaskList {
      * @param taskNumber Number assigned to the task to be deleted.
      * @return Task that is deleted. Null if not found.
      */
-    public Task deleteTask(int taskNumber) {
+    public Task deleteTask(int taskNumber) throws TaskNotFoundException {
         Task task = getTaskFromNumber(taskNumber);
-        if (task != null) {
-            tasks.remove(task);
-        }
+        tasks.remove(task);
         return task;
     }
 
@@ -131,11 +119,22 @@ public class TaskList {
      * @param notes      Additional notes of task
      */
     public void editTask(int taskNumber, String name, String startTime, String duration,
-                         String deadline, String recurrence, Importance importance, String notes) {
+                         String deadline, String recurrence, Importance importance,
+                         String notes) throws TaskNotFoundException {
         Task task = getTaskFromNumber(taskNumber);
-        if (task != null) {
-            task.edit(name, startTime, duration, deadline, recurrence, importance, notes);
-        }
+        task.edit(name, startTime, duration, deadline, recurrence, importance, notes);
+    }
+
+    /**
+     * Marks specified task as done.
+     *
+     * @param taskNumber Task number.
+     * @return Task marked as done.
+     */
+    public Task markTaskAsDone(int taskNumber) throws TaskNotFoundException {
+        Task task = getTaskFromNumber(taskNumber);
+        task.setDone();
+        return tasks.get(taskNumber);
     }
 
     /**
@@ -144,13 +143,13 @@ public class TaskList {
      * @param taskNumber number assigned to the task.
      * @return The task with the given number. Null if not found.
      */
-    private Task getTaskFromNumber(int taskNumber) {
+    private Task getTaskFromNumber(int taskNumber) throws TaskNotFoundException {
         for (Task t : tasks) {
             if (t.getNumber() == taskNumber) {
                 return t;
             }
         }
-        return null;
+        throw new TaskNotFoundException(taskNumber);
     }
 
     /**

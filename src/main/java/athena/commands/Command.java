@@ -2,6 +2,7 @@ package athena.commands;
 
 import athena.TaskList;
 import athena.Ui;
+import athena.exceptions.TaskNotFoundException;
 
 /**
  * Abstract Command class for Command objects.
@@ -19,7 +20,7 @@ public abstract class Command {
      * @param taskList Tasks List
      * @param ui       Ui
      */
-    public abstract void execute(TaskList taskList, Ui ui);
+    public abstract void execute(TaskList taskList, Ui ui) throws TaskNotFoundException;
 
     public boolean isExit() {
         return isExit;
