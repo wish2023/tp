@@ -16,6 +16,11 @@ class DeleteCommandTest {
     private TaskList taskListWithoutTask;
     private Ui ui;
 
+    /**
+     * Creates a task list for testing.
+     *
+     * @return TaskList for testing.
+     */
     public static TaskList getTaskList() {
         TaskList taskList = new TaskList();
         taskList.addTask("Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
@@ -27,6 +32,11 @@ class DeleteCommandTest {
         return taskList;
     }
 
+    /**
+     * Creates a task list that is same as getTaskList() but without task number 2.
+     *
+     * @return TaskList for testing without task number 2.
+     */
     public static TaskList getTaskListWithoutTask() {
         TaskList taskList = new TaskList();
         taskList.addTask("Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
@@ -36,6 +46,9 @@ class DeleteCommandTest {
         return taskList;
     }
 
+    /**
+     * Creates the components needed for testing.
+     */
     @BeforeEach
     public void setup() {
         ui = new Ui();
@@ -43,23 +56,33 @@ class DeleteCommandTest {
         taskListWithoutTask = getTaskListWithoutTask();
     }
 
+    /**
+     * Tests that a task is a deleted from a list if a valid task number is given.
+     *
+     * @throws TaskNotFoundException
+     */
     @Test
-    public void execute_validIndex_taskIsDeleted() throws TaskNotFoundException {
+    public void execute_validNumber_taskIsDeleted() throws TaskNotFoundException {
         assertDeletionSuccessful(2, taskList, taskListWithoutTask);
     }
 
+    /**
+     * Tests that a TaskNotFoundException is thrown when an task number not in the list is given.
+     *
+     * @throws TaskNotFoundException
+     */
     @Test
-    public void execute_invalidNumber_taskListIsUnchanged() throws TaskNotFoundException {
+    public void execute_invalidNumber_taskListIsUnchanged() {
         assertDeletionFailsDueToInvalidNumber(-1, taskList);
     }
 
     /**
      * Creates a new delete command.
      *
-     * @param targetIndex of the task that we want to delete
+     * @param taskNumber of the task that we want to delete
      */
-    private DeleteCommand createDeleteCommand(int targetIndex) {
-        DeleteCommand command = new DeleteCommand(targetIndex);
+    private DeleteCommand createDeleteCommand(int taskNumber) {
+        DeleteCommand command = new DeleteCommand(taskNumber);
         return command;
     }
 
@@ -75,23 +98,30 @@ class DeleteCommandTest {
 
     /**
      * Asserts that nothing changes when the task with the given number does not exist in the given task list.
+     *
+     * @param taskNumber Task number to delete, but it should be an invalid number.
+     * @param taskList   TaskList to delete from.
      */
-    private void assertDeletionFailsDueToInvalidNumber(int invalidIndex, TaskList taskList) {
-        DeleteCommand command = createDeleteCommand(invalidIndex);
+    private void assertDeletionFailsDueToInvalidNumber(int taskNumber, TaskList taskList) {
+        DeleteCommand command = createDeleteCommand(taskNumber);
         assertThrows(TaskNotFoundException.class, () -> {
             command.execute(taskList, ui);
         });
     }
 
     /**
-     * Asserts the task at the specified index can be successfully deleted.
+     * Asserts the task with the specified number can be successfully deleted.
+     *
+     * @param taskNumber          Task number of the task to delete.
+     * @param taskList            TaskList to delete from.
+     * @param taskListWithoutTask Reference taskList to compare with after deleting the task.
      */
-    private void assertDeletionSuccessful(int targetIndex, TaskList taskList, TaskList taskListWithoutTask)
+    private void assertDeletionSuccessful(int taskNumber, TaskList taskList, TaskList taskListWithoutTask)
             throws TaskNotFoundException {
         TaskList expectedTaskList = taskListWithoutTask;
         TaskList actualTaskList = taskList;
 
-        DeleteCommand command = createDeleteCommand(targetIndex);
+        DeleteCommand command = createDeleteCommand(taskNumber);
         assertCommandBehaviour(command, expectedTaskList, actualTaskList);
     }
 }
