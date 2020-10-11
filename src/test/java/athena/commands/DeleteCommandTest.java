@@ -62,7 +62,7 @@ class DeleteCommandTest {
     /**
      * Executes the command, and checks that the execution was what we expect.
      */
-    private void assertCommandBehaviour(DeleteCommand deleteCommand, String expectedMessage, TaskList expectedTaskList, TaskList actualTaskList) {
+    private void assertCommandBehaviour(DeleteCommand deleteCommand, TaskList expectedTaskList, TaskList actualTaskList) {
         Ui ui = new Ui();
         deleteCommand.execute(taskList, ui);
         assertEquals(expectedTaskList, actualTaskList);
@@ -72,9 +72,8 @@ class DeleteCommandTest {
      * Asserts that the index is not valid for the given task list.
      */
     private void assertDeletionFailsDueToInvalidIndex(int invalidIndex, TaskList taskList) {
-        String expectedMessage = "The task with the label " + invalidIndex + " cannot be found";
         DeleteCommand command = createDeleteCommand(invalidIndex);
-        assertCommandBehaviour(command, expectedMessage, taskList, taskList);
+        assertCommandBehaviour(command, taskList, taskList);
     }
 
 
@@ -84,10 +83,9 @@ class DeleteCommandTest {
     private void assertDeletionSuccessful(int targetIndex, TaskList taskList, TaskList taskListWithoutTask) {
         TaskList expectedTaskList = taskListWithoutTask;
         TaskList actualTaskList = taskList;
-        String expectedMessage = "";
 
         DeleteCommand command = createDeleteCommand(targetIndex);
-        assertCommandBehaviour(command, expectedMessage, expectedTaskList, actualTaskList);
+        assertCommandBehaviour(command, expectedTaskList, actualTaskList);
     }
 
 }

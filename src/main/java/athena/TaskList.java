@@ -177,11 +177,14 @@ public class TaskList {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof TaskList)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof TaskList)) {
+            return false;
+        }
         TaskList taskList = (TaskList) o;
-        return getMaxIndex() == taskList.getMaxIndex() &&
-                getTasks().equals(taskList.getTasks());
+        return getMaxIndex() == taskList.getMaxIndex() && getTasks().equals(taskList.getTasks());
     }
 
     @Override
