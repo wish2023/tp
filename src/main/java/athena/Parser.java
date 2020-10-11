@@ -8,6 +8,7 @@ import athena.commands.EditCommand;
 import athena.commands.ExitCommand;
 import athena.commands.HelpCommand;
 import athena.commands.ListCommand;
+import athena.exceptions.InvalidCommandException;
 import athena.exceptions.NoIndexDeleteException;
 import athena.exceptions.NoIndexDoneException;
 
@@ -144,7 +145,7 @@ public class Parser {
      * @throws NoIndexDeleteException Exception thrown when user does not specify the index of a task to delete
      * @throws NoIndexDoneException Exception thrown when user does not specify the index of a task to mark as done
      */
-    public static Command parse(String input) throws NoIndexDeleteException, NoIndexDoneException {
+    public static Command parse(String input) throws NoIndexDeleteException, NoIndexDoneException, InvalidCommandException {
         String[] commandAndDetails = input.split(COMMAND_WORD_DELIMITER, 2);
         String commandType = commandAndDetails[0];
         String taskInfo = "";
@@ -200,9 +201,11 @@ public class Parser {
             return new ExitCommand();
         }
 
-        case "help":
-        default:
+        case "help": {
             return new HelpCommand();
+        }
+        default:
+            throw new InvalidCommandException();
         }
     }
 }
