@@ -1,5 +1,6 @@
 package athena.commands;
 
+import athena.exceptions.InvalidIndexDoneException;
 import athena.task.Task;
 import athena.TaskList;
 import athena.Ui;
@@ -20,14 +21,16 @@ public class DoneCommand extends Command {
      *
      * @param taskList Tasks List
      * @param ui       Ui
+     * @throws InvalidIndexDoneException Exception thrown when the user tries to enter the index of a task that
+     * does not exist
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) {
+    public void execute(TaskList taskList, Ui ui) throws InvalidIndexDoneException {
         try {
             Task taskDone = taskList.markTaskAsDone(doneIndex);
             ui.printTaskDone(taskDone);
         } catch (IndexOutOfBoundsException e) {
-            ui.printTaskNotFound(doneIndex);
+            throw new InvalidIndexDoneException();
         }
     }
 }

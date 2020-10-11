@@ -144,6 +144,23 @@ public class Ui {
                 + "How can we go on a conquest if we don't know what to slay and what time to start?\n");
     }
 
+    public void printInvalidIndexDeleteException() {
+        System.out.println("Hmm...not sure what you're trying to delete, but there is no task at that index.\n");
+    }
+
+    public void printNoIndexDeleteException() {
+        System.out.println("So you're trying to delete a task...but which one exactly? You haven't specified.\n");
+    }
+
+    public void printInvalidIndexDoneException() {
+        System.out.println("I'm not sure if you're trying to smoke me or smoke yourself, but there is no task at that "
+                + "index. You should enter a task index that contains a task.\n");
+    }
+
+    public void printNoIndexDoneException() {
+        System.out.println("I know you're really eager, but you need to specify a task to mark as done!\n");
+    }
+
     /**
      * Prints a message when the user chooses to exit the program.
      */
