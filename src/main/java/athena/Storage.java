@@ -40,7 +40,7 @@ public class Storage {
     public TaskList loadTaskListData() {
         File csvFile = new File(filePath);
         TaskList output = new TaskList();
-        int maxIndex = -1;
+        int maxNumber = 0;
         if (csvFile.isFile()) {
             String row;
             BufferedReader csvReader = null;
@@ -50,7 +50,7 @@ public class Storage {
                     String[] data = row.split(",");
                     output.addTask(data[0], data[1], data[2], data[3], data[4],
                             Importance.valueOf(data[5].toUpperCase()), data[6], Integer.parseInt(data[7]));
-                    maxIndex = Integer.parseInt(data[7]);
+                    maxNumber = Integer.parseInt(data[7]);
                 }
 
                 csvReader.close();
@@ -63,7 +63,7 @@ public class Storage {
             }
 
         }
-        output.setMaxIndex(maxIndex);
+        output.setMaxNumber(maxNumber);
         return output;
     }
 

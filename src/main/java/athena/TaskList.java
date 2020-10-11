@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class TaskList {
     private ArrayList<Task> tasks;
-    private int maxIndex = -1;
+    private int maxNumber = -1;
 
     public TaskList() {
         tasks = new ArrayList<>();
@@ -89,8 +89,8 @@ public class TaskList {
      */
     public void addTask(String name, String startTime, String duration,
                         String deadline, String recurrence, Importance importance, String notes) {
-        maxIndex++;
-        addTask(name, startTime, duration, deadline, recurrence, importance, notes, maxIndex);
+        maxNumber++;
+        addTask(name, startTime, duration, deadline, recurrence, importance, notes, maxNumber);
     }
 
     /**
@@ -169,12 +169,12 @@ public class TaskList {
         return new TaskList(filteredTasks);
     }
 
-    public int getMaxIndex() {
-        return maxIndex;
+    public int getMaxNumber() {
+        return maxNumber;
     }
 
-    public void setMaxIndex(int maxIndex) {
-        this.maxIndex = maxIndex;
+    public void setMaxNumber(int maxIndex) {
+        this.maxNumber = maxIndex;
     }
 
     @Override
@@ -186,11 +186,11 @@ public class TaskList {
             return false;
         }
         TaskList taskList = (TaskList) o;
-        return getMaxIndex() == taskList.getMaxIndex() && getTasks().equals(taskList.getTasks());
+        return maxNumber == taskList.maxNumber && getTasks().equals(taskList.getTasks());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTasks(), getMaxIndex());
+        return Objects.hash(getTasks(), maxNumber);
     }
 }
