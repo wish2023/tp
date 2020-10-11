@@ -59,7 +59,7 @@ class DeleteCommandTest {
     /**
      * Tests that a task is a deleted from a list if a valid task number is given.
      *
-     * @throws TaskNotFoundException
+     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list.
      */
     @Test
     public void execute_validNumber_taskIsDeleted() throws TaskNotFoundException {
@@ -68,8 +68,6 @@ class DeleteCommandTest {
 
     /**
      * Tests that a TaskNotFoundException is thrown when an task number not in the list is given.
-     *
-     * @throws TaskNotFoundException
      */
     @Test
     public void execute_invalidNumber_taskListIsUnchanged() {
