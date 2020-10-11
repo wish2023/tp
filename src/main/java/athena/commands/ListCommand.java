@@ -27,7 +27,7 @@ public class ListCommand extends Command {
      * calls Ui to print the list of tasks.
      *
      * @param taskList Tasks List
-     * @param ui       Ui
+     * @param ui Ui
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {
