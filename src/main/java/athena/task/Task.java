@@ -2,6 +2,8 @@ package athena.task;
 
 import athena.Importance;
 
+import java.util.Objects;
+
 public class Task {
     public static final String YES = "Y";
     public static final String NO = "N";
@@ -143,18 +145,27 @@ public class Task {
     /**
      * Checks if 2 tasks have the exact same properties.
      *
-     * @param task Task to compare with.
+     * @param o Object to compare with.
      * @return Whether the tasks have the exact same properties.
      */
-    public boolean equals(Task task) {
-        return this.name.equals(task.name)
-                && this.startTime.equals(task.startTime)
-                && this.duration.equals(task.duration)
-                && this.deadline.equals(task.deadline)
-                && this.recurrence.equals(task.recurrence)
-                && this.importance.equals(task.importance)
-                && this.notes.equals(task.notes)
-                && this.index == task.index;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return isDone == task.isDone &&
+                index == task.index &&
+                Objects.equals(name, task.name) &&
+                Objects.equals(startTime, task.startTime) &&
+                Objects.equals(duration, task.duration) &&
+                Objects.equals(deadline, task.deadline) &&
+                Objects.equals(recurrence, task.recurrence) &&
+                importance == task.importance &&
+                Objects.equals(notes, task.notes);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, startTime, duration, deadline, recurrence, isDone, importance, notes, index);
+    }
 }

@@ -4,6 +4,7 @@ import athena.task.Task;
 import athena.task.taskfilter.TaskFilter;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class TaskList {
     public static final String NO_FILTER = "";
@@ -14,11 +15,14 @@ public class TaskList {
         tasks = new ArrayList<>();
     }
 
-    public TaskList(ArrayList<Task> taskList) {
-        tasks = new ArrayList<>();
-        tasks.addAll(taskList);
-    }
+    public TaskList(ArrayList<Task> tasks) {
+        this.tasks = new ArrayList<>();
+        this.tasks.addAll(tasks);
 
+        for (Task task : tasks) {
+            maxIndex = Math.max(maxIndex, task.getIndex());
+        }
+    }
 
     public ArrayList<Task> getTasks() {
         return tasks;
@@ -78,7 +82,7 @@ public class TaskList {
      */
     public void addTask(String name, String startTime, String duration,
                         String deadline, String recurrence, Importance importance, String notes, int index) {
-
+        maxIndex = Math.max(index, maxIndex);
         Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes, index);
         tasks.add(task);
     }
@@ -163,6 +167,7 @@ public class TaskList {
                 filteredTasks.add(task);
             }
         }
+
         return new TaskList(filteredTasks);
     }
 
@@ -172,5 +177,23 @@ public class TaskList {
 
     public void setMaxIndex(int maxIndex) {
         this.maxIndex = maxIndex;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TaskList taskList = (TaskList) o;
+        System.out.println(tasks);
+        System.out.println(maxIndex);
+        System.out.println(taskList.tasks);
+        System.out.println(taskList.maxIndex);
+        return maxIndex == taskList.maxIndex &&
+                Objects.equals(tasks, taskList.tasks);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tasks, maxIndex);
     }
 }
