@@ -1,6 +1,7 @@
 package athena;
 
 import athena.task.Task;
+import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.TaskFilter;
 
 import java.util.ArrayList;
@@ -156,10 +157,10 @@ public class TaskList {
      * @param taskFilter The filter that decides which tasks are printed
      * @return Filtered task list
      */
-    public TaskList getFilteredList(TaskFilter taskFilter) {
+    public TaskList getFilteredList(TaskFilter taskFilter, ForecastFilter forecastFilter) {
         ArrayList<Task> filteredTasks = new ArrayList<>();
         for (Task task : tasks) {
-            if (taskFilter.isTaskIncluded(task)) {
+            if (taskFilter.isTaskIncluded(task) && forecastFilter.isTaskIncluded(task)) {
                 filteredTasks.add(task);
             }
         }
