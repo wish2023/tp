@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DeleteCommandTest {
     private TaskList taskList;
+    private TaskList taskList2;
     private TaskList taskListWithoutTask;
 
     public static TaskList getTaskList() {
@@ -36,6 +37,7 @@ class DeleteCommandTest {
     @BeforeEach
     public void setup() {
         taskList = getTaskList();
+        taskList2 = getTaskList();
         taskListWithoutTask = getTaskListWithoutTask();
     }
 
@@ -45,8 +47,8 @@ class DeleteCommandTest {
     }
 
     @Test
-    public void execute_invalidIndex_returnsInvalidIndexMessage() {
-        assertDeletionFailsDueToInvalidIndex(-1, taskList);
+    public void execute_invalidNumber_taskListIsUnchanged() {
+        assertDeletionFailsDueToInvalidNumber(-1, taskList, taskList2);
     }
 
     /**
@@ -70,11 +72,12 @@ class DeleteCommandTest {
     }
 
     /**
-     * Asserts that the index is not valid for the given task list.
+     * Asserts that nothing changes when the task with the given number does not exist in the given task list.
      */
-    private void assertDeletionFailsDueToInvalidIndex(int invalidIndex, TaskList taskList) {
+    private void assertDeletionFailsDueToInvalidNumber(int invalidIndex, TaskList taskList,
+                                                      TaskList referenceTaskList) {
         DeleteCommand command = createDeleteCommand(invalidIndex);
-        assertCommandBehaviour(command, taskList, taskList);
+        assertCommandBehaviour(command, taskList, referenceTaskList);
     }
 
     /**
