@@ -9,10 +9,10 @@ import athena.Ui;
  * Handles the done command.
  */
 public class DoneCommand extends Command {
-    private int doneIndex;
+    private int taskNumber;
 
-    public DoneCommand(int index) {
-        doneIndex = index - 1;
+    public DoneCommand(int taskNumber) {
+        this.taskNumber = taskNumber;
     }
 
     /**
@@ -24,7 +24,7 @@ public class DoneCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException {
-        Task taskDone = taskList.markTaskAsDone(doneIndex);
+        Task taskDone = taskList.markTaskAsDone(taskNumber);
         ui.printTaskDone(taskDone);
     }
 }
