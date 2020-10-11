@@ -2,6 +2,8 @@ package athena.task;
 
 import athena.Importance;
 
+import java.util.Objects;
+
 public class Task {
     public static final String YES = "Y";
     public static final String NO = "N";
@@ -15,14 +17,14 @@ public class Task {
     private boolean isDone = false;
     private Importance importance;
     private String notes;
-    private int index;
+    private int number;
 
     private String getStatus() {
         return (isDone ? YES : NO);
     }
 
     public Task(String name, String startTime, String duration, String deadline,
-                String recurrence, Importance importance, String notes, int index) {
+                String recurrence, Importance importance, String notes, int number) {
         this.name = name;
         this.startTime = startTime;
         this.duration = duration;
@@ -30,7 +32,7 @@ public class Task {
         this.recurrence = recurrence;
         this.importance = importance;
         this.notes = notes;
-        this.index = index;
+        this.number = number;
     }
 
     /**
@@ -67,7 +69,6 @@ public class Task {
         if (!notes.equals(null)) {
             this.notes = notes;
         }
-
     }
 
     /**
@@ -111,7 +112,6 @@ public class Task {
         return isDone;
     }
 
-
     public String getNotes() {
         return notes;
     }
@@ -120,12 +120,12 @@ public class Task {
         return recurrence;
     }
 
-    public int getIndex() {
-        return index;
+    public int getNumber() {
+        return number;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public String getTaskRestore() {
@@ -141,20 +141,33 @@ public class Task {
     }
 
     /**
-     * Checks if 2 tasks have the exact same properties.
+     * Compare this task with another object.
      *
-     * @param task Task to compare with.
-     * @return Whether the tasks have the exact same properties.
+     * @param o Object to compare with.
+     * @return Whether the object compared with is also a task and has the same properties.
      */
-    public boolean equals(Task task) {
-        return this.name.equals(task.name)
-                && this.startTime.equals(task.startTime)
-                && this.duration.equals(task.duration)
-                && this.deadline.equals(task.deadline)
-                && this.recurrence.equals(task.recurrence)
-                && this.importance.equals(task.importance)
-                && this.notes.equals(task.notes)
-                && this.index == task.index;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Task task = (Task) o;
+        return isDone == task.isDone
+                && number == task.number
+                && Objects.equals(name, task.name)
+                && Objects.equals(startTime, task.startTime)
+                && Objects.equals(duration, task.duration)
+                && Objects.equals(deadline, task.deadline)
+                && Objects.equals(recurrence, task.recurrence)
+                && importance == task.importance
+                && Objects.equals(notes, task.notes);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, startTime, duration, deadline, recurrence, isDone, importance, notes, number);
+    }
 }

@@ -6,7 +6,6 @@ import athena.task.taskfilter.TaskFilter;
 import java.util.ArrayList;
 
 public class TaskList {
-    public static final String NO_FILTER = "";
     private ArrayList<Task> tasks;
     private int maxIndex = -1;
 
@@ -19,25 +18,20 @@ public class TaskList {
         tasks.addAll(taskList);
     }
 
-
     public ArrayList<Task> getTasks() {
         return tasks;
     }
 
-    private Task createTask(String name, String startTime,
-                            String duration, String deadline, String recurrence, Importance importance, String notes,
-                            int index) {
-
-        Task task = new Task(name, startTime, duration,
-                deadline, recurrence, importance, notes, index);
+    private Task createTask(String name, String startTime, String duration, String deadline,
+                            String recurrence, Importance importance, String notes, int index) {
+        Task task = new Task(name, startTime, duration, deadline, recurrence, importance, notes, index);
         return task;
     }
-
 
     /**
      * Returns size of the task list.
      *
-     * @return Size of the task list
+     * @return Size of the task list.
      */
     public int getTaskListSize() {
         return tasks.size();
@@ -45,10 +39,9 @@ public class TaskList {
 
     /**
      * Marks specified task as done.
-     * Lets the user know specified task has been marked as done.
      *
-     * @param taskNumber Position of task in task list
-     * @return Task marked as done
+     * @param taskNumber Task number.
+     * @return Task marked as done.
      */
     public Task markTaskAsDone(int taskNumber) {
         tasks.get(taskNumber).setDone();
@@ -78,7 +71,6 @@ public class TaskList {
      */
     public void addTask(String name, String startTime, String duration,
                         String deadline, String recurrence, Importance importance, String notes, int index) {
-
         Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes, index);
         tasks.add(task);
     }
@@ -101,40 +93,32 @@ public class TaskList {
     }
 
     /**
-     * Returns the task description at the specified position in task list.
+     * Returns the task description of the task with the given number.
      *
-     * @param index Position of task in the task list
-     * @return Task description
+     * @param taskNumber Task number.
+     * @return Task description.
      */
-    public String getDescription(int index) {
-        return tasks.get(index).toString();
+    public String getTaskDescription(int taskNumber) {
+        Task task = getTaskFromNumber(taskNumber);
+        return task.toString();
     }
 
     /**
      * Deletes the task at the specified position in the task list.
      *
-     * @param taskNumber Position of task in task list
-     * @return Task deleted
+     * @param taskNumber Number assigned to the task to be deleted.
+     * @return Task that is deleted. Null if not found.
      */
     public Task deleteTask(int taskNumber) throws IndexOutOfBoundsException {
-        Task taskToDelete = null;
-        int counter = -1;
-        int index = -1;
-        for (Task t : tasks) {
-            counter++;
-            if (t.getIndex() == taskNumber) {
-                taskToDelete = tasks.get(taskNumber);
-                index = counter;
-            }
-        }
-        tasks.remove(index);
-        return taskToDelete;
+        Task task = getTaskFromNumber(taskNumber);
+        tasks.remove(task);
+        return task;
     }
 
     /**
-     * Edits a task in the task list.
+     * Edits a task in the task list with the given number, if present.
      *
-     * @param taskNumber Index of task
+     * @param taskNumber Task number
      * @param name       Name of task
      * @param startTime  Start time of task
      * @param duration   Duration of task
@@ -145,9 +129,25 @@ public class TaskList {
      */
     public void editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, Importance importance, String notes) {
+        Task task = getTaskFromNumber(taskNumber);
+        if (task != null) {
+            task.edit(name, startTime, duration, deadline, recurrence, importance, notes);
+        }
+    }
 
-        tasks.get(taskNumber).edit(name, startTime, duration,
-                deadline, recurrence, importance, notes);
+    /**
+     * Gets a task based on the number assigned to it.
+     *
+     * @param taskNumber number assigned to the task.
+     * @return The task with the given number. Null if not found.
+     */
+    private Task getTaskFromNumber(int taskNumber) {
+        for (Task t : tasks) {
+            if (t.getNumber() == taskNumber) {
+                return t;
+            }
+        }
+        return null;
     }
 
     /**

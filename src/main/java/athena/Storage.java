@@ -28,7 +28,7 @@ public class Storage {
             for (Task task : tasks.getTasks()) {
                 csvWriter.append(task.getName() + "," + task.getStartTime() + "," + task.getDuration() + ","
                         + task.getDeadline() + "," + task.getRecurrence() + "," + task.getImportance() + ","
-                        + task.getNotes() + "," + task.getIndex() + "\n");
+                        + task.getNotes() + "," + task.getNumber() + "\n");
             }
             csvWriter.close();
         } catch (IOException e) {
