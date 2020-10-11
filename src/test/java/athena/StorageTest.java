@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class StorageTest {
 
     @Test
-    void saveTaskListData() {
+    void saveTaskListData_noPreviousSave_createSaveFile() {
         Ui ui = new Ui();
         TaskList taskList = TestSetup.getTestTaskList();
         Storage storage = new Storage("src/test/java/athena/loadTask.csv", ui);
@@ -47,7 +47,7 @@ class StorageTest {
     }
 
     @Test
-    void loadTaskListData() {
+    void loadTaskListData_saveFileFound_createTaskList() {
         Ui ui = new Ui();
         Storage storage = new Storage("src/test/java/athena/TaskAnswer.csv", ui);
         TaskList taskList;
