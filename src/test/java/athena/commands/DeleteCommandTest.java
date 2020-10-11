@@ -19,6 +19,8 @@ class DeleteCommandTest {
                 Importance.HIGH, "Tough assignment", 1);
         taskList.addTask("Assignment 2", "4pm", "2 hrs", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment", 2);
+        taskList.addTask("Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
+                Importance.MEDIUM, "Tough assignment", 3);
         return taskList;
     }
 
@@ -26,6 +28,8 @@ class DeleteCommandTest {
         TaskList taskList = new TaskList();
         taskList.addTask("Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", 1);
+        taskList.addTask("Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
+                Importance.MEDIUM, "Tough assignment", 3);
         return taskList;
     }
 
@@ -59,7 +63,7 @@ class DeleteCommandTest {
      * Executes the command, and checks that the execution was what we expect.
      */
     private void assertCommandBehaviour(DeleteCommand deleteCommand, String expectedMessage, TaskList expectedTaskList, TaskList actualTaskList) {
-        Ui ui = null;
+        Ui ui = new Ui();
         deleteCommand.execute(taskList, ui);
         assertEquals(expectedTaskList, actualTaskList);
     }
@@ -78,9 +82,9 @@ class DeleteCommandTest {
      * Asserts the task at the specified index can be successfully deleted.
      */
     private void assertDeletionSuccessful(int targetIndex, TaskList taskList, TaskList taskListWithoutTask) {
-        String expectedMessage = "The task with the label " + targetIndex + " cannot be found";
         TaskList expectedTaskList = taskListWithoutTask;
         TaskList actualTaskList = taskList;
+        String expectedMessage = "";
 
         DeleteCommand command = createDeleteCommand(targetIndex);
         assertCommandBehaviour(command, expectedMessage, expectedTaskList, actualTaskList);
