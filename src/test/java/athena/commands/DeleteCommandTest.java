@@ -41,7 +41,7 @@ class DeleteCommandTest {
 
     @Test
     public void execute_validIndex_taskIsDeleted() {
-        assertDeletionSuccessful(2, taskList, taskListWithoutTask);;
+        assertDeletionSuccessful(2, taskList, taskListWithoutTask);
     }
 
     @Test
@@ -62,7 +62,8 @@ class DeleteCommandTest {
     /**
      * Executes the command, and checks that the execution was what we expect.
      */
-    private void assertCommandBehaviour(DeleteCommand deleteCommand, TaskList expectedTaskList, TaskList actualTaskList) {
+    private void assertCommandBehaviour(DeleteCommand deleteCommand, TaskList expectedTaskList,
+                                        TaskList actualTaskList) {
         Ui ui = new Ui();
         deleteCommand.execute(taskList, ui);
         assertEquals(expectedTaskList, actualTaskList);
@@ -76,7 +77,6 @@ class DeleteCommandTest {
         assertCommandBehaviour(command, taskList, taskList);
     }
 
-
     /**
      * Asserts the task at the specified index can be successfully deleted.
      */
@@ -87,5 +87,4 @@ class DeleteCommandTest {
         DeleteCommand command = createDeleteCommand(targetIndex);
         assertCommandBehaviour(command, expectedTaskList, actualTaskList);
     }
-
 }
