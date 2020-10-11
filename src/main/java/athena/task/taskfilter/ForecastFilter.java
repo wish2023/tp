@@ -47,16 +47,4 @@ public class ForecastFilter extends TaskFilter {
     }
 
 
-    public static void main(String[] args) {
-        LocalDate now = LocalDate.now();
-        int currentWeekNumber = getWeekNumber(now);
-        System.out.println(currentWeekNumber);
-
-        LocalDate next = now.plusDays(3);
-        LocalDate before = now.minusDays(5);
-        int x = getWeekNumber(next);
-        int y = getWeekNumber(before);
-        System.out.println(x);
-        System.out.println(y);
-    }
 }
