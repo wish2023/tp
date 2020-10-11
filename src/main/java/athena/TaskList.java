@@ -157,10 +157,10 @@ public class TaskList {
      * @param taskFilter The filter that decides which tasks are printed
      * @return Filtered task list
      */
-    public TaskList getFilteredList(TaskFilter taskFilter, ForecastFilter forecastFilter) {
+    public TaskList getFilteredList(TaskFilter taskFilter) {
         ArrayList<Task> filteredTasks = new ArrayList<>();
         for (Task task : tasks) {
-            if (taskFilter.isTaskIncluded(task) && forecastFilter.isTaskIncluded(task)) {
+            if (taskFilter.isTaskIncluded(task)) {
                 filteredTasks.add(task);
             }
         }
