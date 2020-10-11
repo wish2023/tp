@@ -4,6 +4,7 @@ import athena.task.Task;
 import athena.task.taskfilter.TaskFilter;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class TaskList {
     private ArrayList<Task> tasks;
@@ -174,5 +175,22 @@ public class TaskList {
 
     public void setMaxIndex(int maxIndex) {
         this.maxIndex = maxIndex;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof TaskList)) {
+            return false;
+        }
+        TaskList taskList = (TaskList) o;
+        return getMaxIndex() == taskList.getMaxIndex() && getTasks().equals(taskList.getTasks());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTasks(), getMaxIndex());
     }
 }
