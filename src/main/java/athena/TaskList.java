@@ -109,9 +109,11 @@ public class TaskList {
      * @param taskNumber Number assigned to the task to be deleted.
      * @return Task that is deleted. Null if not found.
      */
-    public Task deleteTask(int taskNumber) throws IndexOutOfBoundsException {
+    public Task deleteTask(int taskNumber) {
         Task task = getTaskFromNumber(taskNumber);
-        tasks.remove(task);
+        if (task != null) {
+            tasks.remove(task);
+        }
         return task;
     }
 
