@@ -13,13 +13,12 @@ class DeleteCommandTest {
     private TaskList taskList;
     private TaskList taskListWithoutTask;
 
-
     public static TaskList getTaskList() {
         TaskList taskList = new TaskList();
         taskList.addTask("Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", 1);
         taskList.addTask("Assignment 2", "4pm", "2 hrs", "6pm", "13-12-2020",
-                Importance.MEDIUM, "Tough assignment", 1);
+                Importance.MEDIUM, "Tough assignment", 2);
         return taskList;
     }
 
@@ -49,43 +48,41 @@ class DeleteCommandTest {
     /**
      * Creates a new delete command.
      *
-     * @param targetVisibleIndex of the person that we want to delete
+     * @param targetIndex of the task that we want to delete
      */
-    private DeleteCommand createDeleteCommand(int targetVisibleIndex) {
-        DeleteCommand command = new DeleteCommand(targetVisibleIndex);
+    private DeleteCommand createDeleteCommand(int targetIndex) {
+        DeleteCommand command = new DeleteCommand(targetIndex);
         return command;
     }
 
     /**
-     * Executes the command, and checks that the execution was what we had expected.
+     * Executes the command, and checks that the execution was what we expect.
      */
-    private void assertCommandBehaviour(DeleteCommand deleteCommand, String expectedMessage,
-                                        TaskList expectedTaskList, TaskList actualTaskList) {
-        Ui ui;
-        Command result = DeleteCommand.execute(taskList, ui);
-        assertEquals(expectedMessage, result);
+    private void assertCommandBehaviour(DeleteCommand deleteCommand, String expectedMessage, TaskList expectedTaskList, TaskList actualTaskList) {
+        Ui ui = null;
+        deleteCommand.execute(taskList, ui);
         assertEquals(expectedTaskList, actualTaskList);
     }
 
     /**
      * Asserts that the index is not valid for the given task list.
      */
-    private void assertDeletionFailsDueToInvalidIndex(int invalidVisibleIndex, TaskList taskList) {
-        String expectedMessage = "The task with the label " + invalidVisibleIndex + " cannot be found";
-        DeleteCommand command = createDeleteCommand(invalidVisibleIndex);
+    private void assertDeletionFailsDueToInvalidIndex(int invalidIndex, TaskList taskList) {
+        String expectedMessage = "The task with the label " + invalidIndex + " cannot be found";
+        DeleteCommand command = createDeleteCommand(invalidIndex);
         assertCommandBehaviour(command, expectedMessage, taskList, taskList);
     }
 
 
     /**
-     * Asserts that the task at the specified index can be successfully deleted.
+     * Asserts the task at the specified index can be successfully deleted.
      */
-    private void assertDeletionSuccessful(int targetVisibleIndex, TaskList taskList, TaskList taskListWithoutTask) {
-        String expectedMessage = "The task with the label " + targetVisibleIndex + " cannot be found";
+    private void assertDeletionSuccessful(int targetIndex, TaskList taskList, TaskList taskListWithoutTask) {
+        String expectedMessage = "The task with the label " + targetIndex + " cannot be found";
         TaskList expectedTaskList = taskListWithoutTask;
         TaskList actualTaskList = taskList;
 
-        DeleteCommand command = createDeleteCommand(targetVisibleIndex);
+        DeleteCommand command = createDeleteCommand(targetIndex);
         assertCommandBehaviour(command, expectedMessage, expectedTaskList, actualTaskList);
     }
 
