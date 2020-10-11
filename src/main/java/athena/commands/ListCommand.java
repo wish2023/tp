@@ -7,6 +7,8 @@ import athena.task.taskfilter.ImportanceFilter;
 import athena.task.taskfilter.TaskFilter;
 import athena.timetable.Timetable;
 
+import java.util.Objects;
+
 /**
  * Handles the list command.
  */
@@ -31,5 +33,22 @@ public class ListCommand extends Command {
         ImportanceFilter importanceFilter = new ImportanceFilter(taskImportance);
         Timetable timetable = new Timetable(taskList, importanceFilter);
         ui.printTimetable(timetable);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ListCommand)) {
+            return false;
+        }
+        ListCommand that = (ListCommand) o;
+        return taskImportance == that.taskImportance && Objects.equals(taskForecast, that.taskForecast);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(taskImportance, taskForecast);
     }
 }

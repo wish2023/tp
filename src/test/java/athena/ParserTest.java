@@ -67,6 +67,28 @@ class ParserTest {
     }
 
     /*
+     * Tests for multiple argument commands ===============================================================
+     */
+
+    @Test
+    public void parse_addCommandNumericArg_indexParsedCorrectly() {
+        final String input = "add n/Assignment1 t/1100 D/16-09-2020 d/2 hours r/Monday i/high a/Refer to slides";
+        final AddCommand parsedCommand = parseAndAssertCommandType(input, AddCommand.class);
+        final AddCommand expectedCommand = new AddCommand("Assignment1", "1100",
+                "2 hours", "16-09-2020", "Monday","high",
+                "Refer to slides");
+        assertEquals(parsedCommand, expectedCommand);
+    }
+
+    @Test
+    public void parse_listCommandNumericArg_indexParsedCorrectly() {
+        final String input = "list f/WEEK i/medium";
+        final ListCommand parsedCommand = parseAndAssertCommandType(input, ListCommand.class);
+        final ListCommand expectedCommand = new ListCommand(Importance.valueOf("medium".toUpperCase()), "WEEK");
+        assertEquals(parsedCommand, expectedCommand);
+    }
+
+    /*
      * Utility methods ====================================================================================
      */
 
