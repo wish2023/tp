@@ -3,16 +3,18 @@ package athena.commands;
 import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
+import athena.exceptions.TaskNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class DeleteCommandTest {
     private TaskList taskList;
-    private TaskList taskList2;
     private TaskList taskListWithoutTask;
+    private Ui ui;
 
     public static TaskList getTaskList() {
         TaskList taskList = new TaskList();
@@ -36,19 +38,19 @@ class DeleteCommandTest {
 
     @BeforeEach
     public void setup() {
+        ui = new Ui();
         taskList = getTaskList();
-        taskList2 = getTaskList();
         taskListWithoutTask = getTaskListWithoutTask();
     }
 
     @Test
-    public void execute_validIndex_taskIsDeleted() {
+    public void execute_validIndex_taskIsDeleted() throws TaskNotFoundException {
         assertDeletionSuccessful(2, taskList, taskListWithoutTask);
     }
 
     @Test
-    public void execute_invalidNumber_taskListIsUnchanged() {
-        assertDeletionFailsDueToInvalidNumber(-1, taskList, taskList2);
+    public void execute_invalidNumber_taskListIsUnchanged() throws TaskNotFoundException {
+        assertDeletionFailsDueToInvalidNumber(-1, taskList);
     }
 
     /**
@@ -65,7 +67,7 @@ class DeleteCommandTest {
      * Executes the command, and checks that the execution was what we expect.
      */
     private void assertCommandBehaviour(DeleteCommand deleteCommand, TaskList expectedTaskList,
-                                        TaskList actualTaskList) {
+                                        TaskList actualTaskList) throws TaskNotFoundException {
         Ui ui = new Ui();
         deleteCommand.execute(taskList, ui);
         assertEquals(expectedTaskList, actualTaskList);
@@ -74,16 +76,18 @@ class DeleteCommandTest {
     /**
      * Asserts that nothing changes when the task with the given number does not exist in the given task list.
      */
-    private void assertDeletionFailsDueToInvalidNumber(int invalidIndex, TaskList taskList,
-                                                      TaskList referenceTaskList) {
+    private void assertDeletionFailsDueToInvalidNumber(int invalidIndex, TaskList taskList) {
         DeleteCommand command = createDeleteCommand(invalidIndex);
-        assertCommandBehaviour(command, taskList, referenceTaskList);
+        assertThrows(TaskNotFoundException.class, () -> {
+            command.execute(taskList, ui);
+        });
     }
 
     /**
      * Asserts the task at the specified index can be successfully deleted.
      */
-    private void assertDeletionSuccessful(int targetIndex, TaskList taskList, TaskList taskListWithoutTask) {
+    private void assertDeletionSuccessful(int targetIndex, TaskList taskList, TaskList taskListWithoutTask)
+            throws TaskNotFoundException {
         TaskList expectedTaskList = taskListWithoutTask;
         TaskList actualTaskList = taskList;
 

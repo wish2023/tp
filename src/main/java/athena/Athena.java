@@ -1,7 +1,6 @@
 package athena;
 
 import athena.commands.Command;
-import athena.exceptions.AddException;
 import athena.exceptions.CommandException;
 
 import java.util.Scanner;

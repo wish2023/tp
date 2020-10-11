@@ -4,7 +4,6 @@ import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
 import athena.exceptions.TaskNotFoundException;
-import athena.task.Task;
 
 public class EditCommand extends Command {
     private int taskIndex;
