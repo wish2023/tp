@@ -16,7 +16,7 @@ public class Task {
     private String deadline;
 
     private String recurrence;
-    private LocalDate reccurenceDate = null;
+    private LocalDate recurrenceDate = null;
 
     private boolean isDone = false;
     private Importance importance;
@@ -39,10 +39,10 @@ public class Task {
         this.index = index;
 
         if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
-            reccurenceDate = LocalDate.now();
+            recurrenceDate = LocalDate.now();
         } else {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            reccurenceDate = LocalDate.parse(recurrence, formatter);
+            recurrenceDate = LocalDate.parse(recurrence, formatter);
         }
     }
 
@@ -172,7 +172,7 @@ public class Task {
 
 
     public LocalDate getDate() {
-        return reccurenceDate;
+        return recurrenceDate;
     }
 
 }
