@@ -74,7 +74,7 @@ public class Parser {
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, durationDefault);
         String deadlineDefault = "No deadline";
         String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos, deadlineDefault);
-        String recurrenceDefault = "Once-off, happening today";
+        String recurrenceDefault = "today";
         String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, recurrenceDefault);
         String importanceDefault = "medium";
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
@@ -99,17 +99,24 @@ public class Parser {
      * @return command object
      */
     public static Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
-                                           int recurrencePos, int importancePos, int addNotesPos) {
+                                           int recurrencePos, int importancePos, int addNotesPos, TaskList taskList) {
         int indexNextSlash = taskInfo.indexOf("/");
         int index = Integer.parseInt(taskInfo.substring(0, (indexNextSlash - 2)));
         String nullValue = "";
-        String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullValue);
-        String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullValue);
-        String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, nullValue);
-        String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos, nullValue);
-        String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, nullValue);
-        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
-        String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos, nullValue);
+        String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
+                taskList.at(index).getName());
+        String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos,
+                taskList.at(index).getStartTime());
+        String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos,
+                taskList.at(index).getDuration());
+        String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos,
+                taskList.at(index).getDeadline());
+        String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos,
+                taskList.at(index).getRecurrence());
+        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos,
+                taskList.at(index).getImportance().toString());
+        String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos,
+                taskList.at(index).getNotes());
         Command command = new EditCommand(index, name, time, duration, deadline, recurrence,
                 Importance.valueOf(importance), notes);
 
@@ -125,11 +132,12 @@ public class Parser {
      * @return command object
      */
     public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos) {
-        String nullValue = "";
-        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
-        String forecast = getParameterDesc(taskInfo, FORECAST_DELIMITER, forecastPos, nullValue);
-        Command command = new ListCommand(Importance.valueOf(importance.toUpperCase()), forecast);
-
+        String importanceDefault = "ALL";
+        String forecastDefault = "TODAY";
+        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
+        String forecast = getParameterDesc(taskInfo, FORECAST_DELIMITER, forecastPos, forecastDefault);
+        Command command = new ListCommand(Importance.valueOf(importance.toUpperCase()),
+                Forecast.valueOf(forecast.toUpperCase()));
         return command;
     }
 
@@ -140,7 +148,7 @@ public class Parser {
      * @param input String representing user input
      * @return new Command object based on what the user input is
      */
-    public static Command parse(String input) {
+    public static Command parse(String input, TaskList taskList) {
         String[] commandAndDetails = input.split(COMMAND_WORD_DELIMITER, 2);
         String commandType = commandAndDetails[0];
         String taskInfo = "";
@@ -167,7 +175,7 @@ public class Parser {
 
         case "edit": {
             return parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
-                    recurrencePos, importancePos, addNotesPos);
+                    recurrencePos, importancePos, addNotesPos, taskList);
         }
 
         case "list": {

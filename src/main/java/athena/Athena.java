@@ -14,7 +14,7 @@ public class Athena {
     public Athena() {
         ui = new Ui();
         parser = new Parser();
-        storage = new Storage("save.csv", ui);
+        storage = new Storage("data.csv", ui);
     }
 
     public static void main(String[] args) {
@@ -29,13 +29,15 @@ public class Athena {
         ui.printWelcomeMessage();
 
         taskList = storage.loadTaskListData();
+        boolean isExit = false;
         Scanner input = new Scanner(System.in);
 
-        while (true) {
+        while (!isExit) {
             try {
                 inputString = input.nextLine();
-                userCommand = parser.parse(inputString);
+                userCommand = parser.parse(inputString, taskList);
                 userCommand.execute(taskList, ui);
+                isExit = userCommand.getIsExit();
             } catch (CommandException e) {
                 e.printErrorMessage();
             }

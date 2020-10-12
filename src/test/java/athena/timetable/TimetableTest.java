@@ -1,9 +1,11 @@
 package athena.timetable;
 
+import athena.Forecast;
 import athena.Importance;
 import athena.TaskList;
 import athena.TestSetup;
 import athena.task.Task;
+import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
 import org.junit.jupiter.api.Test;
 
@@ -94,7 +96,8 @@ class TimetableTest {
         days.add(day);
 
         TaskList taskList = TestSetup.getTestTaskList();
-        Timetable timetable = new Timetable(taskList, new ImportanceFilter(Importance.HIGH));
+        Timetable timetable = new Timetable(taskList, new ImportanceFilter(Importance.HIGH),
+                new ForecastFilter(Forecast.ALL));
 
         assertTrue(areTimetablesSame(timetable, days));
     }

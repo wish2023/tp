@@ -1,6 +1,10 @@
 package athena.task;
 
 import athena.Importance;
+import athena.Recurrence;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import java.util.Objects;
 
@@ -14,6 +18,8 @@ public class Task {
     private String deadline;
 
     private String recurrence;
+    private LocalDate recurrenceDate = null;
+
     private boolean isDone = false;
     private Importance importance;
     private String notes;
@@ -33,6 +39,13 @@ public class Task {
         this.importance = importance;
         this.notes = notes;
         this.number = number;
+
+        if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
+            recurrenceDate = LocalDate.now();
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            recurrenceDate = LocalDate.parse(recurrence, formatter);
+        }
     }
 
     /**
@@ -62,6 +75,12 @@ public class Task {
         }
         if (!recurrence.equals(null)) {
             this.recurrence = recurrence;
+            if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
+                recurrenceDate = LocalDate.now();
+            } else {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                recurrenceDate = LocalDate.parse(recurrence, formatter);
+            }
         }
         if (!importance.equals(null)) {
             this.importance = importance;
@@ -118,6 +137,10 @@ public class Task {
 
     public String getRecurrence() {
         return recurrence;
+    }
+
+    public LocalDate getDate() {
+        return recurrenceDate;
     }
 
     public int getNumber() {

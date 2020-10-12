@@ -19,6 +19,12 @@ public class ImportanceFilter extends TaskFilter {
      */
     @Override
     public boolean isTaskIncluded(Task task) {
-        return task.getImportance() == importance;
+        boolean isTaskIncluded;
+        if (importance == Importance.ALL) {
+            isTaskIncluded = true;
+        } else {
+            isTaskIncluded = (task.getImportance() == importance);
+        }
+        return isTaskIncluded;
     }
 }

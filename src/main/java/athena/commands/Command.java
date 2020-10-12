@@ -23,7 +23,7 @@ public abstract class Command {
      */
     public abstract void execute(TaskList taskList, Ui ui) throws CommandException, AddException;
 
-    public boolean isExit() {
+    public boolean getIsExit() {
         return isExit;
     }
 }

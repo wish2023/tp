@@ -1,5 +1,5 @@
 package athena;
 
 public enum Importance {
-    HIGH, MEDIUM, LOW;
+    HIGH, MEDIUM, LOW, ALL;
 }

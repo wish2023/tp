@@ -192,4 +192,8 @@ public class TaskList {
     public int hashCode() {
         return Objects.hash(getTasks(), maxNumber);
     }
+
+    public Task at(int index) {
+        return tasks.get(index);
+    }
 }
