@@ -9,8 +9,8 @@ import athena.commands.ExitCommand;
 import athena.commands.HelpCommand;
 import athena.commands.ListCommand;
 import athena.exceptions.InvalidCommandException;
-import athena.exceptions.NoIndexDeleteException;
-import athena.exceptions.NoIndexDoneException;
+import athena.exceptions.DeleteNoIndexException;
+import athena.exceptions.DoneNoIndexException;
 
 
 /**
@@ -142,10 +142,10 @@ public class Parser {
      *
      * @param input String representing user input
      * @return new Command object based on what the user input is
-     * @throws NoIndexDeleteException Exception thrown when user does not specify the index of a task to delete
-     * @throws NoIndexDoneException Exception thrown when user does not specify the index of a task to mark as done
+     * @throws DeleteNoIndexException Exception thrown when user does not specify the index of a task to delete
+     * @throws DoneNoIndexException Exception thrown when user does not specify the index of a task to mark as done
      */
-    public static Command parse(String input) throws NoIndexDeleteException, NoIndexDoneException,
+    public static Command parse(String input) throws DeleteNoIndexException, DoneNoIndexException,
             InvalidCommandException {
         String[] commandAndDetails = input.split(COMMAND_WORD_DELIMITER, 2);
         String commandType = commandAndDetails[0];
@@ -185,7 +185,7 @@ public class Parser {
                 int taskIndex = Integer.parseInt(taskInfo);
                 return new DoneCommand(taskIndex);
             } catch (NumberFormatException e) {
-                throw new NoIndexDoneException();
+                throw new DoneNoIndexException();
             }
         }
 
@@ -194,7 +194,7 @@ public class Parser {
                 int taskIndex = Integer.parseInt(taskInfo);
                 return new DeleteCommand(taskIndex);
             } catch (NumberFormatException e) {
-                throw new NoIndexDeleteException();
+                throw new DeleteNoIndexException();
             }
         }
 

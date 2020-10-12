@@ -2,8 +2,8 @@ package athena.exceptions;
 
 import athena.Ui;
 
-public class AddException extends CommandException {
-    public AddException() {
+public class AddMissingRequiredParametersException extends CommandException {
+    public AddMissingRequiredParametersException() {
 
     }
 

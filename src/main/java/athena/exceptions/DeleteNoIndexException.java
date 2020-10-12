@@ -2,8 +2,8 @@ package athena.exceptions;
 
 import athena.Ui;
 
-public class NoIndexDeleteException extends CommandException {
-    public NoIndexDeleteException() {
+public class DeleteNoIndexException extends CommandException {
+    public DeleteNoIndexException() {
 
     }
 

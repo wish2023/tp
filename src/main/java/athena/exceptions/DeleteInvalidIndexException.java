@@ -2,8 +2,8 @@ package athena.exceptions;
 
 import athena.Ui;
 
-public class InvalidIndexDeleteException extends CommandException {
-    public InvalidIndexDeleteException() {
+public class DeleteInvalidIndexException extends CommandException {
+    public DeleteInvalidIndexException() {
 
     }
 

@@ -3,7 +3,7 @@ package athena.commands;
 import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
-import athena.exceptions.AddException;
+import athena.exceptions.AddMissingRequiredParametersException;
 
 /**
  * Handles adding tasks to the Tasks list.
@@ -36,9 +36,9 @@ public class AddCommand extends Command {
      * @param ui       Ui
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) throws AddException {
+    public void execute(TaskList taskList, Ui ui) throws AddMissingRequiredParametersException {
         if (taskName.equals("") || taskStartTime.equals("")) {
-            throw new AddException();
+            throw new AddMissingRequiredParametersException();
         }
         taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);

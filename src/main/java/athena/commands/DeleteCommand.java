@@ -1,6 +1,6 @@
 package athena.commands;
 
-import athena.exceptions.InvalidIndexDeleteException;
+import athena.exceptions.DeleteInvalidIndexException;
 import athena.task.Task;
 import athena.TaskList;
 import athena.Ui;
@@ -21,17 +21,17 @@ public class DeleteCommand extends Command {
      *
      * @param taskList Tasks List
      * @param ui       Ui
-     * @throws InvalidIndexDeleteException Exception thrown when the user tries to enter the index of a task that
+     * @throws DeleteInvalidIndexException Exception thrown when the user tries to enter the index of a task that
      *     does not exist
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) throws InvalidIndexDeleteException {
+    public void execute(TaskList taskList, Ui ui) throws DeleteInvalidIndexException {
         try {
             Task deletedTask = taskList.deleteTask(deleteIndex);
             String taskRestore = deletedTask.getTaskRestore();
             ui.printTaskDeleted(deletedTask, taskRestore);
         } catch (IndexOutOfBoundsException e) {
-            throw new InvalidIndexDeleteException();
+            throw new DeleteInvalidIndexException();
         }
     }
 }

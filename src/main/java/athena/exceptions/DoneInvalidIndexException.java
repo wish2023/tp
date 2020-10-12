@@ -2,8 +2,8 @@ package athena.exceptions;
 
 import athena.Ui;
 
-public class InvalidIndexDoneException extends CommandException {
-    public InvalidIndexDoneException() {
+public class DoneInvalidIndexException extends CommandException {
+    public DoneInvalidIndexException() {
 
     }
 
