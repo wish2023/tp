@@ -145,7 +145,8 @@ public class Parser {
      * @throws NoIndexDeleteException Exception thrown when user does not specify the index of a task to delete
      * @throws NoIndexDoneException Exception thrown when user does not specify the index of a task to mark as done
      */
-    public static Command parse(String input) throws NoIndexDeleteException, NoIndexDoneException, InvalidCommandException {
+    public static Command parse(String input) throws NoIndexDeleteException, NoIndexDoneException,
+            InvalidCommandException {
         String[] commandAndDetails = input.split(COMMAND_WORD_DELIMITER, 2);
         String commandType = commandAndDetails[0];
         String taskInfo = "";

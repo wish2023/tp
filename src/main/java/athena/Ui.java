@@ -127,7 +127,7 @@ public class Ui {
                 + "delete INDEX\n"
                 + "e.g. delete 2\n\n"
                 + "To say farewell to me, ATHENA:\n"
-                + "exit\n"
+                + "bye\n"
                 + "But why would you want to leave me anyways? Hmph.\n");
     }
 

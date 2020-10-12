@@ -22,7 +22,7 @@ public class DoneCommand extends Command {
      * @param taskList Tasks List
      * @param ui       Ui
      * @throws InvalidIndexDoneException Exception thrown when the user tries to enter the index of a task that
-     * does not exist
+     *     does not exist
      */
     @Override
     public void execute(TaskList taskList, Ui ui) throws InvalidIndexDoneException {
