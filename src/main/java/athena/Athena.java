@@ -1,7 +1,6 @@
 package athena;
 
 import athena.commands.Command;
-import athena.commands.ExitCommand;
 import athena.exceptions.AddException;
 
 import java.util.Scanner;
@@ -11,12 +10,10 @@ public class Athena {
     private Parser parser;
     private Storage storage;
     private TaskList taskList;
-    private ExitCommand exitCommand;
 
     public Athena() {
         ui = new Ui();
         parser = new Parser();
-        exitCommand = new ExitCommand();
         storage = new Storage("data.csv", ui);
     }
 
