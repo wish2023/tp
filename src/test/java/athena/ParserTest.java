@@ -11,7 +11,8 @@ import athena.commands.ListCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ParserTest {
 
@@ -51,7 +52,7 @@ class ParserTest {
     @Test
     public void parse_deleteCommandNumericArg_indexParsedCorrectly() {
         final int testNumber = 1;
-        final String input = "delete " + testNumber;
+        final String input = "delete 1";
         final DeleteCommand parsedCommand = parseAndAssertCommandType(input, DeleteCommand.class);
         final DeleteCommand expectedCommand = new DeleteCommand(testNumber);
         assertEquals(parsedCommand, expectedCommand);
@@ -60,7 +61,7 @@ class ParserTest {
     @Test
     public void parse_doneCommandNumericArg_indexParsedCorrectly() {
         final int testNumber = 1;
-        final String input = "done " + testNumber;
+        final String input = "done 1";
         final DoneCommand parsedCommand = parseAndAssertCommandType(input, DoneCommand.class);
         final DoneCommand expectedCommand = new DoneCommand(testNumber);
         assertEquals(parsedCommand, expectedCommand);
@@ -71,7 +72,7 @@ class ParserTest {
      */
 
     @Test
-    public void parse_addCommandNumericArg_indexParsedCorrectly() {
+    public void parse_addCommandArg_ParsedCorrectly() {
         final String input = "add n/Assignment1 t/1100 D/16-09-2020 d/2 hours r/Monday i/high a/Refer to slides";
         final AddCommand parsedCommand = parseAndAssertCommandType(input, AddCommand.class);
         final AddCommand expectedCommand = new AddCommand("Assignment1", "1100",
@@ -81,7 +82,18 @@ class ParserTest {
     }
 
     @Test
-    public void parse_listCommandNumericArg_indexParsedCorrectly() {
+    public void parse_editCommandArg_ParsedCorrectly() {
+        final int testNumber = 1;
+        final String input = "edit 1 n/Assignment1 t/1100 D/16-09-2020 d/2 hours r/Monday i/high a/Refer to slides";
+        final EditCommand parsedCommand = parseAndAssertCommandType(input, EditCommand.class);
+        final EditCommand expectedCommand = new EditCommand(testNumber,"Assignment1", "1100",
+                "2 hours", "16-09-2020", "Monday", Importance.valueOf("high".toUpperCase()),
+                "Refer to slides");
+        assertEquals(parsedCommand, expectedCommand);
+    }
+
+    @Test
+    public void parse_listCommandArg_ParsedCorrectly() {
         final String input = "list f/WEEK i/medium";
         final ListCommand parsedCommand = parseAndAssertCommandType(input, ListCommand.class);
         final ListCommand expectedCommand = new ListCommand(Importance.valueOf("medium".toUpperCase()), "WEEK");

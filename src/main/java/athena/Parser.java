@@ -111,7 +111,7 @@ public class Parser {
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos, nullValue);
         Command command = new EditCommand(index, name, time, duration, deadline, recurrence,
-                Importance.valueOf(importance), notes);
+                Importance.valueOf(importance.toUpperCase()), notes);
 
         return command;
     }
