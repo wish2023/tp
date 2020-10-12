@@ -14,7 +14,9 @@ src/main/resources/docs/
 bin/
 
 /text-ui-test/ACTUAL.txt
-text-ui-test/EXPECTED-UNIX.TXT
+/text-ui-test/EXPECTED.TXT
+/text-ui-test/EXPECTED-UNIX.TXT
 
-./save.csv
-./savedata.csv
+/save.csv
+/savedata.csv
+/data.csv
