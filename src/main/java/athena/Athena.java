@@ -1,6 +1,7 @@
 package athena;
 
 import athena.commands.Command;
+import athena.commands.ExitCommand;
 import athena.exceptions.AddException;
 
 import java.util.Scanner;
@@ -10,11 +11,13 @@ public class Athena {
     private Parser parser;
     private Storage storage;
     private TaskList taskList;
+    private ExitCommand exitCommand;
 
     public Athena() {
         ui = new Ui();
         parser = new Parser();
-        storage = new Storage("save.csv", ui);
+        exitCommand = new ExitCommand();
+        storage = new Storage("data.csv", ui);
     }
 
     public static void main(String[] args) {
@@ -29,13 +32,15 @@ public class Athena {
         ui.printWelcomeMessage();
 
         taskList = storage.loadTaskListData();
+        boolean isExit = false;
         Scanner input = new Scanner(System.in);
 
-        while (true) {
+        while (!isExit) {
             try {
                 inputString = input.nextLine();
                 userCommand = parser.parse(inputString);
                 userCommand.execute(taskList, ui);
+                isExit = userCommand.getIsExit();
             } catch (AddException e) {
                 e.getErrorMessage();
             }
