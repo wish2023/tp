@@ -114,7 +114,7 @@ public class Parser {
         String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos,
                 taskList.at(index).getRecurrence());
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos,
-                taskList.at(index).getImportance().toString());
+                taskList.at(index).getImportance().toString()).toUpperCase();
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos,
                 taskList.at(index).getNotes());
         Command command = new EditCommand(index, name, time, duration, deadline, recurrence,
