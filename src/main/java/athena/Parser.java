@@ -99,10 +99,10 @@ public class Parser {
      * @return command object
      */
     public static Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
-                                           int recurrencePos, int importancePos, int addNotesPos, TaskList taskList) {
-        int indexNextSlash = taskInfo.indexOf("/");
-        int index = Integer.parseInt(taskInfo.substring(0, (indexNextSlash - 2)));
-        String nullValue = "";
+                                           int recurrencePos, int importancePos,
+                                           int addNotesPos, TaskList taskList) {
+        int index = getIndex(taskInfo);
+
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
                 taskList.at(index).getName());
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos,
@@ -117,10 +117,18 @@ public class Parser {
                 taskList.at(index).getImportance().toString()).toUpperCase();
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos,
                 taskList.at(index).getNotes());
+
+
         Command command = new EditCommand(index, name, time, duration, deadline, recurrence,
                 Importance.valueOf(importance), notes);
 
         return command;
+    }
+
+    private static int getIndex(String taskInfo) {
+        int indexNextSlash = taskInfo.indexOf("/");
+        int index = Integer.parseInt(taskInfo.substring(0, (indexNextSlash - 2)));
+        return index;
     }
 
     /**
@@ -148,7 +156,7 @@ public class Parser {
      * @param input String representing user input
      * @return new Command object based on what the user input is
      */
-    public static Command parse(String input, TaskList taskList) {
+    public static Command parse(String input, TaskList taskList, Ui ui) {
         String[] commandAndDetails = input.split(COMMAND_WORD_DELIMITER, 2);
         String commandType = commandAndDetails[0];
         String taskInfo = "";
@@ -174,8 +182,13 @@ public class Parser {
         }
 
         case "edit": {
-            return parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
-                    recurrencePos, importancePos, addNotesPos, taskList);
+            try {
+                return parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
+                        recurrencePos, importancePos, addNotesPos, taskList);
+            } catch (IndexOutOfBoundsException e) {
+                ui.printTaskNotFound(getIndex(taskInfo));
+                return new HelpCommand();
+            }
         }
 
         case "list": {
