@@ -25,17 +25,17 @@ public class ForecastFilter extends TaskFilter {
      */
     @Override
     public boolean isTaskIncluded(Task task) {
-        boolean isTaskIncluded = false;
+        boolean isTaskIncluded;
         if (forecast == Forecast.ALL) {
             isTaskIncluded = true;
-        } else if (forecast == Forecast.TODAY) {
-            LocalDate taskDate = task.getDate();
-            isTaskIncluded = taskDate.equals(todayDate);
         } else if (forecast == Forecast.WEEK) {
             int currentWeekNumber = getWeekNumber(todayDate);
             LocalDate taskDate = task.getDate();
             int taskWeekNumber = getWeekNumber(taskDate);
             isTaskIncluded = (currentWeekNumber == taskWeekNumber);
+        } else {
+            LocalDate taskDate = task.getDate();
+            isTaskIncluded = taskDate.equals(todayDate);
         }
         return isTaskIncluded;
     }
