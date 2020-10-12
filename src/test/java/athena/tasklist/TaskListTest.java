@@ -1,9 +1,7 @@
 package athena.tasklist;
 
 import athena.Importance;
-import athena.Parser;
 import athena.TaskList;
-import athena.Ui;
 import athena.task.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,10 +18,13 @@ class TaskListTest {
     }
 
     @Test
-    // Check for normal deletion, and then check for a deletion with index out of range
-    // TODO ^^
     void deleteTask() {
-
+        Task expectedTask = new Task("Assignment1", "1100",
+                "2 hours", "16-09-2020", "13-10-2020", Importance.valueOf("high".toUpperCase()),
+                "Refer to slides", 0);
+        taskList.addTask(expectedTask);
+        Task actualTask = taskList.deleteTask(0);
+        assertEquals(expectedTask, actualTask);
     }
 
     @Test
