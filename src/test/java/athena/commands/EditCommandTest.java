@@ -115,11 +115,11 @@ class EditCommandTest {
      *
      * @param taskNumber          Task number of the task to edit.
      * @param taskList            TaskList to edit.
-     * @param taskListWithoutTask Reference taskList to compare with after deleting the task.
+     * @param editedTaskList Reference taskList to compare with after deleting the task.
      */
-    private void assertEditingSuccessful(int taskNumber, TaskList taskList, TaskList taskListWithoutTask)
+    private void assertEditingSuccessful(int taskNumber, TaskList taskList, TaskList editedTaskList)
             throws TaskNotFoundException {
-        TaskList expectedTaskList = taskListWithoutTask;
+        TaskList expectedTaskList = editedTaskList;
         TaskList actualTaskList = taskList;
 
         EditCommand command = createEditCommand(taskNumber);
