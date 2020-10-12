@@ -37,6 +37,7 @@ public class Athena {
                 inputString = input.nextLine();
                 userCommand = parser.parse(inputString, taskList);
                 userCommand.execute(taskList, ui);
+                storage.saveTaskListData(taskList);
                 isExit = userCommand.getIsExit();
             } catch (AddException e) {
                 e.getErrorMessage();
