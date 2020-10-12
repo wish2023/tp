@@ -96,7 +96,7 @@ class ParserTest {
     public void parse_listCommandArg_ParsedCorrectly() {
         final String input = "list f/WEEK i/medium";
         final ListCommand parsedCommand = parseAndAssertCommandType(input, ListCommand.class);
-        final ListCommand expectedCommand = new ListCommand(Importance.valueOf("medium".toUpperCase()), "WEEK");
+        final ListCommand expectedCommand = new ListCommand(Importance.MEDIUM, Forecast.WEEK);
         assertEquals(parsedCommand, expectedCommand);
     }
 

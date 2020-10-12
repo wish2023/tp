@@ -185,7 +185,7 @@ public class Parser {
             return new DeleteCommand(taskIndex);
         }
 
-        case "bye": {
+        case "exit": {
             return new ExitCommand();
         }
 
