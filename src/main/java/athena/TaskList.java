@@ -24,9 +24,9 @@ public class TaskList {
         return tasks;
     }
 
-    private Task createTask(String name, String startTime, String duration, String deadline,
-                            String recurrence, Importance importance, String notes, int index) {
-        Task task = new Task(name, startTime, duration, deadline, recurrence, importance, notes, index);
+    private Task createTask(int number, String name, String startTime, String duration, String deadline,
+                            String recurrence, Importance importance, String notes) {
+        Task task = new Task(name, startTime, duration, deadline, recurrence, importance, notes, number);
         return task;
     }
 
@@ -51,6 +51,7 @@ public class TaskList {
     /**
      * Adds a task to the task list.
      *
+     * @param number     Number assigned to the task
      * @param name       Name of task
      * @param startTime  Start time of task
      * @param duration   Duration of task
@@ -58,11 +59,10 @@ public class TaskList {
      * @param recurrence Recurrence of task
      * @param importance Importance of task
      * @param notes      Additional notes of task
-     * @param index      Index of the task
      */
-    public void addTask(String name, String startTime, String duration,
-                        String deadline, String recurrence, Importance importance, String notes, int index) {
-        Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes, index);
+    public void addTask(int number, String name, String startTime, String duration,
+                        String deadline, String recurrence, Importance importance, String notes) {
+        Task task = createTask(number, name, startTime, duration, deadline, recurrence, importance, notes);
         tasks.add(task);
     }
 
@@ -80,7 +80,7 @@ public class TaskList {
     public void addTask(String name, String startTime, String duration,
                         String deadline, String recurrence, Importance importance, String notes) {
         maxNumber++;
-        addTask(name, startTime, duration, deadline, recurrence, importance, notes, maxNumber);
+        addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes);
     }
 
     /**

@@ -50,8 +50,8 @@ public class Storage {
                 csvReader = new BufferedReader(new FileReader(filePath));
                 while ((row = csvReader.readLine()) != null) {
                     String[] data = row.split(",");
-                    output.addTask(data[0], data[1], data[2], data[3], data[4],
-                            Importance.valueOf(data[5].toUpperCase()), data[6], Integer.parseInt(data[7]));
+                    output.addTask(Integer.parseInt(data[7]), data[0], data[1], data[2], data[3], data[4],
+                            Importance.valueOf(data[5].toUpperCase()), data[6]);
                     maxNumber = Integer.parseInt(data[7]);
                 }
 
