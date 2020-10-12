@@ -2,9 +2,11 @@ package athena.task;
 
 import athena.Importance;
 import athena.Recurrence;
+import athena.commands.EditCommand;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Task {
     public static final String YES = "Y";
@@ -174,6 +176,27 @@ public class Task {
                 && this.importance.equals(task.importance)
                 && this.notes.equals(task.notes)
                 && this.index == task.index;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Task)) {
+            return false;
+        }
+        Task that = (Task) o;
+
+        return name.equals(that.name)
+                && Objects.equals(startTime, that.startTime)
+                && Objects.equals(duration, that.duration)
+                && Objects.equals(deadline, that.deadline)
+                && Objects.equals(recurrence, that.recurrence)
+                && importance == that.importance
+                && Objects.equals(notes, that.notes)
+                && index == that.index;
     }
 
 
