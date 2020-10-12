@@ -17,10 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ParserTest {
 
     private Parser parser;
+    private TaskList taskList;
+    private Ui ui;
 
     @BeforeEach
     public void setUp() {
         parser = new Parser();
+        taskList = new TaskList();
+        ui = new Ui();
     }
 
     @Test
@@ -82,15 +86,32 @@ class ParserTest {
     }
 
     @Test
-    public void parse_editCommandArg_ParsedCorrectly() {
-        final int testNumber = 1;
-        final String input = "edit 1 n/Assignment1 t/1100 D/16-09-2020 d/2 hours r/Monday i/high a/Refer to slides";
+    public void parse_editCommandAllArg_ParsedCorrectly() {
+        taskList.addTask("name", "st", "dur", "deadline",
+                "12-10-2020", Importance.LOW, "dummyNote");
+        final int testNumber = 0;
+        final String input = "edit 0 n/Assignment1 t/1100 D/16-09-2020 d/2 hours r/13-10-2020 i/high a/Refer to slides";
         final EditCommand parsedCommand = parseAndAssertCommandType(input, EditCommand.class);
         final EditCommand expectedCommand = new EditCommand(testNumber,"Assignment1", "1100",
-                "2 hours", "16-09-2020", "Monday", Importance.valueOf("high".toUpperCase()),
+                "2 hours", "16-09-2020", "13-10-2020", Importance.valueOf("high".toUpperCase()),
                 "Refer to slides");
         assertEquals(parsedCommand, expectedCommand);
     }
+
+    @Test
+    public void parse_editCommandSomeArg_ParsedCorrectly() {
+        taskList.addTask("name", "st", "dur", "deadline",
+                "12-10-2020", Importance.LOW, "dummyNote");
+        final int testNumber = 0;
+        final String input = "edit 0 n/I have changed a/I am not filling any other arguments";
+        final EditCommand parsedCommand = parseAndAssertCommandType(input, EditCommand.class);
+        final EditCommand expectedCommand = new EditCommand(testNumber,"I have changed", "st",
+                "dur", "deadline", "12-10-2020", Importance.valueOf("low".toUpperCase()),
+                "I am not filling any other arguments");
+        assertEquals(parsedCommand, expectedCommand);
+    }
+
+
 
     @Test
     public void parse_listCommandArg_ParsedCorrectly() {
@@ -112,8 +133,9 @@ class ParserTest {
      * @return the parsed command object
      */
     private <T extends Command> T parseAndAssertCommandType(String input, Class<T> expectedCommandClass) {
-        final Command result = parser.parse(input);
+        final Command result = parser.parse(input, taskList, ui);
         assertTrue(result.getClass().isAssignableFrom(expectedCommandClass));
         return (T) result;
     }
+
 }
