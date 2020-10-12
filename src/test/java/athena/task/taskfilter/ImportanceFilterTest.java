@@ -1,94 +1,48 @@
 package athena.task.taskfilter;
 
 import athena.Importance;
-import athena.TaskList;
-import org.junit.jupiter.api.BeforeEach;
+import athena.task.Task;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class ImportanceFilterTest {
-    private TaskList taskList;
-    private TaskList taskList2;
-    private TaskList mediumImportanceTaskList;
 
     /**
-     * Creates a task list for testing.
-     *
-     * @return TaskList for testing.
-     */
-    public static TaskList getTaskList() {
-        TaskList taskList = new TaskList();
-        taskList.addTask("Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
-                Importance.HIGH, "Tough assignment", 1);
-        taskList.addTask("Assignment 2", "4pm", "2 hrs", "6pm", "13-12-2020",
-                Importance.MEDIUM, "Tough assignment", 2);
-        taskList.addTask("Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
-                Importance.MEDIUM, "Tough assignment", 3);
-        return taskList;
-    }
-
-    /**
-     * Creates a task list that only contains MEDIUM importance tasks.
-     *
-     * @return TaskList for testing that only contains MEDIUM importance tasks.
-     */
-    public static TaskList getMediumImportanceTaskList() {
-        TaskList taskList = new TaskList();
-        taskList.addTask("Assignment 2", "4pm", "2 hrs", "6pm", "13-12-2020",
-                Importance.MEDIUM, "Tough assignment", 2);
-        taskList.addTask("Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
-                Importance.MEDIUM, "Tough assignment", 3);
-        return taskList;
-    }
-
-    /**
-     * Creates the components needed for testing.
-     */
-    @BeforeEach
-    public void setup() {
-        taskList = getTaskList();
-        taskList2 = getTaskList();
-        mediumImportanceTaskList = getMediumImportanceTaskList();
-    }
-
-    //    /**
-    //     * Tests that an ALL ImportanceFilter will filter return all Tasks in a TaskList.
-    //     */
-    //    @Test
-    //    public void getFilteredList_allImportance_returnsAllTasks() {
-    //        assertFilteringSuccessful(Importance.ALL, taskList, taskList2);
-    //    }
-
-    /**
-     * Tests that a MEDIUM ImportanceFilter will filter all medium importance Tasks in a TaskList.
+     * Tests that the task should be included when Importance.ALL is chosen.
      */
     @Test
-    public void getFilteredList_mediumImportance_returnsMediumImportanceTasks() {
-        assertFilteringSuccessful(Importance.MEDIUM, taskList, mediumImportanceTaskList);
+    void isTaskIncluded_all_returnsTrue() {
+        ImportanceFilter importanceFilter = new ImportanceFilter(Importance.ALL);
+        Task task = new Task("testName", "0900", "1", "05-11-2020",
+                "20-12-2020", Importance.MEDIUM, "testNotes", 0);
+        boolean isTaskIncluded = importanceFilter.isTaskIncluded(task);
+        assertTrue(isTaskIncluded);
     }
 
     /**
-     * Creates a new importance filter.
-     *
-     * @param importance Importance that we want to filter.
+     * Tests that the task should be included when an Importance that is same as the task's is chosen.
      */
-    private ImportanceFilter createImportanceFilter(Importance importance) {
-        return new ImportanceFilter(importance);
+    @Test
+    void isTaskIncluded_sameImportance_returnsTrue() {
+        ImportanceFilter importanceFilter = new ImportanceFilter(Importance.HIGH);
+        Task task = new Task("testName", "0900", "1", "05-11-2020",
+                "20-12-2020", Importance.HIGH, "testNotes", 0);
+        boolean isTaskIncluded = importanceFilter.isTaskIncluded(task);
+        assertTrue(isTaskIncluded);
     }
 
     /**
-     * Asserts the TaskList is correctly filtered.
-     *
-     * @param importance       Importance to filter.
-     * @param taskList         TaskList to filter from.
-     * @param expectedTaskList Reference taskList to compare with after filtering the TaskList.
+     * Tests that the task should not be included when an Importance that is different from the task's is chosen.
      */
-    private void assertFilteringSuccessful(Importance importance, TaskList taskList,
-                                           TaskList expectedTaskList) {
-        ImportanceFilter importanceFilter = createImportanceFilter(importance);
-        TaskList filteredTaskList = taskList.getFilteredList(importanceFilter);
-        assertEquals(filteredTaskList, expectedTaskList);
+    @Test
+    void isTaskIncluded_differentImportance_returnsFalse() {
+        ImportanceFilter importanceFilter = new ImportanceFilter(Importance.HIGH);
+        Task task = new Task("testName", "0900", "1", "05-11-2020",
+                "20-12-2020", Importance.LOW, "testNotes", 0);
+        boolean isTaskIncluded = importanceFilter.isTaskIncluded(task);
+        assertFalse(isTaskIncluded);
     }
 }
