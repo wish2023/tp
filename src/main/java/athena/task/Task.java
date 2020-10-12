@@ -2,6 +2,9 @@ package athena.task;
 
 import athena.Importance;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Task {
     public static final String YES = "Y";
     public static final String NO = "N";
@@ -155,6 +158,12 @@ public class Task {
                 && this.importance.equals(task.importance)
                 && this.notes.equals(task.notes)
                 && this.index == task.index;
+    }
+
+
+    public LocalDate getDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return LocalDate.parse(recurrence, formatter);
     }
 
 }
