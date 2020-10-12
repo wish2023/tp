@@ -28,6 +28,10 @@ public class TaskList {
         return tasks;
     }
 
+    public Task at(int index) {
+        return tasks.get(index);
+    }
+
     private Task createTask(String name, String startTime,
                             String duration, String deadline, String recurrence, Importance importance, String notes,
                             int index) {
@@ -36,7 +40,6 @@ public class TaskList {
                 deadline, recurrence, importance, notes, index);
         return task;
     }
-
 
     /**
      * Returns size of the task list.
@@ -181,15 +184,15 @@ public class TaskList {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         TaskList taskList = (TaskList) o;
-        System.out.println(tasks);
-        System.out.println(maxIndex);
-        System.out.println(taskList.tasks);
-        System.out.println(taskList.maxIndex);
-        return maxIndex == taskList.maxIndex &&
-                Objects.equals(tasks, taskList.tasks);
+        return maxIndex == taskList.maxIndex
+                && Objects.equals(tasks, taskList.tasks);
     }
 
     @Override

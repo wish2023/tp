@@ -81,7 +81,8 @@ public class Ui {
      * @param taskNotes      Any additional notes the user has added to the task
      */
     public void printTaskEdited(int taskIndex, String taskName, String taskStartTime, String taskDuration,
-                                String taskDeadline, String taskRecurrence, String taskImportance, String taskNotes) {
+                                String taskDeadline, String taskRecurrence, Importance taskImportance,
+                                String taskNotes) {
         System.out.println("You've changed the details of task number " + taskIndex + ": " + taskName + "?\n"
                 + "Here are the new details of your task!\n"
                 + "Start Time: " + taskStartTime + "\n"
@@ -119,8 +120,8 @@ public class Ui {
                 + "done INDEX\n"
                 + "e.g. done 2\n\n"
                 + "To edit a task (parameters in square brackets are optional fields):\n"
-                + "edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE]"
-                + " [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]\n"
+                + "edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE]"
+                + "[a/ADDITIONAL-NOTES]\n"
                 + "e.g. edit 2 n/Assignment1 t/1100 d/16/09 D/2 r/Monday i/high a/Refer to lecture notes\n\n"
                 + "To delete a task:\n"
                 + "delete INDEX\n"
@@ -136,6 +137,11 @@ public class Ui {
 
     public void printTaskNotFound(int taskNumber) {
         System.out.println("The task with the label " + taskNumber + " cannot be found");
+    }
+
+    public void printAddException() {
+        System.out.println("You haven't specified the name or the start time of the task! "
+                + "How can we go on a conquest if we don't know what to slay and what time to start?\n");
     }
 
     /**
