@@ -1,5 +1,8 @@
 package athena;
 
+import athena.task.Task;
+import athena.timetable.Timetable;
+
 import java.util.ArrayList;
 
 /**
@@ -78,7 +81,8 @@ public class Ui {
      * @param taskNotes      Any additional notes the user has added to the task
      */
     public void printTaskEdited(int taskIndex, String taskName, String taskStartTime, String taskDuration,
-                                String taskDeadline, String taskRecurrence, String taskImportance, String taskNotes) {
+                                String taskDeadline, String taskRecurrence, Importance taskImportance,
+                                String taskNotes) {
         System.out.println("You've changed the details of task number " + taskIndex + ": " + taskName + "?\n"
                 + "Here are the new details of your task!\n"
                 + "Start Time: " + taskStartTime + "\n"
@@ -147,13 +151,18 @@ public class Ui {
         System.out.println("Going so soon? Well I'll be here the next time you need me. Farewell!");
     }
 
+    /**
+     * Prints the timetable.
+     *
+     * @param timetable Timetable to be printed.
+     */
+    public void printTimetable(Timetable timetable) {
+        System.out.println(timetable);
+    }
+
     /*
     //message that is printed out while awaiting the next command
     public void nextCommandPrompt() {
-
-    }
-
-    public void printTimetable(Timetable timetable) {
 
     }
 

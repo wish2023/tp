@@ -1,10 +1,9 @@
 package athena.timetable;
 
+import athena.TaskList;
 import athena.task.Task;
-import athena.tasklist.TaskList;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * Represents a day in the timetable.
@@ -26,14 +25,21 @@ public class TimetableDay {
     }
 
     /**
-     * Initializes the object with the date and a task list.
+     * Getter for date.
      *
-     * @param date     Date represented by this object.
-     * @param taskList Task list for this day.
+     * @return date.
      */
-    public TimetableDay(LocalDate date, TaskList taskList) {
-        this.date = date;
-        this.taskList = taskList;
+    public LocalDate getDate() {
+        return date;
+    }
+
+    /**
+     * Getter for taskList.
+     *
+     * @return taskList.
+     */
+    public TaskList getTaskList() {
+        return taskList;
     }
 
     /**
@@ -53,7 +59,15 @@ public class TimetableDay {
      */
     @Override
     public String toString() {
-        // TODO: Generate a string containing the date and the tasks
-        return "";
+        String message = date.toString() + ":\n";
+        if (taskList.getTasks().isEmpty()) {
+            message += "Got no tasks for this day\n";
+        } else {
+            for (Task task : taskList.getTasks()) {
+                message += String.format("- %s at %s finish by %s [%d]\n", task.getName(), task.getStartTime(),
+                        task.getDeadline(), task.getIndex());
+            }
+        }
+        return message;
     }
 }
