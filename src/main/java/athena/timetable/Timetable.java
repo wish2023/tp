@@ -54,7 +54,7 @@ public class Timetable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         for (Task task : taskList.getTasks()) {
-            LocalDate date = LocalDate.parse(task.getRecurrence(), formatter);
+            LocalDate date = task.getDate();
 
             TimetableDay timetableDay;
             if (timetableDayMap.containsKey(date)) {
