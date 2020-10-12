@@ -173,4 +173,8 @@ public class TaskList {
     public void setMaxIndex(int maxIndex) {
         this.maxIndex = maxIndex;
     }
+
+    public Task at(int index) {
+        return tasks.get(index);
+    }
 }

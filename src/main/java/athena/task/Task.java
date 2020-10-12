@@ -73,6 +73,12 @@ public class Task {
         }
         if (!recurrence.equals(null)) {
             this.recurrence = recurrence;
+            if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
+                recurrenceDate = LocalDate.now();
+            } else {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                recurrenceDate = LocalDate.parse(recurrence, formatter);
+            }
         }
         if (!importance.equals(null)) {
             this.importance = importance;

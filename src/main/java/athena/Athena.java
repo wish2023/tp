@@ -35,7 +35,7 @@ public class Athena {
         while (!isExit) {
             try {
                 inputString = input.nextLine();
-                userCommand = parser.parse(inputString);
+                userCommand = parser.parse(inputString, taskList);
                 userCommand.execute(taskList, ui);
                 isExit = userCommand.getIsExit();
             } catch (AddException e) {
