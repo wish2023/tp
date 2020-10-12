@@ -2,7 +2,8 @@ package athena.timetable;
 
 import athena.TaskList;
 import athena.task.Task;
-import athena.task.taskfilter.TaskFilter;
+import athena.task.taskfilter.ForecastFilter;
+import athena.task.taskfilter.ImportanceFilter;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -21,8 +22,8 @@ public class Timetable {
         populateTimetable();
     }
 
-    public Timetable(TaskList taskList, TaskFilter taskFilter) {
-        this.taskList = taskList.getFilteredList(taskFilter);
+    public Timetable(TaskList taskList, ImportanceFilter importanceFilter, ForecastFilter forecastFilter) {
+        this.taskList = taskList.getFilteredList(importanceFilter).getFilteredList(forecastFilter);
         populateTimetable();
     }
 

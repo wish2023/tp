@@ -34,8 +34,8 @@ public class Parser {
      * @param defaultValue    String representing default value
      * @return Description of parameter
      */
-    public static String getParameterDesc(String taskInformation, String delimiter,
-                                          int paramPosition, String defaultValue) {
+    public static String getParameterDesc(String taskInformation, String delimiter, int paramPosition,
+                                          String defaultValue) {
         String param;
         if (paramPosition == -1) {
             param = defaultValue;
@@ -74,7 +74,7 @@ public class Parser {
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, durationDefault);
         String deadlineDefault = "No deadline";
         String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos, deadlineDefault);
-        String recurrenceDefault = "Once-off, happening today";
+        String recurrenceDefault = "today";
         String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, recurrenceDefault);
         String importanceDefault = "medium";
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
@@ -125,11 +125,12 @@ public class Parser {
      * @return command object
      */
     public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos) {
-        String nullValue = "";
-        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
-        String forecast = getParameterDesc(taskInfo, FORECAST_DELIMITER, forecastPos, nullValue);
-        Command command = new ListCommand(Importance.valueOf(importance.toUpperCase()), forecast);
-
+        String importanceDefault = "ALL";
+        String forecastDefault = "TODAY";
+        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
+        String forecast = getParameterDesc(taskInfo, FORECAST_DELIMITER, forecastPos, forecastDefault);
+        Command command = new ListCommand(Importance.valueOf(importance.toUpperCase()),
+                Forecast.valueOf(forecast.toUpperCase()));
         return command;
     }
 

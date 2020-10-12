@@ -3,6 +3,7 @@ package athena.commands;
 import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
+import athena.exceptions.AddException;
 
 import java.util.Objects;
 
@@ -37,7 +38,10 @@ public class AddCommand extends Command {
      * @param ui       Ui
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) {
+    public void execute(TaskList taskList, Ui ui) throws AddException {
+        if (taskName.equals("") || taskStartTime.equals("")) {
+            throw new AddException();
+        }
         taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
         ui.printTaskAdded(taskName, taskStartTime, taskDuration, taskDeadline,
@@ -67,4 +71,5 @@ public class AddCommand extends Command {
         return Objects.hash(taskName, taskStartTime, taskDuration,
                 taskDeadline, taskRecurrence, taskImportance, taskNotes);
     }
+
 }
