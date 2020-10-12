@@ -48,7 +48,7 @@ public class ListCommand extends Command {
             return false;
         }
         ListCommand that = (ListCommand) o;
-        return taskImportance == that.taskImportance && Objects.equals(taskForecast, that.taskForecast);
+        return taskImportance == that.taskImportance && taskForecast == that.taskForecast;
     }
 
     @Override
