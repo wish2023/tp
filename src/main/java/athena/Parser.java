@@ -120,7 +120,7 @@ public class Parser {
 
 
         Command command = new EditCommand(index, name, time, duration, deadline, recurrence,
-                Importance.valueOf(importance), notes);
+                Importance.valueOf(importance.toUpperCase()), notes);
 
         return command;
     }
@@ -205,7 +205,7 @@ public class Parser {
             return new DeleteCommand(taskIndex);
         }
 
-        case "bye": {
+        case "exit": {
             return new ExitCommand();
         }
 
