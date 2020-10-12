@@ -3,6 +3,7 @@ package athena.commands;
 import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
+import athena.exceptions.EditException;
 
 public class EditCommand extends Command {
     private int taskIndex;
@@ -34,14 +35,14 @@ public class EditCommand extends Command {
      * @param ui       Ui
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) {
+    public void execute(TaskList taskList, Ui ui) throws EditException {
         try {
             taskList.editTask(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
                     taskRecurrence, taskImportance, taskNotes);
             ui.printTaskEdited(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
                     taskRecurrence, taskImportance, taskNotes);
         } catch (IndexOutOfBoundsException e) {
-            ui.printTaskNotFound(taskIndex);
+            throw new EditException();
         }
     }
 }

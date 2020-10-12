@@ -161,6 +161,15 @@ public class Ui {
         System.out.println("I know you're really eager, but you need to specify a task to mark as done!\n");
     }
 
+    public void printEditException() {
+        System.out.println("You need to specify the correct index of the task that you want to edit!\n");
+    }
+
+    public void printInvalidCommandException() {
+        System.out.println("I know I'm really smart but even I don't know what you're requesting. Maybe if you type "
+                + "\"help\", you can see what the valid commands are.\n");
+    }
+
     /**
      * Prints a message when the user chooses to exit the program.
      */
