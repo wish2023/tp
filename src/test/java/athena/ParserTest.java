@@ -41,7 +41,7 @@ class ParserTest {
 
     @Test
     public void parse_exitCommand_parsedCorrectly() {
-        final String input = "bye";
+        final String input = "exit";
         parseAndAssertCommandType(input, ExitCommand.class);
     }
 
