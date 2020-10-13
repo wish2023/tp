@@ -2,12 +2,13 @@ package athena.exceptions;
 
 import athena.Ui;
 
-public class AddException extends Exception {
+public class AddException extends CommandException {
     public AddException() {
 
     }
 
-    public void getErrorMessage() {
+    @Override
+    public void printErrorMessage() {
         Ui ui = new Ui();
         ui.printAddException();
     }

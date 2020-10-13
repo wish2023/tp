@@ -65,7 +65,7 @@ public class TimetableDay {
         } else {
             for (Task task : taskList.getTasks()) {
                 message += String.format("- %s at %s finish by %s [%d]\n", task.getName(), task.getStartTime(),
-                        task.getDeadline(), task.getIndex());
+                        task.getDeadline(), task.getNumber());
             }
         }
         return message;
