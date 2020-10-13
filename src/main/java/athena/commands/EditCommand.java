@@ -53,7 +53,7 @@ public class EditCommand extends Command {
             return false;
         }
         EditCommand that = (EditCommand) o;
-        return taskIndex == that.taskIndex
+        return taskNumber == that.taskNumber
                 && Objects.equals(taskName, that.taskName)
                 && Objects.equals(taskStartTime, that.taskStartTime)
                 && Objects.equals(taskDuration, that.taskDuration)
@@ -65,7 +65,7 @@ public class EditCommand extends Command {
 
     @Override
     public int hashCode() {
-        return Objects.hash(taskIndex, taskName, taskStartTime, taskDuration,
+        return Objects.hash(taskNumber, taskName, taskStartTime, taskDuration,
                 taskDeadline, taskRecurrence, taskImportance, taskNotes);
     }
 }

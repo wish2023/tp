@@ -39,11 +39,11 @@ public class DoneCommand extends Command {
             return false;
         }
         DoneCommand that = (DoneCommand) o;
-        return doneIndex == that.doneIndex;
+        return taskNumber == that.taskNumber;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(doneIndex);
+        return Objects.hash(taskNumber);
     }
 }
