@@ -1,4 +1,4 @@
-package athena.taskfilter;
+package athena.task.taskfilter;
 
 import athena.Forecast;
 import athena.Importance;
@@ -42,7 +42,7 @@ class ForecastFilterTest {
     void testIsTaskIncluded_day_returnsTrue() {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.TODAY);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
-                "13-10-2020", Importance.LOW, "testNotes", 0); // Tested on 12-10-2020
+                "13-10-2020", Importance.LOW, "testNotes", 0); // Tested on 13-10-2020
         boolean isTaskIncluded = forecastFilter.isTaskIncluded(inputTask);
         assertEquals(isTaskIncluded, true);
     }
@@ -51,7 +51,7 @@ class ForecastFilterTest {
     void testIsTaskIncluded_day_returnsFalse() {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.TODAY);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
-                "14-10-2020", Importance.LOW, "testNotes", 0); // Tested on 12-10-2020
+                "14-10-2020", Importance.LOW, "testNotes", 0); // Tested on 13-10-2020
         boolean isTaskIncluded = forecastFilter.isTaskIncluded(inputTask);
         assertEquals(isTaskIncluded, false);
     }

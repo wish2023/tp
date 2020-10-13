@@ -17,6 +17,18 @@ public class EditCommand extends Command {
     private Importance taskImportance;
     private String taskNotes;
 
+    /**
+     * Initializes the object with the parameters.
+     *
+     * @param number     Integer representing index of task.
+     * @param name       String representing name of task.
+     * @param startTime  String representing start time of task.
+     * @param duration   String representing duration of task.
+     * @param deadline   String representing deadline of task.
+     * @param recurrence String representing recurrence of task.
+     * @param importance String representing importance of task.
+     * @param notes      String representing additional notes of task.
+     */
     public EditCommand(int number, String name, String startTime, String duration, String deadline,
                        String recurrence, Importance importance, String notes) {
         taskNumber = number;
@@ -33,7 +45,7 @@ public class EditCommand extends Command {
      * Edits a task from the Tasks list and
      * calls Ui to print task edited.
      *
-     * @param taskList Tasks List
+     * @param taskList Tasks list
      * @param ui       Ui
      */
     @Override

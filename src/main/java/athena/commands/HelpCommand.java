@@ -11,7 +11,7 @@ public class HelpCommand extends Command {
     /**
      * Calls Ui to print help output.
      *
-     * @param taskList Tasks List
+     * @param taskList Tasks list
      * @param ui       Ui
      */
     @Override

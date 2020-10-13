@@ -64,7 +64,7 @@ public class Ui {
      * @param task The task that the user marked as done.
      */
     public void printTaskDone(Task task) {
-        System.out.println("A job well done! I've slayed the-- I mean, marked the task " + task + "as complete!\n");
+        System.out.println("A job well done! I've slayed the-- I mean, marked the task " + task + " as complete!\n");
     }
 
     /**
@@ -102,7 +102,7 @@ public class Ui {
     public void printTaskDeleted(Task task, String taskRestore) {
         System.out.println("Are we pretending the task " + task + " never existed? Very well...\n");
         System.out.println("We both know the human propensity to make mistakes, if you want it back just type\n"
-                + taskRestore + "\nYou can thank me later \n");
+                + taskRestore + "\nYou can thank me later\n");
     }
 
     /**

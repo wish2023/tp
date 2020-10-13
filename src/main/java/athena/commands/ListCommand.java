@@ -17,6 +17,12 @@ public class ListCommand extends Command {
     private Importance taskImportance;
     private Forecast taskForecast;
 
+    /**
+     * Initializes the object with the parameters.
+     *
+     * @param importance Importance representing importance of task.
+     * @param forecast   Forecast representing forecast of task.
+     */
     public ListCommand(Importance importance, Forecast forecast) {
         taskImportance = importance;
         taskForecast = forecast;
@@ -27,8 +33,8 @@ public class ListCommand extends Command {
      * Calls TaskList to filter the list based on importance and
      * calls Ui to print the list of tasks.
      *
-     * @param taskList Tasks List
-     * @param ui Ui
+     * @param taskList Tasks list
+     * @param ui       Ui
      */
     @Override
     public void execute(TaskList taskList, Ui ui) {

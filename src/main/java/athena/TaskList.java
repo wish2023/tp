@@ -15,9 +15,13 @@ public class TaskList {
         tasks = new ArrayList<>();
     }
 
-    public TaskList(ArrayList<Task> taskList) {
-        tasks = new ArrayList<>();
-        tasks.addAll(taskList);
+    public TaskList(ArrayList<Task> tasks) {
+        this.tasks = new ArrayList<>();
+        this.tasks.addAll(tasks);
+
+        for (Task task : tasks) {
+            maxNumber = Math.max(maxNumber, task.getNumber());
+        }
     }
 
     public ArrayList<Task> getTasks() {
@@ -60,8 +64,12 @@ public class TaskList {
      * @param importance Importance of task
      * @param notes      Additional notes of task
      */
+
     public void addTask(int number, String name, String startTime, String duration,
                         String deadline, String recurrence, Importance importance, String notes) {
+        if (this.maxNumber < number) {
+            this.maxNumber = number;
+        }
         Task task = createTask(number, name, startTime, duration, deadline, recurrence, importance, notes);
         tasks.add(task);
     }
@@ -134,7 +142,7 @@ public class TaskList {
     public Task markTaskAsDone(int taskNumber) throws TaskNotFoundException {
         Task task = getTaskFromNumber(taskNumber);
         task.setDone();
-        return tasks.get(taskNumber);
+        return task;
     }
 
     /**
@@ -143,7 +151,7 @@ public class TaskList {
      * @param taskNumber number assigned to the task.
      * @return The task with the given number. Null if not found.
      */
-    private Task getTaskFromNumber(int taskNumber) throws TaskNotFoundException {
+    public Task getTaskFromNumber(int taskNumber) throws TaskNotFoundException {
         for (Task t : tasks) {
             if (t.getNumber() == taskNumber) {
                 return t;
@@ -165,6 +173,7 @@ public class TaskList {
                 filteredTasks.add(task);
             }
         }
+
         return new TaskList(filteredTasks);
     }
 
@@ -185,15 +194,12 @@ public class TaskList {
             return false;
         }
         TaskList taskList = (TaskList) o;
+
         return maxNumber == taskList.maxNumber && getTasks().equals(taskList.getTasks());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(getTasks(), maxNumber);
-    }
-
-    public Task at(int index) {
-        return tasks.get(index);
     }
 }

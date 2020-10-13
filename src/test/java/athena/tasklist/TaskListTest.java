@@ -23,10 +23,13 @@ class TaskListTest {
     }
 
     @Test
-    // Check for normal deletion, and then check for a deletion with index out of range
-    // TODO ^^
-    void deleteTask() {
-
+    void deleteTask_validTaskIndex_correctTaskDeleted() throws TaskNotFoundException {
+        Task expectedTask = new Task("Assignment1", "1100",
+                "2 hours", "16-09-2020", "13-10-2020", Importance.HIGH,
+                "Refer to slides", 0);
+        taskList.addTask(expectedTask);
+        Task actualTask = taskList.deleteTask(0);
+        assertEquals(expectedTask, actualTask);
     }
 
     @Test
@@ -46,7 +49,7 @@ class TaskListTest {
                 "I have changed");
 
 
-        assertEquals(taskList.at(index), expectedTask);
+        assertEquals(taskList.getTaskFromNumber(index), expectedTask);
     }
 
     @Test
