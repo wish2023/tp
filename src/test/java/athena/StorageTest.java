@@ -17,7 +17,7 @@ class StorageTest {
         TaskList taskList = TestSetup.getTestTaskList();
         Storage storage = new Storage("src/test/java/athena/loadTask.csv", ui);
         storage.saveTaskListData(taskList);
-        assertTrue(areFilesSame("src/test/java/athena/loadTask.csv", "src/test/java/athena/TaskAnswer.csv"));
+        assertTrue(areFilesSame("src/test/java/athena/loadTask.csv", "src/test/java/athena/StorageTestAnswer1.csv"));
     }
 
     private boolean areFilesSame(String file1, String file2) {
@@ -44,7 +44,7 @@ class StorageTest {
     @Test
     void loadTaskListData_saveFileFound_createTaskList() {
         Ui ui = new Ui();
-        Storage storage = new Storage("src/test/java/athena/TaskAnswer.csv", ui);
+        Storage storage = new Storage("src/test/java/athena/StorageTestAnswer1.csv", ui);
         TaskList taskList;
         taskList = storage.loadTaskListData();
         TaskList tester = TestSetup.getTestTaskList();
