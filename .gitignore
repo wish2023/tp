@@ -18,3 +18,4 @@ text-ui-test/EXPECTED-UNIX.TXT
 
 save.csv
 savedata.csv
+src/test/java/athena/loadTask.csv
