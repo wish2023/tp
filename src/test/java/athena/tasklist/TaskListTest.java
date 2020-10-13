@@ -19,9 +19,9 @@ class TaskListTest {
     }
 
     @Test
-    void deleteTask_successfully() throws TaskNotFoundException {
+    void deleteTask_validTaskIndex_correctTaskDeleted() throws TaskNotFoundException {
         Task expectedTask = new Task("Assignment1", "1100",
-                "2 hours", "16-09-2020", "13-10-2020", Importance.valueOf("high".toUpperCase()),
+                "2 hours", "16-09-2020", "13-10-2020", Importance.HIGH,
                 "Refer to slides", 0);
         taskList.addTask(expectedTask);
         Task actualTask = taskList.deleteTask(0);
