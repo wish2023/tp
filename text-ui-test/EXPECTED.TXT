@@ -70,7 +70,7 @@ The mistakes of the past have been vanquished!
 
 The task with the label -1 cannot be found
 The task with the label 4 cannot be found
-A job well done! I've slayed the-- I mean, marked the task Y Homework 1 at 1100 finish by 16-09-2020 as complete!
+A job well done! I've slayed the-- I mean, marked the task Homework 1 as complete!
 
 2020-10-13:
 - Homework 1 at 1100 finish by 16-09-2020 [1]

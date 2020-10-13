@@ -6,10 +6,8 @@ ATHENA (Automated Timetable Helper Encourager n' Assistant) is a desktop daily l
 
 ## Quick Start
 
-{Give steps to get started quickly}
-
 1. Ensure that you have Java 11 or above installed.
-2. Download the latest version of `ATHENA` from [here](http://link.to/duke).
+2. Download the latest version of `ATHENA` from [here](https://github.com/AY2021S1-CS2113T-W12-2/tp/releases).
 
 ## Features 
 Notes about the command format:
@@ -34,7 +32,7 @@ Parameters:
    Default: 1 hour.
 * `DEADLINE` is the date to do task by (DD-MM-YYYY). For example, 16-09-2020.
    Default: No deadline.
-* `RECURRENCE` is one of TODAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+* `RECURRENCE` is TODAY or a specific date (DD-MM-YYYY).
    Default: TODAY.
 * `IMPORTANCE` is one of HIGH, MEDIUM, LOW.
    Default: MEDIUM.
@@ -43,7 +41,7 @@ Parameters:
 
 Example of usage: 
 
-`add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Monday i/high a/Refer to lecture notes`
+`add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`
 
 ### Listing tasks: `list`
 Shows a list of all tasks in the planner. Each task will be printed with a number to be used as an identifier for other commands.
@@ -88,7 +86,7 @@ Parameters:
    
 Example of usage: 
 
-`edit 103 n/Assignment1 t/1100 D/16-09-2020 d/2 r/Monday i/high a/Refer to lecture notes`
+`edit 103 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
 
 ### Delete task: `delete`
 Deletes the specified task from the planner.

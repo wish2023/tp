@@ -63,7 +63,8 @@ public class Ui {
      * @param task The task that the user marked as done.
      */
     public void printTaskDone(Task task) {
-        System.out.println("A job well done! I've slayed the-- I mean, marked the task " + task + " as complete!\n");
+        System.out.println("A job well done! I've slayed the-- I mean, marked the task "
+                + task.getName() + " as complete!\n");
     }
 
     /**
