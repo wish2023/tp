@@ -113,7 +113,7 @@ class ParserTest {
 
     @Test
     public void parse_editCommandBadArg_throwsException() throws CommandException {
-        final String input = "edit n/n/";
+        final String input = "edit abcde";
         assertThrows(CommandException.class, () -> {
             parseAndAssertCommandType(input, EditCommand.class);
         });
@@ -122,6 +122,14 @@ class ParserTest {
     @Test
     public void parse_editCommandBadArg2_throwsException() throws CommandException {
         final String input = "edit 1a/";
+        assertThrows(CommandException.class, () -> {
+            parseAndAssertCommandType(input, EditCommand.class);
+        });
+    }
+
+    @Test
+    public void parse_editCommandBadArg3_throwsException() throws CommandException {
+        final String input = "edit 1 n/n/";
         assertThrows(CommandException.class, () -> {
             parseAndAssertCommandType(input, EditCommand.class);
         });
