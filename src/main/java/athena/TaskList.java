@@ -60,8 +60,12 @@ public class TaskList {
      * @param importance Importance of task
      * @param notes      Additional notes of task
      */
+
     public void addTask(int number, String name, String startTime, String duration,
                         String deadline, String recurrence, Importance importance, String notes) {
+        if (this.maxNumber < number) {
+            this.maxNumber = number;
+        }
         Task task = createTask(number, name, startTime, duration, deadline, recurrence, importance, notes);
         tasks.add(task);
     }
@@ -185,6 +189,7 @@ public class TaskList {
             return false;
         }
         TaskList taskList = (TaskList) o;
+
         return maxNumber == taskList.maxNumber && getTasks().equals(taskList.getTasks());
     }
 
