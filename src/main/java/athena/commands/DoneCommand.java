@@ -5,6 +5,8 @@ import athena.task.Task;
 import athena.TaskList;
 import athena.Ui;
 
+import java.util.Objects;
+
 /**
  * Handles the done command.
  */
@@ -12,7 +14,7 @@ public class DoneCommand extends Command {
     private int doneIndex;
 
     public DoneCommand(int index) {
-        doneIndex = index - 1;
+        doneIndex = index;
     }
 
     /**
@@ -32,5 +34,22 @@ public class DoneCommand extends Command {
         } catch (IndexOutOfBoundsException e) {
             throw new DoneInvalidIndexException();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof DoneCommand)) {
+            return false;
+        }
+        DoneCommand that = (DoneCommand) o;
+        return doneIndex == that.doneIndex;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(doneIndex);
     }
 }

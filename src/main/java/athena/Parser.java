@@ -77,7 +77,7 @@ public class Parser {
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, durationDefault);
         String deadlineDefault = "No deadline";
         String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos, deadlineDefault);
-        String recurrenceDefault = "Once-off, happening today";
+        String recurrenceDefault = "today";
         String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, recurrenceDefault);
         String importanceDefault = "medium";
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
@@ -128,11 +128,12 @@ public class Parser {
      * @return command object
      */
     public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos) {
-        String nullValue = "";
-        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
-        String forecast = getParameterDesc(taskInfo, FORECAST_DELIMITER, forecastPos, nullValue);
-        Command command = new ListCommand(Importance.valueOf(importance.toUpperCase()), forecast);
-
+        String importanceDefault = "ALL";
+        String forecastDefault = "TODAY";
+        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
+        String forecast = getParameterDesc(taskInfo, FORECAST_DELIMITER, forecastPos, forecastDefault);
+        Command command = new ListCommand(Importance.valueOf(importance.toUpperCase()),
+                Forecast.valueOf(forecast.toUpperCase()));
         return command;
     }
 
@@ -172,8 +173,13 @@ public class Parser {
         }
 
         case "edit": {
-            return parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
-                    recurrencePos, importancePos, addNotesPos);
+            try {
+                return parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
+                        recurrencePos, importancePos, addNotesPos, taskList);
+            } catch (IndexOutOfBoundsException e) {
+                ui.printTaskNotFound(getIndex(taskInfo));
+                return new HelpCommand();
+            }
         }
 
         case "list": {
@@ -198,7 +204,7 @@ public class Parser {
             }
         }
 
-        case "bye": {
+        case "exit": {
             return new ExitCommand();
         }
 

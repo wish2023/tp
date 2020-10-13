@@ -3,7 +3,8 @@ package athena.commands;
 import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
-import athena.exceptions.EditException;
+
+import java.util.Objects;
 
 public class EditCommand extends Command {
     private int taskIndex;
@@ -35,14 +36,36 @@ public class EditCommand extends Command {
      * @param ui       Ui
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) throws EditException {
-        try {
-            taskList.editTask(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
-                    taskRecurrence, taskImportance, taskNotes);
-            ui.printTaskEdited(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
-                    taskRecurrence, taskImportance, taskNotes);
-        } catch (IndexOutOfBoundsException e) {
-            throw new EditException();
+    public void execute(TaskList taskList, Ui ui) {
+        taskList.editTask(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
+                taskRecurrence, taskImportance, taskNotes);
+        ui.printTaskEdited(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
+                taskRecurrence, taskImportance, taskNotes);
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
         }
+        if (!(o instanceof EditCommand)) {
+            return false;
+        }
+        EditCommand that = (EditCommand) o;
+        return taskIndex == that.taskIndex
+                && Objects.equals(taskName, that.taskName)
+                && Objects.equals(taskStartTime, that.taskStartTime)
+                && Objects.equals(taskDuration, that.taskDuration)
+                && Objects.equals(taskDeadline, that.taskDeadline)
+                && Objects.equals(taskRecurrence, that.taskRecurrence)
+                && taskImportance == that.taskImportance
+                && Objects.equals(taskNotes, that.taskNotes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(taskIndex, taskName, taskStartTime, taskDuration,
+                taskDeadline, taskRecurrence, taskImportance, taskNotes);
     }
 }
