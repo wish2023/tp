@@ -78,6 +78,9 @@ public class TaskList {
      * @param task Task to be added.
      */
     public void addTask(Task task) {
+        if (this.maxNumber < task.getNumber()) {
+            this.maxNumber = task.getNumber();
+        }
         tasks.add(task);
     }
 
