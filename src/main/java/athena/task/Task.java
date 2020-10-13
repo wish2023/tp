@@ -2,9 +2,13 @@ package athena.task;
 
 import athena.Importance;
 import athena.Recurrence;
+import athena.commands.EditCommand;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
+
+import java.util.Objects;
 
 import java.util.Objects;
 
@@ -18,27 +22,29 @@ public class Task {
     private String deadline;
 
     private String recurrence;
-    private LocalDate recurrenceDate = null;
+    private LocalDate recurrenceDate;
 
     private boolean isDone = false;
     private Importance importance;
     private String notes;
-    private int index;
+    private int number;
 
     private String getStatus() {
         return (isDone ? YES : NO);
     }
 
     public Task(String name, String startTime, String duration, String deadline,
-                String recurrence, Importance importance, String notes, int index) {
+                String recurrence, Importance importance, String notes, int number) {
         this.name = name;
+        assert !this.name.equals("");
         this.startTime = startTime;
+        assert !this.startTime.equals("");
         this.duration = duration;
         this.deadline = deadline;
         this.recurrence = recurrence;
         this.importance = importance;
         this.notes = notes;
-        this.index = index;
+        this.number = number;
 
         if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
             recurrenceDate = LocalDate.now();
@@ -61,18 +67,15 @@ public class Task {
      */
     public void edit(String name, String startTime, String duration,
                      String deadline, String recurrence, Importance importance, String notes) {
-        if (!name.equals(null)) {
-            this.name = name;
-        }
-        if (!startTime.equals(null)) {
-            this.startTime = startTime;
-        }
-        if (!duration.equals(null)) {
-            this.duration = duration;
-        }
-        if (!deadline.equals(null)) {
-            this.deadline = deadline;
-        }
+        this.name = name;
+        assert !this.name.equals("");
+        this.startTime = startTime;
+        assert !this.startTime.equals("");
+        this.duration = duration;
+        assert !this.duration.equals("");
+        this.deadline = deadline;
+        assert !this.deadline.equals("");
+
         if (!recurrence.equals(null)) {
             this.recurrence = recurrence;
             if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
@@ -82,13 +85,14 @@ public class Task {
                 recurrenceDate = LocalDate.parse(recurrence, formatter);
             }
         }
-        if (!importance.equals(null)) {
-            this.importance = importance;
-        }
+        assert !this.recurrenceDate.equals(null);
+
+        this.importance = importance;
+        assert this.importance != null;
+
         if (!notes.equals(null)) {
             this.notes = notes;
         }
-
     }
 
     /**
@@ -132,7 +136,6 @@ public class Task {
         return isDone;
     }
 
-
     public String getNotes() {
         return notes;
     }
@@ -145,12 +148,12 @@ public class Task {
         return recurrenceDate;
     }
 
-    public int getIndex() {
-        return index;
+    public int getNumber() {
+        return number;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public String getTaskRestore() {
@@ -166,10 +169,10 @@ public class Task {
     }
 
     /**
-     * Checks if 2 tasks have the exact same properties.
+     * Compare this task with another object.
      *
      * @param o Object to compare with.
-     * @return Whether the tasks have the exact same properties.
+     * @return Whether the object compared with is also a task and has the exact same properties.
      */
     @Override
     public boolean equals(Object o) {
@@ -181,7 +184,7 @@ public class Task {
         }
         Task task = (Task) o;
         return isDone == task.isDone
-                && index == task.index
+                && number == task.number
                 && Objects.equals(name, task.name)
                 && Objects.equals(startTime, task.startTime)
                 && Objects.equals(duration, task.duration)
@@ -193,6 +196,6 @@ public class Task {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, startTime, duration, deadline, recurrence, isDone, importance, notes, index);
+        return Objects.hash(name, startTime, duration, deadline, recurrence, isDone, importance, notes, number);
     }
 }

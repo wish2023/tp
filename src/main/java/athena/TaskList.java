@@ -1,5 +1,6 @@
 package athena;
 
+import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.taskfilter.TaskFilter;
 
@@ -7,9 +8,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class TaskList {
-    public static final String NO_FILTER = "";
     private ArrayList<Task> tasks;
-    private int maxIndex = -1;
+    private int maxNumber = -1;
 
     public TaskList() {
         tasks = new ArrayList<>();
@@ -20,7 +20,7 @@ public class TaskList {
         this.tasks.addAll(tasks);
 
         for (Task task : tasks) {
-            maxIndex = Math.max(maxIndex, task.getIndex());
+            maxNumber = Math.max(maxNumber, task.getNumber());
         }
     }
 
@@ -28,38 +28,19 @@ public class TaskList {
         return tasks;
     }
 
-    public Task at(int index) {
-        return tasks.get(index);
-    }
-
-    private Task createTask(String name, String startTime,
-                            String duration, String deadline, String recurrence, Importance importance, String notes,
-                            int index) {
-
-        Task task = new Task(name, startTime, duration,
-                deadline, recurrence, importance, notes, index);
+    private Task createTask(int number, String name, String startTime, String duration, String deadline,
+                            String recurrence, Importance importance, String notes) {
+        Task task = new Task(name, startTime, duration, deadline, recurrence, importance, notes, number);
         return task;
     }
 
     /**
      * Returns size of the task list.
      *
-     * @return Size of the task list
+     * @return Size of the task list.
      */
     public int getTaskListSize() {
         return tasks.size();
-    }
-
-    /**
-     * Marks specified task as done.
-     * Lets the user know specified task has been marked as done.
-     *
-     * @param taskNumber Position of task in task list
-     * @return Task marked as done
-     */
-    public Task markTaskAsDone(int taskNumber) {
-        tasks.get(taskNumber).setDone();
-        return tasks.get(taskNumber);
     }
 
     /**
@@ -74,6 +55,7 @@ public class TaskList {
     /**
      * Adds a task to the task list.
      *
+     * @param number     Number assigned to the task
      * @param name       Name of task
      * @param startTime  Start time of task
      * @param duration   Duration of task
@@ -81,12 +63,10 @@ public class TaskList {
      * @param recurrence Recurrence of task
      * @param importance Importance of task
      * @param notes      Additional notes of task
-     * @param index      Index of the task
      */
-    public void addTask(String name, String startTime, String duration,
-                        String deadline, String recurrence, Importance importance, String notes, int index) {
-        maxIndex = Math.max(index, maxIndex);
-        Task task = createTask(name, startTime, duration, deadline, recurrence, importance, notes, index);
+    public void addTask(int number, String name, String startTime, String duration,
+                        String deadline, String recurrence, Importance importance, String notes) {
+        Task task = createTask(number, name, startTime, duration, deadline, recurrence, importance, notes);
         tasks.add(task);
     }
 
@@ -103,45 +83,37 @@ public class TaskList {
      */
     public void addTask(String name, String startTime, String duration,
                         String deadline, String recurrence, Importance importance, String notes) {
-        maxIndex++;
-        addTask(name, startTime, duration, deadline, recurrence, importance, notes, maxIndex);
+        maxNumber++;
+        addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes);
     }
 
     /**
-     * Returns the task description at the specified position in task list.
+     * Returns the task description of the task with the given number.
      *
-     * @param index Position of task in the task list
-     * @return Task description
+     * @param taskNumber Task number.
+     * @return Task description.
      */
-    public String getDescription(int index) {
-        return tasks.get(index).toString();
+    public String getTaskDescription(int taskNumber) throws TaskNotFoundException {
+        Task task = getTaskFromNumber(taskNumber);
+        return task.toString();
     }
 
     /**
      * Deletes the task at the specified position in the task list.
      *
-     * @param taskNumber Position of task in task list
-     * @return Task deleted
+     * @param taskNumber Number assigned to the task to be deleted.
+     * @return Task that is deleted. Null if not found.
      */
-    public Task deleteTask(int taskNumber) throws IndexOutOfBoundsException {
-        Task taskToDelete = null;
-        int counter = -1;
-        int index = -1;
-        for (Task t : tasks) {
-            counter++;
-            if (t.getIndex() == taskNumber) {
-                taskToDelete = tasks.get(taskNumber);
-                index = counter;
-            }
-        }
-        tasks.remove(index);
-        return taskToDelete;
+    public Task deleteTask(int taskNumber) throws TaskNotFoundException {
+        Task task = getTaskFromNumber(taskNumber);
+        tasks.remove(task);
+        return task;
     }
 
     /**
-     * Edits a task in the task list.
+     * Edits a task in the task list with the given number, if present.
      *
-     * @param taskNumber Index of task
+     * @param taskNumber Task number
      * @param name       Name of task
      * @param startTime  Start time of task
      * @param duration   Duration of task
@@ -151,10 +123,37 @@ public class TaskList {
      * @param notes      Additional notes of task
      */
     public void editTask(int taskNumber, String name, String startTime, String duration,
-                         String deadline, String recurrence, Importance importance, String notes) {
+                         String deadline, String recurrence, Importance importance,
+                         String notes) throws TaskNotFoundException {
+        Task task = getTaskFromNumber(taskNumber);
+        task.edit(name, startTime, duration, deadline, recurrence, importance, notes);
+    }
 
-        tasks.get(taskNumber).edit(name, startTime, duration,
-                deadline, recurrence, importance, notes);
+    /**
+     * Marks specified task as done.
+     *
+     * @param taskNumber Task number.
+     * @return Task marked as done.
+     */
+    public Task markTaskAsDone(int taskNumber) throws TaskNotFoundException {
+        Task task = getTaskFromNumber(taskNumber);
+        task.setDone();
+        return tasks.get(taskNumber);
+    }
+
+    /**
+     * Gets a task based on the number assigned to it.
+     *
+     * @param taskNumber number assigned to the task.
+     * @return The task with the given number. Null if not found.
+     */
+    public Task getTaskFromNumber(int taskNumber) throws TaskNotFoundException {
+        for (Task t : tasks) {
+            if (t.getNumber() == taskNumber) {
+                return t;
+            }
+        }
+        throw new TaskNotFoundException(taskNumber);
     }
 
     /**
@@ -174,12 +173,12 @@ public class TaskList {
         return new TaskList(filteredTasks);
     }
 
-    public int getMaxIndex() {
-        return maxIndex;
+    public int getMaxNumber() {
+        return maxNumber;
     }
 
-    public void setMaxIndex(int maxIndex) {
-        this.maxIndex = maxIndex;
+    public void setMaxNumber(int maxIndex) {
+        this.maxNumber = maxIndex;
     }
 
     @Override
@@ -187,16 +186,15 @@ public class TaskList {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof TaskList)) {
             return false;
         }
         TaskList taskList = (TaskList) o;
-        return maxIndex == taskList.maxIndex
-                && Objects.equals(tasks, taskList.tasks);
+        return maxNumber == taskList.maxNumber && getTasks().equals(taskList.getTasks());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tasks, maxIndex);
+        return Objects.hash(getTasks(), maxNumber);
     }
 }

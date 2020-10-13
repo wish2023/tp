@@ -8,6 +8,7 @@ import athena.commands.EditCommand;
 import athena.commands.ExitCommand;
 import athena.commands.HelpCommand;
 import athena.commands.ListCommand;
+import athena.exceptions.TaskNotFoundException;
 
 
 /**
@@ -99,28 +100,42 @@ public class Parser {
      * @return command object
      */
     public static Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
-                                           int recurrencePos, int importancePos, int addNotesPos, TaskList taskList) {
-        int indexNextSlash = taskInfo.indexOf("/");
-        int index = Integer.parseInt(taskInfo.substring(0, (indexNextSlash - 2)));
-        String nullValue = "";
+                                           int recurrencePos, int importancePos,
+                                           int addNotesPos, TaskList taskList) throws TaskNotFoundException {
+        int index = getIndex(taskInfo);
+
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
-                taskList.at(index).getName());
+                taskList.getTaskFromNumber(index).getName());
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos,
-                taskList.at(index).getStartTime());
+                taskList.getTaskFromNumber(index).getStartTime());
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos,
-                taskList.at(index).getDuration());
+                taskList.getTaskFromNumber(index).getDuration());
         String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos,
-                taskList.at(index).getDeadline());
+                taskList.getTaskFromNumber(index).getDeadline());
         String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos,
-                taskList.at(index).getRecurrence());
+                taskList.getTaskFromNumber(index).getRecurrence());
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos,
-                taskList.at(index).getImportance().toString());
+                taskList.getTaskFromNumber(index).getImportance().toString()).toUpperCase();
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos,
-                taskList.at(index).getNotes());
+                taskList.getTaskFromNumber(index).getNotes());
+
+
         Command command = new EditCommand(index, name, time, duration, deadline, recurrence,
-                Importance.valueOf(importance), notes);
+                Importance.valueOf(importance.toUpperCase()), notes);
 
         return command;
+    }
+
+    /**
+     * Parses task information to get index of task.
+     *
+     * @param taskInfo String representing task information
+     * @return index of task
+     */
+    private static int getIndex(String taskInfo) {
+        int indexNextSlash = taskInfo.indexOf("/");
+        int index = Integer.parseInt(taskInfo.substring(0, (indexNextSlash - 2)));
+        return index;
     }
 
     /**
@@ -146,16 +161,17 @@ public class Parser {
      * and parameters the user typed.
      *
      * @param input String representing user input
+     * @param taskList Tasks list
+     * @param ui Ui
      * @return new Command object based on what the user input is
      */
-    public static Command parse(String input, TaskList taskList) {
+    public static Command parse(String input, TaskList taskList, Ui ui) {
         String[] commandAndDetails = input.split(COMMAND_WORD_DELIMITER, 2);
         String commandType = commandAndDetails[0];
         String taskInfo = "";
         if (commandAndDetails.length > 1) {
             taskInfo = commandAndDetails[1];
         }
-        Command command = null;
 
         int namePos = taskInfo.indexOf(NAME_DELIMITER);
         int timePos = taskInfo.indexOf(TIME_DELIMITER);
@@ -174,8 +190,13 @@ public class Parser {
         }
 
         case "edit": {
-            return parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
-                    recurrencePos, importancePos, addNotesPos, taskList);
+            try {
+                return parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
+                        recurrencePos, importancePos, addNotesPos, taskList);
+            } catch (TaskNotFoundException e) {
+                ui.printTaskNotFound(getIndex(taskInfo));
+                return new HelpCommand();
+            }
         }
 
         case "list": {
@@ -192,7 +213,7 @@ public class Parser {
             return new DeleteCommand(taskIndex);
         }
 
-        case "bye": {
+        case "exit": {
             return new ExitCommand();
         }
 
