@@ -176,4 +176,16 @@ public class TaskList {
     public void setMaxIndex(int maxIndex) {
         this.maxIndex = maxIndex;
     }
+// need to change maxIndex to maxNumber after PR #61
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof TaskList)) {
+            return false;
+        }
+        TaskList taskList = (TaskList) o;
+        return maxIndex == taskList.maxIndex && getTasks().equals(taskList.getTasks());
+    }
 }
