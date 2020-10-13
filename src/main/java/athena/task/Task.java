@@ -1,6 +1,12 @@
 package athena.task;
 
 import athena.Importance;
+import athena.Recurrence;
+import athena.commands.EditCommand;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Task {
     public static final String YES = "Y";
@@ -12,6 +18,8 @@ public class Task {
     private String deadline;
 
     private String recurrence;
+    private LocalDate recurrenceDate = null;
+
     private boolean isDone = false;
     private Importance importance;
     private String notes;
@@ -31,6 +39,13 @@ public class Task {
         this.importance = importance;
         this.notes = notes;
         this.index = index;
+
+        if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
+            recurrenceDate = LocalDate.now();
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            recurrenceDate = LocalDate.parse(recurrence, formatter);
+        }
     }
 
     /**
@@ -60,6 +75,12 @@ public class Task {
         }
         if (!recurrence.equals(null)) {
             this.recurrence = recurrence;
+            if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
+                recurrenceDate = LocalDate.now();
+            } else {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                recurrenceDate = LocalDate.parse(recurrence, formatter);
+            }
         }
         if (!importance.equals(null)) {
             this.importance = importance;
@@ -155,6 +176,32 @@ public class Task {
                 && this.importance.equals(task.importance)
                 && this.notes.equals(task.notes)
                 && this.index == task.index;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Task)) {
+            return false;
+        }
+        Task that = (Task) o;
+
+        return name.equals(that.name)
+                && Objects.equals(startTime, that.startTime)
+                && Objects.equals(duration, that.duration)
+                && Objects.equals(deadline, that.deadline)
+                && Objects.equals(recurrence, that.recurrence)
+                && importance == that.importance
+                && Objects.equals(notes, that.notes)
+                && index == that.index;
+    }
+
+
+    public LocalDate getDate() {
+        return recurrenceDate;
     }
 
 }
