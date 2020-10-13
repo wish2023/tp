@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 
+/**
+ * Converts TaskLists to .csv files and back
+ */
+
 public class Storage {
     private String filePath;
     private TaskList tasks;
@@ -17,12 +21,19 @@ public class Storage {
 
     private int size;
 
+    /**
+     * @param filepath Location of the save file
+     * @param ui prints out error messages
+     */
     public Storage(String filepath, Ui ui) {
         this.filePath = filepath;
         this.ui = ui;
 
     }
 
+    /**
+     * @param tasks tasks to be saved as strings
+     */
     public void saveTaskListData(TaskList tasks) {
         this.tasks = tasks;
         try {
@@ -39,6 +50,9 @@ public class Storage {
     }
 
 
+    /**
+     * @return TaskList object equivalent of save file
+     */
     public TaskList loadTaskListData() {
         File csvFile = new File(filePath);
         TaskList output = new TaskList();
