@@ -22,7 +22,9 @@ public class AddCommand extends Command {
     public AddCommand(String name, String startTime, String duration, String deadline,
                       String recurrence, String importance, String notes) {
         taskName = name;
+        assert !taskName.equals("");
         taskStartTime = startTime;
+        assert !taskStartTime.equals("");
         taskDuration = duration;
         taskDeadline = deadline;
         taskRecurrence = recurrence;

@@ -125,6 +125,12 @@ public class Parser {
         return command;
     }
 
+    /**
+     * Parses task information to get index of task.
+     *
+     * @param taskInfo String representing task information
+     * @return index of task
+     */
     private static int getIndex(String taskInfo) {
         int indexNextSlash = taskInfo.indexOf("/");
         int index = Integer.parseInt(taskInfo.substring(0, (indexNextSlash - 2)));
@@ -154,6 +160,8 @@ public class Parser {
      * and parameters the user typed.
      *
      * @param input String representing user input
+     * @param taskList TaskList
+     * @param ui Ui
      * @return new Command object based on what the user input is
      */
     public static Command parse(String input, TaskList taskList, Ui ui) {
@@ -163,7 +171,6 @@ public class Parser {
         if (commandAndDetails.length > 1) {
             taskInfo = commandAndDetails[1];
         }
-        Command command = null;
 
         int namePos = taskInfo.indexOf(NAME_DELIMITER);
         int timePos = taskInfo.indexOf(TIME_DELIMITER);
