@@ -8,6 +8,7 @@ import athena.commands.EditCommand;
 import athena.commands.ExitCommand;
 import athena.commands.HelpCommand;
 import athena.commands.ListCommand;
+import athena.exceptions.EditNoIndexException;
 import athena.exceptions.InvalidCommandException;
 import athena.exceptions.DeleteNoIndexException;
 import athena.exceptions.DoneNoIndexException;
@@ -102,21 +103,40 @@ public class Parser {
      * @return command object
      */
     public static Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
-                                           int recurrencePos, int importancePos, int addNotesPos) {
-        int indexNextSlash = taskInfo.indexOf("/");
-        int index = Integer.parseInt(taskInfo.substring(0, (indexNextSlash - 2)));
-        String nullValue = "";
-        String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullValue);
-        String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullValue);
-        String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, nullValue);
-        String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos, nullValue);
-        String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, nullValue);
-        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, nullValue);
-        String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos, nullValue);
+                                           int recurrencePos, int importancePos,
+                                           int addNotesPos, TaskList taskList) throws EditNoIndexException {
+        int index = getIndex(taskInfo);
+
+        String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
+                taskList.at(index).getName());
+        String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos,
+                taskList.at(index).getStartTime());
+        String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos,
+                taskList.at(index).getDuration());
+        String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos,
+                taskList.at(index).getDeadline());
+        String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos,
+                taskList.at(index).getRecurrence());
+        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos,
+                taskList.at(index).getImportance().toString()).toUpperCase();
+        String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos,
+                taskList.at(index).getNotes());
+
+
         Command command = new EditCommand(index, name, time, duration, deadline, recurrence,
-                Importance.valueOf(importance), notes);
+                Importance.valueOf(importance.toUpperCase()), notes);
 
         return command;
+    }
+
+    private static int getIndex(String taskInfo) throws EditNoIndexException {
+        try {
+            int indexNextSlash = taskInfo.indexOf("/");
+            int index = Integer.parseInt(taskInfo.substring(0, (indexNextSlash - 2)));
+            return index;
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new EditNoIndexException();
+        }
     }
 
     /**
@@ -146,8 +166,8 @@ public class Parser {
      * @throws DeleteNoIndexException Exception thrown when user does not specify the index of a task to delete
      * @throws DoneNoIndexException Exception thrown when user does not specify the index of a task to mark as done
      */
-    public static Command parse(String input) throws DeleteNoIndexException, DoneNoIndexException,
-            InvalidCommandException {
+    public static Command parse(String input, TaskList taskList, Ui ui) throws DoneNoIndexException,
+            DeleteNoIndexException, InvalidCommandException, EditNoIndexException {
         String[] commandAndDetails = input.split(COMMAND_WORD_DELIMITER, 2);
         String commandType = commandAndDetails[0];
         String taskInfo = "";

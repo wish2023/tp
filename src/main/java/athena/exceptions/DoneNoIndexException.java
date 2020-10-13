@@ -12,6 +12,6 @@ public class DoneNoIndexException extends CommandException {
      */
     public void printErrorMessage() {
         Ui ui = new Ui();
-        ui.printNoIndexDoneException();
+        ui.printDoneNoIndexException();
     }
 }

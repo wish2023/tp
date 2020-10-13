@@ -12,6 +12,6 @@ public class DeleteInvalidIndexException extends CommandException {
      */
     public void printErrorMessage() {
         Ui ui = new Ui();
-        ui.printInvalidIndexDeleteException();
+        ui.printDeleteInvalidIndexException();
     }
 }

@@ -144,30 +144,35 @@ public class Ui {
                 + "How can we go on a conquest if we don't know what to slay and what time to start?\n");
     }
 
-    public void printInvalidIndexDeleteException() {
+    public void printDeleteInvalidIndexException() {
         System.out.println("Hmm...not sure what you're trying to delete, but there is no task at that index.\n");
     }
 
-    public void printNoIndexDeleteException() {
+    public void printDeleteNoIndexException() {
         System.out.println("So you're trying to delete a task...but which one exactly? You haven't specified.\n");
     }
 
-    public void printInvalidIndexDoneException() {
+    public void printDoneInvalidIndexException() {
         System.out.println("I'm not sure if you're trying to smoke me or smoke yourself, but there is no task at that "
                 + "index. You should enter a task index that contains a task.\n");
     }
 
-    public void printNoIndexDoneException() {
+    public void printDoneNoIndexException() {
         System.out.println("I know you're really eager, but you need to specify a task to mark as done!\n");
     }
 
-    public void printEditException() {
-        System.out.println("You need to specify the correct index of the task that you want to edit!\n");
+    public void printEditNoIndexException() {
+        System.out.println("You need to specify the correct index of the task you want to edit!\n");
     }
 
     public void printInvalidCommandException() {
         System.out.println("I know I'm really smart but even I don't know what you're requesting. Maybe if you type "
                 + "\"help\", you can see what the valid commands are.\n");
+    }
+
+    public void printEmptyTaskListException() {
+        System.out.println("You don't have any tasks in your list! You should probably add some in if you want to "
+                + "be productive.\n");
     }
 
     /**

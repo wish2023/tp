@@ -12,6 +12,6 @@ public class DoneInvalidIndexException extends CommandException {
      */
     public void printErrorMessage() {
         Ui ui = new Ui();
-        ui.printInvalidIndexDoneException();
+        ui.printDoneInvalidIndexException();
     }
 }

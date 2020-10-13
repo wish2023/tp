@@ -12,6 +12,6 @@ public class DeleteNoIndexException extends CommandException {
      */
     public void printErrorMessage() {
         Ui ui = new Ui();
-        ui.printNoIndexDeleteException();
+        ui.printDeleteNoIndexException();
     }
 }
