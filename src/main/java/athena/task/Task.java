@@ -10,6 +10,8 @@ import java.util.Objects;
 
 import java.util.Objects;
 
+import java.util.Objects;
+
 public class Task {
     public static final String YES = "Y";
     public static final String NO = "N";
@@ -20,7 +22,7 @@ public class Task {
     private String deadline;
 
     private String recurrence;
-    private LocalDate recurrenceDate = null;
+    private LocalDate recurrenceDate;
 
     private boolean isDone = false;
     private Importance importance;
@@ -34,7 +36,9 @@ public class Task {
     public Task(String name, String startTime, String duration, String deadline,
                 String recurrence, Importance importance, String notes, int number) {
         this.name = name;
+        assert !this.name.equals("");
         this.startTime = startTime;
+        assert !this.startTime.equals("");
         this.duration = duration;
         this.deadline = deadline;
         this.recurrence = recurrence;
@@ -63,18 +67,15 @@ public class Task {
      */
     public void edit(String name, String startTime, String duration,
                      String deadline, String recurrence, Importance importance, String notes) {
-        if (!name.equals(null)) {
-            this.name = name;
-        }
-        if (!startTime.equals(null)) {
-            this.startTime = startTime;
-        }
-        if (!duration.equals(null)) {
-            this.duration = duration;
-        }
-        if (!deadline.equals(null)) {
-            this.deadline = deadline;
-        }
+        this.name = name;
+        assert !this.name.equals("");
+        this.startTime = startTime;
+        assert !this.startTime.equals("");
+        this.duration = duration;
+        assert !this.duration.equals("");
+        this.deadline = deadline;
+        assert !this.deadline.equals("");
+
         if (!recurrence.equals(null)) {
             this.recurrence = recurrence;
             if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
@@ -84,9 +85,11 @@ public class Task {
                 recurrenceDate = LocalDate.parse(recurrence, formatter);
             }
         }
-        if (!importance.equals(null)) {
-            this.importance = importance;
-        }
+        assert !this.recurrenceDate.equals(null);
+
+        this.importance = importance;
+        assert this.importance != null;
+
         if (!notes.equals(null)) {
             this.notes = notes;
         }
@@ -169,7 +172,7 @@ public class Task {
      * Compare this task with another object.
      *
      * @param o Object to compare with.
-     * @return Whether the object compared with is also a task and has the same properties.
+     * @return Whether the object compared with is also a task and has the exact same properties.
      */
     @Override
     public boolean equals(Object o) {
