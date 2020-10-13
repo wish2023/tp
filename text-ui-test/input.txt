@@ -1,0 +1,18 @@
+help
+add n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes
+list
+list i/high
+list i/medium
+list f/week
+list i/medium f/today
+edit 1 n/Homework 1
+list
+done -1
+done 4
+done 1
+list
+delete -1
+delete 1
+delete 10
+list f/all
+exit

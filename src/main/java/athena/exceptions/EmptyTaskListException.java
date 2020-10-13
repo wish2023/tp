@@ -8,8 +8,9 @@ public class EmptyTaskListException extends CommandException {
     }
 
     /**
-     * Prints an error message when the user tries to list out their task, but does not have any
+     * Prints an error message when the user tries to list out their tasks, but does not have any tasks in the list.
      */
+    @Override
     public void printErrorMessage() {
         Ui ui = new Ui();
         ui.printEmptyTaskListException();

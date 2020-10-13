@@ -2,12 +2,13 @@ package athena.task;
 
 import athena.Importance;
 import athena.Recurrence;
-import athena.commands.EditCommand;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+/**
+ * Handles task objects.
+ */
 public class Task {
     public static final String YES = "Y";
     public static final String NO = "N";
@@ -18,27 +19,44 @@ public class Task {
     private String deadline;
 
     private String recurrence;
-    private LocalDate recurrenceDate = null;
+    private LocalDate recurrenceDate;
 
     private boolean isDone = false;
     private Importance importance;
     private String notes;
-    private int index;
+    private int number;
 
+    /**
+     * Determines if the task is done.
+     * @return string representing if the task is done
+     */
     private String getStatus() {
         return (isDone ? YES : NO);
     }
 
+    /**
+     * Constructor for the task class.
+     * @param name name of the task
+     * @param startTime starting time of the task
+     * @param duration how long the task is scheduled to last for
+     * @param deadline when the task is due
+     * @param recurrence when the task repeats
+     * @param importance importance of the task
+     * @param notes additional notes for the task
+     * @param number task number
+     */
     public Task(String name, String startTime, String duration, String deadline,
-                String recurrence, Importance importance, String notes, int index) {
+                String recurrence, Importance importance, String notes, int number) {
         this.name = name;
+        assert !this.name.equals("");
         this.startTime = startTime;
+        assert !this.startTime.equals("");
         this.duration = duration;
         this.deadline = deadline;
         this.recurrence = recurrence;
         this.importance = importance;
         this.notes = notes;
-        this.index = index;
+        this.number = number;
 
         if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
             recurrenceDate = LocalDate.now();
@@ -61,18 +79,15 @@ public class Task {
      */
     public void edit(String name, String startTime, String duration,
                      String deadline, String recurrence, Importance importance, String notes) {
-        if (!name.equals(null)) {
-            this.name = name;
-        }
-        if (!startTime.equals(null)) {
-            this.startTime = startTime;
-        }
-        if (!duration.equals(null)) {
-            this.duration = duration;
-        }
-        if (!deadline.equals(null)) {
-            this.deadline = deadline;
-        }
+        this.name = name;
+        assert !this.name.equals("");
+        this.startTime = startTime;
+        assert !this.startTime.equals("");
+        this.duration = duration;
+        assert !this.duration.equals("");
+        this.deadline = deadline;
+        assert !this.deadline.equals("");
+
         if (!recurrence.equals(null)) {
             this.recurrence = recurrence;
             if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
@@ -82,13 +97,14 @@ public class Task {
                 recurrenceDate = LocalDate.parse(recurrence, formatter);
             }
         }
-        if (!importance.equals(null)) {
-            this.importance = importance;
-        }
+        assert !this.recurrenceDate.equals(null);
+
+        this.importance = importance;
+        assert this.importance != null;
+
         if (!notes.equals(null)) {
             this.notes = notes;
         }
-
     }
 
     /**
@@ -116,39 +132,82 @@ public class Task {
         return name;
     }
 
+    /**
+     * Returns start time of the task.
+     * @return Start time of task
+     */
     public String getStartTime() {
         return startTime;
     }
 
+    /**
+     * Returns duration of the task.
+     * @return Duration of task
+     */
     public String getDuration() {
         return duration;
     }
 
+    /**
+     * Returns due date of the task.
+     * @return Due date of task
+     */
     public String getDeadline() {
         return deadline;
     }
 
+    /**
+     * Returns if the task is done.
+     * @return Status of task completion
+     */
     public boolean isDone() {
         return isDone;
     }
 
-
+    /**
+     * Returns task notes.
+     * @return Task notes
+     */
     public String getNotes() {
         return notes;
     }
 
+    /**
+     * Returns when the task repeats.
+     * @return When the task repeats
+     */
     public String getRecurrence() {
         return recurrence;
     }
 
-    public int getIndex() {
-        return index;
+    /**
+     * Returns when the task repeats as a LocalDate object.
+     * @return When the task repeats as a LocalDate object
+     */
+    public LocalDate getDate() {
+        return recurrenceDate;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    /**
+     * Returns the task number.
+     * @return Task number
+     */
+    public int getNumber() {
+        return number;
     }
 
+    /**
+     * Sets the task number.
+     * @param number Number that the user wants to set the task to.
+     */
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    /**
+     * Restores a task that the user has just deleted.
+     * @return String representing details of the task the user wants to restore
+     */
     public String getTaskRestore() {
         String taskRestore = "add n/" + this.getName() + " t/" + this.getStartTime() + " d/" + this.getDuration()
                 + " D/" + this.getDeadline() + " r/" + this.getRecurrence() + " t/" + this.getImportance()
@@ -156,52 +215,43 @@ public class Task {
         return taskRestore;
     }
 
+    /**
+     * Converts a task object to a string.
+     * @return task as a string
+     */
     @Override
     public String toString() {
         return getStatus() + " " + name + " at " + startTime + " finish by " + deadline;
     }
 
     /**
-     * Checks if 2 tasks have the exact same properties.
+     * Compare this task with another object.
      *
-     * @param task Task to compare with.
-     * @return Whether the tasks have the exact same properties.
+     * @param o Object to compare with.
+     * @return Whether the object compared with is also a task and has the exact same properties.
      */
-    public boolean equals(Task task) {
-        return this.name.equals(task.name)
-                && this.startTime.equals(task.startTime)
-                && this.duration.equals(task.duration)
-                && this.deadline.equals(task.deadline)
-                && this.recurrence.equals(task.recurrence)
-                && this.importance.equals(task.importance)
-                && this.notes.equals(task.notes)
-                && this.index == task.index;
-    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Task)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Task that = (Task) o;
-
-        return name.equals(that.name)
-                && Objects.equals(startTime, that.startTime)
-                && Objects.equals(duration, that.duration)
-                && Objects.equals(deadline, that.deadline)
-                && Objects.equals(recurrence, that.recurrence)
-                && importance == that.importance
-                && Objects.equals(notes, that.notes)
-                && index == that.index;
+        Task task = (Task) o;
+        return isDone == task.isDone
+                && number == task.number
+                && Objects.equals(name, task.name)
+                && Objects.equals(startTime, task.startTime)
+                && Objects.equals(duration, task.duration)
+                && Objects.equals(deadline, task.deadline)
+                && Objects.equals(recurrence, task.recurrence)
+                && importance == task.importance
+                && Objects.equals(notes, task.notes);
     }
 
-
-    public LocalDate getDate() {
-        return recurrenceDate;
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, startTime, duration, deadline, recurrence, isDone, importance, notes, number);
     }
-
 }

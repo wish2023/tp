@@ -2,7 +2,6 @@ package athena;
 
 import athena.task.Task;
 import athena.timetable.Timetable;
-
 import java.util.ArrayList;
 
 /**
@@ -64,7 +63,7 @@ public class Ui {
      * @param task The task that the user marked as done.
      */
     public void printTaskDone(Task task) {
-        System.out.println("A job well done! I've slayed the-- I mean, marked the task " + task + "as complete!\n");
+        System.out.println("A job well done! I've slayed the-- I mean, marked the task " + task + " as complete!\n");
     }
 
     /**
@@ -102,7 +101,7 @@ public class Ui {
     public void printTaskDeleted(Task task, String taskRestore) {
         System.out.println("Are we pretending the task " + task + " never existed? Very well...\n");
         System.out.println("We both know the human propensity to make mistakes, if you want it back just type\n"
-                + taskRestore + "\nYou can thank me later \n");
+                + taskRestore + "\nYou can thank me later\n");
     }
 
     /**
@@ -131,15 +130,23 @@ public class Ui {
                 + "But why would you want to leave me anyways? Hmph.\n");
     }
 
+    /**
+     * Prints a message when there is an error with a task in the storage file.
+     */
     public void printInvalidTask() {
         System.out.println("One of the tasks in the archives seems to be cursed, I have disposed of it!");
     }
 
+    /**
+     * Prints a message stating the task is not found.
+     *
+     * @param taskNumber Task number given by the user.
+     */
     public void printTaskNotFound(int taskNumber) {
         System.out.println("The task with the label " + taskNumber + " cannot be found");
     }
 
-    public void printAddException() {
+    public void printAddMissingRequiredParametersException() {
         System.out.println("You haven't specified the name or the start time of the task! "
                 + "How can we go on a conquest if we don't know what to slay and what time to start?\n");
     }

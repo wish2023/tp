@@ -3,11 +3,15 @@ package athena.commands;
 import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
+import athena.exceptions.TaskNotFoundException;
 
 import java.util.Objects;
 
+/**
+ * Handles the edit command.
+ */
 public class EditCommand extends Command {
-    private int taskIndex;
+    private int taskNumber;
     private String taskName;
     private String taskStartTime;
     private String taskDuration;
@@ -16,9 +20,21 @@ public class EditCommand extends Command {
     private Importance taskImportance;
     private String taskNotes;
 
-    public EditCommand(int index, String name, String startTime, String duration, String deadline,
+    /**
+     * Initializes the object with the parameters.
+     *
+     * @param number     Integer representing index of task.
+     * @param name       String representing name of task.
+     * @param startTime  String representing start time of task.
+     * @param duration   String representing duration of task.
+     * @param deadline   String representing deadline of task.
+     * @param recurrence String representing recurrence of task.
+     * @param importance String representing importance of task.
+     * @param notes      String representing additional notes of task.
+     */
+    public EditCommand(int number, String name, String startTime, String duration, String deadline,
                        String recurrence, Importance importance, String notes) {
-        taskIndex = index;
+        taskNumber = number;
         taskName = name;
         taskStartTime = startTime;
         taskDuration = duration;
@@ -32,18 +48,24 @@ public class EditCommand extends Command {
      * Edits a task from the Tasks list and
      * calls Ui to print task edited.
      *
-     * @param taskList Tasks List
+     * @param taskList Tasks list
      * @param ui       Ui
+     * @throws TaskNotFoundException Exception thrown when the user tries to enter the index of a task that
+     *                               does not exist
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) {
-        taskList.editTask(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
+    public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException {
+        taskList.editTask(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
-        ui.printTaskEdited(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
+        ui.printTaskEdited(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
-
     }
 
+    /**
+     * Determines if two objects have the same attributes.
+     * @param o object
+     * @return true if the two objects have the same attributes
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -53,7 +75,7 @@ public class EditCommand extends Command {
             return false;
         }
         EditCommand that = (EditCommand) o;
-        return taskIndex == that.taskIndex
+        return taskNumber == that.taskNumber
                 && Objects.equals(taskName, that.taskName)
                 && Objects.equals(taskStartTime, that.taskStartTime)
                 && Objects.equals(taskDuration, that.taskDuration)
@@ -65,7 +87,7 @@ public class EditCommand extends Command {
 
     @Override
     public int hashCode() {
-        return Objects.hash(taskIndex, taskName, taskStartTime, taskDuration,
+        return Objects.hash(taskNumber, taskName, taskStartTime, taskDuration,
                 taskDeadline, taskRecurrence, taskImportance, taskNotes);
     }
 }
