@@ -196,7 +196,6 @@ public class Parser {
         int forecastPos = taskInfo.indexOf(FORECAST_DELIMITER);
 
         switch (commandType) {
-
         case "add": {
             return parseAddCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
                     recurrencePos, importancePos, addNotesPos);
@@ -233,12 +232,9 @@ public class Parser {
             return new ExitCommand();
         }
 
-        case "help": {
+        default: {
             return new HelpCommand();
         }
-
-        default:
-            throw new InvalidCommandException();
         }
     }
 }
