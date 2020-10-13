@@ -5,6 +5,8 @@ import athena.task.Task;
 import athena.TaskList;
 import athena.Ui;
 
+import java.util.Objects;
+
 /**
  * Handles the delete command.
  */
@@ -27,5 +29,22 @@ public class DeleteCommand extends Command {
         Task deletedTask = taskList.deleteTask(deleteIndex);
         String taskRestore = deletedTask.getTaskRestore();
         ui.printTaskDeleted(deletedTask, taskRestore);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof DeleteCommand)) {
+            return false;
+        }
+        DeleteCommand that = (DeleteCommand) o;
+        return deleteIndex == that.deleteIndex;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(deleteIndex);
     }
 }

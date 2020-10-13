@@ -5,6 +5,8 @@ import athena.task.Task;
 import athena.TaskList;
 import athena.Ui;
 
+import java.util.Objects;
+
 /**
  * Handles the done command.
  */
@@ -26,5 +28,22 @@ public class DoneCommand extends Command {
     public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException {
         Task taskDone = taskList.markTaskAsDone(taskNumber);
         ui.printTaskDone(taskDone);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof DoneCommand)) {
+            return false;
+        }
+        DoneCommand that = (DoneCommand) o;
+        return doneIndex == that.doneIndex;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(doneIndex);
     }
 }
