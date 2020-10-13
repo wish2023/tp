@@ -1,4 +1,4 @@
-package athena.taskfilter;
+package athena.task.taskfilter;
 
 import athena.Forecast;
 import athena.Importance;

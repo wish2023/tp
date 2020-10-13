@@ -10,6 +10,8 @@ import java.util.Objects;
 
 import java.util.Objects;
 
+import java.util.Objects;
+
 public class Task {
     public static final String YES = "Y";
     public static final String NO = "N";
@@ -170,7 +172,7 @@ public class Task {
      * Compare this task with another object.
      *
      * @param o Object to compare with.
-     * @return Whether the object compared with is also a task and has the same properties.
+     * @return Whether the object compared with is also a task and has the exact same properties.
      */
     @Override
     public boolean equals(Object o) {
