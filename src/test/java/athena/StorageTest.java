@@ -49,7 +49,4 @@ class StorageTest {
         TaskList tester = TestSetup.getTestTaskList();
         assertTrue(tester==taskList);
     }
-
-
-
 }
