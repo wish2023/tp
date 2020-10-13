@@ -146,7 +146,7 @@ public class Parser {
             int numberNextSlash = taskInfo.indexOf("/");
             int number = Integer.parseInt(taskInfo.substring(0, (numberNextSlash - 2)));
             return number;
-        } catch (StringIndexOutOfBoundsException e) {
+        } catch (StringIndexOutOfBoundsException | NumberFormatException e) {
             throw new EditNoIndexException();
         }
     }

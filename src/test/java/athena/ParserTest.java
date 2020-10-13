@@ -9,11 +9,12 @@ import athena.commands.ExitCommand;
 import athena.commands.HelpCommand;
 import athena.commands.ListCommand;
 import athena.exceptions.CommandException;
+import athena.exceptions.EditNoIndexException;
+import athena.exceptions.TaskNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ParserTest {
 
@@ -110,7 +111,21 @@ class ParserTest {
         assertEquals(parsedCommand, expectedCommand);
     }
 
+    @Test
+    public void parse_editCommandBadArg_throwsException() throws CommandException {
+        final String input = "edit n/n/";
+        assertThrows(CommandException.class, () -> {
+            parseAndAssertCommandType(input, EditCommand.class);
+        });
+    }
 
+    @Test
+    public void parse_editCommandBadArg2_throwsException() throws CommandException {
+        final String input = "edit 1a/";
+        assertThrows(CommandException.class, () -> {
+            parseAndAssertCommandType(input, EditCommand.class);
+        });
+    }
 
     @Test
     public void parse_listCommandArg_ParsedCorrectly() throws CommandException {
