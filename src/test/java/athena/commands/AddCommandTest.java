@@ -4,8 +4,11 @@ import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
 import athena.exceptions.AddException;
+import athena.task.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,7 +25,7 @@ class AddCommandTest {
      */
     public static TaskList getTaskList() {
         TaskList taskList = new TaskList();
-        taskList.addTask(1, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
+        taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment");
         return taskList;
     }
@@ -34,9 +37,9 @@ class AddCommandTest {
      */
     public static TaskList getTaskListWithAddedTask() {
         TaskList taskList = new TaskList();
-        taskList.addTask(1, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
+        taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment");
-        taskList.addTask(2,"Homework 2", "8am", "4 hrs", "8pm", "10-12-2020",
+        taskList.addTask(1,"Homework 2", "8am", "4 hrs", "8pm", "10-12-2020",
                 Importance.HIGH, "Very easy homework");
         return taskList;
     }
@@ -77,6 +80,10 @@ class AddCommandTest {
                                         TaskList actualTaskList) throws AddException {
         Ui ui = new Ui();
         addCommand.execute(taskList, ui);
+        System.out.println(expectedTaskList.getTasks());
+        System.out.println(actualTaskList.getTasks());
+        ArrayList<Task> list = expectedTaskList.getTasks();
+        ArrayList<Task> actualList = actualTaskList.getTasks();
         assertEquals(expectedTaskList, actualTaskList);
     }
 
