@@ -21,6 +21,8 @@ public class Storage {
     private int size;
 
     /**
+     * Initialises Storage object.
+     *
      * @param filepath Location of the save file
      * @param ui prints out error messages
      */
@@ -31,6 +33,8 @@ public class Storage {
     }
 
     /**
+     * Takes a TaskList and converts it to a .csv file.
+     *
      * @param tasks tasks to be saved as strings
      */
     public void saveTaskListData(TaskList tasks) {
@@ -50,6 +54,8 @@ public class Storage {
 
 
     /**
+     * Retrieves Tasklist from .csv file
+     *
      * @return TaskList object equivalent of save file
      */
     public TaskList loadTaskListData() {
