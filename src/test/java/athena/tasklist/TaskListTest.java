@@ -53,42 +53,42 @@ class TaskListTest {
     // Filter list using high, low, medium importance
     // Filter list using today, week, all forecast
     // TODO ^^
-    void getFilteredList_highImportance_successfully() {
+    void getFilteredList_highImportance_returnTasksWithHighImportance() {
         TaskList expectedTaskList = getExpectedImportance(Importance.HIGH);
         ImportanceFilter highFilter = new ImportanceFilter(Importance.HIGH);
         assertEquals(taskList.getFilteredList(highFilter), expectedTaskList);
     }
 
     @Test
-    void getFilteredList_mediumImportance_successfully() {
+    void getFilteredList_mediumImportance_returnTasksWithMediumImportance() {
         TaskList expectedTaskList = getExpectedImportance(Importance.MEDIUM);
         ImportanceFilter mediumFilter = new ImportanceFilter(Importance.MEDIUM);
         assertEquals(taskList.getFilteredList(mediumFilter), expectedTaskList);
     }
 
     @Test
-    void getFilteredList_lowImportance_successfully() {
+    void getFilteredList_lowImportance_returnTasksWithLowImportance() {
         TaskList expectedTaskList = getExpectedImportance(Importance.LOW);
         ImportanceFilter lowFilter = new ImportanceFilter(Importance.LOW);
         assertEquals(taskList.getFilteredList(lowFilter), expectedTaskList);
     }
 
     @Test
-    void getFilteredList_allForecast_successfully() {
+    void getFilteredList_allForecast_returnAllTasks() {
         TaskList expectedTaskList = getExpectedForecast(Forecast.ALL);
         ForecastFilter allFilter = new ForecastFilter(Forecast.ALL);
         assertEquals(taskList.getFilteredList(allFilter), expectedTaskList);
     }
 
     @Test
-    void getFilteredList_weekForecast_successfully() {
+    void getFilteredList_weekForecast_returnTasksForWeek() {
         TaskList expectedTaskList = getExpectedForecast(Forecast.WEEK);
         ForecastFilter weekFilter = new ForecastFilter(Forecast.WEEK);
         assertEquals(taskList.getFilteredList(weekFilter), expectedTaskList);
     }
 
     @Test
-    void getFilteredList_todayForecast_successfully() {
+    void getFilteredList_todayForecast_returnTasksForDay() {
         TaskList expectedTaskList = getExpectedForecast(Forecast.TODAY);
         ForecastFilter todayFilter = new ForecastFilter(Forecast.TODAY);
         assertEquals(taskList.getFilteredList(todayFilter), expectedTaskList);
