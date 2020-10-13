@@ -1,5 +1,6 @@
 package athena;
 
+import athena.task.Task;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
@@ -47,6 +48,6 @@ class StorageTest {
         TaskList taskList;
         taskList = storage.loadTaskListData();
         TaskList tester = TestSetup.getTestTaskList();
-        assertTrue(tester==taskList);
+        assertTrue(tester.equals(taskList));
     }
 }
