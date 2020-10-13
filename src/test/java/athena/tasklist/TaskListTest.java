@@ -44,7 +44,7 @@ class TaskListTest {
                 "I have changed");
 
 
-        assertEquals(taskList.at(index), expectedTask);
+        assertEquals(taskList.getTaskFromNumber(index), expectedTask);
     }
 
     @Test
