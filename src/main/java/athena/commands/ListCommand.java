@@ -6,7 +6,6 @@ import athena.TaskList;
 import athena.Ui;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
-import athena.task.taskfilter.TaskFilter;
 import athena.timetable.Timetable;
 
 import java.util.Objects;
