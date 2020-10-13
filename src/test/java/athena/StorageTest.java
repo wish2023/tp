@@ -25,14 +25,16 @@ class StorageTest {
         try {
             expected = new BufferedReader(new FileReader(file1));
             BufferedReader actual = new BufferedReader(new FileReader(file2));
-            String answerLine = expected.readLine();
-            String attemptLine = actual.readLine();
-            while ((answerLine != null) || (attemptLine != null)) {
-                if (!answerLine.contentEquals(attemptLine)) {
+            String expectedLine = expected.readLine();
+            String actualLine = actual.readLine();
+            while ((expectedLine != null) || (actualLine != null)) {
+                assert expectedLine != null;
+                if (!expectedLine.contentEquals(actualLine)) {
                     return false;
                 }
-                answerLine = actual.readLine();
-                attemptLine = actual.readLine();
+                expectedLine = expected.readLine();
+                actualLine = actual.readLine();
+
 
             }
             return true;
