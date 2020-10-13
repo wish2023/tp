@@ -3,7 +3,6 @@ package athena;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.taskfilter.TaskFilter;
-
 import java.util.ArrayList;
 import java.util.Objects;
 

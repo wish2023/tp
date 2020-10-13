@@ -6,11 +6,12 @@ import athena.Ui;
 import athena.exceptions.TaskNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
+/**
+ * Tests methods of the delete command.
+ */
 class DeleteCommandTest {
     private TaskList taskList;
     private TaskList taskListWithoutTask;
@@ -19,7 +20,7 @@ class DeleteCommandTest {
     /**
      * Creates a task list for testing.
      *
-     * @return TaskList for testing.
+     * @return TaskList for testing
      */
     public static TaskList getTaskList() {
         TaskList taskList = new TaskList();
@@ -35,7 +36,7 @@ class DeleteCommandTest {
     /**
      * Creates a task list that is same as getTaskList() but without task number 2.
      *
-     * @return TaskList for testing without task number 2.
+     * @return TaskList for testing without task number 2
      */
     public static TaskList getTaskListWithoutTask() {
         TaskList taskList = new TaskList();
@@ -59,7 +60,7 @@ class DeleteCommandTest {
     /**
      * Tests that a task is a deleted from a list if a valid task number is given.
      *
-     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list.
+     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     @Test
     public void execute_validNumber_taskIsDeleted() throws TaskNotFoundException {
@@ -85,7 +86,12 @@ class DeleteCommandTest {
     }
 
     /**
-     * Executes the command, and checks that the execution was what we expect.
+     * Asserts that the execution of the command results in what we expect.
+     *
+     * @param deleteCommand Delete command
+     * @param expectedTaskList Expected task list
+     * @param actualTaskList Actual task list
+     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     private void assertCommandBehaviour(DeleteCommand deleteCommand, TaskList expectedTaskList,
                                         TaskList actualTaskList) throws TaskNotFoundException {
@@ -97,8 +103,8 @@ class DeleteCommandTest {
     /**
      * Asserts that nothing changes when the task with the given number does not exist in the given task list.
      *
-     * @param taskNumber Task number to delete, but it should be an invalid number.
-     * @param taskList   TaskList to delete from.
+     * @param taskNumber Task number to delete, but it should be an invalid number
+     * @param taskList   TaskList to delete from
      */
     private void assertDeletionFailsDueToInvalidNumber(int taskNumber, TaskList taskList) {
         DeleteCommand command = createDeleteCommand(taskNumber);
@@ -110,9 +116,10 @@ class DeleteCommandTest {
     /**
      * Asserts the task with the specified number can be successfully deleted.
      *
-     * @param taskNumber          Task number of the task to delete.
-     * @param taskList            TaskList to delete from.
-     * @param taskListWithoutTask Reference taskList to compare with after deleting the task.
+     * @param taskNumber          Task number of the task to delete
+     * @param taskList            TaskList to delete from
+     * @param taskListWithoutTask Reference taskList to compare with after deleting the task
+     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     private void assertDeletionSuccessful(int taskNumber, TaskList taskList, TaskList taskListWithoutTask)
             throws TaskNotFoundException {

@@ -11,22 +11,31 @@ import athena.commands.ListCommand;
 import athena.exceptions.CommandException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Tests method of the Parser class.
+ */
 class ParserTest {
 
     private Parser parser;
     private TaskList taskList;
 
+    /**
+     * Creates a new Parser and TaskList object before running each test.
+     */
     @BeforeEach
     public void setUp() {
         parser = new Parser();
         taskList = new TaskList();
     }
 
+    /**
+     * Checks if the help command is shown if the user enters an invalid command.
+     * @throws CommandException Exception thrown if there is an error with the user entered command
+     */
     @Test
     public void parse_unknownCommandWord_returnsHelp() throws CommandException {
         final String input = "unknown arguments";
@@ -37,12 +46,20 @@ class ParserTest {
      * Tests for 0-argument commands =======================================================================
      */
 
+    /**
+     * Checks if the help command is shown if the user types "help".
+     * @throws CommandException Exception thrown if there is an error with the user entered command
+     */
     @Test
     public void parse_helpCommand_parsedCorrectly() throws CommandException {
         final String input = "help";
         parseAndAssertCommandType(input, HelpCommand.class);
     }
 
+    /**
+     * Checks if the program exits if the user types "exit".
+     * @throws CommandException Exception thrown if there is an error with the user entered command
+     */
     @Test
     public void parse_exitCommand_parsedCorrectly() throws CommandException {
         final String input = "exit";
@@ -53,6 +70,10 @@ class ParserTest {
      * Tests for single index argument commands ===============================================================
      */
 
+    /**
+     * Checks if the program deletes the correct task at index 1.
+     * @throws CommandException Exception thrown if there is an error with the user entered command
+     */
     @Test
     public void parse_deleteCommandNumericArg_indexParsedCorrectly() throws CommandException {
         final int testNumber = 1;
@@ -62,6 +83,10 @@ class ParserTest {
         assertEquals(parsedCommand, expectedCommand);
     }
 
+    /**
+     * Checks if the program marks the task at index 1 as done.
+     * @throws CommandException Exception thrown if there is an error with the user entered command
+     */
     @Test
     public void parse_doneCommandNumericArg_indexParsedCorrectly() throws CommandException {
         final int testNumber = 1;
@@ -75,6 +100,10 @@ class ParserTest {
      * Tests for multiple argument commands ===============================================================
      */
 
+    /**
+     * Checks if the program adds a task correctly.
+     * @throws CommandException Exception thrown if there is an error with the user entered command
+     */
     @Test
     public void parse_addCommandArg_ParsedCorrectly() throws CommandException {
         final String input = "add n/Assignment1 t/1100 D/16-09-2020 d/2 hours r/Monday i/high a/Refer to slides";
@@ -85,6 +114,10 @@ class ParserTest {
         assertEquals(parsedCommand, expectedCommand);
     }
 
+    /**
+     * Checks if the program edits a task correctly.
+     * @throws CommandException Exception thrown if there is an error with the user entered command
+     */
     @Test
     public void parse_editCommandAllArg_ParsedCorrectly() throws CommandException {
         taskList.addTask("name", "st", "dur", "deadline",
@@ -98,6 +131,10 @@ class ParserTest {
         assertEquals(parsedCommand, expectedCommand);
     }
 
+    /**
+     * Checks if the program edits a task correctly with fewer parameters.
+     * @throws CommandException Exception thrown if there is an error with the user entered command
+     */
     @Test
     public void parse_editCommandSomeArg_ParsedCorrectly() throws CommandException {
         taskList.addTask("name", "st", "dur", "deadline",

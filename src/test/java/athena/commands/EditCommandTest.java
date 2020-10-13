@@ -6,11 +6,12 @@ import athena.Ui;
 import athena.exceptions.TaskNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
+/**
+ * Tests methods of the edit command.
+ */
 class EditCommandTest {
     private TaskList taskList;
     private TaskList editedTaskList;
@@ -61,7 +62,7 @@ class EditCommandTest {
     /**
      * Tests that the details of a task is edited if a valid task number is given.
      *
-     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list.
+     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     @Test
     public void execute_validNumber_taskIsEdited() throws TaskNotFoundException {
@@ -89,6 +90,8 @@ class EditCommandTest {
 
     /**
      * Executes the command, and checks that the execution was what we expect.
+     *
+     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     private void assertCommandBehaviour(EditCommand editCommand, TaskList expectedTaskList,
                                         TaskList actualTaskList) throws TaskNotFoundException {
@@ -100,8 +103,8 @@ class EditCommandTest {
     /**
      * Asserts that nothing changes when the task with the given number does not exist in the given task list.
      *
-     * @param taskNumber Task number to edit, but it should be an invalid number.
-     * @param taskList   TaskList to edit.
+     * @param taskNumber Task number to edit, but it should be an invalid number
+     * @param taskList   TaskList to edit
      */
     private void assertEditingFailsDueToInvalidNumber(int taskNumber, TaskList taskList) {
         EditCommand command = createEditCommand(taskNumber);
@@ -113,9 +116,10 @@ class EditCommandTest {
     /**
      * Asserts the task with the specified number can be successfully edited.
      *
-     * @param taskNumber          Task number of the task to edit.
-     * @param taskList            TaskList to edit.
-     * @param editedTaskList Reference taskList to compare with after deleting the task.
+     * @param taskNumber          Task number of the task to edit
+     * @param taskList            TaskList to edit
+     * @param editedTaskList Reference taskList to compare with after deleting the task
+     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     private void assertEditingSuccessful(int taskNumber, TaskList taskList, TaskList editedTaskList)
             throws TaskNotFoundException {
