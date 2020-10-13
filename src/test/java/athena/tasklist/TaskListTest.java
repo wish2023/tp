@@ -2,6 +2,7 @@ package athena.tasklist;
 
 import athena.Importance;
 import athena.TaskList;
+import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ class TaskListTest {
     }
 
     @Test
-    void deleteTask() {
+    void deleteTask() throws TaskNotFoundException {
         Task expectedTask = new Task("Assignment1", "1100",
                 "2 hours", "16-09-2020", "13-10-2020", Importance.valueOf("high".toUpperCase()),
                 "Refer to slides", 0);
@@ -28,7 +29,7 @@ class TaskListTest {
     }
 
     @Test
-    void editTask() {
+    void editTask() throws TaskNotFoundException {
         int index = 0;
         Task task = new Task("Assignment1", "1100",
                 "2 hours", "16-09-2020", "13-10-2020", Importance.valueOf("high".toUpperCase()),

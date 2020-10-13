@@ -3,11 +3,12 @@ package athena.commands;
 import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
+import athena.exceptions.TaskNotFoundException;
 
 import java.util.Objects;
 
 public class EditCommand extends Command {
-    private int taskIndex;
+    private int taskNumber;
     private String taskName;
     private String taskStartTime;
     private String taskDuration;
@@ -16,9 +17,9 @@ public class EditCommand extends Command {
     private Importance taskImportance;
     private String taskNotes;
 
-    public EditCommand(int index, String name, String startTime, String duration, String deadline,
+    public EditCommand(int number, String name, String startTime, String duration, String deadline,
                        String recurrence, Importance importance, String notes) {
-        taskIndex = index;
+        taskNumber = number;
         taskName = name;
         taskStartTime = startTime;
         taskDuration = duration;
@@ -36,15 +37,11 @@ public class EditCommand extends Command {
      * @param ui       Ui
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) {
-        try {
-            taskList.editTask(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
-                    taskRecurrence, taskImportance, taskNotes);
-            ui.printTaskEdited(taskIndex, taskName, taskStartTime, taskDuration, taskDeadline,
-                    taskRecurrence, taskImportance, taskNotes);
-        } catch (IndexOutOfBoundsException e) {
-            ui.printTaskNotFound(taskIndex);
-        }
+    public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException {
+        taskList.editTask(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
+                taskRecurrence, taskImportance, taskNotes);
+        ui.printTaskEdited(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
+                taskRecurrence, taskImportance, taskNotes);
     }
 
     @Override
@@ -56,7 +53,7 @@ public class EditCommand extends Command {
             return false;
         }
         EditCommand that = (EditCommand) o;
-        return taskIndex == that.taskIndex
+        return taskNumber == that.taskNumber
                 && Objects.equals(taskName, that.taskName)
                 && Objects.equals(taskStartTime, that.taskStartTime)
                 && Objects.equals(taskDuration, that.taskDuration)
@@ -68,7 +65,7 @@ public class EditCommand extends Command {
 
     @Override
     public int hashCode() {
-        return Objects.hash(taskIndex, taskName, taskStartTime, taskDuration,
+        return Objects.hash(taskNumber, taskName, taskStartTime, taskDuration,
                 taskDeadline, taskRecurrence, taskImportance, taskNotes);
     }
 }

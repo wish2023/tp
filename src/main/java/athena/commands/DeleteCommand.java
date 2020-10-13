@@ -1,5 +1,6 @@
 package athena.commands;
 
+import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.TaskList;
 import athena.Ui;
@@ -24,14 +25,10 @@ public class DeleteCommand extends Command {
      * @param ui       Ui
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) {
-        try {
-            Task deletedTask = taskList.deleteTask(deleteIndex);
-            String taskRestore = deletedTask.getTaskRestore();
-            ui.printTaskDeleted(deletedTask, taskRestore);
-        } catch (IndexOutOfBoundsException e) {
-            ui.printTaskNotFound(deleteIndex);
-        }
+    public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException {
+        Task deletedTask = taskList.deleteTask(deleteIndex);
+        String taskRestore = deletedTask.getTaskRestore();
+        ui.printTaskDeleted(deletedTask, taskRestore);
     }
 
     @Override
