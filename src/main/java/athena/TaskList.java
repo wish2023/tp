@@ -189,6 +189,7 @@ public class TaskList {
             return false;
         }
         TaskList taskList = (TaskList) o;
+
         return maxNumber == taskList.maxNumber && getTasks().equals(taskList.getTasks());
     }
 
