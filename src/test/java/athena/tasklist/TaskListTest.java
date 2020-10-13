@@ -30,7 +30,7 @@ class TaskListTest {
     }
 
     @Test
-    void editTask_givenAttributes_attributedChanged() throws TaskNotFoundException {
+    void editTask_givenAttributes_attributeChanged() throws TaskNotFoundException {
         int index = 0;
         Task task = new Task("Assignment1", "1100",
                 "2 hours", "16-09-2020", "13-10-2020", Importance.HIGH,
