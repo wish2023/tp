@@ -11,6 +11,9 @@ import athena.exceptions.CommandException;
 public abstract class Command {
     protected boolean isExit;
 
+    /**
+     * Set isExit to be false initially.
+     */
     public Command() {
         isExit = false;
     }
@@ -23,6 +26,11 @@ public abstract class Command {
      */
     public abstract void execute(TaskList taskList, Ui ui) throws CommandException, AddException;
 
+    /**
+     * Check if the command is exit.
+     *
+     * @return true if exit, false if not exit.
+     */
     public boolean getIsExit() {
         return isExit;
     }

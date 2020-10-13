@@ -8,6 +8,9 @@ import athena.Ui;
  */
 public class ExitCommand extends Command {
 
+    /**
+     * Setting isExit to be true so program exits.
+     */
     public ExitCommand() {
         super();
         isExit = true;

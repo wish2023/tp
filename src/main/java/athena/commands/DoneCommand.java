@@ -13,6 +13,11 @@ import java.util.Objects;
 public class DoneCommand extends Command {
     private int taskNumber;
 
+    /**
+     * Initializes the object with the task number of task to be mark as done.
+     *
+     * @param taskNumber Integer representing the task number of task.
+     */
     public DoneCommand(int taskNumber) {
         this.taskNumber = taskNumber;
     }
