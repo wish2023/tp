@@ -3,14 +3,17 @@ package athena.task.taskfilter;
 import athena.Forecast;
 import athena.Importance;
 import athena.task.Task;
-import athena.task.taskfilter.ForecastFilter;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
+/**
+ * Tests methods of forecast filter.
+ */
 class ForecastFilterTest {
 
+    /**
+     * Checks if task is included after applying the all forecast filter.
+     */
     @Test
     void testIsTaskIncluded_all_returnsTrue() {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.ALL);
@@ -20,6 +23,9 @@ class ForecastFilterTest {
         assertEquals(isTaskIncluded, true);
     }
 
+    /**
+     * Checks if task is included after applying the week forecast filter.
+     */
     @Test
     void testIsTaskIncluded_week_returnsTrue() {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.WEEK);
@@ -29,6 +35,9 @@ class ForecastFilterTest {
         assertEquals(isTaskIncluded, true);
     }
 
+    /**
+     * Checks if task is not included after applying the week forecast filter.
+     */
     @Test
     void testIsTaskIncluded_week_returnsFalse() {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.WEEK);
@@ -38,6 +47,9 @@ class ForecastFilterTest {
         assertEquals(isTaskIncluded, false);
     }
 
+    /**
+     * Checks if task is included after applying the today forecast filter.
+     */
     @Test
     void testIsTaskIncluded_day_returnsTrue() {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.TODAY);
@@ -47,6 +59,9 @@ class ForecastFilterTest {
         assertEquals(isTaskIncluded, true);
     }
 
+    /**
+     * Checks if task is not included after applying the today forecast filter.
+     */
     @Test
     void testIsTaskIncluded_day_returnsFalse() {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.TODAY);

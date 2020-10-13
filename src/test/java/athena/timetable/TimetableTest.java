@@ -8,15 +8,19 @@ import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
 import org.junit.jupiter.api.Test;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Test methods of Timetable.
+ */
 class TimetableTest {
 
+    /**
+     * Checks if the timetable returns all tasks with no filter.
+     */
     @Test
     void getTimetable_noFilter_returnsAllTasks() {
         final ArrayList<TimetableDay> days = new ArrayList<TimetableDay>();
@@ -70,6 +74,9 @@ class TimetableTest {
         assertTrue(areTimetablesSame(timetable, days));
     }
 
+    /**
+     * Checks if the timetable returns only high importance tasks with the high importance filter.
+     */
     @Test
     void getTimetable_highImportanceFilter_returnsHighImportanceTasks() {
         final ArrayList<TimetableDay> days = new ArrayList<TimetableDay>();
@@ -102,6 +109,12 @@ class TimetableTest {
         assertTrue(areTimetablesSame(timetable, days));
     }
 
+    /**
+     * Checks if two timetables are the same.
+     * @param timetable Pre-created timetable
+     * @param days ArrayList of days
+     * @return True or false depending if the two timetables are the same
+     */
     private boolean areTimetablesSame(Timetable timetable, ArrayList<TimetableDay> days) {
         ArrayList<TimetableDay> timetableDays = timetable.getTimetableDays();
 

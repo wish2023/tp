@@ -1,16 +1,19 @@
 package athena;
 
-import athena.task.Task;
 import org.junit.jupiter.api.Test;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Tests Storage methods.
+ */
 class StorageTest {
 
+    /**
+     * Checks if a save file is created correctly if a save file doesn't originally exist.
+     */
     @Test
     void saveTaskListData_noPreviousSave_createSaveFile() {
         Ui ui = new Ui();
@@ -20,6 +23,12 @@ class StorageTest {
         assertTrue(areFilesSame("src/test/java/athena/loadTask.csv", "src/test/java/athena/StorageTestAnswer1.csv"));
     }
 
+    /**
+     * Checks if two save files are the same based on their contents.
+     * @param file1 First file
+     * @param file2 Second file
+     * @return True or false depending on if the files are the same
+     */
     private boolean areFilesSame(String file1, String file2) {
         BufferedReader expected = null;
         try {
@@ -43,6 +52,9 @@ class StorageTest {
         }
     }
 
+    /**
+     * Checks if the program is able to load a save file correctly.
+     */
     @Test
     void loadTaskListData_saveFileFound_createTaskList() {
         Ui ui = new Ui();
