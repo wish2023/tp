@@ -142,7 +142,7 @@ public class TaskList {
     public Task markTaskAsDone(int taskNumber) throws TaskNotFoundException {
         Task task = getTaskFromNumber(taskNumber);
         task.setDone();
-        return tasks.get(taskNumber);
+        return task;
     }
 
     /**
