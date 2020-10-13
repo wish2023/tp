@@ -40,7 +40,7 @@ public class Parser {
      * @return Description of parameter
      */
     public static String getParameterDesc(String taskInformation, String delimiter, int paramPosition,
-                                          String defaultValue) {
+                                          String defaultValue) throws InvalidCommandException {
         String param;
         if (paramPosition == -1) {
             param = defaultValue;
@@ -51,7 +51,11 @@ public class Parser {
             if (paramNextSlash == -1) {
                 param = retrievedParamInfo;
             } else {
-                param = retrievedParamInfo.substring(0, (paramNextSlash - 2));
+                try {
+                    param = retrievedParamInfo.substring(0, (paramNextSlash - 2));
+                } catch (StringIndexOutOfBoundsException e) {
+                    throw new InvalidCommandException();
+                }
             }
         }
         return param;
@@ -71,7 +75,8 @@ public class Parser {
      * @return command object
      */
     public static Command parseAddCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
-                                          int recurrencePos, int importancePos, int addNotesPos) {
+                                          int recurrencePos, int importancePos, int addNotesPos)
+                                          throws InvalidCommandException {
         String nullDefault = "";
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullDefault);
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullDefault);
@@ -109,7 +114,8 @@ public class Parser {
      */
     public static Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
                                            int recurrencePos, int importancePos, int addNotesPos,
-                                           TaskList taskList) throws TaskNotFoundException, EditNoIndexException {
+                                           TaskList taskList) throws TaskNotFoundException, EditNoIndexException,
+                                           InvalidCommandException {
         int number = getNumber(taskInfo);
 
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
@@ -159,7 +165,8 @@ public class Parser {
      * @param forecastPos   Integer representing position of forecast parameter
      * @return command object
      */
-    public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos) {
+    public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos)
+                                            throws InvalidCommandException {
         String importanceDefault = "ALL";
         String forecastDefault = "TODAY";
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
