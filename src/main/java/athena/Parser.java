@@ -160,7 +160,7 @@ public class Parser {
      * and parameters the user typed.
      *
      * @param input String representing user input
-     * @param taskList Tasks List
+     * @param taskList Tasks list
      * @param ui Ui
      * @return new Command object based on what the user input is
      */

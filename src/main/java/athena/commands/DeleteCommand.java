@@ -26,7 +26,7 @@ public class DeleteCommand extends Command {
      * Deletes a task from the Tasks list and
      * calls Ui to print task deleted.
      *
-     * @param taskList Tasks List
+     * @param taskList Tasks list
      * @param ui       Ui
      */
     @Override

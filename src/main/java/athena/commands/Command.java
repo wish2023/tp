@@ -21,7 +21,7 @@ public abstract class Command {
     /**
      * For Commands execution.
      *
-     * @param taskList Tasks List
+     * @param taskList Tasks list
      * @param ui       Ui
      */
     public abstract void execute(TaskList taskList, Ui ui) throws CommandException, AddException;

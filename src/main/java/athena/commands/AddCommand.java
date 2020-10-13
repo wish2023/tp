@@ -47,7 +47,7 @@ public class AddCommand extends Command {
      * Adds a task to the Tasks list and
      * calls Ui to print out the task added.
      *
-     * @param taskList Tasks List
+     * @param taskList Tasks list
      * @param ui       Ui
      */
     @Override

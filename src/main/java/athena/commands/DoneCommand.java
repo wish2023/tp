@@ -26,7 +26,7 @@ public class DoneCommand extends Command {
      * Marks a task as done from the Tasks list and
      * calls Ui to print task marked as done.
      *
-     * @param taskList Tasks List
+     * @param taskList Tasks list
      * @param ui       Ui
      */
     @Override
