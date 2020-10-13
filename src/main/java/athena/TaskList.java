@@ -63,8 +63,8 @@ public class TaskList {
 
     public void addTask(int number, String name, String startTime, String duration,
                         String deadline, String recurrence, Importance importance, String notes) {
-        if(this.maxNumber<number){
-            this.maxNumber=number;
+        if (this.maxNumber < number) {
+            this.maxNumber = number;
         }
         Task task = createTask(number, name, startTime, duration, deadline, recurrence, importance, notes);
         tasks.add(task);
