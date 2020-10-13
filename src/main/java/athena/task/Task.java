@@ -4,6 +4,8 @@ import athena.Importance;
 import athena.Recurrence;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -61,8 +63,14 @@ public class Task {
         if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
             recurrenceDate = LocalDate.now();
         } else {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            recurrenceDate = LocalDate.parse(recurrence, formatter);
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                recurrenceDate = LocalDate.parse(recurrence, formatter);
+            } catch (DateTimeParseException e) {
+                // TODO: Handle this properly
+                System.out.println("I don't understand the date you gave. So I set it to today.");
+                recurrenceDate = LocalDate.now();
+            }
         }
     }
 
