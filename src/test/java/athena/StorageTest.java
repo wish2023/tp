@@ -21,19 +21,19 @@ class StorageTest {
     }
 
     private boolean areFilesSame(String file1, String file2) {
-        BufferedReader answer = null;
+        BufferedReader expected = null;
         try {
-            answer = new BufferedReader(new FileReader(file1));
-            BufferedReader attempt = new BufferedReader(new FileReader(file2));
-            String answerLine = answer.readLine();
-            String attemptLine = attempt.readLine();
+            expected = new BufferedReader(new FileReader(file1));
+            BufferedReader actual = new BufferedReader(new FileReader(file2));
+            String answerLine = expected.readLine();
+            String attemptLine = actual.readLine();
             while ((answerLine != null) || (attemptLine != null)) {
                 if (!answerLine.contentEquals(attemptLine)) {
                     return false;
-                } else {
-                    answerLine = answer.readLine();
-                    attemptLine = attempt.readLine();
                 }
+                answerLine = actual.readLine();
+                attemptLine = actual.readLine();
+
             }
             return true;
         } catch (IOException e) {
