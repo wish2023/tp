@@ -18,7 +18,6 @@ bin/
 /text-ui-test/EXPECTED-UNIX.TXT
 /text-ui-test/data.csv
 
-save.csv
 savedata.csv
 data.csv
 src/test/java/athena/loadTask.csv

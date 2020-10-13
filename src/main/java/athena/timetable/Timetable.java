@@ -4,7 +4,6 @@ import athena.TaskList;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -17,11 +16,21 @@ public class Timetable {
     private TaskList taskList;
     private ArrayList<TimetableDay> timetableDays;
 
+    /**
+     * Creates a timetable object from a TaskList object.
+     * @param taskList Task list
+     */
     public Timetable(TaskList taskList) {
         this.taskList = taskList;
         populateTimetable();
     }
 
+    /**
+     * Creates a timetable object from a TaskList, ImportanceFilter and ForecastFilter object.
+     * @param taskList Task list
+     * @param importanceFilter Filters tasks of a certain importance
+     * @param forecastFilter Filters tasks based on forecast
+     */
     public Timetable(TaskList taskList, ImportanceFilter importanceFilter, ForecastFilter forecastFilter) {
         this.taskList = taskList.getFilteredList(importanceFilter).getFilteredList(forecastFilter);
         populateTimetable();

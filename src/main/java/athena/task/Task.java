@@ -2,16 +2,13 @@ package athena.task;
 
 import athena.Importance;
 import athena.Recurrence;
-import athena.commands.EditCommand;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-import java.util.Objects;
-
-import java.util.Objects;
-
+/**
+ * Handles task objects.
+ */
 public class Task {
     public static final String YES = "Y";
     public static final String NO = "N";
@@ -29,10 +26,25 @@ public class Task {
     private String notes;
     private int number;
 
+    /**
+     * Determines if the task is done.
+     * @return string representing if the task is done
+     */
     private String getStatus() {
         return (isDone ? YES : NO);
     }
 
+    /**
+     * Constructor for the task class.
+     * @param name name of the task
+     * @param startTime starting time of the task
+     * @param duration how long the task is scheduled to last for
+     * @param deadline when the task is due
+     * @param recurrence when the task repeats
+     * @param importance importance of the task
+     * @param notes additional notes for the task
+     * @param number task number
+     */
     public Task(String name, String startTime, String duration, String deadline,
                 String recurrence, Importance importance, String notes, int number) {
         this.name = name;
@@ -120,42 +132,82 @@ public class Task {
         return name;
     }
 
+    /**
+     * Returns start time of the task.
+     * @return Start time of task
+     */
     public String getStartTime() {
         return startTime;
     }
 
+    /**
+     * Returns duration of the task.
+     * @return Duration of task
+     */
     public String getDuration() {
         return duration;
     }
 
+    /**
+     * Returns due date of the task.
+     * @return Due date of task
+     */
     public String getDeadline() {
         return deadline;
     }
 
+    /**
+     * Returns if the task is done.
+     * @return Status of task completion
+     */
     public boolean isDone() {
         return isDone;
     }
 
+    /**
+     * Returns task notes.
+     * @return Task notes
+     */
     public String getNotes() {
         return notes;
     }
 
+    /**
+     * Returns when the task repeats.
+     * @return When the task repeats
+     */
     public String getRecurrence() {
         return recurrence;
     }
 
+    /**
+     * Returns when the task repeats as a LocalDate object.
+     * @return When the task repeats as a LocalDate object
+     */
     public LocalDate getDate() {
         return recurrenceDate;
     }
 
+    /**
+     * Returns the task number.
+     * @return Task number
+     */
     public int getNumber() {
         return number;
     }
 
+    /**
+     * Sets the task number.
+     * @param number Number that the user wants to set the task to.
+     */
     public void setNumber(int number) {
         this.number = number;
     }
 
+    /**
+     * Restores a task that the user has just deleted.
+     * @return String representing details of the task the user wants to restore
+     */
     public String getTaskRestore() {
         String taskRestore = "add n/" + this.getName() + " t/" + this.getStartTime() + " d/" + this.getDuration()
                 + " D/" + this.getDeadline() + " r/" + this.getRecurrence() + " t/" + this.getImportance()
@@ -163,6 +215,10 @@ public class Task {
         return taskRestore;
     }
 
+    /**
+     * Converts a task object to a string.
+     * @return task as a string
+     */
     @Override
     public String toString() {
         return getStatus() + " " + name + " at " + startTime + " finish by " + deadline;

@@ -98,8 +98,6 @@ class DoneCommandTest {
                                         TaskList actualTaskList) throws TaskNotFoundException {
         Ui ui = new Ui();
         doneCommand.execute(taskList, ui);
-        ArrayList<Task> list = expectedTaskList.getTasks();
-        ArrayList<Task> actualList = actualTaskList.getTasks();
         assertEquals(expectedTaskList, actualTaskList);
     }
 

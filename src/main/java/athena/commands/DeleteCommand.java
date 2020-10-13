@@ -4,7 +4,6 @@ import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.TaskList;
 import athena.Ui;
-
 import java.util.Objects;
 
 /**
@@ -28,6 +27,8 @@ public class DeleteCommand extends Command {
      *
      * @param taskList Tasks list
      * @param ui       Ui
+     * @throws TaskNotFoundException Exception thrown when the user tries to enter the index of a task that
+     *                               does not exist
      */
     @Override
     public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException {
@@ -36,6 +37,11 @@ public class DeleteCommand extends Command {
         ui.printTaskDeleted(deletedTask, taskRestore);
     }
 
+    /**
+     * Determines if two objects have the same attributes.
+     * @param o object
+     * @return true if the two objects have the same attributes
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {

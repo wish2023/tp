@@ -3,7 +3,7 @@ package athena.commands;
 import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
-import athena.exceptions.AddException;
+import athena.exceptions.AddMissingRequiredParametersException;
 import athena.task.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ class AddCommandTest {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment");
-        taskList.addTask(1,"Homework 2", "8am", "4 hrs", "8pm", "10-12-2020",
+        taskList.addTask(1, "Homework 2", "8am", "4 hrs", "8pm", "10-12-2020",
                 Importance.HIGH, "Very easy homework");
         return taskList;
     }
@@ -57,10 +57,10 @@ class AddCommandTest {
     /**
      * Tests that the task is added into the Tasks list.
      *
-     * @throws AddException Exception thrown when the compulsory parameters are not given.
+     * @throws AddMissingRequiredParametersException Exception thrown when the compulsory parameters are not given
      */
     @Test
-    public void execute_taskIsAdded() throws AddException {
+    public void execute_taskIsAdded() throws AddMissingRequiredParametersException {
         assertAddSuccessful(taskList, taskListWithAddedTask);
     }
 
@@ -75,26 +75,28 @@ class AddCommandTest {
 
     /**
      * Executes the command, and checks that the execution was what we expect.
+     *
+     * @param addCommand       add command
+     * @param expectedTaskList expected task list
+     * @param actualTaskList   actual task list
+     * @throws AddMissingRequiredParametersException Exception thrown when the compulsory parameters are not given
      */
     private void assertCommandBehaviour(AddCommand addCommand, TaskList expectedTaskList,
-                                        TaskList actualTaskList) throws AddException {
+                                        TaskList actualTaskList) throws AddMissingRequiredParametersException {
         Ui ui = new Ui();
         addCommand.execute(taskList, ui);
-        System.out.println(expectedTaskList.getTasks());
-        System.out.println(actualTaskList.getTasks());
-        ArrayList<Task> list = expectedTaskList.getTasks();
-        ArrayList<Task> actualList = actualTaskList.getTasks();
         assertEquals(expectedTaskList, actualTaskList);
     }
 
     /**
      * Asserts the task successfully added.
      *
-     * @param taskList            TaskList.
-     * @param taskListWithAddedTask Reference taskList to compare with after adding the task.
+     * @param taskList              TaskList
+     * @param taskListWithAddedTask Reference taskList to compare with after adding the task
+     * @throws AddMissingRequiredParametersException Exception thrown when the compulsory parameters are not given
      */
     private void assertAddSuccessful(TaskList taskList, TaskList taskListWithAddedTask)
-            throws AddException {
+            throws AddMissingRequiredParametersException {
         TaskList expectedTaskList = taskListWithAddedTask;
         TaskList actualTaskList = taskList;
 

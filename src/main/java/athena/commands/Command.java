@@ -2,7 +2,6 @@ package athena.commands;
 
 import athena.TaskList;
 import athena.Ui;
-import athena.exceptions.AddException;
 import athena.exceptions.CommandException;
 
 /**
@@ -23,8 +22,9 @@ public abstract class Command {
      *
      * @param taskList Tasks list
      * @param ui       Ui
+     * @throws CommandException Exception thrown when there is an error in user command
      */
-    public abstract void execute(TaskList taskList, Ui ui) throws CommandException, AddException;
+    public abstract void execute(TaskList taskList, Ui ui) throws CommandException;
 
     /**
      * Check if the command is exit.

@@ -7,6 +7,9 @@ import athena.exceptions.TaskNotFoundException;
 
 import java.util.Objects;
 
+/**
+ * Handles the edit command.
+ */
 public class EditCommand extends Command {
     private int taskNumber;
     private String taskName;
@@ -47,6 +50,8 @@ public class EditCommand extends Command {
      *
      * @param taskList Tasks list
      * @param ui       Ui
+     * @throws TaskNotFoundException Exception thrown when the user tries to enter the index of a task that
+     *                               does not exist
      */
     @Override
     public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException {
@@ -56,6 +61,11 @@ public class EditCommand extends Command {
                 taskRecurrence, taskImportance, taskNotes);
     }
 
+    /**
+     * Determines if two objects have the same attributes.
+     * @param o object
+     * @return true if the two objects have the same attributes
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {

@@ -3,8 +3,7 @@ package athena.commands;
 import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
-import athena.exceptions.AddException;
-
+import athena.exceptions.AddMissingRequiredParametersException;
 import java.util.Objects;
 
 /**
@@ -49,11 +48,13 @@ public class AddCommand extends Command {
      *
      * @param taskList Tasks list
      * @param ui       Ui
+     * @throws AddMissingRequiredParametersException Exception thrown when required parameters are not provided for
+     *                                               add command
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) throws AddException {
+    public void execute(TaskList taskList, Ui ui) throws AddMissingRequiredParametersException {
         if (taskName.equals("") || taskStartTime.equals("")) {
-            throw new AddException();
+            throw new AddMissingRequiredParametersException();
         }
         taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
@@ -61,6 +62,11 @@ public class AddCommand extends Command {
                 taskRecurrence, taskImportance.toString(), taskNotes);
     }
 
+    /**
+     * Determines if two objects have the same attributes.
+     * @param o object
+     * @return true if the two objects have the same attributes
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {

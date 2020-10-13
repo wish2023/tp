@@ -4,10 +4,10 @@ import athena.Forecast;
 import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
+import athena.exceptions.EmptyTaskListException;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
 import athena.timetable.Timetable;
-
 import java.util.Objects;
 
 /**
@@ -28,22 +28,30 @@ public class ListCommand extends Command {
         taskForecast = forecast;
     }
 
-
     /**
      * Calls TaskList to filter the list based on importance and
      * calls Ui to print the list of tasks.
      *
      * @param taskList Tasks list
      * @param ui       Ui
+     * @throws EmptyTaskListException Exception thrown when the task list is empty
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) {
+    public void execute(TaskList taskList, Ui ui) throws EmptyTaskListException {
+        if (taskList.getTasks().isEmpty()) {
+            throw new EmptyTaskListException();
+        }
         ImportanceFilter importanceFilter = new ImportanceFilter(taskImportance);
         ForecastFilter forecastFilter = new ForecastFilter(taskForecast);
         Timetable timetable = new Timetable(taskList, importanceFilter, forecastFilter);
         ui.printTimetable(timetable);
     }
 
+    /**
+     * Determines if two objects have the same attributes.
+     * @param o object
+     * @return true if the two objects have the same attributes
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {

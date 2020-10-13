@@ -28,6 +28,8 @@ public class DoneCommand extends Command {
      *
      * @param taskList Tasks list
      * @param ui       Ui
+     * @throws TaskNotFoundException Exception thrown when the user tries to enter the index of a task that
+     *                               does not exist
      */
     @Override
     public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException {
@@ -35,6 +37,11 @@ public class DoneCommand extends Command {
         ui.printTaskDone(taskDone);
     }
 
+    /**
+     * Determines if two objects have the same attributes.
+     * @param o object
+     * @return true if the two objects have the same attributes
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {

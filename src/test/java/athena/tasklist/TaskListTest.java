@@ -44,7 +44,6 @@ class TaskListTest {
                 "4 hours", "16-11-2020", "13-10-2020", Importance.valueOf("low".toUpperCase()),
                 "I have changed");
 
-
         assertEquals(taskList.getTaskFromNumber(index), expectedTask);
     }
 
