@@ -18,7 +18,7 @@ public class Task {
     private String deadline;
 
     private String recurrence;
-    private LocalDate recurrenceDate = null;
+    private LocalDate recurrenceDate;
 
     private boolean isDone = false;
     private Importance importance;
@@ -32,7 +32,9 @@ public class Task {
     public Task(String name, String startTime, String duration, String deadline,
                 String recurrence, Importance importance, String notes, int index) {
         this.name = name;
+        assert !this.name.equals("");
         this.startTime = startTime;
+        assert !this.startTime.equals("");
         this.duration = duration;
         this.deadline = deadline;
         this.recurrence = recurrence;
