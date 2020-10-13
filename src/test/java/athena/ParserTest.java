@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ParserTest {
@@ -110,7 +111,29 @@ class ParserTest {
         assertEquals(parsedCommand, expectedCommand);
     }
 
+    @Test
+    public void parse_editCommandBadArg_throwsException() throws CommandException {
+        final String input = "edit abcde";
+        assertThrows(CommandException.class, () -> {
+            parseAndAssertCommandType(input, EditCommand.class);
+        });
+    }
 
+    @Test
+    public void parse_editCommandBadArg2_throwsException() throws CommandException {
+        final String input = "edit 1a/";
+        assertThrows(CommandException.class, () -> {
+            parseAndAssertCommandType(input, EditCommand.class);
+        });
+    }
+
+    @Test
+    public void parse_editCommandBadArg3_throwsException() throws CommandException {
+        final String input = "edit 1 n/n/";
+        assertThrows(CommandException.class, () -> {
+            parseAndAssertCommandType(input, EditCommand.class);
+        });
+    }
 
     @Test
     public void parse_listCommandArg_ParsedCorrectly() throws CommandException {
