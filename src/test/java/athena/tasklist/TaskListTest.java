@@ -1,6 +1,8 @@
 package athena.tasklist;
 
-import athena.*;
+import athena.Forecast;
+import athena.Importance;
+import athena.TaskList;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
