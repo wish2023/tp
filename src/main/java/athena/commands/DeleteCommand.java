@@ -13,6 +13,11 @@ import java.util.Objects;
 public class DeleteCommand extends Command {
     private int deleteIndex;
 
+    /**
+     * Initializes the object with the index of task to be deleted.
+     *
+     * @param index Integer representing the index of task.
+     */
     public DeleteCommand(int index) {
         deleteIndex = index;
     }
@@ -21,7 +26,7 @@ public class DeleteCommand extends Command {
      * Deletes a task from the Tasks list and
      * calls Ui to print task deleted.
      *
-     * @param taskList Tasks List
+     * @param taskList Tasks list
      * @param ui       Ui
      */
     @Override
