@@ -42,7 +42,7 @@ public class Athena {
 
         while (!isExit) {
             try {
-                inputString = input.nextLine();
+                inputString = input.nextLine().replace(","," ");
                 userCommand = parser.parse(inputString, taskList);
                 userCommand.execute(taskList, ui);
                 storage.saveTaskListData(taskList);
