@@ -5,6 +5,8 @@ list i/high
 list i/medium
 list f/week
 list i/medium f/today
+edit 1 n/Homework 1
+list
 done -1
 done 4
 done 1

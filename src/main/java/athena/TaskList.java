@@ -134,7 +134,7 @@ public class TaskList {
     public Task markTaskAsDone(int taskNumber) throws TaskNotFoundException {
         Task task = getTaskFromNumber(taskNumber);
         task.setDone();
-        return tasks.get(taskNumber);
+        return task;
     }
 
     /**
@@ -143,7 +143,7 @@ public class TaskList {
      * @param taskNumber number assigned to the task.
      * @return The task with the given number. Null if not found.
      */
-    private Task getTaskFromNumber(int taskNumber) throws TaskNotFoundException {
+    public Task getTaskFromNumber(int taskNumber) throws TaskNotFoundException {
         for (Task t : tasks) {
             if (t.getNumber() == taskNumber) {
                 return t;
@@ -191,9 +191,5 @@ public class TaskList {
     @Override
     public int hashCode() {
         return Objects.hash(getTasks(), maxNumber);
-    }
-
-    public Task at(int index) {
-        return tasks.get(index);
     }
 }

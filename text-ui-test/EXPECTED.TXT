@@ -40,35 +40,49 @@ Additionally, you've also added these additional notes!
 Refer to lecture notes.
 Looks like another mission to complete! Let's do it!
 
-2020-10-12:
-- Assignment1 at 1100 finish by 16-09-2020 [0]
+2020-10-13:
+- Assignment1 at 1100 finish by 16-09-2020 [1]
 
 
-2020-10-12:
-- Assignment1 at 1100 finish by 16-09-2020 [0]
-
-
-
-2020-10-12:
-- Assignment1 at 1100 finish by 16-09-2020 [0]
+2020-10-13:
+- Assignment1 at 1100 finish by 16-09-2020 [1]
 
 
 
-The task with the label -2 cannot be found
-The task with the label 3 cannot be found
-A job well done! I've slayed the-- I mean, marked the task Y Assignment1 at 1100 finish by 16-09-2020as complete!
-
-2020-10-12:
-- Assignment1 at 1100 finish by 16-09-2020 [0]
+2020-10-13:
+- Assignment1 at 1100 finish by 16-09-2020 [1]
 
 
-The task with the label -2 cannot be found
-Are we pretending the task Y Assignment1 at 1100 finish by 16-09-2020 never existed? Very well...
+
+You've changed the details of task number 1: Homework 1?
+Here are the new details of your task!
+Start Time: 1100
+Duration: 2
+Due Date: 16-09-2020
+Recurrence: today
+Importance: HIGH
+Additional Notes: Refer to lecture notes
+The mistakes of the past have been vanquished!
+
+2020-10-13:
+- Homework 1 at 1100 finish by 16-09-2020 [1]
+
+
+The task with the label -1 cannot be found
+The task with the label 4 cannot be found
+A job well done! I've slayed the-- I mean, marked the task Y Homework 1 at 1100 finish by 16-09-2020as complete!
+
+2020-10-13:
+- Homework 1 at 1100 finish by 16-09-2020 [1]
+
+
+The task with the label -1 cannot be found
+Are we pretending the task Y Homework 1 at 1100 finish by 16-09-2020 never existed? Very well...
 
 We both know the human propensity to make mistakes, if you want it back just type
-add n/Assignment1 t/1100 d/2 D/16-09-2020 r/today t/HIGH a/Refer to lecture notes
+add n/Homework 1 t/1100 d/2 D/16-09-2020 r/today t/HIGH a/Refer to lecture notes
 You can thank me later
 
-The task with the label 9 cannot be found
+The task with the label 10 cannot be found
 
 Going so soon? Well I'll be here the next time you need me. Farewell!
