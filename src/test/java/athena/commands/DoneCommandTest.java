@@ -8,6 +8,8 @@ import athena.task.Task;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -24,29 +26,29 @@ class DoneCommandTest {
      */
     public static TaskList getTaskList() {
         TaskList taskList = new TaskList();
-        taskList.addTask(1, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
+        taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment");
-        taskList.addTask(2, "Assignment 2", "4pm", "2 hrs", "6pm", "13-12-2020",
+        taskList.addTask(1, "Assignment 2", "4pm", "2 hrs", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment");
-        taskList.addTask(3, "Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
+        taskList.addTask(2, "Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment");
         return taskList;
     }
 
     /**
-     * Creates a task list that is same as getTaskList() but task number 2 is done.
+     * Creates a task list that is same as getTaskList() but task number 1 is done.
      *
-     * @return TaskList for testing with a done task number 2.
+     * @return TaskList for testing with a done task number 1.
      */
     public static TaskList getTaskListWithDone() {
         TaskList taskList = new TaskList();
-        taskList.addTask(1, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
+        taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment");
         Task doneTask = new Task("Assignment 2", "4pm", "2 hrs", "6pm",
-                "13-12-2020", Importance.MEDIUM, "Tough assignment", 2);
+                "13-12-2020", Importance.MEDIUM, "Tough assignment", 1);
         doneTask.setDone();
         taskList.addTask(doneTask);
-        taskList.addTask(3, "Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
+        taskList.addTask(2, "Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment");
         return taskList;
     }
@@ -68,7 +70,7 @@ class DoneCommandTest {
      */
     @Test
     public void execute_validNumber_taskIsDone() throws TaskNotFoundException {
-        assertDoneSuccessful(2, taskList, taskListWithDone);
+        assertDoneSuccessful(1, taskList, taskListWithDone);
     }
 
     /**

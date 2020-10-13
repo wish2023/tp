@@ -8,7 +8,12 @@ import athena.commands.EditCommand;
 import athena.commands.ExitCommand;
 import athena.commands.HelpCommand;
 import athena.commands.ListCommand;
-
+import athena.exceptions.CommandException;
+import athena.exceptions.DeleteNoIndexException;
+import athena.exceptions.DoneNoIndexException;
+import athena.exceptions.EditNoIndexException;
+import athena.exceptions.InvalidCommandException;
+import athena.exceptions.TaskNotFoundException;
 
 /**
  * Handles parsing of user input.
@@ -97,44 +102,53 @@ public class Parser {
      * @param importancePos Integer representing position of importance parameter
      * @param addNotesPos   Integer representing position of additional notes parameter
      * @return command object
+     * @throws TaskNotFoundException Exception thrown when the program is unable to find a task at the index
+     *                               specified by the user
+     * @throws EditNoIndexException  Exception thrown when the user does not specify an index of the task they
+     *                               want to edit
      */
     public static Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
-                                           int recurrencePos, int importancePos,
-                                           int addNotesPos, TaskList taskList) {
-        int index = getIndex(taskInfo);
+                                           int recurrencePos, int importancePos, int addNotesPos,
+                                           TaskList taskList) throws TaskNotFoundException, EditNoIndexException {
+        int number = getNumber(taskInfo);
 
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
-                taskList.at(index).getName());
+                taskList.getTaskFromNumber(number).getName());
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos,
-                taskList.at(index).getStartTime());
+                taskList.getTaskFromNumber(number).getStartTime());
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos,
-                taskList.at(index).getDuration());
+                taskList.getTaskFromNumber(number).getDuration());
         String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos,
-                taskList.at(index).getDeadline());
+                taskList.getTaskFromNumber(number).getDeadline());
         String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos,
-                taskList.at(index).getRecurrence());
+                taskList.getTaskFromNumber(number).getRecurrence());
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos,
-                taskList.at(index).getImportance().toString()).toUpperCase();
+                taskList.getTaskFromNumber(number).getImportance().toString()).toUpperCase();
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos,
-                taskList.at(index).getNotes());
+                taskList.getTaskFromNumber(number).getNotes());
 
-
-        Command command = new EditCommand(index, name, time, duration, deadline, recurrence,
+        Command command = new EditCommand(number, name, time, duration, deadline, recurrence,
                 Importance.valueOf(importance.toUpperCase()), notes);
 
         return command;
     }
 
     /**
-     * Parses task information to get index of task.
+     * Parses task information to get task number.
      *
      * @param taskInfo String representing task information
-     * @return index of task
+     * @return task number
+     * @throws EditNoIndexException Exception thrown when the user does not specify an index of the task they
+     *                              want to edit
      */
-    private static int getIndex(String taskInfo) {
-        int indexNextSlash = taskInfo.indexOf("/");
-        int index = Integer.parseInt(taskInfo.substring(0, (indexNextSlash - 2)));
-        return index;
+    private static int getNumber(String taskInfo) throws EditNoIndexException {
+        try {
+            int numberNextSlash = taskInfo.indexOf("/");
+            int number = Integer.parseInt(taskInfo.substring(0, (numberNextSlash - 2)));
+            return number;
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new EditNoIndexException();
+        }
     }
 
     /**
@@ -159,12 +173,12 @@ public class Parser {
      * Parses user input and recognises what type of command
      * and parameters the user typed.
      *
-     * @param input String representing user input
-     * @param taskList TaskList
-     * @param ui Ui
+     * @param input    String representing user input
+     * @param taskList Tasks list
      * @return new Command object based on what the user input is
+     * @throws CommandException Exception thrown when there is an error when the user inputs a command
      */
-    public static Command parse(String input, TaskList taskList, Ui ui) {
+    public static Command parse(String input, TaskList taskList) throws CommandException {
         String[] commandAndDetails = input.split(COMMAND_WORD_DELIMITER, 2);
         String commandType = commandAndDetails[0];
         String taskInfo = "";
@@ -189,13 +203,8 @@ public class Parser {
         }
 
         case "edit": {
-            try {
-                return parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
-                        recurrencePos, importancePos, addNotesPos, taskList);
-            } catch (IndexOutOfBoundsException e) {
-                ui.printTaskNotFound(getIndex(taskInfo));
-                return new HelpCommand();
-            }
+            return parseEditCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
+                    recurrencePos, importancePos, addNotesPos, taskList);
         }
 
         case "list": {
@@ -203,22 +212,33 @@ public class Parser {
         }
 
         case "done": {
-            int taskIndex = Integer.parseInt(taskInfo);
-            return new DoneCommand(taskIndex);
+            try {
+                int taskIndex = Integer.parseInt(taskInfo);
+                return new DoneCommand(taskIndex);
+            } catch (NumberFormatException e) {
+                throw new DoneNoIndexException();
+            }
         }
 
         case "delete": {
-            int taskIndex = Integer.parseInt(taskInfo);
-            return new DeleteCommand(taskIndex);
+            try {
+                int taskIndex = Integer.parseInt(taskInfo);
+                return new DeleteCommand(taskIndex);
+            } catch (NumberFormatException e) {
+                throw new DeleteNoIndexException();
+            }
         }
 
         case "exit": {
             return new ExitCommand();
         }
 
-        case "help":
-        default:
+        case "help": {
             return new HelpCommand();
+        }
+
+        default:
+            throw new InvalidCommandException();
         }
     }
 }

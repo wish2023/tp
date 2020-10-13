@@ -2,7 +2,6 @@ package athena.commands;
 
 import athena.TaskList;
 import athena.Ui;
-import athena.exceptions.AddException;
 import athena.exceptions.CommandException;
 
 /**
@@ -11,6 +10,9 @@ import athena.exceptions.CommandException;
 public abstract class Command {
     protected boolean isExit;
 
+    /**
+     * Set isExit to be false initially.
+     */
     public Command() {
         isExit = false;
     }
@@ -18,11 +20,17 @@ public abstract class Command {
     /**
      * For Commands execution.
      *
-     * @param taskList Tasks List
+     * @param taskList Tasks list
      * @param ui       Ui
+     * @throws CommandException Exception thrown when there is an error in user command
      */
-    public abstract void execute(TaskList taskList, Ui ui) throws CommandException, AddException;
+    public abstract void execute(TaskList taskList, Ui ui) throws CommandException;
 
+    /**
+     * Check if the command is exit.
+     *
+     * @return true if exit, false if not exit.
+     */
     public boolean getIsExit() {
         return isExit;
     }

@@ -7,23 +7,56 @@ import athena.task.taskfilter.TaskFilter;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * The list that stores the user's tasks.
+ */
 public class TaskList {
     private ArrayList<Task> tasks;
     private int maxNumber = -1;
 
+    /**
+     * Creates a new TaskList.
+     */
     public TaskList() {
         tasks = new ArrayList<>();
     }
 
-    public TaskList(ArrayList<Task> taskList) {
-        tasks = new ArrayList<>();
-        tasks.addAll(taskList);
+    /**
+     * Creates a new TaskList using an existing ArrayList.
+     *
+     * @param tasks ArrayList to convert to TaskList
+     */
+    public TaskList(ArrayList<Task> tasks) {
+        this.tasks = new ArrayList<>();
+        this.tasks.addAll(tasks);
+
+        for (Task task : tasks) {
+            maxNumber = Math.max(maxNumber, task.getNumber());
+        }
     }
 
+    /**
+     * Gets an ArrayList of the tasks.
+     *
+     * @return The ArrayList of the tasks
+     */
     public ArrayList<Task> getTasks() {
         return tasks;
     }
 
+    /**
+     * Creates a new task.
+     *
+     * @param number     Task number
+     * @param name       Task name
+     * @param startTime  Start time of the task
+     * @param duration   Duration of the task
+     * @param deadline   Due date of the task
+     * @param recurrence When the task occurs again
+     * @param importance Importance of the task
+     * @param notes      Additional notes
+     * @return Task as Task object
+     */
     private Task createTask(int number, String name, String startTime, String duration, String deadline,
                             String recurrence, Importance importance, String notes) {
         Task task = new Task(name, startTime, duration, deadline, recurrence, importance, notes, number);
@@ -92,6 +125,8 @@ public class TaskList {
      *
      * @param taskNumber Task number.
      * @return Task description.
+     * @throws TaskNotFoundException Exception thrown when the program is unable to find a task at the index
+     *                               specified by the user
      */
     public String getTaskDescription(int taskNumber) throws TaskNotFoundException {
         Task task = getTaskFromNumber(taskNumber);
@@ -103,6 +138,8 @@ public class TaskList {
      *
      * @param taskNumber Number assigned to the task to be deleted.
      * @return Task that is deleted. Null if not found.
+     * @throws TaskNotFoundException thrown when the program is unable to find a task at the index
+     *                               specified by the user
      */
     public Task deleteTask(int taskNumber) throws TaskNotFoundException {
         Task task = getTaskFromNumber(taskNumber);
@@ -121,6 +158,8 @@ public class TaskList {
      * @param recurrence Recurrence of task
      * @param importance Importance of task
      * @param notes      Additional notes of task
+     * @throws TaskNotFoundException thrown when the program is unable to find a task at the index
+     *                               specified by the user
      */
     public void editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, Importance importance,
@@ -134,11 +173,13 @@ public class TaskList {
      *
      * @param taskNumber Task number.
      * @return Task marked as done.
+     * @throws TaskNotFoundException thrown when the program is unable to find a task at the index
+     *                               specified by the user
      */
     public Task markTaskAsDone(int taskNumber) throws TaskNotFoundException {
         Task task = getTaskFromNumber(taskNumber);
         task.setDone();
-        return tasks.get(taskNumber);
+        return task;
     }
 
     /**
@@ -146,8 +187,10 @@ public class TaskList {
      *
      * @param taskNumber number assigned to the task.
      * @return The task with the given number. Null if not found.
+     * @throws TaskNotFoundException thrown when the program is unable to find a task at the index
+     *                               specified by the user
      */
-    private Task getTaskFromNumber(int taskNumber) throws TaskNotFoundException {
+    public Task getTaskFromNumber(int taskNumber) throws TaskNotFoundException {
         for (Task t : tasks) {
             if (t.getNumber() == taskNumber) {
                 return t;
@@ -169,17 +212,31 @@ public class TaskList {
                 filteredTasks.add(task);
             }
         }
+
         return new TaskList(filteredTasks);
     }
 
+    /**
+     * Gets the max index.
+     * @return Max index
+     */
     public int getMaxNumber() {
         return maxNumber;
     }
 
+    /**
+     * Sets the max index.
+     * @param maxIndex Max index
+     */
     public void setMaxNumber(int maxIndex) {
         this.maxNumber = maxIndex;
     }
 
+    /**
+     * Determines if two objects have the same attributes.
+     * @param o object
+     * @return true if the two objects have the same attributes
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -197,9 +254,4 @@ public class TaskList {
     public int hashCode() {
         return Objects.hash(getTasks(), maxNumber);
     }
-
-    public Task at(int index) {
-        return tasks.get(index);
-    }
-
 }

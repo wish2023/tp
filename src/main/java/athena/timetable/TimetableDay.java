@@ -2,7 +2,6 @@ package athena.timetable;
 
 import athena.TaskList;
 import athena.task.Task;
-
 import java.time.LocalDate;
 
 /**

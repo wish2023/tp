@@ -23,11 +23,11 @@ class EditCommandTest {
      */
     public static TaskList getTaskList() {
         TaskList taskList = new TaskList();
-        taskList.addTask(1, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
+        taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment");
-        taskList.addTask(2, "Assignment 2", "4pm", "2 hrs", "6pm", "13-12-2020",
+        taskList.addTask(1, "Assignment 2", "4pm", "2 hrs", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment");
-        taskList.addTask(3, "Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
+        taskList.addTask(2, "Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment");
         return taskList;
     }
@@ -39,11 +39,11 @@ class EditCommandTest {
      */
     public static TaskList getEditedTaskList() {
         TaskList taskList = new TaskList();
-        taskList.addTask(1, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
+        taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment");
-        taskList.addTask(2,"Homework 2", "8am", "4 hrs", "8pm", "10-12-2020",
+        taskList.addTask(1,"Homework 2", "8am", "4 hrs", "8pm", "10-12-2020",
                 Importance.HIGH, "Very easy homework");
-        taskList.addTask(3,"Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
+        taskList.addTask(2,"Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment");
         return taskList;
     }
@@ -65,7 +65,7 @@ class EditCommandTest {
      */
     @Test
     public void execute_validNumber_taskIsEdited() throws TaskNotFoundException {
-        assertEditingSuccessful(2, taskList, editedTaskList);
+        assertEditingSuccessful(1, taskList, editedTaskList);
     }
 
     /**
