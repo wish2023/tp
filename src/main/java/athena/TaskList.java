@@ -15,9 +15,13 @@ public class TaskList {
         tasks = new ArrayList<>();
     }
 
-    public TaskList(ArrayList<Task> taskList) {
-        tasks = new ArrayList<>();
-        tasks.addAll(taskList);
+    public TaskList(ArrayList<Task> tasks) {
+        this.tasks = new ArrayList<>();
+        this.tasks.addAll(tasks);
+
+        for (Task task : tasks) {
+            maxNumber = Math.max(maxNumber, task.getNumber());
+        }
     }
 
     public ArrayList<Task> getTasks() {
@@ -169,6 +173,7 @@ public class TaskList {
                 filteredTasks.add(task);
             }
         }
+
         return new TaskList(filteredTasks);
     }
 

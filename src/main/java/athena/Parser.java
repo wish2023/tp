@@ -119,7 +119,6 @@ public class Parser {
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos,
                 taskList.getTaskFromNumber(number).getNotes());
 
-
         Command command = new EditCommand(number, name, time, duration, deadline, recurrence,
                 Importance.valueOf(importance.toUpperCase()), notes);
 
