@@ -63,18 +63,15 @@ public class Task {
      */
     public void edit(String name, String startTime, String duration,
                      String deadline, String recurrence, Importance importance, String notes) {
-        if (!name.equals(null)) {
-            this.name = name;
-        }
-        if (!startTime.equals(null)) {
-            this.startTime = startTime;
-        }
-        if (!duration.equals(null)) {
-            this.duration = duration;
-        }
-        if (!deadline.equals(null)) {
-            this.deadline = deadline;
-        }
+        this.name = name;
+        assert !this.name.equals("");
+        this.startTime = startTime;
+        assert !this.startTime.equals("");
+        this.duration = duration;
+        assert !this.duration.equals("");
+        this.deadline = deadline;
+        assert !this.deadline.equals("");
+
         if (!recurrence.equals(null)) {
             this.recurrence = recurrence;
             if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
@@ -84,9 +81,11 @@ public class Task {
                 recurrenceDate = LocalDate.parse(recurrence, formatter);
             }
         }
-        if (!importance.equals(null)) {
-            this.importance = importance;
-        }
+        assert !this.recurrenceDate.equals(null);
+
+        this.importance = importance;
+        assert this.importance != null;
+
         if (!notes.equals(null)) {
             this.notes = notes;
         }
