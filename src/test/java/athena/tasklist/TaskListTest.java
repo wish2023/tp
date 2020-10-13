@@ -30,19 +30,19 @@ class TaskListTest {
     }
 
     @Test
-    void editTask_givenAttributes_successfully() throws TaskNotFoundException {
+    void editTask_givenAttributes_attributedChanged() throws TaskNotFoundException {
         int index = 0;
         Task task = new Task("Assignment1", "1100",
-                "2 hours", "16-09-2020", "13-10-2020", Importance.valueOf("high".toUpperCase()),
+                "2 hours", "16-09-2020", "13-10-2020", Importance.HIGH,
                 "Refer to slides", index);
         taskList.addTask(task);
 
         Task expectedTask = new Task("Assignment2", "1200",
-                "4 hours", "16-11-2020", "13-10-2020", Importance.valueOf("low".toUpperCase()),
+                "4 hours", "16-11-2020", "13-10-2020", Importance.LOW,
                 "I have changed", index);
 
         taskList.editTask(index, "Assignment2", "1200",
-                "4 hours", "16-11-2020", "13-10-2020", Importance.valueOf("low".toUpperCase()),
+                "4 hours", "16-11-2020", "13-10-2020", Importance.LOW,
                 "I have changed");
 
 
@@ -98,15 +98,15 @@ class TaskListTest {
         TaskList taskList = new TaskList();
         if (importance == Importance.HIGH) {
             taskList.addTask(new Task("uno", "1100",
-                    "2 hours", "16-09-2020", "13-10-2020", Importance.valueOf("high".toUpperCase()),
+                    "2 hours", "16-09-2020", "13-10-2020", Importance.HIGH,
                     "Refer to slides", 0));
         } else if (importance == Importance.MEDIUM) {
             taskList.addTask(new Task("dos", "1100",
-                    "2 hours", "16-09-2020", "15-10-2020", Importance.valueOf("medium".toUpperCase()),
+                    "2 hours", "16-09-2020", "15-10-2020", Importance.MEDIUM,
                     "Refer to slides", 1));
         } else if (importance == Importance.LOW) {
             taskList.addTask(new Task("tres", "1100",
-                    "2 hours", "16-09-2020", "13-11-2020", Importance.valueOf("low".toUpperCase()),
+                    "2 hours", "16-09-2020", "13-11-2020", Importance.LOW,
                     "Refer to slides", 2));
         }
         return taskList;
@@ -116,24 +116,24 @@ class TaskListTest {
         TaskList taskList = new TaskList();
         if (forecast == Forecast.ALL) {
             taskList.addTask(new Task("uno", "1100",
-                    "2 hours", "16-09-2020", "13-10-2020", Importance.valueOf("high".toUpperCase()),
+                    "2 hours", "16-09-2020", "13-10-2020", Importance.HIGH,
                     "Refer to slides", 0));
             taskList.addTask(new Task("dos", "1100",
-                    "2 hours", "16-09-2020", "15-10-2020", Importance.valueOf("medium".toUpperCase()),
+                    "2 hours", "16-09-2020", "15-10-2020", Importance.MEDIUM,
                     "Refer to slides", 1));
             taskList.addTask(new Task("tres", "1100",
-                    "2 hours", "16-09-2020", "13-11-2020", Importance.valueOf("low".toUpperCase()),
+                    "2 hours", "16-09-2020", "13-11-2020", Importance.LOW,
                     "Refer to slides", 2));
         } else if (forecast == Forecast.WEEK) {
             taskList.addTask(new Task("uno", "1100",
-                    "2 hours", "16-09-2020", "13-10-2020", Importance.valueOf("high".toUpperCase()),
+                    "2 hours", "16-09-2020", "13-10-2020", Importance.HIGH,
                     "Refer to slides", 0));
             taskList.addTask(new Task("dos", "1100",
-                    "2 hours", "16-09-2020", "15-10-2020", Importance.valueOf("medium".toUpperCase()),
+                    "2 hours", "16-09-2020", "15-10-2020", Importance.MEDIUM,
                     "Refer to slides", 1));
         } else if (forecast == Forecast.TODAY) {
             taskList.addTask(new Task("uno", "1100",
-                    "2 hours", "16-09-2020", "13-10-2020", Importance.valueOf("high".toUpperCase()),
+                    "2 hours", "16-09-2020", "13-10-2020", Importance.HIGH,
                     "Refer to slides", 0));
         }
         return taskList;
@@ -143,13 +143,13 @@ class TaskListTest {
     private void addTasks() {
         int index = 0;
         taskList.addTask(new Task("uno", "1100",
-                "2 hours", "16-09-2020", "13-10-2020", Importance.valueOf("high".toUpperCase()),
+                "2 hours", "16-09-2020", "13-10-2020", Importance.HIGH,
                 "Refer to slides", index++));
         taskList.addTask(new Task("dos", "1100",
-                "2 hours", "16-09-2020", "15-10-2020", Importance.valueOf("medium".toUpperCase()),
+                "2 hours", "16-09-2020", "15-10-2020", Importance.MEDIUM,
                 "Refer to slides", index++));
         taskList.addTask(new Task("tres", "1100",
-                "2 hours", "16-09-2020", "13-11-2020", Importance.valueOf("low".toUpperCase()),
+                "2 hours", "16-09-2020", "13-11-2020", Importance.LOW,
                 "Refer to slides", index++));
     }
 }
