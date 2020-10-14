@@ -21,6 +21,7 @@ public class Timetable {
      * @param taskList Task list
      */
     public Timetable(TaskList taskList) {
+        assert taskList != null;
         this.taskList = taskList;
         populateTimetable();
     }
@@ -32,6 +33,7 @@ public class Timetable {
      * @param forecastFilter Filters tasks based on forecast
      */
     public Timetable(TaskList taskList, ImportanceFilter importanceFilter, ForecastFilter forecastFilter) {
+        assert taskList != null;
         this.taskList = taskList.getFilteredList(importanceFilter).getFilteredList(forecastFilter);
         populateTimetable();
     }
@@ -60,10 +62,10 @@ public class Timetable {
         this.timetableDays = new ArrayList<TimetableDay>();
 
         TreeMap<LocalDate, TimetableDay> timetableDayMap = new TreeMap<LocalDate, TimetableDay>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         for (Task task : taskList.getTasks()) {
             LocalDate date = task.getDate();
+            assert date != null;
 
             TimetableDay timetableDay;
             if (timetableDayMap.containsKey(date)) {
