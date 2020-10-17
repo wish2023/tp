@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class TimeAllocate {
+public class TimeAllocator {
     ArrayList<Task> flexibleTask;
     ArrayList<Task> fixedTask;
     LocalDateTime currentTime;
@@ -22,7 +22,7 @@ public class TimeAllocate {
      *
      * @param tasks tasks in the current TaskList
      */
-    public TimeAllocate(TaskList tasks) {
+    public TimeAllocator(TaskList tasks) {
         this.flexibleTask = tasks.getFilteredList(new FlexibleTimeFilter(true)).getTasks();
         this.fixedTask = tasks.getFilteredList(new FlexibleTimeFilter(false)).getTasks();
 

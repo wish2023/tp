@@ -4,10 +4,10 @@ import athena.task.Task;
 
 public class FlexibleTimeFilter extends TaskFilter {
 
-    private Boolean toggle;
+    private Boolean isFlexible;
 
-    public FlexibleTimeFilter(Boolean toggle) {
-        this.toggle = toggle;
+    public FlexibleTimeFilter(Boolean isFlexible) {
+        this.isFlexible = isFlexible;
     }
 
     /**
@@ -21,9 +21,9 @@ public class FlexibleTimeFilter extends TaskFilter {
     @Override
     public boolean isTaskIncluded(Task task) {
         if (task.getDate() == null) {
-            return toggle;
+            return isFlexible;
         }
-        return !toggle;
+        return !isFlexible;
     }
 
 
