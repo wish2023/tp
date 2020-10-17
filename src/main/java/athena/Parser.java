@@ -1,19 +1,21 @@
 package athena;
 
-import athena.commands.Command;
 import athena.commands.AddCommand;
+import athena.commands.Command;
 import athena.commands.DeleteCommand;
 import athena.commands.DoneCommand;
 import athena.commands.EditCommand;
 import athena.commands.ExitCommand;
 import athena.commands.HelpCommand;
 import athena.commands.ListCommand;
+import athena.commands.ViewCommand;
 import athena.exceptions.CommandException;
 import athena.exceptions.DeleteNoIndexException;
 import athena.exceptions.DoneNoIndexException;
 import athena.exceptions.EditNoIndexException;
 import athena.exceptions.InvalidCommandException;
 import athena.exceptions.TaskNotFoundException;
+import athena.exceptions.ViewNoIndexException;
 
 /**
  * Handles parsing of user input.
@@ -232,6 +234,15 @@ public class Parser {
                 return new DeleteCommand(taskIndex);
             } catch (NumberFormatException e) {
                 throw new DeleteNoIndexException();
+            }
+        }
+
+        case "view": {
+            try {
+                int taskIndex = Integer.parseInt(taskInfo);
+                return new ViewCommand(taskIndex);
+            } catch (NumberFormatException e) {
+                throw new ViewNoIndexException();
             }
         }
 
