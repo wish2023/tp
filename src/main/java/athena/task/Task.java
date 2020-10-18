@@ -237,9 +237,9 @@ public class Task {
      * @return task as a string
      */
     public String toStringDetails() {
-        return "\n Done? " + getStatus() + "\n Name: " + name + "\n Start time: " + startTime + "\n Deadline: " + deadline
-                + "\n Duration: " + duration + "\n Recurrence: " + recurrence + "\n Importance: " + importance
-                + "\n Notes: " + notes;
+        return "\n Done? " + getStatus() + "\n Name: " + name + "\n Start time: " + startTime
+                + "\n Deadline: " + deadline + "\n Duration: " + duration + "\n Recurrence: " + recurrence
+                + "\n Importance: " + importance + "\n Notes: " + notes;
     }
 
     /**
