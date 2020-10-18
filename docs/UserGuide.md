@@ -20,7 +20,7 @@ e.g. if the command specifies `n/NAME t/TIME`, `t/TIME n/NAME` is also acceptabl
 * For dates, the program follows the DD-MM-YYYY format.
 * For time, the program follows the HHMM format.
 
-### Adding a task: `add`
+### Adding a task: `add` or `a`
 Adds a task to the planner.
 
 Format: `add n/NAME t/TIME [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
@@ -43,7 +43,7 @@ Example of usage:
 
 `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`
 
-### Listing tasks: `list`
+### Listing tasks: `list` or `l`
 Shows a list of all tasks in the planner. Each task will be printed with a number to be used as an identifier for other commands.
 
 Format: `list [f/FORECAST] [i/IMPORTANCE]`
@@ -58,7 +58,7 @@ Example of usage:
 
 `list f/WEEK i/medium`
 
-### Mark task as done: `done`
+### Mark task as done: `done` or `dn`
 Marks the specified task from the planner as done.
 
 Format: `done INDEX`
@@ -69,7 +69,7 @@ Example of usage:
 
 `done 103`
 
-### Edit task: `edit`
+### Edit task: `edit` or `e`
 Allows users to edit the specified task from the planner.
 
 Format: `edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
@@ -88,7 +88,7 @@ Example of usage:
 
 `edit 103 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
 
-### Delete task: `delete`
+### Delete task: `delete` or `dl`
 Deletes the specified task from the planner.
 
 Format: `delete INDEX`
@@ -99,7 +99,18 @@ Example of usage:
 
 `delete 103`
 
-### Exit program: `exit` 
+### View task: `view` or `v`
+View the specified task details from the planner.
+
+Format: `view INDEX`
+
+* `INDEX` refers to the index number shown in the displayed task list. It must be a positive integer.
+ 
+Example of usage: 
+
+`view 103`
+
+### Exit program: `exit` or `ex`
 Exits the program.
 
 Format: `exit`

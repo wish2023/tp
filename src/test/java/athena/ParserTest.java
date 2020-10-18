@@ -1,13 +1,14 @@
 package athena;
 
-import athena.commands.Command;
 import athena.commands.AddCommand;
+import athena.commands.Command;
 import athena.commands.DeleteCommand;
 import athena.commands.DoneCommand;
 import athena.commands.EditCommand;
 import athena.commands.ExitCommand;
 import athena.commands.HelpCommand;
 import athena.commands.ListCommand;
+import athena.commands.ViewCommand;
 import athena.exceptions.CommandException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -93,6 +94,19 @@ class ParserTest {
         final String input = "done 1";
         final DoneCommand parsedCommand = parseAndAssertCommandType(input, DoneCommand.class);
         final DoneCommand expectedCommand = new DoneCommand(testNumber);
+        assertEquals(parsedCommand, expectedCommand);
+    }
+
+    /**
+     * Checks if the program displays the details of task at index 1.
+     * @throws CommandException Exception thrown if there is an error with the user entered command
+     */
+    @Test
+    public void parse_viewCommandNumericArg_indexParsedCorrectly() throws CommandException {
+        final int testNumber = 1;
+        final String input = "view 1";
+        final ViewCommand parsedCommand = parseAndAssertCommandType(input, ViewCommand.class);
+        final ViewCommand expectedCommand = new ViewCommand(testNumber);
         assertEquals(parsedCommand, expectedCommand);
     }
 
