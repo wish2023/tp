@@ -108,10 +108,10 @@ public class Ui {
     /**
      * Prints out the task details that the user specified to view.
      *
-     * @param task The task that the user wants to view.
+     * @param taskDetails The task that the user wants to view.
      */
-    public void printTaskDetails(String task) {
-        System.out.println("Here are the details of your task: " + task);
+    public void printTaskDetails(String taskDetails) {
+        System.out.println("Here are the details of your task: " + taskDetails);
     }
 
     /**

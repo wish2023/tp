@@ -236,7 +236,7 @@ public class Task {
      * Converts a task object to a string of details.
      * @return task as a string
      */
-    public String toStringDetails() {
+    public String getDetailsAsString() {
         return "\n Done? " + getStatus() + "\n Name: " + name + "\n Start time: " + startTime
                 + "\n Deadline: " + deadline + "\n Duration: " + duration + "\n Recurrence: " + recurrence
                 + "\n Importance: " + importance + "\n Notes: " + notes;

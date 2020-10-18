@@ -4,6 +4,8 @@ import athena.exceptions.TaskNotFoundException;
 import athena.TaskList;
 import athena.Ui;
 
+import java.util.Objects;
+
 /**
  * Handles the view command.
  */
@@ -34,4 +36,25 @@ public class ViewCommand extends Command {
         ui.printTaskDetails(taskDescription);
     }
 
+    /**
+     * Determines if two objects have the same attributes.
+     * @param o object
+     * @return true if the two objects have the same attributes
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ViewCommand)) {
+            return false;
+        }
+        ViewCommand that = (ViewCommand) o;
+        return taskNumber == that.taskNumber;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(taskNumber);
+    }
 }

@@ -132,7 +132,7 @@ public class TaskList {
      */
     public String getTaskDescription(int taskNumber) throws TaskNotFoundException {
         Task task = getTaskFromNumber(taskNumber);
-        return task.toStringDetails();
+        return task.getDetailsAsString();
     }
 
     /**
