@@ -49,7 +49,7 @@ class ForecastFilterTest {
     void testIsTaskIncluded_filterByWeek_returnsFalse() {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.WEEK);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
-                "23-10-2020", Importance.LOW, "testNotes", 0);
+                "30-10-2020", Importance.LOW, "testNotes", 0);
         boolean isTaskIncluded = forecastFilter.isTaskIncluded(inputTask);
         assertEquals(isTaskIncluded, false);
     }
