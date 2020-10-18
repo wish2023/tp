@@ -179,6 +179,51 @@ public class Parser {
     }
 
     /**
+     * Parses user input when command is done.
+     *
+     * @param taskInfo      String representing task information
+     * @return command object
+     */
+    public static Command parseDoneCommand(String taskInfo) throws CommandException {
+        try {
+            int taskIndex = Integer.parseInt(taskInfo);
+            return new DoneCommand(taskIndex);
+        } catch (NumberFormatException e) {
+            throw new DoneNoIndexException();
+        }
+    }
+
+    /**
+     * Parses user input when command is delete.
+     *
+     * @param taskInfo      String representing task information
+     * @return command object
+     */
+    public static Command parseDeleteCommand(String taskInfo) throws CommandException {
+        try {
+            int taskIndex = Integer.parseInt(taskInfo);
+            return new DeleteCommand(taskIndex);
+        } catch (NumberFormatException e) {
+            throw new DeleteNoIndexException();
+        }
+    }
+
+    /**
+     * Parses user input when command is view.
+     *
+     * @param taskInfo      String representing task information
+     * @return command object
+     */
+    public static Command parseViewCommand(String taskInfo) throws CommandException {
+        try {
+            int taskIndex = Integer.parseInt(taskInfo);
+            return new ViewCommand(taskIndex);
+        } catch (NumberFormatException e) {
+            throw new ViewNoIndexException();
+        }
+    }
+
+    /**
      * Parses user input and recognises what type of command
      * and parameters the user typed.
      *
@@ -204,6 +249,28 @@ public class Parser {
         int addNotesPos = taskInfo.indexOf(ADDITIONAL_NOTES_DELIMITER);
         int forecastPos = taskInfo.indexOf(FORECAST_DELIMITER);
 
+        if (commandType.equals("a")) {
+            commandType = commandType.replace("a","add");
+        }
+        if (commandType.equals("e")) {
+            commandType = commandType.replace("e","edit");
+        }
+        if (commandType.equals("l")) {
+            commandType = commandType.replace("l","list");
+        }
+        if (commandType.equals("dn")) {
+            commandType = commandType.replace("dn","done");
+        }
+        if (commandType.equals("dl")) {
+            commandType = commandType.replace("dl","delete");
+        }
+        if (commandType.equals("v")) {
+            commandType = commandType.replace("v","view");
+        }
+        if (commandType.equals("ex")) {
+            commandType = commandType.replace("ex","exit");
+        }
+
         switch (commandType) {
         case "add": {
             return parseAddCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
@@ -220,30 +287,15 @@ public class Parser {
         }
 
         case "done": {
-            try {
-                int taskIndex = Integer.parseInt(taskInfo);
-                return new DoneCommand(taskIndex);
-            } catch (NumberFormatException e) {
-                throw new DoneNoIndexException();
-            }
+            return parseDoneCommand(taskInfo);
         }
 
         case "delete": {
-            try {
-                int taskIndex = Integer.parseInt(taskInfo);
-                return new DeleteCommand(taskIndex);
-            } catch (NumberFormatException e) {
-                throw new DeleteNoIndexException();
-            }
+            return parseDeleteCommand(taskInfo);
         }
 
         case "view": {
-            try {
-                int taskIndex = Integer.parseInt(taskInfo);
-                return new ViewCommand(taskIndex);
-            } catch (NumberFormatException e) {
-                throw new ViewNoIndexException();
-            }
+            return parseViewCommand(taskInfo);
         }
 
         case "exit": {
