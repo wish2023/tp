@@ -16,6 +16,7 @@ import athena.exceptions.EditNoIndexException;
 import athena.exceptions.InvalidCommandException;
 import athena.exceptions.TaskNotFoundException;
 import athena.exceptions.ViewNoIndexException;
+import java.util.HashMap;
 
 /**
  * Handles parsing of user input.
@@ -234,7 +235,6 @@ public class Parser {
      */
     public static Command parse(String input, TaskList taskList) throws CommandException {
         String[] commandAndDetails = input.split(COMMAND_WORD_DELIMITER, 2);
-        String commandType = commandAndDetails[0];
         String taskInfo = "";
         if (commandAndDetails.length > 1) {
             taskInfo = commandAndDetails[1];
@@ -249,26 +249,18 @@ public class Parser {
         int addNotesPos = taskInfo.indexOf(ADDITIONAL_NOTES_DELIMITER);
         int forecastPos = taskInfo.indexOf(FORECAST_DELIMITER);
 
-        if (commandType.equals("a")) {
-            commandType = commandType.replace("a","add");
-        }
-        if (commandType.equals("e")) {
-            commandType = commandType.replace("e","edit");
-        }
-        if (commandType.equals("l")) {
-            commandType = commandType.replace("l","list");
-        }
-        if (commandType.equals("dn")) {
-            commandType = commandType.replace("dn","done");
-        }
-        if (commandType.equals("dl")) {
-            commandType = commandType.replace("dl","delete");
-        }
-        if (commandType.equals("v")) {
-            commandType = commandType.replace("v","view");
-        }
-        if (commandType.equals("ex")) {
-            commandType = commandType.replace("ex","exit");
+        HashMap<String, String> shortcutCommands = new HashMap<String, String>();
+        shortcutCommands.put("a", "add");
+        shortcutCommands.put("e", "edit");
+        shortcutCommands.put("l", "list");
+        shortcutCommands.put("dn", "done");
+        shortcutCommands.put("dl", "delete");
+        shortcutCommands.put("v", "view");
+        shortcutCommands.put("ex", "exit");
+
+        String commandType = commandAndDetails[0];
+        if (shortcutCommands.get(commandType) != null) {
+            commandType = shortcutCommands.get(commandType);
         }
 
         switch (commandType) {
