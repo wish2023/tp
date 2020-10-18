@@ -12,7 +12,7 @@ The ***Architecture Diagram*** given above explains the high-level design of the
 
 The rest of the App consists of these components.
 
-* [**`UI`**](#ui-component): The UI of ATHENA.
+* [**`Ui`**](#ui-component): The UI of ATHENA.
 * [**`Parser`**](#parser-component): Parses user input and command executor.
 * [**`TaskList`**](#tasklist-component): The list that stores the user's tasks.
 * [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
