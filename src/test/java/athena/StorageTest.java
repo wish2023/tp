@@ -64,7 +64,7 @@ class StorageTest {
     }
 
     @Test
-    void loadTaskListData_commaSave_comma() {
+    void loadTaskListData_commaInTaskAttribute_commaIsReplaced() {
         Ui ui = new Ui();
         Storage storage = new Storage("src/test/java/athena/StorageTestAnswer2.csv", ui);
         TaskList taskList;
