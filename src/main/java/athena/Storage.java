@@ -54,7 +54,7 @@ public class Storage {
                 csvReader = new BufferedReader(new FileReader(filePath));
                 while ((row = csvReader.readLine()) != null) {
                     String[] data = row.split(",");
-                    for (int i=0; i < data.length; i++) {
+                    for (int i = 0; i < data.length; i++) {
                         data[i] = data[i].replaceAll("]c}", ",");
                     }
                     output.addTask(Integer.parseInt(data[7]), data[0], data[1], data[2], data[3], data[4],
