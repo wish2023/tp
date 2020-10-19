@@ -139,6 +139,10 @@ public class TaskList {
         return task.toString();
     }
 
+    public ArrayList<LocalDate> getDateAt(int i) {
+        return tasks.get(i).getDates();
+    }
+
     /**
      * Deletes the task at the specified position in the task list.
      *
@@ -220,6 +224,15 @@ public class TaskList {
         }
 
         return new TaskList(filteredTasks);
+    }
+
+
+    public ArrayList<Task> makeDeepCopyTasks(ArrayList<Task> oldTasks){
+        ArrayList<Task> tasksCopy = new ArrayList<Task>();
+        for (Task task : oldTasks) {
+            tasksCopy.add(task.getClone());
+        }
+        return tasksCopy;
     }
 
     /**
