@@ -25,7 +25,7 @@ public class Task {
     private String deadline;
 
     private String recurrence;
-    private LocalDate recurrenceDate;
+    private ArrayList<LocalDate> recurrenceDates = new ArrayList<>();
 
     private boolean isDone = false;
     private Importance importance;
