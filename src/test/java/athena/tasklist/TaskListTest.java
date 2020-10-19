@@ -31,13 +31,14 @@ class TaskListTest {
 
     /**
      * Asserts if the deleted task at a certain index is the same task that is added to the task list.
+     *
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     @Test
     void deleteTask_validTaskIndex_correctTaskDeleted() throws TaskNotFoundException {
         Task expectedTask = new Task("Assignment1", "1100",
-                "2", "16-09-2020", "13-10-2020", Importance.HIGH,
-                "Refer to slides", 12);
+        "2", "16-09-2020", "13-10-2020", Importance.HIGH,
+                "Refer to slides", 12, false);
         testTaskList.addTask(expectedTask);
         Task actualTask = testTaskList.deleteTask(12);
         assertEquals(expectedTask, actualTask);
@@ -45,6 +46,7 @@ class TaskListTest {
 
     /**
      * Asserts if the edited task at a certain index is the same task that is expected.
+     *
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     @Test
@@ -52,12 +54,12 @@ class TaskListTest {
         int index = 0;
         Task task = new Task("Assignment1", "1100",
                 "2", "16-09-2020", "13-10-2020", Importance.HIGH,
-                "Refer to slides", index);
+                "Refer to slides", index, false);
         testTaskList.addTask(task);
 
         Task expectedTask = new Task("Assignment2", "1200",
                 "4", "16-11-2020", "13-10-2020", Importance.LOW,
-                "I have changed", index);
+                "I have changed", index, false);
 
         testTaskList.editTask(index, "Assignment2", "1200",
                 "4", "16-11-2020", "13-10-2020", Importance.LOW,
@@ -67,9 +69,9 @@ class TaskListTest {
     }
 
     @Test
-    // Filter list using high, low, medium importance
-    // Filter list using today, week, all forecast
-    // TODO ^^
+        // Filter list using high, low, medium importance
+        // Filter list using today, week, all forecast
+        // TODO ^^
     void getFilteredList_highImportance_returnTasksWithHighImportance() {
         TaskList expectedTaskList = getImportanceTestExpectedTasks(Importance.HIGH);
         ImportanceFilter highFilter = new ImportanceFilter(Importance.HIGH);
@@ -116,13 +118,13 @@ class TaskListTest {
         TaskList taskList = new TaskList();
         Task task1 = new Task("uno", "1100",
                 "2", todayDateString, todayDateString, Importance.HIGH,
-                "Refer to slides", 0);
+                "Refer to slides", 0, false);
         Task task2 = new Task("dos", "1100",
                 "2", "16-09-2020", "23-10-2020", Importance.MEDIUM,
-                "Refer to slides", 1);
+                "Refer to slides", 1, false);
         Task task3 = new Task("tres", "1100",
                 "2", "16-09-2020", "13-11-2020", Importance.LOW,
-                "Refer to slides", 2);
+                "Refer to slides", 2, false);
 
         if (importance == Importance.HIGH) {
             taskList.addTask(task1);
@@ -139,13 +141,13 @@ class TaskListTest {
         TaskList taskList = new TaskList();
         Task task1 = new Task("uno", "1100",
                 "2", todayDateString, todayDateString, Importance.HIGH,
-                "Refer to slides", 0);
+                "Refer to slides", 0, false);
         Task task2 = new Task("dos", "1100",
                 "2", "16-09-2020", "23-10-2020", Importance.MEDIUM,
-                "Refer to slides", 1);
+                "Refer to slides", 1, false);
         Task task3 = new Task("tres", "1100",
                 "2", "16-09-2020", "13-11-2020", Importance.LOW,
-                "Refer to slides", 2);
+                "Refer to slides", 2, false);
 
         if (forecast == Forecast.ALL) {
             taskList.addTask(task1);
@@ -167,12 +169,12 @@ class TaskListTest {
         int index = 0;
         testTaskList.addTask(new Task("uno", "1100",
                 "2", todayDateString, todayDateString, Importance.HIGH,
-                "Refer to slides", index++));
+                "Refer to slides", index++, false));
         testTaskList.addTask(new Task("dos", "1100",
                 "2", "16-09-2020", "23-10-2020", Importance.MEDIUM,
-                "Refer to slides", index++));
+                "Refer to slides", index++, false));
         testTaskList.addTask(new Task("tres", "1100",
                 "2", "16-09-2020", "13-11-2020", Importance.LOW,
-                "Refer to slides", index++));
+                "Refer to slides", index++, false));
     }
 }

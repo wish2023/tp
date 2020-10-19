@@ -17,7 +17,7 @@ class ImportanceFilterTest {
     void isTaskIncluded_all_returnsTrue() {
         ImportanceFilter importanceFilter = new ImportanceFilter(Importance.ALL);
         Task task = new Task("testName", "0900", "1", "05-11-2020",
-                "20-12-2020", Importance.MEDIUM, "testNotes", 0);
+                "20-12-2020", Importance.MEDIUM, "testNotes", 0, false);
         boolean isTaskIncluded = importanceFilter.isTaskIncluded(task);
         assertTrue(isTaskIncluded);
     }
@@ -29,7 +29,7 @@ class ImportanceFilterTest {
     void isTaskIncluded_sameImportance_returnsTrue() {
         ImportanceFilter importanceFilter = new ImportanceFilter(Importance.HIGH);
         Task task = new Task("testName", "0900", "1", "05-11-2020",
-                "20-12-2020", Importance.HIGH, "testNotes", 0);
+                "20-12-2020", Importance.HIGH, "testNotes", 0, false);
         boolean isTaskIncluded = importanceFilter.isTaskIncluded(task);
         assertTrue(isTaskIncluded);
     }
@@ -41,7 +41,7 @@ class ImportanceFilterTest {
     void isTaskIncluded_differentImportance_returnsFalse() {
         ImportanceFilter importanceFilter = new ImportanceFilter(Importance.HIGH);
         Task task = new Task("testName", "0900", "1", "05-11-2020",
-                "20-12-2020", Importance.LOW, "testNotes", 0);
+                "20-12-2020", Importance.LOW, "testNotes", 0, false);
         boolean isTaskIncluded = importanceFilter.isTaskIncluded(task);
         assertFalse(isTaskIncluded);
     }
