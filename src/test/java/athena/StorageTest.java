@@ -1,9 +1,11 @@
 package athena;
 
 import org.junit.jupiter.api.Test;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -25,6 +27,7 @@ class StorageTest {
 
     /**
      * Checks if two save files are the same based on their contents.
+     *
      * @param file1 First file
      * @param file2 Second file
      * @return True or false depending on if the files are the same

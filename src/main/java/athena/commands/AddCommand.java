@@ -4,6 +4,7 @@ import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
 import athena.exceptions.AddMissingRequiredParametersException;
+
 import java.util.Objects;
 
 /**
@@ -17,6 +18,7 @@ public class AddCommand extends Command {
     private String taskRecurrence;
     private Importance taskImportance;
     private String taskNotes;
+    private Boolean taskFlexible;
 
     /**
      * Initializes the object with the parameters.
@@ -28,9 +30,10 @@ public class AddCommand extends Command {
      * @param recurrence String representing recurrence of task.
      * @param importance String representing importance of task.
      * @param notes      String representing additional notes of task.
+     * @param flexible  Boolean representing if task time is flexible
      */
     public AddCommand(String name, String startTime, String duration, String deadline,
-                      String recurrence, String importance, String notes) {
+                      String recurrence, String importance, String notes, boolean flexible) {
         taskName = name;
         assert !taskName.equals("");
         taskStartTime = startTime;
@@ -40,6 +43,7 @@ public class AddCommand extends Command {
         taskRecurrence = recurrence;
         taskImportance = Importance.valueOf(importance.toUpperCase());
         taskNotes = notes;
+        taskFlexible = flexible;
     }
 
     /**
@@ -53,17 +57,18 @@ public class AddCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) throws AddMissingRequiredParametersException {
-        if (taskName.equals("") || taskStartTime.equals("")) {
+        if (taskName.equals("")) {
             throw new AddMissingRequiredParametersException();
         }
         taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
-                taskRecurrence, taskImportance, taskNotes);
+                taskRecurrence, taskImportance, taskNotes, taskFlexible);
         ui.printTaskAdded(taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance.toString(), taskNotes);
     }
 
     /**
      * Determines if two objects have the same attributes.
+     *
      * @param o object
      * @return true if the two objects have the same attributes
      */

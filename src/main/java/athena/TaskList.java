@@ -57,8 +57,8 @@ public class TaskList {
      * @return Task as Task object
      */
     private Task createTask(int number, String name, String startTime, String duration, String deadline,
-                            String recurrence, Importance importance, String notes) {
-        Task task = new Task(name, startTime, duration, deadline, recurrence, importance, notes, number);
+                            String recurrence, Importance importance, String notes, Boolean flexible) {
+        Task task = new Task(name, startTime, duration, deadline, recurrence, importance, notes, number, flexible);
         return task;
     }
 
@@ -97,11 +97,11 @@ public class TaskList {
      */
 
     public void addTask(int number, String name, String startTime, String duration,
-                        String deadline, String recurrence, Importance importance, String notes) {
+                        String deadline, String recurrence, Importance importance, String notes, boolean flexible) {
         if (this.maxNumber < number) {
             this.maxNumber = number;
         }
-        Task task = createTask(number, name, startTime, duration, deadline, recurrence, importance, notes);
+        Task task = createTask(number, name, startTime, duration, deadline, recurrence, importance, notes, flexible);
         tasks.add(task);
     }
 
@@ -117,9 +117,9 @@ public class TaskList {
      * @param notes      Additional notes of task
      */
     public void addTask(String name, String startTime, String duration,
-                        String deadline, String recurrence, Importance importance, String notes) {
+                        String deadline, String recurrence, Importance importance, String notes, Boolean flexible) {
         maxNumber++;
-        addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes);
+        addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, flexible);
     }
 
     /**

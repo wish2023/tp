@@ -76,11 +76,12 @@ public class Parser {
      */
     public static Command parseAddCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
                                           int recurrencePos, int importancePos, int addNotesPos)
-                                          throws InvalidCommandException {
+            throws InvalidCommandException {
         String nullDefault = "";
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullDefault);
         //TODO: allow for empty string, assign flexible attribute, true if string is null, false if filled
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullDefault);
+        boolean flexible = (time == nullDefault);
         String durationDefault = "1 hour";
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, durationDefault);
         String deadlineDefault = "No deadline";
@@ -91,7 +92,7 @@ public class Parser {
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
         String notesDefault = "No notes";
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos, notesDefault);
-        Command command = new AddCommand(name, time, duration, deadline, recurrence, importance, notes);
+        Command command = new AddCommand(name, time, duration, deadline, recurrence, importance, notes, flexible);
 
         return command;
     }
@@ -116,7 +117,7 @@ public class Parser {
     public static Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
                                            int recurrencePos, int importancePos, int addNotesPos,
                                            TaskList taskList) throws TaskNotFoundException, EditNoIndexException,
-                                           InvalidCommandException {
+            InvalidCommandException {
         int number = getNumber(taskInfo);
 
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
@@ -167,7 +168,7 @@ public class Parser {
      * @return command object
      */
     public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos)
-                                            throws InvalidCommandException {
+            throws InvalidCommandException {
         String importanceDefault = "ALL";
         String forecastDefault = "TODAY";
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
