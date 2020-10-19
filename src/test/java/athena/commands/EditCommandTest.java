@@ -6,6 +6,7 @@ import athena.Ui;
 import athena.exceptions.TaskNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -25,11 +26,11 @@ class EditCommandTest {
     public static TaskList getTaskList() {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
-                Importance.HIGH, "Tough assignment");
+                Importance.HIGH, "Tough assignment", false);
         taskList.addTask(1, "Assignment 2", "4pm", "2 hrs", "6pm", "13-12-2020",
-                Importance.MEDIUM, "Tough assignment");
+                Importance.MEDIUM, "Tough assignment", false);
         taskList.addTask(2, "Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
-                Importance.MEDIUM, "Tough assignment");
+                Importance.MEDIUM, "Tough assignment", false);
         return taskList;
     }
 
@@ -41,11 +42,11 @@ class EditCommandTest {
     public static TaskList getEditedTaskList() {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
-                Importance.HIGH, "Tough assignment");
-        taskList.addTask(1,"Homework 2", "8am", "4 hrs", "8pm", "10-12-2020",
-                Importance.HIGH, "Very easy homework");
-        taskList.addTask(2,"Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
-                Importance.MEDIUM, "Tough assignment");
+                Importance.HIGH, "Tough assignment", false);
+        taskList.addTask(1, "Homework 2", "8am", "4 hrs", "8pm", "10-12-2020",
+                Importance.HIGH, "Very easy homework", false);
+        taskList.addTask(2, "Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
+                Importance.MEDIUM, "Tough assignment", false);
         return taskList;
     }
 
@@ -116,8 +117,8 @@ class EditCommandTest {
     /**
      * Asserts the task with the specified number can be successfully edited.
      *
-     * @param taskNumber          Task number of the task to edit
-     * @param taskList            TaskList to edit
+     * @param taskNumber     Task number of the task to edit
+     * @param taskList       TaskList to edit
      * @param editedTaskList Reference taskList to compare with after deleting the task
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */

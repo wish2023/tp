@@ -1,6 +1,7 @@
 package athena;
 
 import athena.task.Task;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -24,13 +25,14 @@ public class Storage {
      * Initialises Storage object.
      *
      * @param filepath Location of the save file
-     * @param ui prints out error messages
+     * @param ui       prints out error messages
      */
     public Storage(String filepath, Ui ui) {
         this.filePath = filepath;
         this.ui = ui;
 
     }
+
 
     /**
      * Takes a TaskList and converts it to a .csv file.
@@ -39,13 +41,22 @@ public class Storage {
      */
     public void saveTaskListData(TaskList tasks) {
         this.tasks = tasks;
+        String taskString = null;
         //TODO: add compatibility for more task attributes
         try {
             FileWriter csvWriter = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {
-                csvWriter.append(task.getName() + "," + task.getStartTime() + "," + task.getDuration() + ","
-                        + task.getDeadline() + "," + task.getRecurrence() + "," + task.getImportance() + ","
-                        + task.getNotes() + "," + task.getNumber() + "\n");
+                taskString = task.getName() + "|" + task.getStartTime() + "|" + task.getDuration() + "|"
+                        + task.getDeadline() + "|" + task.getRecurrence() + "|" + task.getImportance() + "|"
+                        + task.getNotes() + "|" + task.getNumber();
+                if (task.isFlexible()) {
+                    taskString = taskString + "|" + "true";
+                } else {
+                    taskString = taskString + "|" + "false";
+                }
+                taskString = taskString.replaceAll(",", "]c}").replace("|",
+                        ",");
+                csvWriter.append(taskString + "\n");
             }
             csvWriter.close();
         } catch (IOException e) {
@@ -72,8 +83,11 @@ public class Storage {
                 csvReader = new BufferedReader(new FileReader(filePath));
                 while ((row = csvReader.readLine()) != null) {
                     String[] data = row.split(",");
+                    for (int i = 0; i < data.length; i++) {
+                        data[i] = data[i].replaceAll("]c}", ",");
+                    }
                     output.addTask(Integer.parseInt(data[7]), data[0], data[1], data[2], data[3], data[4],
-                            Importance.valueOf(data[5].toUpperCase()), data[6]);
+                            Importance.valueOf(data[5].toUpperCase()), data[6], Boolean.parseBoolean(data[8]));
                     maxNumber = Integer.parseInt(data[7]);
                 }
 
