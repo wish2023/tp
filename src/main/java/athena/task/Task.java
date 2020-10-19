@@ -26,6 +26,7 @@ public class Task {
 
     private String recurrence;
     private ArrayList<LocalDate> recurrenceDates = new ArrayList<>();
+    private boolean isFlexible;
 
     private boolean isDone = false;
     private Importance importance;
@@ -47,8 +48,7 @@ public class Task {
 
     /**
      * Constructor for the task class.
-     *
-     * @param name       name of the task
+     *  @param name       name of the task
      * @param startTime  starting time of the task
      * @param duration   how long the task is scheduled to last for
      * @param deadline   when the task is due
@@ -56,9 +56,10 @@ public class Task {
      * @param importance importance of the task
      * @param notes      additional notes for the task
      * @param number     task number
+     * @param isFlexible  time flexibility
      */
     public Task(String name, String startTime, String duration, String deadline,
-                String recurrence, Importance importance, String notes, int number) {
+                String recurrence, Importance importance, String notes, int number, Boolean isFlexible) {
         this.name = name;
         assert !this.name.equals("");
         this.startTime = startTime;
@@ -69,12 +70,10 @@ public class Task {
         this.importance = importance;
         this.notes = notes;
         this.number = number;
+        this.isFlexible = isFlexible;
+        this.timeInfo = new Time(this.isFlexible, startTime, duration, deadline, recurrence);
 
-        if (startTime == null) {
-            this.timeInfo = new Time(false, startTime, duration, deadline, recurrence);
-        } else {
-            this.timeInfo = new Time(true, "empty", duration, deadline, recurrence);
-        }
+
 
         setRecurrence(recurrence);
     }
@@ -153,7 +152,7 @@ public class Task {
 
     public Task getClone() {
         Task copy = new Task(name, startTime, duration, deadline, recurrence,
-                importance, notes, number);
+                importance, notes, number, isFlexible);
 
         return copy;
 
@@ -316,6 +315,14 @@ public class Task {
      */
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public boolean isFlexible() {
+        return isFlexible;
+    }
+
+    public void setFlexible(boolean isFlexible) {
+        this.isFlexible = isFlexible;
     }
 
     /**

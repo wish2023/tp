@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 
-/**
+/*
  * Stores information related to time.
  * examples include startTime, duration, deadline
  * Recurrence and recurrenceDate can also be stored here
@@ -18,7 +18,7 @@ import java.util.Date;
 public class Time implements Comparable<Time> {
 
     private static final int DATE_TIME_FORMAT = 5;
-    private Boolean flexible;
+    private Boolean isFlexible;
     private String startTime;
     private String duration;
     private String deadline;
@@ -26,8 +26,8 @@ public class Time implements Comparable<Time> {
     private String recurrence;
     private LocalDate recurrenceDate;
 
-    public Time(Boolean flexible, String startTime, String duration, String deadline, String recurrence) {
-        this.flexible = flexible;
+    public Time(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence) {
+        this.isFlexible = isFlexible;
         this.startTime = startTime;
         this.duration = duration;
         this.deadline = deadline;
@@ -65,7 +65,7 @@ public class Time implements Comparable<Time> {
     }
 
     public Boolean getFlexible() {
-        return flexible;
+        return isFlexible;
     }
 
     @Override

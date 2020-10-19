@@ -6,6 +6,7 @@ import athena.Ui;
 import athena.exceptions.TaskNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -25,11 +26,11 @@ class DeleteCommandTest {
     public static TaskList getTaskList() {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
-                Importance.HIGH, "Tough assignment");
+                Importance.HIGH, "Tough assignment", false);
         taskList.addTask(1, "Assignment 2", "4pm", "2 hrs", "6pm", "13-12-2020",
-                Importance.MEDIUM, "Tough assignment");
+                Importance.MEDIUM, "Tough assignment", false);
         taskList.addTask(2, "Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
-                Importance.MEDIUM, "Tough assignment");
+                Importance.MEDIUM, "Tough assignment", false);
         return taskList;
     }
 
@@ -41,9 +42,9 @@ class DeleteCommandTest {
     public static TaskList getTaskListWithoutTask() {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
-                Importance.HIGH, "Tough assignment");
+                Importance.HIGH, "Tough assignment", false);
         taskList.addTask(2, "Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
-                Importance.MEDIUM, "Tough assignment");
+                Importance.MEDIUM, "Tough assignment", false);
         return taskList;
     }
 
@@ -88,9 +89,9 @@ class DeleteCommandTest {
     /**
      * Asserts that the execution of the command results in what we expect.
      *
-     * @param deleteCommand Delete command
+     * @param deleteCommand    Delete command
      * @param expectedTaskList Expected task list
-     * @param actualTaskList Actual task list
+     * @param actualTaskList   Actual task list
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     private void assertCommandBehaviour(DeleteCommand deleteCommand, TaskList expectedTaskList,
