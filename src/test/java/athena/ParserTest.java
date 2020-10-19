@@ -175,7 +175,7 @@ class ParserTest {
      * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     @Test
-    public void parse_addCommandArg_ParsedCorrectly() throws CommandException {
+    public void parse_addCommandArg_parsedCorrectly() throws CommandException {
         final String input = "add n/Assignment1 t/1100 D/16-09-2020 d/2 hours r/Monday i/high a/Refer to slides";
         final AddCommand parsedCommand = parseAndAssertCommandType(input, AddCommand.class);
         final AddCommand expectedCommand = new AddCommand("Assignment1", "1100",
@@ -189,12 +189,12 @@ class ParserTest {
      * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     @Test
-    public void parse_addShortcutCommandArg_ParsedCorrectly() throws CommandException {
+    public void parse_addShortcutCommandArg_parsedCorrectly() throws CommandException {
         final String input = "a n/Assignment1 t/1100 D/16-09-2020 d/2 hours r/Monday i/high a/Refer to slides";
         final AddCommand parsedCommand = parseAndAssertCommandType(input, AddCommand.class);
         final AddCommand expectedCommand = new AddCommand("Assignment1", "1100",
                 "2 hours", "16-09-2020", "Monday","high",
-                "Refer to slides");
+                "Refer to slides", false);
         assertEquals(parsedCommand, expectedCommand);
     }
 
@@ -204,7 +204,7 @@ class ParserTest {
      * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     @Test
-    public void parse_editCommandAllArg_ParsedCorrectly() throws CommandException {
+    public void parse_editCommandAllArg_parsedCorrectly() throws CommandException {
         taskList.addTask("name", "st", "dur", "deadline",
                 "12-10-2020", Importance.LOW, "dummyNote", false);
         final int testNumber = 0;
@@ -221,9 +221,9 @@ class ParserTest {
      * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     @Test
-    public void parse_editShortcutCommandAllArg_ParsedCorrectly() throws CommandException {
+    public void parse_editShortcutCommandAllArg_parsedCorrectly() throws CommandException {
         taskList.addTask("name", "st", "dur", "deadline",
-                "12-10-2020", Importance.LOW, "dummyNote");
+                "12-10-2020", Importance.LOW, "dummyNote", false);
         final int testNumber = 0;
         final String input = "e 0 n/Assignment1 t/1100 D/16-09-2020 d/2 hours r/13-10-2020 i/high a/Refer to slides";
         final EditCommand parsedCommand = parseAndAssertCommandType(input, EditCommand.class);
@@ -239,7 +239,7 @@ class ParserTest {
      * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     @Test
-    public void parse_editCommandSomeArg_ParsedCorrectly() throws CommandException {
+    public void parse_editCommandSomeArg_parsedCorrectly() throws CommandException {
         taskList.addTask("name", "st", "dur", "deadline",
                 "12-10-2020", Importance.LOW, "dummyNote", false);
         final int testNumber = 0;
@@ -300,7 +300,7 @@ class ParserTest {
     }
 
     @Test
-    public void parse_listCommandArg_ParsedCorrectly() throws CommandException {
+    public void parse_listCommandArg_parsedCorrectly() throws CommandException {
         final String input = "list f/WEEK i/medium";
         final ListCommand parsedCommand = parseAndAssertCommandType(input, ListCommand.class);
         final ListCommand expectedCommand = new ListCommand(Importance.MEDIUM, Forecast.WEEK);
