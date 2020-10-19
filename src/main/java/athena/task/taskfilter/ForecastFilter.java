@@ -27,7 +27,7 @@ public class ForecastFilter extends TaskFilter {
     @Override
     public boolean isTaskIncluded(Task task) {
         for (LocalDate date : task.getDates()) {
-            if (isInstanceIncluded(date)) {
+            if (isDateIncluded(date)) {
                 return true;
             }
         }
@@ -39,7 +39,7 @@ public class ForecastFilter extends TaskFilter {
         return taskDate.get(woy);
     }
 
-    private boolean isInstanceIncluded(LocalDate taskDate) {
+    private boolean isDateIncluded(LocalDate taskDate) {
         boolean isInstanceIncluded;
         if (forecast == Forecast.ALL) {
             isInstanceIncluded = true;
@@ -53,16 +53,16 @@ public class ForecastFilter extends TaskFilter {
         return isInstanceIncluded;
     }
 
-    public Task filterDates(Task task) {
+    public Task removeExcludedDates(Task task) {
         Task taskCopy = task.getClone();
         ArrayList<LocalDate> datesToDelete = new ArrayList<>();
         for (LocalDate date : taskCopy.getDates()) {
-            if (!isInstanceIncluded(date)) {
+            if (!isDateIncluded(date)) {
                 datesToDelete.add(date);
             }
         }
         for (LocalDate date : datesToDelete) {
-            taskCopy.remove(date);
+            taskCopy.removeDate(date);
         }
         return taskCopy;
     }

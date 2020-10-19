@@ -219,7 +219,7 @@ public class TaskList {
                     filteredTasks.add(task);
                 } else {
                     assert taskFilter instanceof ForecastFilter;
-                    Task filteredTask = ((ForecastFilter) taskFilter).filterDates(task);
+                    Task filteredTask = ((ForecastFilter) taskFilter).removeExcludedDates(task);
                     filteredTasks.add(filteredTask);
                 }
             }
