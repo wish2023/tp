@@ -40,7 +40,7 @@ public class Parser {
      * @return Description of parameter
      */
     public static String getParameterDesc(String taskInformation, String delimiter, int paramPosition,
-                                          String defaultValue) {
+                                          String defaultValue) throws InvalidCommandException {
         String param;
         if (paramPosition == -1) {
             param = defaultValue;
@@ -51,7 +51,11 @@ public class Parser {
             if (paramNextSlash == -1) {
                 param = retrievedParamInfo;
             } else {
-                param = retrievedParamInfo.substring(0, (paramNextSlash - 2));
+                try {
+                    param = retrievedParamInfo.substring(0, (paramNextSlash - 2));
+                } catch (StringIndexOutOfBoundsException e) {
+                    throw new InvalidCommandException();
+                }
             }
         }
         return param;
@@ -71,9 +75,11 @@ public class Parser {
      * @return command object
      */
     public static Command parseAddCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
-                                          int recurrencePos, int importancePos, int addNotesPos) {
+                                          int recurrencePos, int importancePos, int addNotesPos)
+                                          throws InvalidCommandException {
         String nullDefault = "";
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullDefault);
+        //TODO: allow for empty string, assign flexible attribute, true if string is null, false if filled
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullDefault);
         String durationDefault = "1 hour";
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, durationDefault);
@@ -109,7 +115,8 @@ public class Parser {
      */
     public static Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
                                            int recurrencePos, int importancePos, int addNotesPos,
-                                           TaskList taskList) throws TaskNotFoundException, EditNoIndexException {
+                                           TaskList taskList) throws TaskNotFoundException, EditNoIndexException,
+                                           InvalidCommandException {
         int number = getNumber(taskInfo);
 
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
@@ -146,7 +153,7 @@ public class Parser {
             int numberNextSlash = taskInfo.indexOf("/");
             int number = Integer.parseInt(taskInfo.substring(0, (numberNextSlash - 2)));
             return number;
-        } catch (StringIndexOutOfBoundsException e) {
+        } catch (StringIndexOutOfBoundsException | NumberFormatException e) {
             throw new EditNoIndexException();
         }
     }
@@ -159,7 +166,8 @@ public class Parser {
      * @param forecastPos   Integer representing position of forecast parameter
      * @return command object
      */
-    public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos) {
+    public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos)
+                                            throws InvalidCommandException {
         String importanceDefault = "ALL";
         String forecastDefault = "TODAY";
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
@@ -196,7 +204,7 @@ public class Parser {
         int forecastPos = taskInfo.indexOf(FORECAST_DELIMITER);
 
         switch (commandType) {
-
+        //TODO: add dep, to make 1 task dependent on another. "dep TaskNumber1 Tasknumber2"
         case "add": {
             return parseAddCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
                     recurrencePos, importancePos, addNotesPos);
@@ -233,12 +241,9 @@ public class Parser {
             return new ExitCommand();
         }
 
-        case "help": {
+        default: {
             return new HelpCommand();
         }
-
-        default:
-            throw new InvalidCommandException();
         }
     }
 }

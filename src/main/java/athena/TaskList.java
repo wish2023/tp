@@ -3,7 +3,6 @@ package athena;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.taskfilter.TaskFilter;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -78,6 +77,9 @@ public class TaskList {
      * @param task Task to be added.
      */
     public void addTask(Task task) {
+        if (this.maxNumber < task.getNumber()) {
+            this.maxNumber = task.getNumber();
+        }
         tasks.add(task);
     }
 

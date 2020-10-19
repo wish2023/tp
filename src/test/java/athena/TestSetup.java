@@ -1,7 +1,14 @@
 package athena;
 
+/**
+ * Sets up a task list for testing classes.
+ */
 public class TestSetup {
 
+    /**
+     * Gets a task list filled with default tasks.
+     * @return Task list of default tasks
+     */
     public static TaskList getTestTaskList() {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",

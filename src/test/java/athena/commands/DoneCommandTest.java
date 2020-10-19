@@ -7,13 +7,12 @@ import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
+/**
+ * Tests methods of the done command.
+ */
 class DoneCommandTest {
     private TaskList taskList;
     private TaskList taskListWithDone;
@@ -66,7 +65,7 @@ class DoneCommandTest {
     /**
      * Tests that a task is marked as done if a valid task number is given.
      *
-     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list.
+     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     @Test
     public void execute_validNumber_taskIsDone() throws TaskNotFoundException {
@@ -93,6 +92,8 @@ class DoneCommandTest {
 
     /**
      * Executes the command, and checks that the execution was what we expect.
+     *
+     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     private void assertCommandBehaviour(DoneCommand doneCommand, TaskList expectedTaskList,
                                         TaskList actualTaskList) throws TaskNotFoundException {
@@ -104,8 +105,8 @@ class DoneCommandTest {
     /**
      * Asserts that nothing changes when the task with the given number does not exist in the given task list.
      *
-     * @param taskNumber Task number to mark as done, but it should be an invalid number.
-     * @param taskList   TaskList to modify.
+     * @param taskNumber Task number to mark as done, but it should be an invalid number
+     * @param taskList   TaskList to modify
      */
     private void assertDoneFailsDueToInvalidNumber(int taskNumber, TaskList taskList) {
         DoneCommand command = createDoneCommand(taskNumber);
@@ -117,9 +118,10 @@ class DoneCommandTest {
     /**
      * Asserts the task with the specified number can be successfully marked as done.
      *
-     * @param taskNumber          Task number of the task to mark as done.
-     * @param taskList            TaskList to modify.
-     * @param taskListWithoutTask Reference taskList to compare with after marking the task as done.
+     * @param taskNumber          Task number of the task to mark as done
+     * @param taskList            TaskList to modify
+     * @param taskListWithoutTask Reference taskList to compare with after marking the task as done
+     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     private void assertDoneSuccessful(int taskNumber, TaskList taskList, TaskList taskListWithoutTask)
             throws TaskNotFoundException {

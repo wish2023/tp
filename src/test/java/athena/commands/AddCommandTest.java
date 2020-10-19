@@ -4,14 +4,13 @@ import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
 import athena.exceptions.AddMissingRequiredParametersException;
-import athena.task.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Tests methods of the add command.
+ */
 class AddCommandTest {
 
     private TaskList taskList;
@@ -21,7 +20,7 @@ class AddCommandTest {
     /**
      * Creates a task list for testing.
      *
-     * @return TaskList for testing.
+     * @return TaskList for testing
      */
     public static TaskList getTaskList() {
         TaskList taskList = new TaskList();
@@ -33,7 +32,7 @@ class AddCommandTest {
     /**
      * Creates a task list that is same as getTaskList() but with added task.
      *
-     * @return TaskList for testing with an added task.
+     * @return TaskList for testing with an added task
      */
     public static TaskList getTaskListWithAddedTask() {
         TaskList taskList = new TaskList();

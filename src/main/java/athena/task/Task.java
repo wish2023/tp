@@ -2,8 +2,11 @@ package athena.task;
 
 import athena.Importance;
 import athena.Recurrence;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -26,8 +29,13 @@ public class Task {
     private String notes;
     private int number;
 
+    private Time timeInfo;
+
+    //TODO: add dependencies between Tasks
+
     /**
      * Determines if the task is done.
+     *
      * @return string representing if the task is done
      */
     private String getStatus() {
@@ -36,14 +44,15 @@ public class Task {
 
     /**
      * Constructor for the task class.
-     * @param name name of the task
-     * @param startTime starting time of the task
-     * @param duration how long the task is scheduled to last for
-     * @param deadline when the task is due
+     *
+     * @param name       name of the task
+     * @param startTime  starting time of the task
+     * @param duration   how long the task is scheduled to last for
+     * @param deadline   when the task is due
      * @param recurrence when the task repeats
      * @param importance importance of the task
-     * @param notes additional notes for the task
-     * @param number task number
+     * @param notes      additional notes for the task
+     * @param number     task number
      */
     public Task(String name, String startTime, String duration, String deadline,
                 String recurrence, Importance importance, String notes, int number) {
@@ -58,11 +67,25 @@ public class Task {
         this.notes = notes;
         this.number = number;
 
+        if (startTime == null) {
+            this.timeInfo = new Time(false, startTime, duration, deadline, recurrence);
+        } else {
+            this.timeInfo = new Time(true, "empty", duration, deadline, recurrence);
+        }
+
+        //TODO: refactor this into Time class
+
         if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
             recurrenceDate = LocalDate.now();
         } else {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            recurrenceDate = LocalDate.parse(recurrence, formatter);
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                recurrenceDate = LocalDate.parse(recurrence, formatter);
+            } catch (DateTimeParseException e) {
+                // TODO: Handle this properly
+                System.out.println("I don't understand the date you gave. So I set it to today.");
+                recurrenceDate = LocalDate.now();
+            }
         }
     }
 
@@ -87,6 +110,7 @@ public class Task {
         assert !this.duration.equals("");
         this.deadline = deadline;
         assert !this.deadline.equals("");
+        //TODO: refactor this into Time class
 
         if (!recurrence.equals(null)) {
             this.recurrence = recurrence;
@@ -134,6 +158,7 @@ public class Task {
 
     /**
      * Returns start time of the task.
+     *
      * @return Start time of task
      */
     public String getStartTime() {
@@ -142,6 +167,7 @@ public class Task {
 
     /**
      * Returns duration of the task.
+     *
      * @return Duration of task
      */
     public String getDuration() {
@@ -150,6 +176,7 @@ public class Task {
 
     /**
      * Returns due date of the task.
+     *
      * @return Due date of task
      */
     public String getDeadline() {
@@ -158,6 +185,7 @@ public class Task {
 
     /**
      * Returns if the task is done.
+     *
      * @return Status of task completion
      */
     public boolean isDone() {
@@ -166,6 +194,7 @@ public class Task {
 
     /**
      * Returns task notes.
+     *
      * @return Task notes
      */
     public String getNotes() {
@@ -174,6 +203,7 @@ public class Task {
 
     /**
      * Returns when the task repeats.
+     *
      * @return When the task repeats
      */
     public String getRecurrence() {
@@ -182,6 +212,7 @@ public class Task {
 
     /**
      * Returns when the task repeats as a LocalDate object.
+     *
      * @return When the task repeats as a LocalDate object
      */
     public LocalDate getDate() {
@@ -190,6 +221,7 @@ public class Task {
 
     /**
      * Returns the task number.
+     *
      * @return Task number
      */
     public int getNumber() {
@@ -198,6 +230,7 @@ public class Task {
 
     /**
      * Sets the task number.
+     *
      * @param number Number that the user wants to set the task to.
      */
     public void setNumber(int number) {
@@ -206,8 +239,11 @@ public class Task {
 
     /**
      * Restores a task that the user has just deleted.
+     *
      * @return String representing details of the task the user wants to restore
      */
+
+    //TODO: rework this, hard to do if dependencies are added
     public String getTaskRestore() {
         String taskRestore = "add n/" + this.getName() + " t/" + this.getStartTime() + " d/" + this.getDuration()
                 + " D/" + this.getDeadline() + " r/" + this.getRecurrence() + " t/" + this.getImportance()
@@ -215,8 +251,13 @@ public class Task {
         return taskRestore;
     }
 
+    public Time getTimeInfo() {
+        return timeInfo;
+    }
+
     /**
      * Converts a task object to a string.
+     *
      * @return task as a string
      */
     @Override
