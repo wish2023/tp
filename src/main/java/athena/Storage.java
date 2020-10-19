@@ -32,7 +32,7 @@ public class Storage {
                 taskString = task.getName() + "|" + task.getStartTime() + "|" + task.getDuration() + "|"
                         + task.getDeadline() + "|" + task.getRecurrence() + "|" + task.getImportance() + "|"
                         + task.getNotes() + "|" + task.getNumber();
-                taskString = taskString.replaceAll(",", "]commareplacement}").replace("|",
+                taskString = taskString.replaceAll(",", "]c}").replace("|",
                         ",");
                 csvWriter.append(taskString + "\n");
             }
@@ -55,7 +55,7 @@ public class Storage {
                 while ((row = csvReader.readLine()) != null) {
                     String[] data = row.split(",");
                     for (int i=0; i < data.length; i++) {
-                        data[i] = data[i].replaceAll("]commareplacement}", ",");
+                        data[i] = data[i].replaceAll("]c}", ",");
                     }
                     output.addTask(Integer.parseInt(data[7]), data[0], data[1], data[2], data[3], data[4],
                             Importance.valueOf(data[5].toUpperCase()), data[6]);
