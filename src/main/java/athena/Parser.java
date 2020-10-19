@@ -169,7 +169,7 @@ public class Parser {
     public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos)
                                             throws InvalidCommandException {
         String importanceDefault = "ALL";
-        String forecastDefault = "TODAY";
+        String forecastDefault = "WEEK";
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
         String forecast = getParameterDesc(taskInfo, FORECAST_DELIMITER, forecastPos, forecastDefault);
         Command command = new ListCommand(Importance.valueOf(importance.toUpperCase()),

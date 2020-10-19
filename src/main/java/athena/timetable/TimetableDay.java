@@ -2,7 +2,9 @@ package athena.timetable;
 
 import athena.TaskList;
 import athena.task.Task;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  * Represents a day in the timetable.
@@ -63,8 +65,8 @@ public class TimetableDay {
             message += "Got no tasks for this day\n";
         } else {
             for (Task task : taskList.getTasks()) {
-                message += String.format("- %s at %s finish by %s [%d]\n", task.getName(), task.getStartTime(),
-                        task.getDeadline(), task.getNumber());
+                // TODO: replace with getDetails when PR for view command is merged
+                message += task + "\n";
             }
         }
         return message;

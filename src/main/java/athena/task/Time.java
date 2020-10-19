@@ -4,6 +4,7 @@ import athena.Recurrence;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
@@ -18,8 +19,8 @@ import java.util.Date;
 public class Time implements Comparable<Time> {
 
     private Boolean flexible;
-    private String startTime;
-    private String duration;
+    private LocalTime startTime;
+    private int duration;
     private String deadline;
 
     private String recurrence;
@@ -27,8 +28,8 @@ public class Time implements Comparable<Time> {
 
     public Time(Boolean flexible, String startTime, String duration, String deadline, String recurrence) {
         this.flexible = flexible;
-        this.startTime = startTime;
-        this.duration = duration;
+        this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
+        this.duration = Integer.parseInt(duration);
         this.deadline = deadline;
         this.recurrence = recurrence;
     }
@@ -57,11 +58,18 @@ public class Time implements Comparable<Time> {
         return flexible;
     }
 
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
     @Override
     public int compareTo(Time o) {
         return 0;
     }
-
 
     //    @Override
     //    public int compareTo(Time o) {

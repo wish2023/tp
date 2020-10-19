@@ -67,7 +67,7 @@ public class Task {
         this.notes = notes;
         this.number = number;
 
-        if (startTime == null) {
+        if (startTime != null) {
             this.timeInfo = new Time(false, startTime, duration, deadline, recurrence);
         } else {
             this.timeInfo = new Time(true, "empty", duration, deadline, recurrence);
