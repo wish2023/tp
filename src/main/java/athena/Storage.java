@@ -25,12 +25,16 @@ public class Storage {
      * Initialises Storage object.
      *
      * @param filepath Location of the save file
-     * @param ui prints out error messages
+     * @param ui       prints out error messages
      */
     public Storage(String filepath, Ui ui) {
         this.filePath = filepath;
         this.ui = ui;
 
+    }
+
+    private String replaceCommas(String info){
+        return info.replace(",", "]c}");
     }
 
     /**
@@ -45,11 +49,10 @@ public class Storage {
         try {
             FileWriter csvWriter = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {
-                taskString = task.getName() + "|" + task.getStartTime() + "|" + task.getDuration() + "|"
-                        + task.getDeadline() + "|" + task.getRecurrence() + "|" + task.getImportance() + "|"
-                        + task.getNotes() + "|" + task.getNumber();
-                taskString = taskString.replaceAll(",", "]c}").replace("|",
-                        ",");
+                taskString = replaceCommas(task.getName()) + "," + replaceCommas(task.getStartTime()) + ","
+                        + replaceCommas(task.getDuration()) + "," + replaceCommas(task.getDeadline())
+                        + "," + replaceCommas(task.getRecurrence()) + "," + task.getImportance() + ","
+                        + replaceCommas(task.getNotes()) + "," + task.getNumber();
                 csvWriter.append(taskString + "\n");
             }
             csvWriter.close();

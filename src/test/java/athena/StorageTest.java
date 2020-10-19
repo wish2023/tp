@@ -43,8 +43,6 @@ class StorageTest {
                 }
                 expectedLine = expected.readLine();
                 actualLine = actual.readLine();
-
-
             }
             return true;
         } catch (IOException e) {
