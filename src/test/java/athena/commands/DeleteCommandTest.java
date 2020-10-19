@@ -22,13 +22,13 @@ class DeleteCommandTest {
      *
      * @return TaskList for testing
      */
-    public static TaskList getTaskList() {
+    private TaskList getTaskList() {
         TaskList taskList = new TaskList();
-        taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
+        taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment");
-        taskList.addTask(1, "Assignment 2", "4pm", "2 hrs", "6pm", "13-12-2020",
+        taskList.addTask(1, "Assignment 2", "1600", "2", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment");
-        taskList.addTask(2, "Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
+        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment");
         return taskList;
     }
@@ -38,11 +38,11 @@ class DeleteCommandTest {
      *
      * @return TaskList for testing without task number 2
      */
-    public static TaskList getTaskListWithoutTask() {
+    private TaskList getTaskListWithoutTask() {
         TaskList taskList = new TaskList();
-        taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
+        taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment");
-        taskList.addTask(2, "Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
+        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment");
         return taskList;
     }

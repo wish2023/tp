@@ -23,13 +23,13 @@ class DoneCommandTest {
      *
      * @return TaskList for testing.
      */
-    public static TaskList getTaskList() {
+    private TaskList getTaskList() {
         TaskList taskList = new TaskList();
-        taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
+        taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment");
-        taskList.addTask(1, "Assignment 2", "4pm", "2 hrs", "6pm", "13-12-2020",
+        taskList.addTask(1, "Assignment 2", "1600", "2", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment");
-        taskList.addTask(2, "Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
+        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment");
         return taskList;
     }
@@ -39,15 +39,15 @@ class DoneCommandTest {
      *
      * @return TaskList for testing with a done task number 1.
      */
-    public static TaskList getTaskListWithDone() {
+    private TaskList getTaskListWithDone() {
         TaskList taskList = new TaskList();
-        taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
+        taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment");
-        Task doneTask = new Task("Assignment 2", "4pm", "2 hrs", "6pm",
+        Task doneTask = new Task("Assignment 2", "1600", "2", "6pm",
                 "13-12-2020", Importance.MEDIUM, "Tough assignment", 1);
         doneTask.setDone();
         taskList.addTask(doneTask);
-        taskList.addTask(2, "Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
+        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment");
         return taskList;
     }
