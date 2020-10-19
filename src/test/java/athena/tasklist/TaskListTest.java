@@ -37,7 +37,7 @@ class TaskListTest {
     @Test
     void deleteTask_validTaskIndex_correctTaskDeleted() throws TaskNotFoundException {
         Task expectedTask = new Task("Assignment1", "1100",
-        "2", "16-09-2020", "13-10-2020", Importance.HIGH,
+                "2", "16-09-2020", "13-10-2020", Importance.HIGH,
                 "Refer to slides", 12, false);
         testTaskList.addTask(expectedTask);
         Task actualTask = testTaskList.deleteTask(12);
@@ -69,10 +69,10 @@ class TaskListTest {
     }
 
     @Test
+    void getFilteredList_highImportance_returnTasksWithHighImportance() {
         // Filter list using high, low, medium importance
         // Filter list using today, week, all forecast
         // TODO ^^
-    void getFilteredList_highImportance_returnTasksWithHighImportance() {
         TaskList expectedTaskList = getImportanceTestExpectedTasks(Importance.HIGH);
         ImportanceFilter highFilter = new ImportanceFilter(Importance.HIGH);
         assertEquals(testTaskList.getFilteredList(highFilter), expectedTaskList);

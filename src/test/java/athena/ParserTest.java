@@ -153,7 +153,7 @@ class ParserTest {
         final EditCommand parsedCommand = parseAndAssertCommandType(input, EditCommand.class);
         final EditCommand expectedCommand = new EditCommand(testNumber, "I have changed", "1600",
                 "2", "deadline", "12-10-2020", Importance.valueOf("low".toUpperCase()),
-        "I am not filling any other arguments");
+                "I am not filling any other arguments");
         assertEquals(parsedCommand, expectedCommand);
     }
 
