@@ -81,7 +81,7 @@ public class Parser {
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullDefault);
         //TODO: allow for empty string, assign flexible attribute, true if string is null, false if filled
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullDefault);
-        boolean flexible = (time == nullDefault);
+        boolean isFlexible = (time == nullDefault);
         String durationDefault = "1 hour";
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, durationDefault);
         String deadlineDefault = "No deadline";
@@ -92,7 +92,7 @@ public class Parser {
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
         String notesDefault = "No notes";
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos, notesDefault);
-        Command command = new AddCommand(name, time, duration, deadline, recurrence, importance, notes, flexible);
+        Command command = new AddCommand(name, time, duration, deadline, recurrence, importance, notes, isFlexible);
 
         return command;
     }

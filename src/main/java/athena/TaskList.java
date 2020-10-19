@@ -57,8 +57,8 @@ public class TaskList {
      * @return Task as Task object
      */
     private Task createTask(int number, String name, String startTime, String duration, String deadline,
-                            String recurrence, Importance importance, String notes, Boolean flexible) {
-        Task task = new Task(name, startTime, duration, deadline, recurrence, importance, notes, number, flexible);
+                            String recurrence, Importance importance, String notes, Boolean isFlexible) {
+        Task task = new Task(name, startTime, duration, deadline, recurrence, importance, notes, number, isFlexible);
         return task;
     }
 
@@ -97,11 +97,11 @@ public class TaskList {
      */
 
     public void addTask(int number, String name, String startTime, String duration,
-                        String deadline, String recurrence, Importance importance, String notes, boolean flexible) {
+                        String deadline, String recurrence, Importance importance, String notes, boolean isFlexible) {
         if (this.maxNumber < number) {
             this.maxNumber = number;
         }
-        Task task = createTask(number, name, startTime, duration, deadline, recurrence, importance, notes, flexible);
+        Task task = createTask(number, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
         tasks.add(task);
     }
 
@@ -117,9 +117,9 @@ public class TaskList {
      * @param notes      Additional notes of task
      */
     public void addTask(String name, String startTime, String duration,
-                        String deadline, String recurrence, Importance importance, String notes, Boolean flexible) {
+                        String deadline, String recurrence, Importance importance, String notes, Boolean isFlexible) {
         maxNumber++;
-        addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, flexible);
+        addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
     }
 
     /**

@@ -18,7 +18,7 @@ public class AddCommand extends Command {
     private String taskRecurrence;
     private Importance taskImportance;
     private String taskNotes;
-    private Boolean taskFlexible;
+    private Boolean isTaskFlexible;
 
     /**
      * Initializes the object with the parameters.
@@ -30,10 +30,10 @@ public class AddCommand extends Command {
      * @param recurrence String representing recurrence of task.
      * @param importance String representing importance of task.
      * @param notes      String representing additional notes of task.
-     * @param flexible  Boolean representing if task time is flexible
+     * @param isFlexible  Boolean representing if task time is flexible
      */
     public AddCommand(String name, String startTime, String duration, String deadline,
-                      String recurrence, String importance, String notes, boolean flexible) {
+                      String recurrence, String importance, String notes, boolean isFlexible) {
         taskName = name;
         assert !taskName.equals("");
         taskStartTime = startTime;
@@ -43,7 +43,7 @@ public class AddCommand extends Command {
         taskRecurrence = recurrence;
         taskImportance = Importance.valueOf(importance.toUpperCase());
         taskNotes = notes;
-        taskFlexible = flexible;
+        isTaskFlexible = isFlexible;
     }
 
     /**
@@ -61,7 +61,7 @@ public class AddCommand extends Command {
             throw new AddMissingRequiredParametersException();
         }
         taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
-                taskRecurrence, taskImportance, taskNotes, taskFlexible);
+                taskRecurrence, taskImportance, taskNotes, isTaskFlexible);
         ui.printTaskAdded(taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance.toString(), taskNotes);
     }

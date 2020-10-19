@@ -22,7 +22,7 @@ public class Task {
 
     private String recurrence;
     private LocalDate recurrenceDate;
-    private boolean flexible;
+    private boolean isFlexible;
 
     private boolean isDone = false;
     private Importance importance;
@@ -52,10 +52,10 @@ public class Task {
      * @param importance importance of the task
      * @param notes      additional notes for the task
      * @param number     task number
-     * @param flexible  time flexibility
+     * @param isFlexible  time flexibility
      */
     public Task(String name, String startTime, String duration, String deadline,
-                String recurrence, Importance importance, String notes, int number, Boolean flexible) {
+                String recurrence, Importance importance, String notes, int number, Boolean isFlexible) {
         this.name = name;
         assert !this.name.equals("");
         this.startTime = startTime;
@@ -66,8 +66,8 @@ public class Task {
         this.importance = importance;
         this.notes = notes;
         this.number = number;
-        this.flexible = flexible;
-        this.timeInfo = new Time(flexible, startTime, duration, deadline, recurrence);
+        this.isFlexible = isFlexible;
+        this.timeInfo = new Time(this.isFlexible, startTime, duration, deadline, recurrence);
 
 
 
@@ -236,11 +236,11 @@ public class Task {
     }
 
     public boolean isFlexible() {
-        return flexible;
+        return isFlexible;
     }
 
-    public void setFlexible(boolean flexible) {
-        this.flexible = flexible;
+    public void setFlexible(boolean isFlexible) {
+        this.isFlexible = isFlexible;
     }
 
     /**
