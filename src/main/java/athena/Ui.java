@@ -12,6 +12,16 @@ public class Ui {
 
     }
 
+    public void printAthenaLogo() {
+        System.out.println("     ___   .__________.  __    __   _______ .__   __.      ___      \n"
+                + "    /   \\  |          | |  |  |  | |   ____||  \\ |  |     /   \\     \n"
+                + "   /  ^  \\ `---|  |---` |  |__|  | |  |__   |   \\|  |    /  ^  \\    \n"
+                + "  /  /_\\  \\    |  |     |   __   | |   __|  |  . `  |   /  /_\\  \\   \n"
+                + " /  _____  \\   |  |     |  |  |  | |  |____ |  |\\   |  /  _____  \\  \n"
+                + "/__/     \\__\\  |__|     |__|  |__| |_______||__| \\__| /__/     \\__\\ \n"
+                + "                                                                    ");
+    }
+
     /**
      * Prints the first message that the user sees upon launching the application.
      */
