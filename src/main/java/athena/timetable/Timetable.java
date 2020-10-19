@@ -63,17 +63,19 @@ public class Timetable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         for (Task task : taskList.getTasks()) {
-            LocalDate date = task.getDate();
+            ArrayList<LocalDate> dates = task.getDates();
+            for (LocalDate date : dates) {
 
-            TimetableDay timetableDay;
-            if (timetableDayMap.containsKey(date)) {
-                timetableDay = timetableDayMap.get(date);
-            } else {
-                timetableDay = new TimetableDay(date);
-                timetableDayMap.put(date, timetableDay);
+                TimetableDay timetableDay;
+                if (timetableDayMap.containsKey(date)) {
+                    timetableDay = timetableDayMap.get(date);
+                } else {
+                    timetableDay = new TimetableDay(date);
+                    timetableDayMap.put(date, timetableDay);
+                }
+
+                timetableDay.addTask(task);
             }
-
-            timetableDay.addTask(task);
         }
 
         for (LocalDate key : timetableDayMap.keySet()) {
