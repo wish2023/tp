@@ -6,6 +6,7 @@ import athena.Ui;
 import athena.exceptions.AddMissingRequiredParametersException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -25,7 +26,7 @@ class AddCommandTest {
     public static TaskList getTaskList() {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
-                Importance.HIGH, "Tough assignment");
+                Importance.HIGH, "Tough assignment", false);
         return taskList;
     }
 
@@ -37,9 +38,9 @@ class AddCommandTest {
     public static TaskList getTaskListWithAddedTask() {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
-                Importance.HIGH, "Tough assignment");
+                Importance.HIGH, "Tough assignment", false);
         taskList.addTask(1, "Homework 2", "8am", "4 hrs", "8pm", "10-12-2020",
-                Importance.HIGH, "Very easy homework");
+                Importance.HIGH, "Very easy homework", false);
         return taskList;
     }
 
@@ -68,7 +69,7 @@ class AddCommandTest {
      */
     private AddCommand createAddCommand() {
         AddCommand command = new AddCommand("Homework 2", "8am", "4 hrs", "8pm", "10-12-2020",
-                "high", "Very easy homework");
+                "high", "Very easy homework", false);
         return command;
     }
 

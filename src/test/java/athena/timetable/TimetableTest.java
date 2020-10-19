@@ -8,9 +8,11 @@ import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
 import org.junit.jupiter.api.Test;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -31,41 +33,41 @@ class TimetableTest {
         date = LocalDate.parse("12-12-2020", formatter);
         day = new TimetableDay(date);
         day.addTask(new Task("Assignment 1", "4pm", "2 hrs", "6pm",
-                "12-12-2020", Importance.HIGH, "Tough assignment", 0));
+                "12-12-2020", Importance.HIGH, "Tough assignment", 0, false));
         days.add(day);
 
         date = LocalDate.parse("13-12-2020", formatter);
         day = new TimetableDay(date);
         day.addTask(new Task("Assignment 2", "4pm", "2 hrs", "6pm",
-                "13-12-2020", Importance.MEDIUM, "Tough assignment", 1));
+                "13-12-2020", Importance.MEDIUM, "Tough assignment", 1, false));
         days.add(day);
 
         date = LocalDate.parse("14-12-2020", formatter);
         day = new TimetableDay(date);
         day.addTask(new Task("Assignment 3", "4pm", "2 hrs", "6pm",
-                "14-12-2020", Importance.LOW, "Tough assignment", 2));
+                "14-12-2020", Importance.LOW, "Tough assignment", 2, false));
         day.addTask(new Task("Assignment 4", "4pm", "2 hrs", "6pm",
-                "14-12-2020", Importance.MEDIUM, "Tough assignment", 3));
+                "14-12-2020", Importance.MEDIUM, "Tough assignment", 3, false));
         day.addTask(new Task("Assignment 5", "4pm", "2 hrs", "6pm",
-                "14-12-2020", Importance.HIGH, "Tough assignment", 4));
+                "14-12-2020", Importance.HIGH, "Tough assignment", 4, false));
         days.add(day);
 
         date = LocalDate.parse("15-12-2020", formatter);
         day = new TimetableDay(date);
         day.addTask(new Task("Assignment 6", "4pm", "2 hrs", "6pm",
-                "15-12-2020", Importance.MEDIUM, "Tough assignment", 5));
+                "15-12-2020", Importance.MEDIUM, "Tough assignment", 5, false));
         day.addTask(new Task("Assignment 7", "4pm", "2 hrs", "6pm",
-                "15-12-2020", Importance.HIGH, "Tough assignment", 6));
+                "15-12-2020", Importance.HIGH, "Tough assignment", 6, false));
         day.addTask(new Task("Assignment 8", "4pm", "2 hrs", "6pm",
-                "15-12-2020", Importance.MEDIUM, "Tough assignment", 7));
+                "15-12-2020", Importance.MEDIUM, "Tough assignment", 7, false));
         days.add(day);
 
         date = LocalDate.parse("16-12-2020", formatter);
         day = new TimetableDay(date);
         day.addTask(new Task("Assignment 9", "4pm", "2 hrs", "6pm",
-                "16-12-2020", Importance.LOW, "Tough assignment", 8));
+                "16-12-2020", Importance.LOW, "Tough assignment", 8, false));
         day.addTask(new Task("Assignment 10", "4pm", "2 hrs", "6pm",
-                "16-12-2020", Importance.MEDIUM, "Tough assignment", 9));
+                "16-12-2020", Importance.MEDIUM, "Tough assignment", 9, false));
         days.add(day);
 
         TaskList taskList = TestSetup.getTestTaskList();
@@ -87,19 +89,19 @@ class TimetableTest {
         date = LocalDate.parse("12-12-2020", formatter);
         day = new TimetableDay(date);
         day.addTask(new Task("Assignment 1", "4pm", "2 hrs", "6pm",
-                "12-12-2020", Importance.HIGH, "Tough assignment", 0));
+                "12-12-2020", Importance.HIGH, "Tough assignment", 0, false));
         days.add(day);
 
         date = LocalDate.parse("14-12-2020", formatter);
         day = new TimetableDay(date);
         day.addTask(new Task("Assignment 5", "4pm", "2 hrs", "6pm",
-                "14-12-2020", Importance.HIGH, "Tough assignment", 4));
+                "14-12-2020", Importance.HIGH, "Tough assignment", 4, false));
         days.add(day);
 
         date = LocalDate.parse("15-12-2020", formatter);
         day = new TimetableDay(date);
         day.addTask(new Task("Assignment 7", "4pm", "2 hrs", "6pm",
-                "15-12-2020", Importance.HIGH, "Tough assignment", 6));
+                "15-12-2020", Importance.HIGH, "Tough assignment", 6, false));
         days.add(day);
 
         TaskList taskList = TestSetup.getTestTaskList();
@@ -111,8 +113,9 @@ class TimetableTest {
 
     /**
      * Checks if two timetables are the same.
+     *
      * @param timetable Pre-created timetable
-     * @param days ArrayList of days
+     * @param days      ArrayList of days
      * @return True or false depending if the two timetables are the same
      */
     private boolean areTimetablesSame(Timetable timetable, ArrayList<TimetableDay> days) {

@@ -6,9 +6,6 @@ import athena.task.Task;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
-import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,7 +21,7 @@ class ForecastFilterTest {
     void testIsTaskIncluded_filterAll_returnsTrue() {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.ALL);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
-                "20-12-2020", Importance.MEDIUM, "testNotes", 0);
+                "20-12-2020", Importance.MEDIUM, "testNotes", 0, false);
         boolean isTaskIncluded = forecastFilter.isTaskIncluded(inputTask);
         assertEquals(isTaskIncluded, true);
     }
@@ -37,7 +34,7 @@ class ForecastFilterTest {
         String todayDateString = LocalDate.now().toString();
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.WEEK);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
-                todayDateString, Importance.LOW, "testNotes", 0);
+                todayDateString, Importance.LOW, "testNotes", 0, false);
         boolean isTaskIncluded = forecastFilter.isTaskIncluded(inputTask);
         assertEquals(isTaskIncluded, true);
     }
@@ -49,7 +46,7 @@ class ForecastFilterTest {
     void testIsTaskIncluded_filterByWeek_returnsFalse() {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.WEEK);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
-                "30-10-2020", Importance.LOW, "testNotes", 0);
+                "30-10-2020", Importance.LOW, "testNotes", 0, false);
         boolean isTaskIncluded = forecastFilter.isTaskIncluded(inputTask);
         assertEquals(isTaskIncluded, false);
     }
@@ -62,7 +59,7 @@ class ForecastFilterTest {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.TODAY);
         String todayDateString = LocalDate.now().toString();
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
-                todayDateString, Importance.LOW, "testNotes", 0); // Tested on 13-10-2020
+                todayDateString, Importance.LOW, "testNotes", 0, false); // Tested on 13-10-2020
         boolean isTaskIncluded = forecastFilter.isTaskIncluded(inputTask);
         assertEquals(isTaskIncluded, true);
     }
@@ -74,7 +71,7 @@ class ForecastFilterTest {
     void testIsTaskIncluded_day_returnsFalse() {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.TODAY);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
-                "14-10-2020", Importance.LOW, "testNotes", 0); // Tested on 13-10-2020
+                "14-10-2020", Importance.LOW, "testNotes", 0, false); // Tested on 13-10-2020
         boolean isTaskIncluded = forecastFilter.isTaskIncluded(inputTask);
         assertEquals(isTaskIncluded, false);
     }

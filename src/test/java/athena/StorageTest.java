@@ -1,9 +1,11 @@
 package athena;
 
 import org.junit.jupiter.api.Test;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -25,6 +27,7 @@ class StorageTest {
 
     /**
      * Checks if two save files are the same based on their contents.
+     *
      * @param file1 First file
      * @param file2 Second file
      * @return True or false depending on if the files are the same
@@ -43,8 +46,6 @@ class StorageTest {
                 }
                 expectedLine = expected.readLine();
                 actualLine = actual.readLine();
-
-
             }
             return true;
         } catch (IOException e) {
@@ -63,5 +64,16 @@ class StorageTest {
         taskList = storage.loadTaskListData();
         TaskList tester = TestSetup.getTestTaskList();
         assertTrue(tester.equals(taskList));
+    }
+
+    @Test
+    void loadTaskListData_commaInTaskAttribute_commaIsReplaced() {
+        Ui ui = new Ui();
+        Storage storage = new Storage("src/test/java/athena/StorageTestAnswer2.csv", ui);
+        TaskList taskList;
+        taskList = storage.loadTaskListData();
+        TaskList tester = TestSetup.getCommaTestTaskList();
+        assertTrue(tester.equals(taskList));
+
     }
 }
