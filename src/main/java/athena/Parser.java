@@ -225,6 +225,29 @@ public class Parser {
     }
 
     /**
+     * Parses user input for command type.
+     *
+     * @param commandAndDetails String representing command and information of task
+     * @return command object
+     */
+    public static String parseCommandType(String commandAndDetails) {
+        HashMap<String, String> shortcutCommands = new HashMap<String, String>();
+        shortcutCommands.put("a", "add");
+        shortcutCommands.put("e", "edit");
+        shortcutCommands.put("l", "list");
+        shortcutCommands.put("dn", "done");
+        shortcutCommands.put("dl", "delete");
+        shortcutCommands.put("v", "view");
+        shortcutCommands.put("ex", "exit");
+
+        String commandType = commandAndDetails;
+        if (shortcutCommands.get(commandType) != null) {
+            commandType = shortcutCommands.get(commandType);
+        }
+        return commandType;
+    }
+
+    /**
      * Parses user input and recognises what type of command
      * and parameters the user typed.
      *
@@ -249,19 +272,7 @@ public class Parser {
         int addNotesPos = taskInfo.indexOf(ADDITIONAL_NOTES_DELIMITER);
         int forecastPos = taskInfo.indexOf(FORECAST_DELIMITER);
 
-        HashMap<String, String> shortcutCommands = new HashMap<String, String>();
-        shortcutCommands.put("a", "add");
-        shortcutCommands.put("e", "edit");
-        shortcutCommands.put("l", "list");
-        shortcutCommands.put("dn", "done");
-        shortcutCommands.put("dl", "delete");
-        shortcutCommands.put("v", "view");
-        shortcutCommands.put("ex", "exit");
-
-        String commandType = commandAndDetails[0];
-        if (shortcutCommands.get(commandType) != null) {
-            commandType = shortcutCommands.get(commandType);
-        }
+        String commandType = parseCommandType(commandAndDetails[0]);
 
         switch (commandType) {
         case "add": {
