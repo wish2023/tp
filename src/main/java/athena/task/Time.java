@@ -38,6 +38,16 @@ public class Time implements Comparable<Time> {
         return recurrenceDate;
     }
 
+    private void setRecurrenceDate(String recurrence) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        if (recurrence.length() == DATE_TIME_FORMAT) {
+            String year = Integer.toString(LocalDate.now().getYear());
+            recurrenceDate = LocalDate.parse(recurrence + "-", formatter);
+        } else {
+            recurrenceDate = LocalDate.parse(recurrence, formatter);
+        }
+    }
+
     public void setRecurrenceDate(LocalDate recurrenceDate) {
         if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
             recurrenceDate = LocalDate.now();
