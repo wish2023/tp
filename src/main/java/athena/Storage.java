@@ -33,7 +33,7 @@ public class Storage {
 
     }
 
-    private String replaceCommas(String info){
+    private String replaceCommas(String info) {
         return info.replace(",", "]c}");
     }
 
