@@ -336,9 +336,9 @@ public class Task {
         return timeInfo;
     }
 
-    public ArrayList<LocalDate> makeDeepCopyDates(ArrayList<LocalDate> oldDates){
+    public ArrayList<LocalDate> makeDeepCopyDates(ArrayList<LocalDate> oldDates) {
         ArrayList<LocalDate> copy = new ArrayList<LocalDate>();
-        for(LocalDate date : oldDates){
+        for (LocalDate date : oldDates) {
             LocalDate dateCopy = getRecurrenceDate(date.toString());
             copy.add(dateCopy);
         }
