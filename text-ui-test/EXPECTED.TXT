@@ -29,7 +29,7 @@ delete INDEX
 e.g. delete 2
 
 To say farewell to me, ATHENA:
-exit
+bye
 But why would you want to leave me anyways? Hmph.
 
 You've successfully added Assignment1 to your list!
@@ -40,16 +40,16 @@ Additionally, you've also added these additional notes!
 Refer to lecture notes.
 Looks like another mission to complete! Let's do it!
 
-2020-10-13:
+2020-10-17:
 - Assignment1 at 1100 finish by 16-09-2020 [1]
 
 
-2020-10-13:
+2020-10-17:
 - Assignment1 at 1100 finish by 16-09-2020 [1]
 
 
 
-2020-10-13:
+2020-10-17:
 - Assignment1 at 1100 finish by 16-09-2020 [1]
 
 
@@ -64,15 +64,15 @@ Importance: HIGH
 Additional Notes: Refer to lecture notes
 The mistakes of the past have been vanquished!
 
-2020-10-13:
+2020-10-17:
 - Homework 1 at 1100 finish by 16-09-2020 [1]
 
 
 The task with the label -1 cannot be found
 The task with the label 4 cannot be found
-A job well done! I've slayed the-- I mean, marked the task Y Homework 1 at 1100 finish by 16-09-2020as complete!
+A job well done! I've slayed the-- I mean, marked the task Homework 1 as complete!
 
-2020-10-13:
+2020-10-17:
 - Homework 1 at 1100 finish by 16-09-2020 [1]
 
 
@@ -84,5 +84,6 @@ add n/Homework 1 t/1100 d/2 D/16-09-2020 r/today t/HIGH a/Refer to lecture notes
 You can thank me later
 
 The task with the label 10 cannot be found
+You don't have any tasks in your list! You should probably add some in if you want to be productive.
 
 Going so soon? Well I'll be here the next time you need me. Farewell!

@@ -47,7 +47,7 @@ public class Ui {
     /**
      * Lists out the the tasks that the user has added.
      *
-     * @param taskList The list of tasks.
+     * @param taskList The list of tasks
      */
     public void printList(ArrayList<Task> taskList) {
         System.out.println("Here's your list of monsters you've been tasked to eliminate!\n");
@@ -60,10 +60,11 @@ public class Ui {
     /**
      * Prints out a message verifying that the task the user specified has been marked as done.
      *
-     * @param task The task that the user marked as done.
+     * @param task The task that the user marked as done
      */
     public void printTaskDone(Task task) {
-        System.out.println("A job well done! I've slayed the-- I mean, marked the task " + task + " as complete!\n");
+        System.out.println("A job well done! I've slayed the-- I mean, marked the task "
+                + task.getName() + " as complete!\n");
     }
 
     /**
@@ -140,43 +141,67 @@ public class Ui {
     /**
      * Prints a message stating the task is not found.
      *
-     * @param taskNumber Task number given by the user.
+     * @param taskNumber Task number given by the user
      */
     public void printTaskNotFound(int taskNumber) {
         System.out.println("The task with the label " + taskNumber + " cannot be found");
     }
 
+    /**
+     * Prints a message telling user they did not specify either the name or start time of the task.
+     */
     public void printAddMissingRequiredParametersException() {
         System.out.println("You haven't specified the name or the start time of the task! "
                 + "How can we go on a conquest if we don't know what to slay and what time to start?\n");
     }
 
+    /**
+     * Prints a message telling user they did not provide a valid index for the delete command.
+     */
     public void printDeleteInvalidIndexException() {
         System.out.println("Hmm...not sure what you're trying to delete, but there is no task at that index.\n");
     }
 
+    /**
+     * Prints a message telling user they did not provide an index for the delete command.
+     */
     public void printDeleteNoIndexException() {
         System.out.println("So you're trying to delete a task...but which one exactly? You haven't specified.\n");
     }
 
+    /**
+     * Prints a message telling user they did not provide a valid index for the done command.
+     */
     public void printDoneInvalidIndexException() {
         System.out.println("I'm not sure if you're trying to smoke me or smoke yourself, but there is no task at that "
                 + "index. You should enter a task index that contains a task.\n");
     }
 
+    /**
+     * Prints a message telling user they did not provide an index for the done command.
+     */
     public void printDoneNoIndexException() {
         System.out.println("I know you're really eager, but you need to specify a task to mark as done!\n");
     }
 
+    /**
+     * Prints a message telling user they did not provide an index for the edit command.
+     */
     public void printEditNoIndexException() {
         System.out.println("You need to specify the correct index of the task you want to edit!\n");
     }
 
+    /**
+     * Prints a message telling user they did not input a command that is recognized by the program.
+     */
     public void printInvalidCommandException() {
         System.out.println("I know I'm really smart but even I don't know what you're requesting. Maybe if you type "
                 + "\"help\", you can see what the valid commands are.\n");
     }
 
+    /**
+     * Prints a message telling user their task list is empty.
+     */
     public void printEmptyTaskListException() {
         System.out.println("You don't have any tasks in your list! You should probably add some in if you want to "
                 + "be productive.\n");
@@ -192,30 +217,9 @@ public class Ui {
     /**
      * Prints the timetable.
      *
-     * @param timetable Timetable to be printed.
+     * @param timetable Timetable to be printed
      */
     public void printTimetable(Timetable timetable) {
         System.out.println(timetable);
     }
-
-    /*
-    //message that is printed out while awaiting the next command
-    public void nextCommandPrompt() {
-
-    }
-
-    //access from Parser
-    public void lastSaved() {
-
-    }
-
-    public void successMessage() {
-
-    }
-
-    //will have many of these, depending on how many types of errors we have
-    public void errorMessage() {
-
-    }
-    */
 }
