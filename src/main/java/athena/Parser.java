@@ -227,10 +227,10 @@ public class Parser {
     /**
      * Parses user input for command type.
      *
-     * @param commandAndDetails String representing command and information of task
-     * @return command object
+     * @param command String representing command and information of task
+     * @return commandType string
      */
-    public static String parseCommandType(String commandAndDetails) {
+    public static String parseCommandType(String command) {
         HashMap<String, String> shortcutCommands = new HashMap<String, String>();
         shortcutCommands.put("a", "add");
         shortcutCommands.put("e", "edit");
@@ -240,7 +240,7 @@ public class Parser {
         shortcutCommands.put("v", "view");
         shortcutCommands.put("ex", "exit");
 
-        String commandType = commandAndDetails;
+        String commandType = command;
         if (shortcutCommands.get(commandType) != null) {
             commandType = shortcutCommands.get(commandType);
         }
@@ -248,15 +248,38 @@ public class Parser {
     }
 
     /**
+     * Parses user input for shortcut commands.
+     *
+     * @param userInput String representing command and information of task
+     * @return actual input meaning string
+     */
+    public static String parseShortcutCommand(String userInput) {
+        HashMap<String, String> shortcutCommandsWithDetails = new HashMap<String, String>();
+        shortcutCommandsWithDetails.put("l3", "list i/HIGH");
+        shortcutCommandsWithDetails.put("l2", "list i/MEDIUM");
+        shortcutCommandsWithDetails.put("l1", "list i/LOW");
+        shortcutCommandsWithDetails.put("lw", "list f/WEEK");
+        shortcutCommandsWithDetails.put("lt", "list f/TODAY");
+        shortcutCommandsWithDetails.put("lm", "list f/MONTH");
+
+        String actualInputMeaning = userInput;
+        if (shortcutCommandsWithDetails.get(actualInputMeaning) != null) {
+            actualInputMeaning = shortcutCommandsWithDetails.get(actualInputMeaning);
+        }
+        return actualInputMeaning;
+    }
+
+    /**
      * Parses user input and recognises what type of command
      * and parameters the user typed.
      *
-     * @param input    String representing user input
+     * @param userInput    String representing user input
      * @param taskList Tasks list
      * @return new Command object based on what the user input is
      * @throws CommandException Exception thrown when there is an error when the user inputs a command
      */
-    public static Command parse(String input, TaskList taskList) throws CommandException {
+    public static Command parse(String userInput, TaskList taskList) throws CommandException {
+        String input = parseShortcutCommand(userInput);
         String[] commandAndDetails = input.split(COMMAND_WORD_DELIMITER, 2);
         String taskInfo = "";
         if (commandAndDetails.length > 1) {
