@@ -218,8 +218,17 @@ public class Task {
      *
      * @return When the task repeats as a LocalDate object
      */
-    public LocalDate getDate() {
-        return recurrenceDate;
+    public ArrayList<LocalDate> getDates() {
+        return recurrenceDates;
+    }
+
+    /**
+     * Deletes the specified date from recurrenceDates.
+     *
+     * @param date Date to delete
+     */
+    public void remove(LocalDate date) {
+        recurrenceDates.remove(date);
     }
 
     /**
