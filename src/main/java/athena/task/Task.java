@@ -1,7 +1,6 @@
 package athena.task;
 
 import athena.Importance;
-import athena.Recurrence;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

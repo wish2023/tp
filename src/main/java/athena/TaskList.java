@@ -6,7 +6,6 @@ import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
 import athena.task.taskfilter.TaskFilter;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -139,9 +138,6 @@ public class TaskList {
         return task.toString();
     }
 
-    public ArrayList<LocalDate> getDateAt(int i) {
-        return tasks.get(i).getDates();
-    }
 
     /**
      * Deletes the task at the specified position in the task list.
