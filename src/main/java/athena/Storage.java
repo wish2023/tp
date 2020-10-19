@@ -18,7 +18,6 @@ public class Storage {
     private TaskList tasks;
     private Ui ui;
 
-
     private int size;
 
     /**
@@ -30,7 +29,6 @@ public class Storage {
     public Storage(String filepath, Ui ui) {
         this.filePath = filepath;
         this.ui = ui;
-
     }
 
     private String replaceCommas(String info) {
@@ -50,9 +48,14 @@ public class Storage {
             FileWriter csvWriter = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {
                 taskString = replaceCommas(task.getName()) + "," + replaceCommas(task.getStartTime()) + ","
-                        + replaceCommas(task.getDuration()) + "," + replaceCommas(task.getDeadline())
-                        + "," + replaceCommas(task.getRecurrence()) + "," + task.getImportance() + ","
+                        + replaceCommas(task.getDuration()) + "," + replaceCommas(task.getDeadline()) + ","
+                        + replaceCommas(task.getRecurrence()) + "," + task.getImportance() + ","
                         + replaceCommas(task.getNotes()) + "," + task.getNumber();
+                if (task.isFlexible()) {
+                    taskString = taskString + "," + "true";
+                } else {
+                    taskString = taskString + "," + "false";
+                }
                 csvWriter.append(taskString + "\n");
             }
             csvWriter.close();
@@ -60,7 +63,6 @@ public class Storage {
             e.printStackTrace();
         }
     }
-
 
     /**
      * Retrieves Tasklist from .csv file
@@ -84,7 +86,7 @@ public class Storage {
                         data[i] = data[i].replaceAll("]c}", ",");
                     }
                     output.addTask(Integer.parseInt(data[7]), data[0], data[1], data[2], data[3], data[4],
-                            Importance.valueOf(data[5].toUpperCase()), data[6]);
+                            Importance.valueOf(data[5].toUpperCase()), data[6], Boolean.parseBoolean(data[8]));
                     maxNumber = Integer.parseInt(data[7]);
                 }
 
@@ -96,11 +98,8 @@ public class Storage {
             } catch (ArrayIndexOutOfBoundsException e) {
                 ui.printInvalidTask();
             }
-
         }
         output.setMaxNumber(maxNumber);
         return output;
     }
-
-
 }

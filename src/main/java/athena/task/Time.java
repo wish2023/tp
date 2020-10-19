@@ -17,7 +17,7 @@ import java.util.Date;
  */
 public class Time implements Comparable<Time> {
 
-    private Boolean flexible;
+    private Boolean isFlexible;
     private String startTime;
     private String duration;
     private String deadline;
@@ -25,8 +25,8 @@ public class Time implements Comparable<Time> {
     private String recurrence;
     private LocalDate recurrenceDate;
 
-    public Time(Boolean flexible, String startTime, String duration, String deadline, String recurrence) {
-        this.flexible = flexible;
+    public Time(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence) {
+        this.isFlexible = isFlexible;
         this.startTime = startTime;
         this.duration = duration;
         this.deadline = deadline;
@@ -54,7 +54,7 @@ public class Time implements Comparable<Time> {
     }
 
     public Boolean getFlexible() {
-        return flexible;
+        return isFlexible;
     }
 
     @Override
