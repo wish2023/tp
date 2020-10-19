@@ -79,6 +79,7 @@ public class Parser {
                                           throws InvalidCommandException {
         String nullDefault = "";
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullDefault);
+        //TODO: allow for empty string, assign flexible attribute, true if string is null, false if filled
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullDefault);
         String durationDefault = "1 hour";
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, durationDefault);
@@ -203,6 +204,7 @@ public class Parser {
         int forecastPos = taskInfo.indexOf(FORECAST_DELIMITER);
 
         switch (commandType) {
+        //TODO: add dep, to make 1 task dependent on another. "dep TaskNumber1 Tasknumber2"
         case "add": {
             return parseAddCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
                     recurrencePos, importancePos, addNotesPos);

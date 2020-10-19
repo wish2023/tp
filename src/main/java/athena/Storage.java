@@ -39,6 +39,7 @@ public class Storage {
      */
     public void saveTaskListData(TaskList tasks) {
         this.tasks = tasks;
+        //TODO: add compatibility for more task attributes
         try {
             FileWriter csvWriter = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {
@@ -58,6 +59,8 @@ public class Storage {
      *
      * @return TaskList object equivalent of save file
      */
+
+    //TODO: add compatibility for more task attributes
     public TaskList loadTaskListData() {
         File csvFile = new File(filePath);
         TaskList output = new TaskList();

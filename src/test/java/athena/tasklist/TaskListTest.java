@@ -118,7 +118,7 @@ class TaskListTest {
                 "2 hours", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", 0);
         Task task2 = new Task("dos", "1100",
-                "2 hours", "16-09-2020", "15-10-2020", Importance.MEDIUM,
+                "2 hours", "16-09-2020", "23-10-2020", Importance.MEDIUM,
                 "Refer to slides", 1);
         Task task3 = new Task("tres", "1100",
                 "2 hours", "16-09-2020", "13-11-2020", Importance.LOW,
@@ -141,7 +141,7 @@ class TaskListTest {
                 "2 hours", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", 0);
         Task task2 = new Task("dos", "1100",
-                "2 hours", "16-09-2020", "15-10-2020", Importance.MEDIUM,
+                "2 hours", "16-09-2020", "23-10-2020", Importance.MEDIUM,
                 "Refer to slides", 1);
         Task task3 = new Task("tres", "1100",
                 "2 hours", "16-09-2020", "13-11-2020", Importance.LOW,
@@ -169,7 +169,7 @@ class TaskListTest {
                 "2 hours", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", index++));
         testTaskList.addTask(new Task("dos", "1100",
-                "2 hours", "16-09-2020", "15-10-2020", Importance.MEDIUM,
+                "2 hours", "16-09-2020", "23-10-2020", Importance.MEDIUM,
                 "Refer to slides", index++));
         testTaskList.addTask(new Task("tres", "1100",
                 "2 hours", "16-09-2020", "13-11-2020", Importance.LOW,
