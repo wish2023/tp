@@ -52,4 +52,14 @@ class StorageTest {
         TaskList tester = TestSetup.getTestTaskList();
         assertTrue(tester.equals(taskList));
     }
+    @Test
+    void loadTaskListData_commaSave_comma(){
+        Ui ui = new Ui();
+        Storage storage = new Storage("src/test/java/athena/StorageTestAnswer2.csv", ui);
+        TaskList taskList;
+        taskList = storage.loadTaskListData();
+        TaskList tester = TestSetup.getCommaTestTaskList();
+        assertTrue(tester.equals(taskList));
+
+    }
 }
