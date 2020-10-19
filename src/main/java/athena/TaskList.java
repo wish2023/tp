@@ -219,10 +219,15 @@ public class TaskList {
         ArrayList<Task> filteredTasks = new ArrayList<>();
         for (Task task : tasks) {
             if (taskFilter.isTaskIncluded(task)) {
-                filteredTasks.add(task);
+                if (taskFilter instanceof ImportanceFilter) {
+                    filteredTasks.add(task);
+                } else {
+                    assert taskFilter instanceof ForecastFilter;
+                    Task filteredTask = ((ForecastFilter) taskFilter).filterDates(task);
+                    filteredTasks.add(filteredTask);
+                }
             }
         }
-
         return new TaskList(filteredTasks);
     }
 

@@ -26,24 +26,45 @@ public class ForecastFilter extends TaskFilter {
      */
     @Override
     public boolean isTaskIncluded(Task task) {
-        boolean isTaskIncluded;
-        if (forecast == Forecast.ALL) {
-            isTaskIncluded = true;
-        } else if (forecast == Forecast.WEEK) {
-            int currentWeekNumber = getWeekNumber(todayDate);
-            LocalDate taskDate = task.getDate();
-            int taskWeekNumber = getWeekNumber(taskDate);
-            isTaskIncluded = (currentWeekNumber == taskWeekNumber);
-        } else {
-            LocalDate taskDate = task.getDate();
-            isTaskIncluded = taskDate.equals(todayDate);
+        for (LocalDate date : task.getDates()) {
+            if (isInstanceIncluded(date)) {
+                return true;
+            }
         }
-        return isTaskIncluded;
+        return false;
     }
 
     private static int getWeekNumber(LocalDate taskDate) {
         TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
         return taskDate.get(woy);
+    }
+
+    private boolean isInstanceIncluded(LocalDate taskDate) {
+        boolean isInstanceIncluded;
+        if (forecast == Forecast.ALL) {
+            isInstanceIncluded = true;
+        } else if (forecast == Forecast.WEEK) {
+            int currentWeekNumber = getWeekNumber(todayDate);
+            int taskWeekNumber = getWeekNumber(taskDate);
+            isInstanceIncluded = (currentWeekNumber == taskWeekNumber);
+        } else {
+            isInstanceIncluded = taskDate.equals(todayDate);
+        }
+        return isInstanceIncluded;
+    }
+
+    public Task filterDates(Task task) {
+        Task taskCopy = task.getClone();
+        ArrayList<LocalDate> datesToDelete = new ArrayList<>();
+        for (LocalDate date : taskCopy.getDates()) {
+            if (!isInstanceIncluded(date)) {
+                datesToDelete.add(date);
+            }
+        }
+        for (LocalDate date : datesToDelete) {
+            taskCopy.remove(date);
+        }
+        return taskCopy;
     }
 
 
