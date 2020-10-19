@@ -1,6 +1,5 @@
 package athena;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
@@ -14,64 +13,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class StorageTest {
 
-    private TaskList getTestTaskList() {
-        TaskList taskList = new TaskList();
-        taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
-                Importance.HIGH, "Tough assignment", false);
-        taskList.addTask(1, "Assignment 2", "1600", "2", "6pm", "13-12-2020",
-                Importance.MEDIUM, "Tough assignment", false);
-        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "14-12-2020",
-                Importance.LOW, "Tough assignment", false);
-        taskList.addTask(3, "Assignment 4", "1600", "2", "6pm", "14-12-2020",
-                Importance.MEDIUM, "Tough assignment", false);
-        taskList.addTask(4, "Assignment 5", "1600", "2", "6pm", "14-12-2020",
-                Importance.HIGH, "Tough assignment", false);
-        taskList.addTask(5, "Assignment 6", "1600", "2", "6pm", "15-12-2020",
-                Importance.MEDIUM, "Tough assignment", false);
-        taskList.addTask(6, "Assignment 7", "1600", "2", "6pm", "15-12-2020",
-                Importance.HIGH, "Tough assignment", false);
-        taskList.addTask(7, "Assignment 8", "1600", "2", "6pm", "15-12-2020",
-                Importance.MEDIUM, "Tough assignment", false);
-        taskList.addTask(8, "Assignment 9", "1600", "2", "6pm", "16-12-2020",
-                Importance.LOW, "Tough assignment", false);
-        taskList.addTask(9, "Assignment 10", "1600", "2", "6pm", "16-12-2020",
-                Importance.MEDIUM, "Tough assignment", false);
-        return taskList;
-    }
-
-    private TaskList getCommaTestTaskList() {
-        TaskList taskList = new TaskList();
-        taskList.addTask(0, "Assignment,1", "1600", "2", "6pm", "12-12-2020",
-                Importance.HIGH, "Tough assignment", false);
-        taskList.addTask(1, "Assignment 2", "1600", "2", "6pm", "13-12-2020",
-                Importance.MEDIUM, "Tough assignment,", false);
-        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "14-12-2020",
-                Importance.LOW, "Tough ,,,assignment", false);
-        taskList.addTask(3, "Assignment 4", "1600", "2", "6pm,", "14-12-2020",
-                Importance.MEDIUM, "Tough assignment", false);
-        taskList.addTask(4, "Assignment 5", "1600", "2", "6pm", "14-12-2020",
-                Importance.HIGH, "Tough assignment", false);
-        taskList.addTask(5, "Assignment 6", "1600", "2", "6pm", "15-12-2020",
-                Importance.MEDIUM, "Tough assignment,", false);
-        taskList.addTask(6, "Assignment 7", "1600", "2", "6pm", "15-12-2020",
-                Importance.HIGH, "Tough assignment", false);
-        taskList.addTask(7, "Assignment 8", "1600", "2", "6pm", "15-12-2020",
-                Importance.MEDIUM, "Tough assignment", false);
-        taskList.addTask(8, "Assignment 9", "1600", "2", "6pm", "16-12-2020",
-                Importance.LOW, "Tough assignment", false);
-        taskList.addTask(9, "Assignment 10", "1600", "2", "6pm", "16-12-2020",
-                Importance.MEDIUM, "Tough assignment", false);
-        return taskList;
-    }
-
     /**
      * Checks if a save file is created correctly if a save file doesn't originally exist.
      */
     @Test
     void saveTaskListData_noPreviousSave_createSaveFile() {
         Ui ui = new Ui();
+        TaskList taskList = TestSetup.getTestTaskList();
         Storage storage = new Storage("src/test/java/athena/loadTask.csv", ui);
-        storage.saveTaskListData(getTestTaskList());
+        storage.saveTaskListData(taskList);
         assertTrue(areFilesSame("src/test/java/athena/loadTask.csv", "src/test/java/athena/StorageTestAnswer1.csv"));
     }
 
@@ -96,8 +46,6 @@ class StorageTest {
                 }
                 expectedLine = expected.readLine();
                 actualLine = actual.readLine();
-
-
             }
             return true;
         } catch (IOException e) {
@@ -112,19 +60,20 @@ class StorageTest {
     void loadTaskListData_saveFileFound_createTaskList() {
         Ui ui = new Ui();
         Storage storage = new Storage("src/test/java/athena/StorageTestAnswer1.csv", ui);
-        TaskList loadedTaskList;
-        loadedTaskList = storage.loadTaskListData();
-        TaskList testTaskList = getTestTaskList();
-        assertTrue(loadedTaskList.equals(testTaskList));
+        TaskList taskList;
+        taskList = storage.loadTaskListData();
+        TaskList tester = TestSetup.getTestTaskList();
+        assertTrue(tester.equals(taskList));
     }
 
     @Test
-    void loadTaskListData_commaSave_comma() {
+    void loadTaskListData_commaInTaskAttribute_commaIsReplaced() {
         Ui ui = new Ui();
         Storage storage = new Storage("src/test/java/athena/StorageTestAnswer2.csv", ui);
-        TaskList loadedTaskList;
-        loadedTaskList = storage.loadTaskListData();
-        TaskList commaTestTaskList = getCommaTestTaskList();
-        assertTrue(commaTestTaskList.equals(loadedTaskList));
+        TaskList taskList;
+        taskList = storage.loadTaskListData();
+        TaskList tester = TestSetup.getCommaTestTaskList();
+        assertTrue(tester.equals(taskList));
+
     }
 }
