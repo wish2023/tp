@@ -76,20 +76,87 @@ public class Task {
             this.timeInfo = new Time(true, "empty", duration, deadline, recurrence);
         }
 
+        setRecurrence(recurrence);
+    }
+
+
+    private void setRecurrence(String recurrence) {
         //TODO: refactor this into Time class
 
         if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
-            recurrenceDate = LocalDate.now();
+            recurrenceDates.add(LocalDate.now());
+        } else if (recurrence.toUpperCase().equals(Recurrence.MONDAY.toString())) {
+            LocalDate mondayDate = getFirstDay(DayOfWeek.MONDAY);
+            addDates(mondayDate);
+        } else if (recurrence.toUpperCase().equals(Recurrence.TUESDAY.toString())) {
+            LocalDate tuesdayDate = getFirstDay(DayOfWeek.TUESDAY);
+            addDates(tuesdayDate);
+        } else if (recurrence.toUpperCase().equals(Recurrence.WEDNESDAY.toString())) {
+            LocalDate wednesdayDate = getFirstDay(DayOfWeek.WEDNESDAY);
+            addDates(wednesdayDate);
+        } else if (recurrence.toUpperCase().equals(Recurrence.THURSDAY.toString())) {
+            LocalDate thursdayDate = getFirstDay(DayOfWeek.THURSDAY);
+            addDates(thursdayDate);
+        } else if (recurrence.toUpperCase().equals(Recurrence.FRIDAY.toString())) {
+            LocalDate fridayDate = getFirstDay(DayOfWeek.FRIDAY);
+            addDates(fridayDate);
+        } else if (recurrence.toUpperCase().equals(Recurrence.SATURDAY.toString())) {
+            LocalDate saturdayDate = getFirstDay(DayOfWeek.SATURDAY);
+            addDates(saturdayDate);
+        } else if (recurrence.toUpperCase().equals(Recurrence.SUNDAY.toString())) {
+            LocalDate sundayDate = getFirstDay(DayOfWeek.SUNDAY);
+            addDates(sundayDate);
         } else {
             try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                recurrenceDate = LocalDate.parse(recurrence, formatter);
+                setRecurrenceDate(recurrence);
             } catch (DateTimeParseException e) {
                 // TODO: Handle this properly
                 System.out.println("I don't understand the date you gave. So I set it to today.");
-                recurrenceDate = LocalDate.now();
+                recurrenceDates.add(LocalDate.now());
             }
         }
+    }
+
+    private void addDates(LocalDate startDate) {
+        for (int i = 0; i < 10; i++) { // Max number of weeks now is 10 to prevent infinite recurrence
+            recurrenceDates.add(startDate.plusWeeks(i));
+        }
+    }
+
+    private LocalDate getFirstDay(DayOfWeek dayOfWeek) {
+        LocalDate startDate = LocalDate.now();
+        for (int i = 1; i < 7; i++) {
+            if (startDate.getDayOfWeek().equals(dayOfWeek)) {
+                break;
+            } else {
+                startDate = startDate.plusDays(1);
+            }
+        }
+        return startDate;
+    }
+
+    private void setRecurrenceDate(String recurrence) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        if (recurrence.length() == DATE_TIME_FORMAT) {
+            String year = Integer.toString(LocalDate.now().getYear());
+            this.recurrence = recurrence + "-" + year;
+            recurrenceDates.add(LocalDate.parse(recurrence + "-" + year, formatter));
+        } else {
+            recurrenceDates.add(LocalDate.parse(recurrence, formatter));
+        }
+    }
+
+    public LocalDate getRecurrenceDate(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse(date, formatter);
+    }
+
+    public Task getClone() {
+        Task copy = new Task(name, startTime, duration, deadline, recurrence,
+                importance, notes, number);
+
+        return copy;
+
     }
 
     /**
@@ -115,22 +182,24 @@ public class Task {
         assert !this.deadline.equals("");
         //TODO: refactor this into Time class
 
-        if (!recurrence.equals(null)) {
-            this.recurrence = recurrence;
-            if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
-                recurrenceDate = LocalDate.now();
-            } else {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                recurrenceDate = LocalDate.parse(recurrence, formatter);
-            }
-        }
-        assert !this.recurrenceDate.equals(null);
+        this.recurrence = recurrence;
+        resetRecurrence();
+        setRecurrence(recurrence);
+
+        assert !this.recurrenceDates.equals(null);
 
         this.importance = importance;
         assert this.importance != null;
 
         if (!notes.equals(null)) {
             this.notes = notes;
+        }
+    }
+
+    private void resetRecurrence() {
+        int recurrenceSize = recurrenceDates.size();
+        for (int i = 0; i < recurrenceSize; i++) {
+            recurrenceDates.remove(FIRST_INDEX);
         }
     }
 
@@ -266,6 +335,16 @@ public class Task {
     public Time getTimeInfo() {
         return timeInfo;
     }
+
+    public ArrayList<LocalDate> makeDeepCopyDates(ArrayList<LocalDate> oldDates){
+        ArrayList<LocalDate> copy = new ArrayList<LocalDate>();
+        for(LocalDate date : oldDates){
+            LocalDate dateCopy = getRecurrenceDate(date.toString());
+            copy.add(dateCopy);
+        }
+        return copy;
+    }
+
 
     /**
      * Converts a task object to a string.
