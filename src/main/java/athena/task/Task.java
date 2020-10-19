@@ -16,6 +16,8 @@ import java.util.Objects;
 public class Task {
     public static final String YES = "Y";
     public static final String NO = "N";
+    public static final int DATE_TIME_FORMAT = 5;
+    public static final int FIRST_INDEX = 0;
     private String name;
 
     private String startTime;
