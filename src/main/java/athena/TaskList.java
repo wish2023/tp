@@ -2,7 +2,11 @@ package athena;
 
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
+import athena.task.taskfilter.ForecastFilter;
+import athena.task.taskfilter.ImportanceFilter;
 import athena.task.taskfilter.TaskFilter;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 

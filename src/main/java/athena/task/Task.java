@@ -3,10 +3,11 @@ package athena.task;
 import athena.Importance;
 import athena.Recurrence;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**

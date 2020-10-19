@@ -3,6 +3,8 @@ package athena.task.taskfilter;
 import athena.Importance;
 import athena.task.Task;
 
+import java.time.LocalDate;
+
 public class ImportanceFilter extends TaskFilter {
 
     private Importance importance;
