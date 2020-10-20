@@ -21,7 +21,7 @@ public class Timetable {
     public static final String BOX_CORNER = "+";
     public static final String TIME_HEADER_HORIZONTAL_BORDER = "---------";
     public static final String TASK_BOX_HORIZONTAL_BORDER = TIME_HEADER_HORIZONTAL_BORDER + "-";
-    public static final String DATE_BOX = "| %s/%s |";
+    public static final String DATE_BOX = "| %02d/%02d |";
     public static final String TASK_NUMBER_LABEL = "[%d]";
     public static final String DAY_BOX = "|  %s  |";
     public static final String EMPTY_TASK_BOX = "          |";
@@ -31,8 +31,8 @@ public class Timetable {
     private ArrayList<TimetableDay> timetableDays;
     private TreeMap<LocalDate, TimetableDay> timetableDayMap;
 
-    int startHour = 8;
-    int endHour = 22;
+    private int wakeUpHour;
+    private int sleepHour;
 
     /**
      * Creates a timetable object from a TaskList object.
@@ -40,9 +40,23 @@ public class Timetable {
      * @param taskList Task list
      */
     public Timetable(TaskList taskList) {
+        this(taskList, 8, 22);
+    }
+
+    /**
+     * Creates a timetable object from a TaskList object.
+     *
+     * @param taskList   Task list
+     * @param sleepHour  Hour to sleep
+     * @param wakeUpHour Hour to wake up
+     */
+    public Timetable(TaskList taskList, int wakeUpHour, int sleepHour) {
         assert taskList != null;
         this.taskList = taskList;
         populateTimetable();
+
+        this.wakeUpHour = wakeUpHour;
+        this.sleepHour = sleepHour;
     }
 
     /**
@@ -56,6 +70,22 @@ public class Timetable {
         assert taskList != null;
         this.taskList = taskList.getFilteredList(importanceFilter).getFilteredList(forecastFilter);
         populateTimetable();
+    }
+
+    public int getWakeUpHour() {
+        return wakeUpHour;
+    }
+
+    public void setWakeUpHour(int wakeUpHour) {
+        this.wakeUpHour = wakeUpHour;
+    }
+
+    public int getSleepHour() {
+        return sleepHour;
+    }
+
+    public void setSleepHour(int sleepHour) {
+        this.sleepHour = sleepHour;
     }
 
     /**
@@ -199,6 +229,8 @@ public class Timetable {
             }
 
             int duration = task.getTimeInfo().getDuration();
+            // TODO: better handle tasks exceeding sleep time, currently it just cuts off at sleep time
+            duration = Math.min(duration, endHour - hour);
             hour += duration - 1;
             int boxWidth = duration * (TASK_BOX_HORIZONTAL_BORDER + BOX_CORNER).length() - 2;
             row += String.format(TASK_BOX, shortenOrPadString(taskInfoWriter.apply(task), boxWidth));
@@ -267,6 +299,11 @@ public class Timetable {
         return row;
     }
 
+    /**
+     * Utility method to get the first day of this week.
+     *
+     * @return The first day of this week.
+     */
     private LocalDate getFirstDayOfWeek() {
         LocalDate now = LocalDate.now();
         TemporalField field = WeekFields.of(Locale.forLanguageTag("en_SG")).dayOfWeek();
@@ -296,14 +333,13 @@ public class Timetable {
         return list;
     }
 
-    private String drawTimetable(int startHour, int endHour) {
-        String result = drawTimetableTimeHeader(startHour, endHour);
-        LocalDate[] datesInWeek = getDatesInWeek();
+    String drawTimetable(LocalDate[] datesInWeek) {
+        String result = drawTimetableTimeHeader(wakeUpHour, sleepHour);
         for (LocalDate date : datesInWeek) {
             if (timetableDayMap.containsKey(date)) {
-                result += drawTimetableDay(timetableDayMap.get(date), startHour, endHour);
+                result += drawTimetableDay(timetableDayMap.get(date), wakeUpHour, sleepHour);
             } else {
-                result += drawTimetableDay(new TimetableDay(date), startHour, endHour);
+                result += drawTimetableDay(new TimetableDay(date), wakeUpHour, sleepHour);
             }
         }
         return result;
@@ -316,11 +352,11 @@ public class Timetable {
      */
     @Override
     public String toString() {
-        String output = drawTimetable(startHour, endHour);
-        output += "\n";
-
         // TODO: get dates based on the forecastfilter
-        output += getTaskListForDates(getDatesInWeek());
+        LocalDate[] dates = getDatesInWeek();
+        String output = drawTimetable(dates);
+        output += "\n";
+        output += getTaskListForDates(dates);
 
         return output.trim();
     }
