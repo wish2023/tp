@@ -78,7 +78,7 @@ public class Task {
     }
 
 
-    private void setRecurrence(String recurrence) {
+    public void setRecurrence(String recurrence) {
         //TODO: refactor this into Time class
         switch (recurrence.toUpperCase()) {
         case "TODAY":
