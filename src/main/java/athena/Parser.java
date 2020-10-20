@@ -284,11 +284,11 @@ public class Parser {
      */
     public static Command parse(String userInput, TaskList taskList) throws CommandException {
         String fullInput = parseShortcutCommandAndDetails(userInput);
-        String[] splitCommandAndDetails = fullInput.split(COMMAND_WORD_DELIMITER, 2);
-        String commandType = splitCommandAndDetails[0];
+        String[] commandAndDetails = fullInput.split(COMMAND_WORD_DELIMITER, 2);
+        String commandType = commandAndDetails[0];
         String taskInfo = "";
-        if (splitCommandAndDetails.length > 1) {
-            taskInfo = splitCommandAndDetails[1];
+        if (commandAndDetails.length > 1) {
+            taskInfo = commandAndDetails[1];
         }
 
         int namePos = taskInfo.indexOf(NAME_DELIMITER);
