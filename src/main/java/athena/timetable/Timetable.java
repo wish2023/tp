@@ -17,6 +17,16 @@ import java.util.function.Function;
  * Takes a TaskList to generate a timetable for the user.
  */
 public class Timetable {
+    public static final String DAY_BOX_HORIZONTAL_BORDER = "-------";
+    public static final String BOX_CORNER = "+";
+    public static final String TIME_HEADER_HORIZONTAL_BORDER = "---------";
+    public static final String TASK_BOX_HORIZONTAL_BORDER = TIME_HEADER_HORIZONTAL_BORDER + "-";
+    public static final String DATE_BOX = "| %s/%s |";
+    public static final String TASK_NUMBER_LABEL = "[%d]";
+    public static final String DAY_BOX = "|  %s  |";
+    public static final String EMPTY_TASK_BOX = "          |";
+    public static final String TASK_BOX = " %s|";
+
     private TaskList taskList;
     private ArrayList<TimetableDay> timetableDays;
     private TreeMap<LocalDate, TimetableDay> timetableDayMap;
@@ -106,12 +116,12 @@ public class Timetable {
     private String drawTimetableTimeHeader(int startHour, int endHour) {
         String header = "";
 
-        header += "+" + "-------";
+        header += BOX_CORNER + DAY_BOX_HORIZONTAL_BORDER;
         for (int hour = startHour; hour < endHour; hour++) {
             String paddedHourString = String.format("%02d", hour);
-            header += paddedHourString + "---------";
+            header += paddedHourString + TIME_HEADER_HORIZONTAL_BORDER;
         }
-        header += "+\n";
+        header += BOX_CORNER + "\n";
 
         return header;
     }
@@ -125,9 +135,9 @@ public class Timetable {
      */
     private String drawBottomBorder(int startHour, int endHour) {
         String row = "";
-        row += "+" + "-------" + "+";
+        row += BOX_CORNER + DAY_BOX_HORIZONTAL_BORDER + BOX_CORNER;
         for (int i = startHour; i < endHour; i++) {
-            row += "-" + "---------" + "+";
+            row += TASK_BOX_HORIZONTAL_BORDER + BOX_CORNER;
         }
         row += "\n";
         return row;
@@ -184,14 +194,14 @@ public class Timetable {
         for (int hour = startHour; hour < endHour; hour++) {
             Task task = findTaskAtHour(day.getTaskList(), hour);
             if (task == null) {
-                row += "          |";
+                row += EMPTY_TASK_BOX;
                 continue;
             }
 
             int duration = task.getTimeInfo().getDuration();
             hour += duration - 1;
-            int boxWidth = duration * 11 - 2;
-            row += String.format(" %s|", shortenOrPadString(taskInfoWriter.apply(task), boxWidth));
+            int boxWidth = duration * (TASK_BOX_HORIZONTAL_BORDER + BOX_CORNER).length() - 2;
+            row += String.format(TASK_BOX, shortenOrPadString(taskInfoWriter.apply(task), boxWidth));
         }
 
         return row;
@@ -207,7 +217,7 @@ public class Timetable {
      */
     private String drawTimetableDayFirstRow(TimetableDay day, int startHour, int endHour) {
         String dayShortName = day.getDate().getDayOfWeek().toString().substring(0, 3).toUpperCase();
-        String row = "|  " + dayShortName + "  |";
+        String row = String.format(DAY_BOX, dayShortName);
         row += drawTimetableDayRow(day, startHour, endHour, new Function<Task, String>() {
             @Override
             public String apply(Task task) {
@@ -228,12 +238,12 @@ public class Timetable {
      */
     private String drawTimetableDaySecondRow(TimetableDay day, int startHour, int endHour) {
         LocalDate date = day.getDate();
-        String row = String.format("| %s/%s |", date.getDayOfMonth(), date.getMonthValue());
+        String row = String.format(DATE_BOX, date.getDayOfMonth(), date.getMonthValue());
 
         row += drawTimetableDayRow(day, startHour, endHour, new Function<Task, String>() {
             @Override
             public String apply(Task task) {
-                return String.format("[%d]", task.getNumber());
+                return String.format(TASK_NUMBER_LABEL, task.getNumber());
             }
         });
 
