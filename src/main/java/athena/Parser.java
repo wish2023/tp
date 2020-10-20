@@ -123,13 +123,13 @@ public class Parser {
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
                 taskList.getTaskFromNumber(number).getName());
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos,
-                taskList.getTaskFromNumber(number).getStartTime());
+                taskList.getTaskFromNumber(number).getTimeInfo().getStartTime());
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos,
-                taskList.getTaskFromNumber(number).getDuration());
+                taskList.getTaskFromNumber(number).getTimeInfo().getDuration());
         String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos,
-                taskList.getTaskFromNumber(number).getDeadline());
+                taskList.getTaskFromNumber(number).getTimeInfo().getDeadline());
         String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos,
-                taskList.getTaskFromNumber(number).getRecurrence());
+                taskList.getTaskFromNumber(number).getTimeInfo().getRecurrence());
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos,
                 taskList.getTaskFromNumber(number).getImportance().toString()).toUpperCase();
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos,

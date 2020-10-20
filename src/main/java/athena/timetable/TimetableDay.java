@@ -64,8 +64,8 @@ public class TimetableDay {
             message += "Got no tasks for this day\n";
         } else {
             for (Task task : taskList.getTasks()) {
-                message += String.format("- %s at %s finish by %s [%d]\n", task.getName(), task.getStartTime(),
-                        task.getDeadline(), task.getNumber());
+                message += String.format("- %s at %s finish by %s [%d]\n", task.getName(), task.getTimeInfo().getStartTime(),
+                        task.getTimeInfo().getDeadline(), task.getNumber());
             }
         }
         return message;
