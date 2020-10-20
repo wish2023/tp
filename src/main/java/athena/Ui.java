@@ -106,6 +106,15 @@ public class Ui {
     }
 
     /**
+     * Prints out the task details that the user specified to view.
+     *
+     * @param taskDetails The task that the user wants to view.
+     */
+    public void printTaskDetails(String taskDetails) {
+        System.out.println("Here are the details of your task: " + taskDetails);
+    }
+
+    /**
      * Prints out a help menu of all available tasks that ATHENA is able to do.
      */
     public void printHelp() {
@@ -182,6 +191,21 @@ public class Ui {
      */
     public void printDoneNoIndexException() {
         System.out.println("I know you're really eager, but you need to specify a task to mark as done!\n");
+    }
+
+    /**
+     * Prints a message telling user they did not provide a valid index for the view command.
+     */
+    public void printViewInvalidIndexException() {
+        System.out.println("I'm not sure if you're trying to smoke me or smoke yourself, but there is no task at that "
+                + "index. You should enter a task index that contains a task.\n");
+    }
+
+    /**
+     * Prints a message telling user they did not provide an index for the view command.
+     */
+    public void printViewNoIndexException() {
+        System.out.println("I know you're really eager, but you need to specify a task to view!\n");
     }
 
     /**
