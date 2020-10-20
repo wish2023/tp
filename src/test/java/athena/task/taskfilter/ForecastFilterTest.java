@@ -84,7 +84,7 @@ class ForecastFilterTest {
      * Check if relevant dates have been removed from task after filtering for a day.
      */
     @Test
-    void testremoveExcludedDates_day_returnsTrue() {
+    void testRemoveExcludedDates_filterToday_returnsOnlyTodayDate() {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.TODAY);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 todayDate.getDayOfWeek().toString(), Importance.LOW, "testNotes", 0, false);
@@ -100,7 +100,7 @@ class ForecastFilterTest {
      * Check if relevant dates have been removed from task after filtering for a week.
      */
     @Test
-    void testremoveExcludedDates_week_returnsTrue() {
+    void testRemoveExcludedDates_filterWeek_returnsOnlyTodayDate() {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.WEEK);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 todayDate.getDayOfWeek().toString(), Importance.LOW, "testNotes", 0, false);
@@ -117,7 +117,7 @@ class ForecastFilterTest {
      * Ensure tasks are not filtered incorrectly for day filter.
      */
     @Test
-    void testremoveExcludedDates_day_returnsFalse() {
+    void testRemoveExcludedDates_filterDay_returnsFalse() {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.TODAY);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 todayDate.getDayOfWeek().toString(), Importance.LOW, "testNotes", 0, false);
@@ -133,8 +133,8 @@ class ForecastFilterTest {
      * Ensure tasks are not filtered incorrectly for week filter.
      */
     @Test
-    void testremoveExcludedDates_week_returnsFalse() {
-        ForecastFilter forecastFilter = new ForecastFilter(Forecast.TODAY);
+    void testRemoveExcludedDates_filterWeek_returnsFalse() {
+        ForecastFilter forecastFilter = new ForecastFilter(Forecast.WEEK);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 todayDate.getDayOfWeek().toString(), Importance.LOW, "testNotes", 0, false);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -145,10 +145,6 @@ class ForecastFilterTest {
         assertEquals(actualTask.equals(wrongTask), false);
     }
 
-    private String getDateInString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        return todayDate.plusDays(7).format(formatter);
-    }
 
 
 }

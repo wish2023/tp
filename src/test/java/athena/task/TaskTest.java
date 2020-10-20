@@ -29,7 +29,7 @@ class TaskTest {
      * Ensure repeating dates have been set correctly.
      */
     @Test
-    void testSetRecurrence_today_returnsTrue() {
+    void testSetRecurrence_thisDayOfWeek_returnsTrue() {
         String dayOfWeek = LocalDate.now().getDayOfWeek().toString();
         Task task = new Task("testName", "0900", "1", "05-11-2020",
                 dayOfWeek, Importance.MEDIUM, "testNotes", 0, false);
@@ -40,7 +40,7 @@ class TaskTest {
      * Ensure repeating dates have not been set incorrectly.
      */
     @Test
-    void testSetRecurrence_today_returnsFalse() {
+    void testSetRecurrence_thisDayOfWeek_returnsFalse() {
         String dayOfWeek = LocalDate.now().plusDays(1).getDayOfWeek().toString();
         Task task = new Task("testName", "0900", "1", "05-11-2020",
                 dayOfWeek, Importance.MEDIUM, "testNotes", 0, false);
