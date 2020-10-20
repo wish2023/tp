@@ -238,6 +238,10 @@ public class Parser {
             }
         }
 
+        case "help": {
+            return new HelpCommand();
+        }
+
         case "exit": {
             return new ExitCommand();
         }
