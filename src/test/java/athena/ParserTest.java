@@ -204,7 +204,7 @@ class ParserTest {
      * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     @Test
-    public void parse_editCommandAllArg_ParsedCorrectly() throws CommandException {
+    public void parse_editCommandAllArg_parsedCorrectly() throws CommandException {
         taskList.addTask("name", "1600", "1", "deadline",
                 "12-10-2020", Importance.LOW, "dummyNote", false);
         final int testNumber = 0;
@@ -239,7 +239,7 @@ class ParserTest {
      * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     @Test
-    public void parse_editCommandSomeArg_ParsedCorrectly() throws CommandException {
+    public void parse_editCommandSomeArg_parsedCorrectly() throws CommandException {
         taskList.addTask("name", "1600", "2", "deadline",
                 "12-10-2020", Importance.LOW, "dummyNote", false);
         final int testNumber = 0;
