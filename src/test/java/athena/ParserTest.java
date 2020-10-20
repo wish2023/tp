@@ -157,6 +157,9 @@ class ParserTest {
         assertEquals(parsedCommand, expectedCommand);
     }
 
+    /**
+     * Checks if an exception is thrown when the user provides invalid parameters for the edit command.
+     */
     @Test
     public void parse_editCommandBadArg_throwsException() {
         final String input = "edit abcde";
@@ -165,6 +168,9 @@ class ParserTest {
         });
     }
 
+    /**
+     * Another case to check if an exception is thrown when the user provides invalid parameters for the edit command.
+     */
     @Test
     public void parse_editCommandBadArg2_throwsException() {
         final String input = "edit 1a/";
@@ -173,6 +179,9 @@ class ParserTest {
         });
     }
 
+    /**
+     * Third case to check if an exception is thrown when the user provides invalid parameters for the edit command.
+     */
     @Test
     public void parse_editCommandBadArg3_throwsException() {
         final String input = "edit 1 n/n/";
@@ -181,6 +190,11 @@ class ParserTest {
         });
     }
 
+    /**
+     * Checks if lists out tasks properly with two specified parameters.
+     *
+     * @throws CommandException Exception thrown if there is an error with the user entered command
+     */
     @Test
     public void parse_listCommandArg_ParsedCorrectly() throws CommandException {
         final String input = "list f/WEEK i/medium";

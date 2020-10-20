@@ -219,7 +219,7 @@ public class Ui {
      *
      * @param timetable Timetable to be printed
      */
-    public void printTimetable(Timetable timetable){
+    public void printTimetable(Timetable timetable) {
         System.out.println(timetable);
     }
 }
