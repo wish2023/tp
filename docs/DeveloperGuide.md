@@ -51,10 +51,10 @@ This section describes some noteworthy details on how certain features are imple
 * is comfortable using the command line interface
 
 ### Value proposition
-* Our product will aim to help students organize their schedule faster than a typical mouse/GUI driven app. 
-* It will reduce the amount of time and effort that users need to spend planning their time needed, by finding free spaces to slot tasks in reducing the dead space in the timetable. 
-* The planner will also make sure the user has enough time to eat, exercise and sleep. Since there will be tasks added to the planner at any point in time, the todo list will be self-sorting as well. 
-* It is meant to be used together with a relatively static long term weekly routine that can be set on the product, with the self optimising homework task list to react to changes throughout the year.
+*ATHENA helps students to automate the process of organising their schedule. After the user inputs pre-allocated time slots for work and relaxation, ATHENA figures out the best theoretical timetable based on the user’s needs.
+*It can be updated anytime during the week.
+*ATHENA helps to reduce the amount of time and effort that users need to spend planning their time by finding free spaces to slot tasks in, with the goal of reducing dead space in the user’s timetable. 
+*The planner will also make sure the user has enough time to eat, exercise and sleep. The user can set up ATHENA to follow a fixed weekly routine, and only needs to update a task list. ATHENA will then plan the timetable based on the importance and deadlines of the tasks in the list, making sure that the user is able to finish everything on time.
 
 ## User Stories
 
@@ -67,6 +67,8 @@ This section describes some noteworthy details on how certain features are imple
 | `v1.0` | student                     | delete the tasks I added                         | remove tasks that are not needed to do anymore                         |
 | `v1.0` | student                     | set my task according to importance              | complete the more important tasks first                                |
 | `v1.0` | student                     | leave some notes for a task                      | remember about it                                                      |
+| `v2.0` | student                     | know a planner that tells me what time to rest   | I don’t exhaust myself                                                 |
+| `v2.0` | student                     | see an overview of the week ahead                | make sure that I am staying on task                                    |
 
 ## Non-Functional Requirements
 
