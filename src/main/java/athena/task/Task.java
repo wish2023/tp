@@ -213,8 +213,9 @@ public class Task {
 
     //TODO: rework this, hard to do if dependencies are added
     public String getTaskRestore() {
-        String taskRestore = "add n/" + this.getName() + " t/" + timeInfo.getStartTime() + " d/" + timeInfo.getDuration()
-                + " D/" + this.timeInfo + " r/" + timeInfo.getRecurrence() + " t/" + this.getImportance()
+        String taskRestore = "add n/" + this.getName() + " t/" + timeInfo.getStartTime()
+                + " d/" + timeInfo.getDuration() + " D/" + this.timeInfo + " r/"
+                + timeInfo.getRecurrence() + " t/" + this.getImportance()
                 + " a/" + this.getNotes();
         return taskRestore;
     }
