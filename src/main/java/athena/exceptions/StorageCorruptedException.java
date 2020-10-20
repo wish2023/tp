@@ -2,7 +2,7 @@ package athena.exceptions;
 
 import athena.Ui;
 
-public class StorageCorruptedException extends CommandException {
+public class StorageCorruptedException extends StorageException {
     private String[] corruptedLine;
 
     public StorageCorruptedException(String[] corruptedLine) {

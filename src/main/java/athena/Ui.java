@@ -225,6 +225,7 @@ public class Ui {
     }
 
     public void printStorageLoadFail() {
+        System.out.println("Storage loading has failed");
     }
 
     public void printCorruptedLine(String corruptedLine) {

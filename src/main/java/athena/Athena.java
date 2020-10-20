@@ -3,6 +3,7 @@ package athena;
 import athena.commands.Command;
 import athena.exceptions.CommandException;
 import athena.exceptions.StorageCorruptedException;
+import athena.exceptions.StorageException;
 import athena.exceptions.StorageLoadFailException;
 
 import java.io.FileNotFoundException;
@@ -43,9 +44,7 @@ public class Athena {
         boolean isExit = false;
         try {
             taskList = storage.loadTaskListData();
-        } catch (StorageLoadFailException e) {
-            e.printErrorMessage();
-        } catch (StorageCorruptedException e) {
+        } catch (StorageException e) {
             e.printErrorMessage();
             isExit = true;
         }
