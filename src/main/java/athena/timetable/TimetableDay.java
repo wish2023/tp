@@ -66,7 +66,6 @@ public class TimetableDay {
             message += "Got no tasks for this day\n";
         } else {
             for (Task task : taskList.getTasks()) {
-                // TODO: replace with getDetails when PR for view command is merged
                 message += task + "\n";
             }
         }
