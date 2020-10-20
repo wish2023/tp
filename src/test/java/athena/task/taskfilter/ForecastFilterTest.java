@@ -122,11 +122,11 @@ class ForecastFilterTest {
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 todayDate.getDayOfWeek().toString(), Importance.LOW, "testNotes", 0, false);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String expectedDate = todayDate.plusDays(1).format(formatter);
-        Task expectedTask = new Task("testName", "0900", "1", "05-11-2020",
-                expectedDate, Importance.LOW, "testNotes", 0, false);
+        String wrongDate = todayDate.plusDays(1).format(formatter);
+        Task wrongTask = new Task("testName", "0900", "1", "05-11-2020",
+                wrongDate, Importance.LOW, "testNotes", 0, false);
         Task actualTask = forecastFilter.removeExcludedDates(inputTask);
-        assertEquals(actualTask.equals(expectedTask), false);
+        assertEquals(actualTask.equals(wrongTask), false);
     }
 
     /**
@@ -137,11 +137,12 @@ class ForecastFilterTest {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.TODAY);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 todayDate.getDayOfWeek().toString(), Importance.LOW, "testNotes", 0, false);
-        String expectedDate = getDateInString();
-        Task expectedTask = new Task("testName", "0900", "1", "05-11-2020",
-                expectedDate, Importance.LOW, "testNotes", 0, false);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String wrongDate = todayDate.plusDays(7).format(formatter);
+        Task wrongTask = new Task("testName", "0900", "1", "05-11-2020",
+                wrongDate, Importance.LOW, "testNotes", 0, false);
         Task actualTask = forecastFilter.removeExcludedDates(inputTask);
-        assertEquals(actualTask.equals(expectedTask), false);
+        assertEquals(actualTask.equals(wrongTask), false);
     }
 
     private String getDateInString() {
