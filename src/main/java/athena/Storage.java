@@ -18,7 +18,6 @@ public class Storage {
     private TaskList tasks;
     private Ui ui;
 
-
     private int size;
 
     /**
@@ -30,9 +29,11 @@ public class Storage {
     public Storage(String filepath, Ui ui) {
         this.filePath = filepath;
         this.ui = ui;
-
     }
 
+    private String replaceCommas(String info) {
+        return info.replace(",", "]c}");
+    }
 
     /**
      * Takes a TaskList and converts it to a .csv file.
@@ -46,16 +47,15 @@ public class Storage {
         try {
             FileWriter csvWriter = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {
-                taskString = task.getName() + "|" + task.getStartTime() + "|" + task.getDuration() + "|"
-                        + task.getDeadline() + "|" + task.getRecurrence() + "|" + task.getImportance() + "|"
-                        + task.getNotes() + "|" + task.getNumber();
+                taskString = replaceCommas(task.getName()) + "," + replaceCommas(task.getStartTime()) + ","
+                        + replaceCommas(task.getDuration()) + "," + replaceCommas(task.getDeadline()) + ","
+                        + replaceCommas(task.getRecurrence()) + "," + task.getImportance() + ","
+                        + replaceCommas(task.getNotes()) + "," + task.getNumber();
                 if (task.isFlexible()) {
-                    taskString = taskString + "|" + "true";
+                    taskString = taskString + "," + "true";
                 } else {
-                    taskString = taskString + "|" + "false";
+                    taskString = taskString + "," + "false";
                 }
-                taskString = taskString.replaceAll(",", "]c}").replace("|",
-                        ",");
                 csvWriter.append(taskString + "\n");
             }
             csvWriter.close();
@@ -63,7 +63,6 @@ public class Storage {
             e.printStackTrace();
         }
     }
-
 
     /**
      * Retrieves Tasklist from .csv file
@@ -99,11 +98,8 @@ public class Storage {
             } catch (ArrayIndexOutOfBoundsException e) {
                 ui.printInvalidTask();
             }
-
         }
         output.setMaxNumber(maxNumber);
         return output;
     }
-
-
 }
