@@ -409,13 +409,14 @@ public class Task {
             return false;
         }
         Task task = (Task) o;
+
         return isDone == task.isDone
                 && number == task.number
                 && Objects.equals(name, task.name)
                 && Objects.equals(startTime, task.startTime)
                 && Objects.equals(duration, task.duration)
                 && Objects.equals(deadline, task.deadline)
-                && Objects.equals(recurrence, task.recurrence)
+                && Objects.equals(recurrenceDates, task.recurrenceDates)
                 && importance == task.importance
                 && Objects.equals(notes, task.notes);
     }
