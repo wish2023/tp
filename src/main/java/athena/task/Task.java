@@ -249,8 +249,9 @@ public class Task {
      * @return task as a string
      */
     public String getDetailsAsString() {
-        return "\n Done? " + getStatus() + "\n Name: " + name + "\n Start time: " + startTime
-                + "\n Deadline: " + deadline + "\n Duration: " + duration + "\n Recurrence: " + recurrence
+        return "\n Done? " + getStatus() + "\n Name: " + name + "\n Start time: " + timeInfo.getStartTime()
+                + "\n Deadline: " + timeInfo.getDeadline() + "\n Duration: " + timeInfo.getDuration()
+                + "\n Recurrence: " + timeInfo.getRecurrence()
                 + "\n Importance: " + importance + "\n Notes: " + notes;
     }
 
