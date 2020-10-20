@@ -18,8 +18,7 @@ public class Ui {
                 + "   /  ^  \\ `---|  |---` |  |__|  | |  |__   |   \\|  |    /  ^  \\    \n"
                 + "  /  /_\\  \\    |  |     |   __   | |   __|  |  . `  |   /  /_\\  \\   \n"
                 + " /  _____  \\   |  |     |  |  |  | |  |____ |  |\\   |  /  _____  \\  \n"
-                + "/__/     \\__\\  |__|     |__|  |__| |_______||__| \\__| /__/     \\__\\ \n"
-                + "                                                                    "));
+                + "/__/     \\__\\  |__|     |__|  |__| |_______||__| \\__| /__/     \\__\\ \n"));
     }
 
     /**
@@ -138,7 +137,7 @@ public class Ui {
      */
     public void printInvalidTask() {
         System.out.println(colourTextRed("One of the tasks in the archives seems to be cursed, "
-                + "I have disposed of it!"));
+                + "I have disposed of it!\n"));
     }
 
     /**
@@ -148,7 +147,7 @@ public class Ui {
      */
     public void printTaskNotFound(int taskNumber) {
         System.out.println(colourTextRed("The task with the label ")
-                + colourTextBlue(Integer.toString(taskNumber)) + colourTextRed(" cannot be found"));
+                + colourTextBlue(Integer.toString(taskNumber)) + colourTextRed(" cannot be found\n"));
     }
 
     /**
@@ -223,7 +222,7 @@ public class Ui {
      */
     public void printExitMessage() {
         System.out.println(colourTextPurple("Going so soon? Well I'll be here the next time you need me. "
-                + "Farewell!"));
+                + "Farewell!\n"));
     }
 
     /**
