@@ -296,13 +296,7 @@ public class Timetable {
         return list;
     }
 
-    /**
-     * Generates a string to show the user the timetable.
-     *
-     * @return A string representing the timetable.
-     */
-    @Override
-    public String toString() {
+    private String drawTimetable(int startHour, int endHour) {
         String result = drawTimetableTimeHeader(startHour, endHour);
         LocalDate[] datesInWeek = getDatesInWeek();
         for (LocalDate date : datesInWeek) {
@@ -312,9 +306,22 @@ public class Timetable {
                 result += drawTimetableDay(new TimetableDay(date), startHour, endHour);
             }
         }
-        result += "\n";
-
-        result += getTaskListForDates(datesInWeek);
         return result;
+    }
+
+    /**
+     * Generates a string to show the user the timetable.
+     *
+     * @return A string representing the timetable.
+     */
+    @Override
+    public String toString() {
+        String output = drawTimetable(startHour, endHour);
+        output += "\n";
+
+        // TODO: get dates based on the forecastfilter
+        output += getTaskListForDates(getDatesInWeek());
+
+        return output.trim();
     }
 }
