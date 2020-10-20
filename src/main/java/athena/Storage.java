@@ -16,7 +16,6 @@ import java.io.FileNotFoundException;
 public class Storage {
     private String filePath;
     private TaskList tasks;
-    private Ui ui;
 
     private int size;
 
@@ -24,11 +23,9 @@ public class Storage {
      * Initialises Storage object.
      *
      * @param filepath Location of the save file
-     * @param ui       prints out error messages
      */
-    public Storage(String filepath, Ui ui) {
+    public Storage(String filepath) {
         this.filePath = filepath;
-        this.ui = ui;
     }
 
     private String replaceCommas(String info) {
@@ -43,7 +40,6 @@ public class Storage {
     public void saveTaskListData(TaskList tasks) {
         this.tasks = tasks;
         String taskString = null;
-        //TODO: add compatibility for more task attributes
         try {
             FileWriter csvWriter = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {
@@ -71,33 +67,24 @@ public class Storage {
      */
 
     //TODO: add compatibility for more task attributes
-    public TaskList loadTaskListData() {
+    public TaskList loadTaskListData() throws IOException, ArrayIndexOutOfBoundsException {
         File csvFile = new File(filePath);
         TaskList output = new TaskList();
         int maxNumber = 0;
         if (csvFile.isFile()) {
             String row;
             BufferedReader csvReader = null;
-            try {
-                csvReader = new BufferedReader(new FileReader(filePath));
-                while ((row = csvReader.readLine()) != null) {
-                    String[] data = row.split(",");
-                    for (int i = 0; i < data.length; i++) {
-                        data[i] = data[i].replaceAll("]c}", ",");
-                    }
-                    output.addTask(Integer.parseInt(data[7]), data[0], data[1], data[2], data[3], data[4],
-                            Importance.valueOf(data[5].toUpperCase()), data[6], Boolean.parseBoolean(data[8]));
-                    maxNumber = Integer.parseInt(data[7]);
+            csvReader = new BufferedReader(new FileReader(filePath));
+            while ((row = csvReader.readLine()) != null) {
+                String[] data = row.split(",");
+                for (int i = 0; i < data.length; i++) {
+                    data[i] = data[i].replaceAll("]c}", ",");
                 }
-
-                csvReader.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ArrayIndexOutOfBoundsException e) {
-                ui.printInvalidTask();
+                output.addTask(Integer.parseInt(data[7]), data[0], data[1], data[2], data[3], data[4],
+                        Importance.valueOf(data[5].toUpperCase()), data[6], Boolean.parseBoolean(data[8]));
+                maxNumber = Integer.parseInt(data[7]);
             }
+            csvReader.close();
         }
         output.setMaxNumber(maxNumber);
         return output;

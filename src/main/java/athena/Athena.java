@@ -2,6 +2,9 @@ package athena;
 
 import athena.commands.Command;
 import athena.exceptions.CommandException;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -19,7 +22,7 @@ public class Athena {
     public Athena() {
         ui = new Ui();
         parser = new Parser();
-        storage = new Storage("data.csv", ui);
+        storage = new Storage("data.csv");
     }
 
     public static void main(String[] args) {
@@ -36,7 +39,13 @@ public class Athena {
 
         ui.printWelcomeMessage();
 
-        taskList = storage.loadTaskListData();
+        try {
+            taskList = storage.loadTaskListData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            ui.printInvalidTask();
+        }
         boolean isExit = false;
         Scanner input = new Scanner(System.in);
 
