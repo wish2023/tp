@@ -227,36 +227,20 @@ public class Parser {
     }
 
     /**
-     * Parses user input for command type.
-     *
-     * @param command String representing command and information of task
-     * @return commandType string
-     */
-    public static String parseCommandType(String command) {
-        HashMap<String, String> shortcutCommands = new HashMap<String, String>();
-        shortcutCommands.put("a", "add");
-        shortcutCommands.put("e", "edit");
-        shortcutCommands.put("l", "list");
-        shortcutCommands.put("dn", "done");
-        shortcutCommands.put("dl", "delete");
-        shortcutCommands.put("v", "view");
-        shortcutCommands.put("ex", "exit");
-
-        String commandType = command;
-        if (shortcutCommands.get(commandType) != null) {
-            commandType = shortcutCommands.get(commandType);
-        }
-        return commandType;
-    }
-
-    /**
      * Parses user input for shortcut commands.
      *
      * @param userInput String representing command and information of task
      * @return actual input meaning string
      */
-    public static String parseShortcutCommand(String userInput) {
+    public static String parseShortcutCommands(String userInput) {
         HashMap<String, String> shortcutCommandsWithDetails = new HashMap<String, String>();
+        shortcutCommandsWithDetails.put("a", "add");
+        shortcutCommandsWithDetails.put("e", "edit");
+        shortcutCommandsWithDetails.put("l", "list");
+        shortcutCommandsWithDetails.put("dn", "done");
+        shortcutCommandsWithDetails.put("dl", "delete");
+        shortcutCommandsWithDetails.put("v", "view");
+        shortcutCommandsWithDetails.put("ex", "exit");
         shortcutCommandsWithDetails.put("l3", "list i/HIGH");
         shortcutCommandsWithDetails.put("l2", "list i/MEDIUM");
         shortcutCommandsWithDetails.put("l1", "list i/LOW");
@@ -281,8 +265,16 @@ public class Parser {
      * @throws CommandException Exception thrown when there is an error when the user inputs a command
      */
     public static Command parse(String userInput, TaskList taskList) throws CommandException {
-        String input = parseShortcutCommand(userInput);
-        String[] commandAndDetails = input.split(COMMAND_WORD_DELIMITER, 2);
+        String[] commandAndDetails = userInput.split(COMMAND_WORD_DELIMITER, 2);
+        String shortcutInput = parseShortcutCommands(commandAndDetails[0]);
+        String remainingTaskInfo = "";
+        if (commandAndDetails.length > 1) {
+            remainingTaskInfo = commandAndDetails[1];
+        }
+
+        String fullInput = shortcutInput + " " + remainingTaskInfo;
+        String[] splitCommandAndDetails = fullInput.split(COMMAND_WORD_DELIMITER, 2);
+        String commandType = splitCommandAndDetails[0];
         String taskInfo = "";
         if (commandAndDetails.length > 1) {
             taskInfo = commandAndDetails[1];
@@ -296,8 +288,6 @@ public class Parser {
         int importancePos = taskInfo.indexOf(IMPORTANCE_DELIMITER);
         int addNotesPos = taskInfo.indexOf(ADDITIONAL_NOTES_DELIMITER);
         int forecastPos = taskInfo.indexOf(FORECAST_DELIMITER);
-
-        String commandType = parseCommandType(commandAndDetails[0]);
 
         switch (commandType) {
         //TODO: add dep, to make 1 task dependent on another. "dep TaskNumber1 Tasknumber2"
