@@ -261,7 +261,7 @@ public class Parser {
      * @param userInput String representing task information
      * @return task information string
      */
-    public static String parseShortcutCommandAndDetails (String userInput) {
+    public static String parseShortcutCommandAndDetails(String userInput) {
         String[] commandAndDetails = userInput.split(COMMAND_WORD_DELIMITER, 2);
         String shortcutInput = parseShortcutCommands(commandAndDetails[0]);
         String remainingTaskInfo = "";
