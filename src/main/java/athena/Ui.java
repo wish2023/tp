@@ -2,6 +2,7 @@ package athena;
 
 import athena.task.Task;
 import athena.timetable.Timetable;
+
 import java.util.ArrayList;
 
 /**
@@ -227,6 +228,6 @@ public class Ui {
     }
 
     public void printCorruptedLine(String corruptedLine) {
-        System.out.println(corruptedLine);
+        System.out.println("This task is invalid: " + corruptedLine + "\nPlease remove externally to continue");
     }
 }

@@ -4,7 +4,11 @@ import athena.exceptions.StorageCorruptedException;
 import athena.exceptions.StorageLoadFailException;
 import athena.task.Task;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Converts TaskLists to .csv files and back
@@ -69,10 +73,11 @@ public class Storage {
         TaskList output = new TaskList();
         int maxNumber = 0;
         String[] data = new String[0];
-        try {
-            if (csvFile.isFile()) {
-                String row;
-                BufferedReader csvReader = null;
+
+        if (csvFile.isFile()) {
+            String row;
+            BufferedReader csvReader = null;
+            try {
                 csvReader = new BufferedReader(new FileReader(filePath));
                 while ((row = csvReader.readLine()) != null) {
                     data = row.split(",");
@@ -84,13 +89,13 @@ public class Storage {
                     maxNumber = Integer.parseInt(data[7]);
                 }
                 csvReader.close();
+            } catch (IOException e) {
+                throw new StorageLoadFailException();
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new StorageCorruptedException(data);
             }
-            output.setMaxNumber(maxNumber);
-            return output;
-        } catch (IOException e) {
-            throw new StorageLoadFailException();
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new StorageCorruptedException(data);
         }
+        output.setMaxNumber(maxNumber);
+        return output;
     }
 }

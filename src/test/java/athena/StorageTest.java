@@ -1,5 +1,7 @@
 package athena;
 
+import athena.exceptions.StorageCorruptedException;
+import athena.exceptions.StorageLoadFailException;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
@@ -56,7 +58,8 @@ class StorageTest {
      * Checks if the program is able to load a save file correctly.
      */
     @Test
-    void loadTaskListData_saveFileFound_createTaskList() throws IOException {
+    void loadTaskListData_saveFileFound_createTaskList()
+            throws IOException, StorageLoadFailException, StorageCorruptedException {
         Ui ui = new Ui();
         Storage storage = new Storage("src/test/java/athena/StorageTestAnswer1.csv");
         TaskList taskList = null;
@@ -66,7 +69,8 @@ class StorageTest {
     }
 
     @Test
-    void loadTaskListData_commaInTaskAttribute_commaIsReplaced() throws IOException {
+    void loadTaskListData_commaInTaskAttribute_commaIsReplaced()
+            throws IOException, StorageLoadFailException, StorageCorruptedException {
         Storage storage = new Storage("src/test/java/athena/StorageTestAnswer2.csv");
         TaskList taskList = null;
         taskList = storage.loadTaskListData();

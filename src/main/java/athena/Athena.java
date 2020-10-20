@@ -40,15 +40,15 @@ public class Athena {
         Command userCommand;
 
         ui.printWelcomeMessage();
-
+        boolean isExit = false;
         try {
             taskList = storage.loadTaskListData();
         } catch (StorageLoadFailException e) {
             e.printErrorMessage();
         } catch (StorageCorruptedException e) {
             e.printErrorMessage();
+            isExit = true;
         }
-        boolean isExit = false;
         Scanner input = new Scanner(System.in);
 
         while (!isExit) {
