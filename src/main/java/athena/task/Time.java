@@ -7,7 +7,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-/**
+/*
  * Stores information related to time.
  * examples include startTime, duration, deadline
  * Recurrence and recurrenceDate can also be stored here
@@ -16,6 +16,7 @@ import java.time.format.DateTimeParseException;
  */
 public class Time implements Comparable<Time> {
 
+    private static final int DATE_TIME_FORMAT = 5;
     private Boolean isFlexible;
     private LocalTime startTime;
     private int duration;
@@ -34,6 +35,16 @@ public class Time implements Comparable<Time> {
 
     public LocalDate getRecurrenceDate() {
         return recurrenceDate;
+    }
+
+    private void setRecurrenceDate(String recurrence) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        if (recurrence.length() == DATE_TIME_FORMAT) {
+            String year = Integer.toString(LocalDate.now().getYear());
+            recurrenceDate = LocalDate.parse(recurrence + "-", formatter);
+        } else {
+            recurrenceDate = LocalDate.parse(recurrence, formatter);
+        }
     }
 
     public void setRecurrenceDate(LocalDate recurrenceDate) {

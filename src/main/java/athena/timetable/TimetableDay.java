@@ -21,6 +21,7 @@ public class TimetableDay {
      * @param date Date represented by this object.
      */
     public TimetableDay(LocalDate date) {
+        assert date != null;
         this.date = date;
         this.taskList = new TaskList();
     }

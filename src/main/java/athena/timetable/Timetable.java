@@ -30,6 +30,7 @@ public class Timetable {
      * @param taskList Task list
      */
     public Timetable(TaskList taskList) {
+        assert taskList != null;
         this.taskList = taskList;
         populateTimetable();
     }
@@ -42,6 +43,7 @@ public class Timetable {
      * @param forecastFilter   Filters tasks based on forecast
      */
     public Timetable(TaskList taskList, ImportanceFilter importanceFilter, ForecastFilter forecastFilter) {
+        assert taskList != null;
         this.taskList = taskList.getFilteredList(importanceFilter).getFilteredList(forecastFilter);
         populateTimetable();
     }
@@ -72,17 +74,20 @@ public class Timetable {
         timetableDayMap = new TreeMap<LocalDate, TimetableDay>();
 
         for (Task task : taskList.getTasks()) {
-            LocalDate date = task.getDate();
+            ArrayList<LocalDate> dates = task.getDates();
+            for (LocalDate date : dates) {
+                assert date != null;
 
-            TimetableDay timetableDay;
-            if (timetableDayMap.containsKey(date)) {
-                timetableDay = timetableDayMap.get(date);
-            } else {
-                timetableDay = new TimetableDay(date);
-                timetableDayMap.put(date, timetableDay);
+                TimetableDay timetableDay;
+                if (timetableDayMap.containsKey(date)) {
+                    timetableDay = timetableDayMap.get(date);
+                } else {
+                    timetableDay = new TimetableDay(date);
+                    timetableDayMap.put(date, timetableDay);
+                }
+
+                timetableDay.addTask(task);
             }
-
-            timetableDay.addTask(task);
         }
 
         for (LocalDate key : timetableDayMap.keySet()) {
