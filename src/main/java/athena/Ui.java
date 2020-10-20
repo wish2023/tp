@@ -222,4 +222,11 @@ public class Ui {
     public void printTimetable(Timetable timetable) {
         System.out.println(timetable);
     }
+
+    public void printStorageLoadFail() {
+    }
+
+    public void printCorruptedLine(String corruptedLine) {
+        System.out.println(corruptedLine);
+    }
 }

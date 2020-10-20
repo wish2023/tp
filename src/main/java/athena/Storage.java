@@ -1,13 +1,10 @@
 package athena;
 
+import athena.exceptions.StorageCorruptedException;
+import athena.exceptions.StorageLoadFailException;
 import athena.task.Task;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+import java.io.*;
 
 /**
  * Converts TaskLists to .csv files and back
@@ -67,26 +64,33 @@ public class Storage {
      */
 
     //TODO: add compatibility for more task attributes
-    public TaskList loadTaskListData() throws IOException, ArrayIndexOutOfBoundsException {
+    public TaskList loadTaskListData() throws StorageLoadFailException, StorageCorruptedException {
         File csvFile = new File(filePath);
         TaskList output = new TaskList();
         int maxNumber = 0;
-        if (csvFile.isFile()) {
-            String row;
-            BufferedReader csvReader = null;
-            csvReader = new BufferedReader(new FileReader(filePath));
-            while ((row = csvReader.readLine()) != null) {
-                String[] data = row.split(",");
-                for (int i = 0; i < data.length; i++) {
-                    data[i] = data[i].replaceAll("]c}", ",");
+        String[] data = new String[0];
+        try {
+            if (csvFile.isFile()) {
+                String row;
+                BufferedReader csvReader = null;
+                csvReader = new BufferedReader(new FileReader(filePath));
+                while ((row = csvReader.readLine()) != null) {
+                    data = row.split(",");
+                    for (int i = 0; i < data.length; i++) {
+                        data[i] = data[i].replaceAll("]c}", ",");
+                    }
+                    output.addTask(Integer.parseInt(data[7]), data[0], data[1], data[2], data[3], data[4],
+                            Importance.valueOf(data[5].toUpperCase()), data[6], Boolean.parseBoolean(data[8]));
+                    maxNumber = Integer.parseInt(data[7]);
                 }
-                output.addTask(Integer.parseInt(data[7]), data[0], data[1], data[2], data[3], data[4],
-                        Importance.valueOf(data[5].toUpperCase()), data[6], Boolean.parseBoolean(data[8]));
-                maxNumber = Integer.parseInt(data[7]);
+                csvReader.close();
             }
-            csvReader.close();
+            output.setMaxNumber(maxNumber);
+            return output;
+        } catch (IOException e) {
+            throw new StorageLoadFailException();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new StorageCorruptedException(data);
         }
-        output.setMaxNumber(maxNumber);
-        return output;
     }
 }

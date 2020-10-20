@@ -2,6 +2,8 @@ package athena;
 
 import athena.commands.Command;
 import athena.exceptions.CommandException;
+import athena.exceptions.StorageCorruptedException;
+import athena.exceptions.StorageLoadFailException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -41,10 +43,10 @@ public class Athena {
 
         try {
             taskList = storage.loadTaskListData();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ArrayIndexOutOfBoundsException e) {
-            ui.printInvalidTask();
+        } catch (StorageLoadFailException e) {
+            e.printErrorMessage();
+        } catch (StorageCorruptedException e) {
+            e.printErrorMessage();
         }
         boolean isExit = false;
         Scanner input = new Scanner(System.in);

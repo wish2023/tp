@@ -56,28 +56,20 @@ class StorageTest {
      * Checks if the program is able to load a save file correctly.
      */
     @Test
-    void loadTaskListData_saveFileFound_createTaskList() {
+    void loadTaskListData_saveFileFound_createTaskList() throws IOException {
         Ui ui = new Ui();
         Storage storage = new Storage("src/test/java/athena/StorageTestAnswer1.csv");
         TaskList taskList = null;
-        try {
-            taskList = storage.loadTaskListData();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        taskList = storage.loadTaskListData();
         TaskList tester = TestSetup.getTestTaskList();
         assertTrue(tester.equals(taskList));
     }
 
     @Test
-    void loadTaskListData_commaInTaskAttribute_commaIsReplaced() {
+    void loadTaskListData_commaInTaskAttribute_commaIsReplaced() throws IOException {
         Storage storage = new Storage("src/test/java/athena/StorageTestAnswer2.csv");
         TaskList taskList = null;
-        try {
-            taskList = storage.loadTaskListData();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        taskList = storage.loadTaskListData();
         TaskList tester = TestSetup.getCommaTestTaskList();
         assertTrue(tester.equals(taskList));
 
