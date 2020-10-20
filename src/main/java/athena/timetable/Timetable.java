@@ -64,18 +64,20 @@ public class Timetable {
         TreeMap<LocalDate, TimetableDay> timetableDayMap = new TreeMap<LocalDate, TimetableDay>();
 
         for (Task task : taskList.getTasks()) {
-            LocalDate date = task.getDate();
-            assert date != null;
+            ArrayList<LocalDate> dates = task.getDates();
+            for (LocalDate date : dates) {
+                assert date != null;
 
-            TimetableDay timetableDay;
-            if (timetableDayMap.containsKey(date)) {
-                timetableDay = timetableDayMap.get(date);
-            } else {
-                timetableDay = new TimetableDay(date);
-                timetableDayMap.put(date, timetableDay);
+                TimetableDay timetableDay;
+                if (timetableDayMap.containsKey(date)) {
+                    timetableDay = timetableDayMap.get(date);
+                } else {
+                    timetableDay = new TimetableDay(date);
+                    timetableDayMap.put(date, timetableDay);
+                }
+
+                timetableDay.addTask(task);
             }
-
-            timetableDay.addTask(task);
         }
 
         for (LocalDate key : timetableDayMap.keySet()) {
