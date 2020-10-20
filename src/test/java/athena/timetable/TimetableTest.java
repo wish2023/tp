@@ -12,14 +12,69 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
+import java.util.Locale;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test methods of Timetable.
  */
 class TimetableTest {
+
+    /**
+     * Tests that the timetable from 8am to 12pm is drawn correctly.
+     */
+    @Test
+    void drawTimetable_start8End12_returnsCorrectlyDrawnTimetable() {
+        TaskList taskList = new TaskList();
+        taskList.addTask("Assignment 1", "0800", "2", "6pm", "19-10-2020",
+                Importance.HIGH, "Tough assignment", false);
+        taskList.addTask("Tutorial 2", "0900", "2", "6pm", "20-10-2020",
+                Importance.HIGH, "Tough assignment", false);
+        taskList.addTask("OP 3", "1000", "2", "6pm", "21-10-2020",
+                Importance.HIGH, "Tough assignment", false);
+        taskList.addTask("TP 4", "1100", "2", "6pm", "22-10-2020",
+                Importance.HIGH, "Tough assignment", false);
+
+        LocalDate[] dates = new LocalDate[7];
+        LocalDate date = LocalDate.parse("18-10-2020", DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        for (int i = 0; i < 7; i++) {
+            dates[i] = date;
+            date = date.plusDays(1);
+        }
+
+        Timetable timetable = new Timetable(taskList, 8, 12);
+        String drawnTimetable = timetable.drawTimetable(dates);
+        String expectedDrawnTimetable =
+                "+-------08---------09---------10---------11---------+\n"
+                        + "|  SUN  |          |          |          |          |\n"
+                        + "| 18/10 |          |          |          |          |\n"
+                        + "+-------+----------+----------+----------+----------+\n"
+                        + "|  MON  | Assignment 1        |          |          |\n"
+                        + "| 19/10 | [0]                 |          |          |\n"
+                        + "+-------+----------+----------+----------+----------+\n"
+                        + "|  TUE  |          | Tutorial 2          |          |\n"
+                        + "| 20/10 |          | [1]                 |          |\n"
+                        + "+-------+----------+----------+----------+----------+\n"
+                        + "|  WED  |          |          | OP 3                |\n"
+                        + "| 21/10 |          |          | [2]                 |\n"
+                        + "+-------+----------+----------+----------+----------+\n"
+                        + "|  THU  |          |          |          | TP 4     |\n"
+                        + "| 22/10 |          |          |          | [3]      |\n"
+                        + "+-------+----------+----------+----------+----------+\n"
+                        + "|  FRI  |          |          |          |          |\n"
+                        + "| 23/10 |          |          |          |          |\n"
+                        + "+-------+----------+----------+----------+----------+\n"
+                        + "|  SAT  |          |          |          |          |\n"
+                        + "| 24/10 |          |          |          |          |\n"
+                        + "+-------+----------+----------+----------+----------+\n";
+
+        assertEquals(drawnTimetable, expectedDrawnTimetable);
+    }
 
     /**
      * Checks if the timetable returns all tasks with no filter.
@@ -111,6 +166,17 @@ class TimetableTest {
                 new ForecastFilter(Forecast.ALL));
 
         assertTrue(areTimetablesSame(timetable, days));
+    }
+
+    /**
+     * Utility method to get the first day of this week.
+     *
+     * @return The first day of this week.
+     */
+    private LocalDate getFirstDayOfWeek() {
+        LocalDate now = LocalDate.now();
+        TemporalField field = WeekFields.of(Locale.forLanguageTag("en_SG")).dayOfWeek();
+        return now.with(field, 1);
     }
 
     /**
