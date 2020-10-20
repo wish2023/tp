@@ -256,6 +256,24 @@ public class Parser {
     }
 
     /**
+     * Parses user input to split shortcut command and task information.
+     *
+     * @param userInput String representing task information
+     * @return task information string
+     */
+    public static String parseShortcutCommandAndDetails (String userInput) {
+        String[] commandAndDetails = userInput.split(COMMAND_WORD_DELIMITER, 2);
+        String shortcutInput = parseShortcutCommands(commandAndDetails[0]);
+        String remainingTaskInfo = "";
+        if (commandAndDetails.length > 1) {
+            remainingTaskInfo = commandAndDetails[1];
+        }
+        String fullInput = shortcutInput + " " + remainingTaskInfo;
+        fullInput = fullInput.trim();
+        return fullInput;
+    }
+
+    /**
      * Parses user input and recognises what type of command
      * and parameters the user typed.
      *
@@ -265,19 +283,12 @@ public class Parser {
      * @throws CommandException Exception thrown when there is an error when the user inputs a command
      */
     public static Command parse(String userInput, TaskList taskList) throws CommandException {
-        String[] commandAndDetails = userInput.split(COMMAND_WORD_DELIMITER, 2);
-        String shortcutInput = parseShortcutCommands(commandAndDetails[0]);
-        String remainingTaskInfo = "";
-        if (commandAndDetails.length > 1) {
-            remainingTaskInfo = commandAndDetails[1];
-        }
-
-        String fullInput = shortcutInput + " " + remainingTaskInfo;
+        String fullInput = parseShortcutCommandAndDetails(userInput);
         String[] splitCommandAndDetails = fullInput.split(COMMAND_WORD_DELIMITER, 2);
         String commandType = splitCommandAndDetails[0];
         String taskInfo = "";
-        if (commandAndDetails.length > 1) {
-            taskInfo = commandAndDetails[1];
+        if (splitCommandAndDetails.length > 1) {
+            taskInfo = splitCommandAndDetails[1];
         }
 
         int namePos = taskInfo.indexOf(NAME_DELIMITER);
