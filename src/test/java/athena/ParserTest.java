@@ -34,14 +34,14 @@ class ParserTest {
     }
 
     /**
-     * Checks if the help command is shown if the user enters an invalid command.
-     *
-     * @throws CommandException Exception thrown if there is an error with the user entered command
+     * Checks if an exception is thrown if the user enters an invalid command.
      */
     @Test
-    public void parse_unknownCommandWord_returnsHelp() throws CommandException {
+    public void parse_unknownCommandWord_throwsException() {
         final String input = "unknown arguments";
-        parseAndAssertCommandType(input, HelpCommand.class);
+        assertThrows(CommandException.class, () -> {
+            parseAndAssertCommandType(input, Command.class);
+        });
     }
 
     /*
@@ -158,7 +158,7 @@ class ParserTest {
     }
 
     @Test
-    public void parse_editCommandBadArg_throwsException() throws CommandException {
+    public void parse_editCommandBadArg_throwsException() {
         final String input = "edit abcde";
         assertThrows(CommandException.class, () -> {
             parseAndAssertCommandType(input, EditCommand.class);
@@ -166,7 +166,7 @@ class ParserTest {
     }
 
     @Test
-    public void parse_editCommandBadArg2_throwsException() throws CommandException {
+    public void parse_editCommandBadArg2_throwsException() {
         final String input = "edit 1a/";
         assertThrows(CommandException.class, () -> {
             parseAndAssertCommandType(input, EditCommand.class);
@@ -174,7 +174,7 @@ class ParserTest {
     }
 
     @Test
-    public void parse_editCommandBadArg3_throwsException() throws CommandException {
+    public void parse_editCommandBadArg3_throwsException() {
         final String input = "edit 1 n/n/";
         assertThrows(CommandException.class, () -> {
             parseAndAssertCommandType(input, EditCommand.class);
