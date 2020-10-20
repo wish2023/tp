@@ -40,17 +40,17 @@ public class ForecastFilter extends TaskFilter {
     }
 
     private boolean isDateIncluded(LocalDate taskDate) {
-        boolean isInstanceIncluded;
+        boolean isDateIncluded;
         if (forecast == Forecast.ALL) {
-            isInstanceIncluded = true;
+            isDateIncluded = true;
         } else if (forecast == Forecast.WEEK) {
             int currentWeekNumber = getWeekNumber(todayDate);
             int taskWeekNumber = getWeekNumber(taskDate);
-            isInstanceIncluded = (currentWeekNumber == taskWeekNumber);
+            isDateIncluded = (currentWeekNumber == taskWeekNumber);
         } else {
-            isInstanceIncluded = taskDate.equals(todayDate);
+            isDateIncluded = taskDate.equals(todayDate);
         }
-        return isInstanceIncluded;
+        return isDateIncluded;
     }
 
     public Task removeExcludedDates(Task task) {
