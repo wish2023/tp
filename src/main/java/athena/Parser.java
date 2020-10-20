@@ -243,7 +243,7 @@ public class Parser {
         }
 
         default: {
-            return new HelpCommand();
+            throw new InvalidCommandException();
         }
         }
     }
