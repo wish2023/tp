@@ -6,7 +6,7 @@ import athena.Ui;
 import athena.exceptions.CommandException;
 import athena.logic.commands.Command;
 
-public class LogicManager implements Logic{
+public class LogicManager implements Logic {
     private static Ui ui;
     private static Parser parser;
     private static Storage storage;
