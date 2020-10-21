@@ -43,14 +43,14 @@ The rest of the App consists of these components.
 
 This section describes some noteworthy details on how certain features are implemented.
 
----
+-----------------------------------------------------------------------------------------------------------------------
 
 ## Other Guides: Documentation, logging, testing, configuration, dev-ops
 * [Documentation guide](./Documentation.md)
 * [Testing guide](./Testing.md)
 * [DevOps guide](./DevOps.md)
 
----
+-----------------------------------------------------------------------------------------------------------------------
 
 ## Appendix: Requirements
 ### Product scope
