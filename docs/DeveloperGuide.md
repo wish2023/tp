@@ -7,8 +7,8 @@
 The ***Architecture Diagram*** given above explains the high-level design of the ATHENA. Given below is a quick overview of each component.
 
 **`Main`** has one class called [`Athena`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Athena.java). It is responsible for,
-* At app launch: Initializes the components in the correct sequence, and connects them up with each other.
-* At shut down: Shuts down the components and invokes cleanup methods where necessary.
+* At app launch: Initializes the components and connects them up with each other.
+* At app shut down: Shuts down the components.
 
 The rest of the App consists of these components.
 
@@ -51,10 +51,10 @@ This section describes some noteworthy details on how certain features are imple
 * is comfortable using the command line interface
 
 ### Value proposition
-* Our product will aim to help students organize their schedule faster than a typical mouse/GUI driven app. 
-* It will reduce the amount of time and effort that users need to spend planning their time needed, by finding free spaces to slot tasks in reducing the dead space in the timetable. 
-* The planner will also make sure the user has enough time to eat, exercise and sleep. Since there will be tasks added to the planner at any point in time, the todo list will be self-sorting as well. 
-* It is meant to be used together with a relatively static long term weekly routine that can be set on the product, with the self optimising homework task list to react to changes throughout the year.
+* ATHENA helps students to automate the process of organising their schedule. After the user inputs pre-allocated time slots for work and relaxation, ATHENA figures out the best theoretical timetable based on the user’s needs.
+* It can be updated anytime during the week.
+* ATHENA helps to reduce the amount of time and effort that users need to spend planning their time by finding free spaces to slot tasks in, with the goal of reducing dead space in the user’s timetable. 
+* The planner will also make sure the user has enough time to eat, exercise and sleep. The user can set up ATHENA to follow a fixed weekly routine, and only needs to update a task list. ATHENA will then plan the timetable based on the importance and deadlines of the tasks in the list, making sure that the user is able to finish everything on time.
 
 ## User Stories
 
@@ -67,6 +67,8 @@ This section describes some noteworthy details on how certain features are imple
 | `v1.0` | student                     | delete the tasks I added                         | remove tasks that are not needed to do anymore                         |
 | `v1.0` | student                     | set my task according to importance              | complete the more important tasks first                                |
 | `v1.0` | student                     | leave some notes for a task                      | remember about it                                                      |
+| `v2.0` | student                     | know a planner that tells me what time to rest   | I don’t exhaust myself                                                 |
+| `v2.0` | student                     | see an overview of the week ahead                | make sure that I am staying on task                                    |
 
 ## Non-Functional Requirements
 
@@ -87,4 +89,97 @@ Given below are instructions to test the app manually.
 
    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the command line interface with welcome message.
+   2. Double-click the jar file Expected: Shows the command line interface with welcome message.
+
+2. Shutdown ATHENA
+
+   1. Test case: `exit`<br>
+      Expected: A farewell message by ATHENA will be shown.   
+    
+### Adding a task
+
+* Add a task to the list.
+
+   1. Test case: `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`<br>
+      Expected: First task is added to the list. Details of the added task is shown.
+
+   2. Test case: `add t/1100 D/16-09-2020`<br>
+      Expected: No task is added. Error details is shown.
+      
+### Deleting a task
+
+* Deleting a task while all tasks are shown.
+
+   1. Prerequisites: List all tasks using the `list` command.
+
+   2. Test case: `delete 1`<br>
+      Expected: Task with index 1 is deleted from the list. Details of the deleted task is shown.
+
+   3. Test case: `delete -1`<br>
+      Expected: No task is deleted. Error details is shown.
+
+   4. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size)<br>
+      Expected: Similar to previous.
+ 
+### Marking a task as done
+
+* Marking a task as done while all tasks are shown.
+
+   1. Prerequisites: List all tasks using the `list` command.
+
+   2. Test case: `done 1`<br>
+      Expected: Task with index 1 is marked as done in the list. Details of the task is shown.
+
+   3. Test case: `done -1`<br>
+      Expected: No task is marked as done. Error details is shown.
+
+   4. Other incorrect delete commands to try: `done`, `done x` (where x is larger than the list size)<br>
+      Expected: Similar to previous.
+      
+### Viewing the full details of a task
+
+* Viewing a task details while all tasks are shown.
+
+   1. Prerequisites: List all tasks using the `list` command.
+
+   2. Test case: `view 1`<br>
+      Expected: Details of the task with index 1 in the list is shown.
+
+   3. Test case: `view -1`<br>
+      Expected: No task details is shown. Error details is shown.
+
+   4. Other incorrect delete commands to try: `view`, `view x` (where x is larger than the list size)<br>
+      Expected: Similar to previous.
+
+### Editing a task
+
+* Editing a task details while all tasks are shown.
+
+   1. Prerequisites: List all tasks using the `list` command.
+
+   2. Test case: `edit 1 n/new name`<br>
+      Expected: Name of the task with index 1 in the list will be changed to `new name`.
+
+   3. Test case: `edit -1`<br>
+      Expected: No task will be edited. Error details is shown.
+
+   4. Other incorrect delete commands to try: `edit`, `edit x` (where x is larger than the list size)<br>
+      Expected: Similar to previous.    
+
+### Listing all tasks
+
+* Listing all the tasks with or without filters.
+
+   1. Test case: `list`<br>
+      Expected: All the tasks will be listed.
+
+   2. Test case: `list i/HIGH f/TODAY`<br>
+      Expected: All the tasks today with high importance will be shown.
+      
+### Help
+
+* Guide on the use of ATHENA.
+
+   1. Test case: `help`<br>
+      Expected: A guide on how to use ATHENA will be shown. 
+                                
