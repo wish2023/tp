@@ -225,10 +225,10 @@ public class Ui {
     }
 
     public void printStorageLoadFail() {
-        System.out.println("Storage loading has failed");
+        System.out.println("Storage loading has failed\n");
     }
 
     public void printCorruptedLine(String corruptedLine) {
-        System.out.println("This task is invalid: " + corruptedLine + "\nPlease remove externally to continue");
+        System.out.println("This task is invalid: " + corruptedLine + "\nPlease remove externally to continue\n");
     }
 }
