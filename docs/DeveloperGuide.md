@@ -29,7 +29,7 @@ The rest of the App consists of these components.
 
 ### TaskList component
 
-insert structure here
+![TaskListStructure](https://raw.githubusercontent.com/wish2023/tp/DG-tasklist/docs/structures/TaskListStructure.png)
 
 **API** :
 [`TaskList.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/TaskList.java)
