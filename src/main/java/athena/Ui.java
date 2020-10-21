@@ -2,6 +2,7 @@ package athena;
 
 import athena.task.Task;
 import athena.timetable.Timetable;
+import org.fusesource.jansi.AnsiConsole;
 
 /**
  * Represents all of the text that the user sees on the command line.
@@ -10,6 +11,7 @@ public class Ui {
     private static final String ANSI_RESET = "\u001B[0m";
 
     public Ui() {
+        AnsiConsole.systemInstall();
     }
 
     public void printAthenaLogo() {
