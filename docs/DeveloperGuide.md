@@ -1,6 +1,6 @@
 # Developer Guide
 
-## Design & implementation
+## **Design & implementation**
 
 ### Architecture
 
@@ -45,14 +45,14 @@ This section describes some noteworthy details on how certain features are imple
 
 -----------------------------------------------------------------------------------------------------------------------
 
-## Other Guides: Documentation, logging, testing, configuration, dev-ops
+## **Other Guides: Documentation, logging, testing, configuration, dev-ops**
 * [Documentation guide](./Documentation.md)
 * [Testing guide](./Testing.md)
 * [DevOps guide](./DevOps.md)
 
 -----------------------------------------------------------------------------------------------------------------------
 
-## Appendix: Requirements
+## **Appendix: Requirements**
 ### Product scope
 #### Target user profile
 * is a university student
