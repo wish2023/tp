@@ -42,10 +42,19 @@ The rest of the App consists of these components.
 **API** :
 [`Ui.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Ui.java)
 
-### Parser component
+### Logic component
 
 **API** :
+![Structure of the Logic Component]
 [`Logic.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Logic.java)
+
+1. `Logic` uses the `Parser` class to parse the user command.
+1. This results in a `Command` object which is executed by the `LogicManager`.
+1. The command execution can affect the `TaskList` (e.g. adding a task).
+1. The result of the command execution will also call the `Ui` to print the respective messages for each command.
+
+Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
+
 
 ### TaskList component
 

@@ -6,6 +6,9 @@ import athena.Ui;
 import athena.exceptions.CommandException;
 import athena.logic.commands.Command;
 
+/**
+ * The main LogicManager of the ATHENA.
+ */
 public class LogicManager implements Logic {
     private static Ui ui;
     private static Parser parser;

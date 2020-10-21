@@ -2,7 +2,6 @@ package athena;
 
 import athena.logic.LogicManager;
 import athena.exceptions.CommandException;
-import athena.logic.Parser;
 
 import java.util.Scanner;
 
@@ -11,16 +10,16 @@ import java.util.Scanner;
  */
 public class Athena {
     private Ui ui;
-    private Parser parser;
     private Storage storage;
     private TaskList taskList;
+    private LogicManager logicManager;
 
     /**
      * Creates an ATHENA object.
      */
     public Athena() {
         ui = new Ui();
-        parser = new Parser();
+        logicManager = new LogicManager();
         storage = new Storage("data.csv", ui);
     }
 
@@ -34,7 +33,6 @@ public class Athena {
      */
     public void runProgram() {
         String inputString;
-        LogicManager logicManager = new LogicManager();
 
         ui.printWelcomeMessage();
 
