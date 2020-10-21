@@ -1,4 +1,4 @@
-package athena.commands;
+package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
@@ -11,17 +11,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * Tests methods of the edit command.
+ * Tests methods of the delete command.
  */
-class EditCommandTest {
+class DeleteCommandTest {
     private TaskList taskList;
-    private TaskList editedTaskList;
+    private TaskList taskListWithoutTask;
     private Ui ui;
 
     /**
      * Creates a task list for testing.
      *
-     * @return TaskList for testing.
+     * @return TaskList for testing
      */
     public static TaskList getTaskList() {
         TaskList taskList = new TaskList();
@@ -35,16 +35,14 @@ class EditCommandTest {
     }
 
     /**
-     * Creates a task list that is same as getTaskList() but task number 2 is edited.
+     * Creates a task list that is same as getTaskList() but without task number 2.
      *
-     * @return TaskList for testing with an edited task number 2.
+     * @return TaskList for testing without task number 2
      */
-    public static TaskList getEditedTaskList() {
+    public static TaskList getTaskListWithoutTask() {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "4pm", "2 hrs", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
-        taskList.addTask(1, "Homework 2", "8am", "4 hrs", "8pm", "10-12-2020",
-                Importance.HIGH, "Very easy homework", false);
         taskList.addTask(2, "Assignment 3", "4pm", "2 hrs", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment", false);
         return taskList;
@@ -57,17 +55,17 @@ class EditCommandTest {
     public void setup() {
         ui = new Ui();
         taskList = getTaskList();
-        editedTaskList = getEditedTaskList();
+        taskListWithoutTask = getTaskListWithoutTask();
     }
 
     /**
-     * Tests that the details of a task is edited if a valid task number is given.
+     * Tests that a task is a deleted from a list if a valid task number is given.
      *
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     @Test
-    public void execute_validNumber_taskIsEdited() throws TaskNotFoundException {
-        assertEditingSuccessful(1, taskList, editedTaskList);
+    public void execute_validNumber_taskIsDeleted() throws TaskNotFoundException {
+        assertDeletionSuccessful(1, taskList, taskListWithoutTask);
     }
 
     /**
@@ -75,59 +73,61 @@ class EditCommandTest {
      */
     @Test
     public void execute_invalidNumber_taskListIsUnchanged() {
-        assertEditingFailsDueToInvalidNumber(-1, taskList);
+        assertDeletionFailsDueToInvalidNumber(-1, taskList);
     }
 
     /**
-     * Creates a new edit command.
+     * Creates a new delete command.
      *
-     * @param taskNumber Task number of the task that we want to edit
+     * @param taskNumber of the task that we want to delete
      */
-    private EditCommand createEditCommand(int taskNumber) {
-        EditCommand command = new EditCommand(taskNumber, "Homework 2", "8am", "4 hrs", "8pm", "10-12-2020",
-                Importance.HIGH, "Very easy homework");
+    private DeleteCommand createDeleteCommand(int taskNumber) {
+        DeleteCommand command = new DeleteCommand(taskNumber);
         return command;
     }
 
     /**
-     * Executes the command, and checks that the execution was what we expect.
+     * Asserts that the execution of the command results in what we expect.
      *
+     * @param deleteCommand    Delete command
+     * @param expectedTaskList Expected task list
+     * @param actualTaskList   Actual task list
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
-    private void assertCommandBehaviour(EditCommand editCommand, TaskList expectedTaskList,
+    private void assertCommandBehaviour(DeleteCommand deleteCommand, TaskList expectedTaskList,
                                         TaskList actualTaskList) throws TaskNotFoundException {
         Ui ui = new Ui();
-        editCommand.execute(taskList, ui);
+        deleteCommand.execute(taskList, ui);
         assertEquals(expectedTaskList, actualTaskList);
     }
 
     /**
      * Asserts that nothing changes when the task with the given number does not exist in the given task list.
      *
-     * @param taskNumber Task number to edit, but it should be an invalid number
-     * @param taskList   TaskList to edit
+     * @param taskNumber Task number to delete, but it should be an invalid number
+     * @param taskList   TaskList to delete from
      */
-    private void assertEditingFailsDueToInvalidNumber(int taskNumber, TaskList taskList) {
-        EditCommand command = createEditCommand(taskNumber);
+    private void assertDeletionFailsDueToInvalidNumber(int taskNumber, TaskList taskList) {
+        DeleteCommand command = createDeleteCommand(taskNumber);
         assertThrows(TaskNotFoundException.class, () -> {
             command.execute(taskList, ui);
         });
     }
 
     /**
-     * Asserts the task with the specified number can be successfully edited.
+     * Asserts the task with the specified number can be successfully deleted.
      *
-     * @param taskNumber     Task number of the task to edit
-     * @param taskList       TaskList to edit
-     * @param editedTaskList Reference taskList to compare with after deleting the task
+     * @param taskNumber          Task number of the task to delete
+     * @param taskList            TaskList to delete from
+     * @param taskListWithoutTask Reference taskList to compare with after deleting the task
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
-    private void assertEditingSuccessful(int taskNumber, TaskList taskList, TaskList editedTaskList)
+    private void assertDeletionSuccessful(int taskNumber, TaskList taskList, TaskList taskListWithoutTask)
             throws TaskNotFoundException {
-        TaskList expectedTaskList = editedTaskList;
+        TaskList expectedTaskList = taskListWithoutTask;
         TaskList actualTaskList = taskList;
 
-        EditCommand command = createEditCommand(taskNumber);
+        DeleteCommand command = createDeleteCommand(taskNumber);
         assertCommandBehaviour(command, expectedTaskList, actualTaskList);
     }
 }

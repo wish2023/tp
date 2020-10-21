@@ -1,5 +1,25 @@
 # Developer Guide
 
+## Setting up and getting started
+
+### Prerequisites
+1. Ensure you have `JDK 11` installed in your computer.
+2. Install IntelliJ IDEA.
+
+### Setting up the project in your computer
+1. Fork this repository, and clone the fork to your computer.
+2. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first).
+3. Set up the correct JDK version for Gradle  
+   1. Click `Configure` > `Project Defaults` > `Project Structure`.
+   2. Click `New…` and select the directory where you installed `JDK 11`.
+   3. Click `OK`.
+4. IntelliJ IDEA by default has the Gradle plugin installed. If you have disabled it, go to `File` > `Settings` > `Plugins` to re-enable them.
+   If your project involves GUI programming, similarly ensure the JavaFX plugin has not been disabled.
+5. Click `Import Project`(or `Open or Import` in newer version of Intellij).
+6. Locate the `build.gradle` file and select it. Click `OK`. If asked, choose to `Open as Project` (not `Open as File`).
+7. Click `OK` to accept the default settings if prompted. 
+8. Wait for the importing process to finish, and you are good to go!
+
 ## Design & implementation
 
 ### Architecture
@@ -13,7 +33,7 @@ The ***Architecture Diagram*** given above explains the high-level design of the
 The rest of the App consists of these components.
 
 * [**`Ui`**](#ui-component): The UI of ATHENA.
-* [**`Parser`**](#parser-component): Parses user input and command executor.
+* [**`Logic`**](#logic-component): Parses user input and command executor.
 * [**`TaskList`**](#tasklist-component): The list that stores the user's tasks.
 * [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
 
@@ -25,7 +45,7 @@ The rest of the App consists of these components.
 ### Parser component
 
 **API** :
-[`Parser.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Parser.java)
+[`Logic.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Logic.java)
 
 ### TaskList component
 

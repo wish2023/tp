@@ -1,7 +1,9 @@
 package athena;
 
-import athena.commands.Command;
+import athena.logic.LogicManager;
 import athena.exceptions.CommandException;
+import athena.logic.Parser;
+
 import java.util.Scanner;
 
 /**
@@ -32,7 +34,7 @@ public class Athena {
      */
     public void runProgram() {
         String inputString;
-        Command userCommand;
+        LogicManager logicManager = new LogicManager();
 
         ui.printWelcomeMessage();
 
@@ -43,10 +45,7 @@ public class Athena {
         while (!isExit) {
             try {
                 inputString = input.nextLine();
-                userCommand = parser.parse(inputString, taskList);
-                userCommand.execute(taskList, ui);
-                storage.saveTaskListData(taskList);
-                isExit = userCommand.getIsExit();
+                isExit = logicManager.execute(inputString);
             } catch (CommandException e) {
                 e.printErrorMessage();
             }
