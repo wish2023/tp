@@ -47,9 +47,11 @@ public class Storage {
         try {
             FileWriter csvWriter = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {
-                taskString = replaceCommas(task.getName()) + "," + replaceCommas(task.getStartTime()) + ","
-                        + replaceCommas(task.getDuration()) + "," + replaceCommas(task.getDeadline()) + ","
-                        + replaceCommas(task.getRecurrence()) + "," + task.getImportance() + ","
+                taskString = replaceCommas(task.getName()) + ","
+                        + replaceCommas(task.getTimeInfo().getStartTime()) + ","
+                        + replaceCommas(task.getTimeInfo().getDuration()) + ","
+                        + replaceCommas(task.getTimeInfo().getDeadline()) + ","
+                        + replaceCommas(task.getTimeInfo().getRecurrence()) + "," + task.getImportance() + ","
                         + replaceCommas(task.getNotes()) + "," + task.getNumber();
                 if (task.isFlexible()) {
                     taskString = taskString + "," + "true";
