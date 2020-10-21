@@ -33,14 +33,19 @@ Parameters:
 * `NAME` is the name of the task.
 * `TIME` is the time to start doing this task (HHMM). For example, 1100.
 * `DURATION` is the expected time taken to complete task (in hours)
+   
    Default: 1 hour.
 * `DEADLINE` is the date to do task by (DD-MM-YYYY). For example, 16-09-2020.
+   
    Default: No deadline.
 * `RECURRENCE` is TODAY or a specific date (DD-MM-YYYY).
+   
    Default: TODAY.
 * `IMPORTANCE` is one of HIGH, MEDIUM, LOW.
+   
    Default: MEDIUM.
 * `ADDITIONAL-NOTES` is the additional notes of the task.
+   
    Default: No notes.
 
 Example of usage: 
@@ -55,8 +60,10 @@ Format: `list [f/FORECAST] [i/IMPORTANCE]`
 
 Parameters:
 * `FORECAST`: TODAY to show the tasks today, WEEK to show the tasks this week, ALL to show all tasks, or choose a specific date. 
+  
   Default: TODAY.
 * `IMPORTANCE`: One of HIGH, MEDIUM, LOW, ALL. 
+  
   Default: ALL.
 
 Shortcut format:
@@ -78,7 +85,7 @@ Marks the specified task from the planner as done.
 
 Format: `done INDEX`
 
-* `INDEX` refers to the index number shown in the displayed task list. It must be a positive integer.
+* `INDEX` refers to the index number of a specific task shown in the displayed task list. It must be a positive integer.
 
 Example of usage: 
 
@@ -110,7 +117,7 @@ Deletes the specified task from the planner.
 
 Format: `delete INDEX`
 
-* `INDEX` refers to the index number shown in the displayed task list. It must be a positive integer.
+* `INDEX` refers to the index number of a specific task shown in the displayed task list. It must be a positive integer.
  
 Example of usage: 
 
@@ -122,7 +129,7 @@ View the specified task details from the planner.
 
 Format: `view INDEX`
 
-* `INDEX` refers to the index number shown in the displayed task list. It must be a positive integer.
+* `INDEX` refers to the index number of a specific task shown in the displayed task list. It must be a positive integer.
  
 Example of usage: 
 
@@ -135,7 +142,7 @@ Exits the program.
 Format: `exit` or `ex`
 
 ### Saving the data
-ATHENA data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.  
+ATHENA's data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.  
    
 ## FAQ
 
