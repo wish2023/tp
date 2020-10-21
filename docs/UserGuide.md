@@ -41,7 +41,8 @@ Parameters:
 
 Example of usage: 
 
-`add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`
+* `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`
+* `a n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`
 
 ### Listing tasks: `list` or `l`
 Shows a list of all tasks in the planner. Each task will be printed with a number to be used as an identifier for other commands.
@@ -53,10 +54,20 @@ Parameters:
   Default: TODAY.
 * `IMPORTANCE`: One of HIGH, MEDIUM, LOW, ALL. 
   Default: ALL.
+
+Shortcut format:
+* `l3` = `list i/HIGH`
+* `l2` = `list i/MEDIUM`
+* `l1` = `list i/LOW`
+* `lw` = `list f/WEEK`
+* `lt` = `list f/TODAY`
+* `lm` = `list f/MONTH`
   
 Example of usage: 
 
-`list f/WEEK i/medium`
+* `list f/WEEK i/medium`
+* `l2 f/WEEK`
+* `lm i/medium`
 
 ### Mark task as done: `done` or `dn`
 Marks the specified task from the planner as done.
@@ -67,7 +78,8 @@ Format: `done INDEX`
 
 Example of usage: 
 
-`done 103`
+* `done 103`
+* `dn 103` 
 
 ### Edit task: `edit` or `e`
 Allows users to edit the specified task from the planner.
@@ -86,7 +98,8 @@ Parameters:
    
 Example of usage: 
 
-`edit 103 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
+* `edit 103 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
+* `e 103 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
 
 ### Delete task: `delete` or `dl`
 Deletes the specified task from the planner.
@@ -97,7 +110,8 @@ Format: `delete INDEX`
  
 Example of usage: 
 
-`delete 103`
+* `delete 103`
+* `dl 103`
 
 ### View task: `view` or `v`
 View the specified task details from the planner.
@@ -108,12 +122,13 @@ Format: `view INDEX`
  
 Example of usage: 
 
-`view 103`
+* `view 103`
+* `v 103`
 
 ### Exit program: `exit` or `ex`
 Exits the program.
 
-Format: `exit`
+Format: `exit` or `ex`
 
 ### Saving the data
 ATHENA data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.  
