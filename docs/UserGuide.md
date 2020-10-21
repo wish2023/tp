@@ -12,10 +12,14 @@ ATHENA (Automated Timetable Helper Encourager n' Assistant) is a desktop daily l
 ## Features 
 Notes about the command format:
 * Words in UPPER_CASE are the parameters to be supplied by the user.
-e.g. in `add n/NAME`, NAME is a parameter which can be used as: `add n/Assignment1`.
+
+    e.g. for `add n/NAME`, NAME is a parameter which can be entered as: `add n/Assignment1`.
 * Parameters can be in any order.
-e.g. if the command specifies `n/NAME t/TIME`, `t/TIME n/NAME` is also acceptable.
-* Items in square brackets are optional. e.g `n/NAME  [d/DURATION]` can be used as `n/Task1 d/1` or as `n/Task1`.
+
+    e.g. if the command specifies `n/NAME t/TIME`, `t/TIME n/NAME` is also acceptable.
+* Parameters in square brackets are optional. 
+    
+    e.g `n/NAME  [d/DURATION]` can be used as `n/Task1 d/1` or as `n/Task1`.
 * For some commands, if no parameters are specified, the command will execute using the default values for each parameter.
 * For dates, the program follows the DD-MM-YYYY format.
 * For time, the program follows the HHMM format.
