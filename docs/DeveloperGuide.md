@@ -43,20 +43,30 @@ The rest of the App consists of these components.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-## Product scope
-### Target user profile
+---
+
+## Other Guides: Documentation, logging, testing, configuration, dev-ops
+* [Documentation guide](./Documentation.md)
+* [Testing guide](./Testing.md)
+* [DevOps guide](./DevOps.md)
+
+---
+
+## Appendix: Requirements
+### Product scope
+#### Target user profile
 * is a university student
 * has a need to manage a significant number of tasks
 * can type fast and prefers typing to mouse interactions
 * is comfortable using the command line interface
 
-### Value proposition
+#### Value proposition
 * ATHENA helps students to automate the process of organising their schedule. After the user inputs pre-allocated time slots for work and relaxation, ATHENA figures out the best theoretical timetable based on the user’s needs.
 * It can be updated anytime during the week.
 * ATHENA helps to reduce the amount of time and effort that users need to spend planning their time by finding free spaces to slot tasks in, with the goal of reducing dead space in the user’s timetable. 
 * The planner will also make sure the user has enough time to eat, exercise and sleep. The user can set up ATHENA to follow a fixed weekly routine, and only needs to update a task list. ATHENA will then plan the timetable based on the importance and deadlines of the tasks in the list, making sure that the user is able to finish everything on time.
 
-## User Stories
+### User Stories
 
 |Version | As a ...                    | I want to ...                                    | So that I can ...                                                      |
 | -------| --------------------------- | ------------------------------------------------ | ---------------------------------------------------------------------- |
