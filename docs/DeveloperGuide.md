@@ -32,6 +32,9 @@ The rest of the App consists of these components.
 **API** :
 [`TaskList.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/TaskList.java)
 
+1. The `TaskList` stores task data in `Task` type objects.
+2. The `TaskList` is updated in `Athena`.
+3. `Task` stores
 ### Storage component
 
 **API** : 

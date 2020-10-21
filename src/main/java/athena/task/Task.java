@@ -75,6 +75,7 @@ public class Task {
 
 
         setRecurrence(recurrence);
+        assert this.recurrenceDates.size() != 0;
     }
 
 
