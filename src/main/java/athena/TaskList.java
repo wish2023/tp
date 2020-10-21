@@ -2,6 +2,7 @@ package athena;
 
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
+import athena.task.taskfilter.FlexibleTimeFilter;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
 import athena.task.taskfilter.TaskFilter;
@@ -217,10 +218,14 @@ public class TaskList {
             if (taskFilter.isTaskIncluded(task)) {
                 if (taskFilter instanceof ImportanceFilter) {
                     filteredTasks.add(task);
-                } else {
+                } else if (taskFilter instanceof ForecastFilter) {
                     assert taskFilter instanceof ForecastFilter;
                     Task filteredTask = ((ForecastFilter) taskFilter).removeExcludedDates(task);
                     filteredTasks.add(filteredTask);
+                } else {
+                    assert taskFilter instanceof FlexibleTimeFilter;
+                    filteredTasks.add(task);
+
                 }
             }
         }
@@ -238,6 +243,7 @@ public class TaskList {
 
     /**
      * Gets the max index.
+     *
      * @return Max index
      */
     public int getMaxNumber() {
@@ -246,6 +252,7 @@ public class TaskList {
 
     /**
      * Sets the max index.
+     *
      * @param maxIndex Max index
      */
     public void setMaxNumber(int maxIndex) {
@@ -254,6 +261,7 @@ public class TaskList {
 
     /**
      * Determines if two objects have the same attributes.
+     *
      * @param o object
      * @return true if the two objects have the same attributes
      */

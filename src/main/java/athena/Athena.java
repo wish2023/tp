@@ -12,6 +12,7 @@ public class Athena {
     private Parser parser;
     private Storage storage;
     private TaskList taskList;
+    private TimeAllocator allocator;
 
     /**
      * Creates an ATHENA object.
@@ -46,6 +47,8 @@ public class Athena {
                 userCommand = parser.parse(inputString, taskList);
                 userCommand.execute(taskList, ui);
                 storage.saveTaskListData(taskList);
+                allocator = new TimeAllocator(taskList);
+                allocator.runAllocate();
                 isExit = userCommand.getIsExit();
             } catch (CommandException e) {
                 e.printErrorMessage();

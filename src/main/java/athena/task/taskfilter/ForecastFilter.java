@@ -17,6 +17,9 @@ public class ForecastFilter extends TaskFilter {
         this.forecast = forecast;
     }
 
+    public void setTodayDate(LocalDate todayDate) {
+        this.todayDate = todayDate;
+    }
 
     /**
      * Checks whether to include a task based on its date.

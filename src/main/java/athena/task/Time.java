@@ -1,14 +1,10 @@
 package athena.task;
 
-import athena.Recurrence; // Can delete recurrence enum since we don't use it anymore?
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Objects;
 
 /*
@@ -22,7 +18,7 @@ public class Time implements Comparable<Time> {
 
     private static final int DATE_TIME_FORMAT = 5;
     private Boolean isFlexible;
-    private String startTime;
+    private Integer startTime;
     private String duration;
     private String deadline;
 
@@ -31,8 +27,11 @@ public class Time implements Comparable<Time> {
 
     public Time(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence) {
         this.isFlexible = isFlexible;
-        this.startTime = startTime;
-        assert !this.startTime.equals("");
+        if (startTime.length() > 0) {
+            this.startTime = Integer.valueOf(startTime);
+        } else {
+            this.startTime = -1;
+        }
         this.duration = duration;
         this.deadline = deadline;
         this.recurrence = recurrence;
@@ -41,7 +40,7 @@ public class Time implements Comparable<Time> {
     }
 
     public Time getClone() {
-        return new Time(isFlexible, startTime, duration, deadline, recurrence);
+        return new Time(isFlexible, String.valueOf(startTime), duration, deadline, recurrence);
     }
 
     public void setRecurrence(String recurrence) {
@@ -123,11 +122,11 @@ public class Time implements Comparable<Time> {
     }
 
     private int getMonth(String recurrence) {
-        return Integer.parseInt(recurrence.substring(3,5));
+        return Integer.parseInt(recurrence.substring(3, 5));
     }
 
     private int getDay(String recurrence) {
-        return Integer.parseInt(recurrence.substring(0,2));
+        return Integer.parseInt(recurrence.substring(0, 2));
     }
 
     private int getYear(String recurrence) {
@@ -157,7 +156,15 @@ public class Time implements Comparable<Time> {
      * @return Start time of task
      */
     public String getStartTime() {
-        return startTime;
+        if (startTime != null) {
+            return String.valueOf(startTime.intValue());
+        }
+        return "";
+    }
+
+
+    public void setStartTime(Integer startTime) {
+        this.startTime = startTime;
     }
 
     public String getRecurrence() {
@@ -183,7 +190,6 @@ public class Time implements Comparable<Time> {
     }
 
 
-
     public Boolean getFlexible() {
         return isFlexible;
     }
@@ -194,7 +200,7 @@ public class Time implements Comparable<Time> {
     }
 
     public void edit(String startTime, String duration, String deadline, String recurrence) {
-        this.startTime = startTime;
+        this.startTime = Integer.getInteger(startTime);
         this.duration = duration;
         this.deadline = deadline;
 
