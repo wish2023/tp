@@ -9,6 +9,7 @@ import athena.commands.ExitCommand;
 import athena.commands.HelpCommand;
 import athena.commands.ListCommand;
 import athena.exceptions.CommandException;
+import athena.exceptions.InvalidCommandException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +40,7 @@ class ParserTest {
     @Test
     public void parse_unknownCommandWord_throwsException() {
         final String input = "unknown arguments";
-        assertThrows(CommandException.class, () -> {
+        assertThrows(InvalidCommandException.class, () -> {
             parseAndAssertCommandType(input, Command.class);
         });
     }
