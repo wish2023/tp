@@ -50,10 +50,10 @@ public class Ui {
         System.out.println("You've successfully added " + colourTextBlue(taskName) + " to your list!\n"
                 + "It will start at " + colourTextBlue(taskStartTime) + " and finish on "
                 + colourTextBlue(taskDeadline) + ".\n"
-                + "You should spend a total of " + colourTextBlue(taskDuration) + " hours on it.\n"
+                + "You should spend a total of " + colourTextBlue(taskDuration) + " on it.\n"
                 + "It is set to happen " + colourTextBlue(taskRecurrence) + " and has an importance of "
                 + colourTextBlue(taskImportance) + ".\n"
-                + "Additionally, you've also added these additional notes!\n" + colourTextBlue(taskNotes) + ".\n"
+                + "Additionally, you've also added these notes!\n" + colourTextBlue(taskNotes) + ".\n"
                 + "Looks like another mission to complete! Let's do it!\n");
     }
 
@@ -84,7 +84,7 @@ public class Ui {
                                 String taskDeadline, String taskRecurrence, Importance taskImportance,
                                 String taskNotes) {
         System.out.println("You've changed the details of task number " + colourTextBlue(Integer.toString(taskIndex))
-                + ": " + colourTextBlue(taskName) + "?\n"
+                + ": " + colourTextBlue(taskName) + "!\n"
                 + "Here are the new details of your task!\n"
                 + "Start Time: " + colourTextBlue(taskStartTime) + "\n"
                 + "Duration: " + colourTextBlue(taskDuration) + "\n"
@@ -103,8 +103,8 @@ public class Ui {
     public void printTaskDeleted(Task task, String taskRestore) {
         System.out.println("Are we pretending the task " + colourTextBlue(task.toString())
                 + " never existed? Very well...\n");
-        System.out.println("We both know the human propensity to make mistakes, if you want it back just type\n"
-                + colourTextBlue(taskRestore) + "\nYou can thank me later\n");
+        System.out.println("We both know the human propensity to make mistakes, if you want it back just type:\n"
+                + colourTextBlue(taskRestore) + "\nYou can thank me later!\n");
     }
 
     /**
