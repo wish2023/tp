@@ -34,6 +34,7 @@ public class Athena {
         String inputString;
         Command userCommand;
 
+        ui.printAthenaLogo();
         ui.printWelcomeMessage();
 
         taskList = storage.loadTaskListData();
