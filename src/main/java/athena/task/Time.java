@@ -38,7 +38,6 @@ public class Time implements Comparable<Time> {
         this.recurrence = recurrence;
 
         setRecurrence(recurrence);
-        assert recurrenceDates.size() != 0;
     }
 
     public Time getClone() {
