@@ -109,17 +109,18 @@ Given below is an example usage scenario and how the storage mechanism behaves a
 
 ## User Stories
 
-|Version | As a ...                    | I want to ...                                    | So that I can ...                                                      |
-| -------| --------------------------- | ------------------------------------------------ | ---------------------------------------------------------------------- |
-| `v1.0` | forgetful student           | upload my tasks for the week                     | remember to do them                                                    |
-| `v1.0` | student                     | mark my tasks as done                            | know that I have done them                                             |
-| `v1.0` | student                     | get reminded to do the tasks that are due soon   | I will be on time                                                      |
-| `v1.0` | student                     | edit the tasks I added                           | update accordingly to small changes                                    |
-| `v1.0` | student                     | delete the tasks I added                         | remove tasks that are not needed to do anymore                         |
-| `v1.0` | student                     | set my task according to importance              | complete the more important tasks first                                |
-| `v1.0` | student                     | leave some notes for a task                      | remember about it                                                      |
-| `v2.0` | student                     | know a planner that tells me what time to rest   | I don’t exhaust myself                                                 |
-| `v2.0` | student                     | see an overview of the week ahead                | make sure that I am staying on task                                    |
+| Version | As a ...          | I want to ...                                  | So that I ...                                     |
+| ------- | ----------------- | ---------------------------------------------- | ------------------------------------------------- |
+| `v1.0`  | forgetful student | upload my tasks for the week                   | remember to do them                               |
+| `v1.0`  | student           | mark my tasks as done                          | know that I have done them and can put them aside |
+| `v1.0`  | student           | get reminded to do the tasks that are due soon | will be on time                                   |
+| `v1.0`  | student           | edit the tasks I added                         | update accordingly to small changes               |
+| `v1.0`  | student           | delete the tasks I added                       | remove tasks that are not needed to do anymore    |
+| `v1.0`  | student           | set my task according to importance            | complete the more important tasks first           |
+| `v1.0`  | student           | leave some notes for a task                    | remember about it                                 |
+| `v2.0`  | student           | have a planner that tells me what time to rest | don’t exhaust myself                              |
+| `v2.0`  | student           | see an overview of the week ahead              | make sure that I am staying on top of my tasks    |
+| `v2.0`  | busy student      | know what tasks to work on next                | don’t need to spend time planning                 |
 
 ## Non-Functional Requirements
 
