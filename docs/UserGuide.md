@@ -51,7 +51,7 @@ Format: `list [f/FORECAST] [i/IMPORTANCE]`
 
 Parameters:
 * `FORECAST`: TODAY to show the tasks today, WEEK to show the tasks this week, ALL to show all tasks, or choose a specific date. 
-  Default: TODAY.
+  Default: WEEK.
 * `IMPORTANCE`: One of HIGH, MEDIUM, LOW, ALL. 
   Default: ALL.
 

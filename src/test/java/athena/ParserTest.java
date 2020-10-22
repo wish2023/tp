@@ -206,13 +206,13 @@ class ParserTest {
      */
     @Test
     public void parse_editCommandAllArg_parsedCorrectly() throws CommandException {
-        taskList.addTask("name", "st", "dur", "deadline",
+        taskList.addTask("name", "1600", "1", "deadline",
                 "12-10-2020", Importance.LOW, "dummyNote", false);
         final int testNumber = 0;
-        final String input = "edit 0 n/Assignment1 t/1100 D/16-09-2020 d/2 hours r/13-10-2020 i/high a/Refer to slides";
+        final String input = "edit 0 n/Assignment1 t/1100 D/16-09-2020 d/2 r/13-10-2020 i/high a/Refer to slides";
         final EditCommand parsedCommand = parseAndAssertCommandType(input, EditCommand.class);
         final EditCommand expectedCommand = new EditCommand(testNumber, "Assignment1", "1100",
-                "2 hours", "16-09-2020", "13-10-2020", Importance.valueOf("high".toUpperCase()),
+                "2", "16-09-2020", "13-10-2020", Importance.valueOf("high".toUpperCase()),
                 "Refer to slides");
         assertEquals(parsedCommand, expectedCommand);
     }
@@ -223,7 +223,7 @@ class ParserTest {
      */
     @Test
     public void parse_editShortcutCommandAllArg_parsedCorrectly() throws CommandException {
-        taskList.addTask("name", "st", "dur", "deadline",
+        taskList.addTask("name", "1600", "2", "deadline",
                 "12-10-2020", Importance.LOW, "dummyNote", false);
         final int testNumber = 0;
         final String input = "e 0 n/Assignment1 t/1100 D/16-09-2020 d/2 hours r/13-10-2020 i/high a/Refer to slides";
@@ -241,13 +241,13 @@ class ParserTest {
      */
     @Test
     public void parse_editCommandSomeArg_parsedCorrectly() throws CommandException {
-        taskList.addTask("name", "st", "dur", "deadline",
+        taskList.addTask("name", "1600", "2", "deadline",
                 "12-10-2020", Importance.LOW, "dummyNote", false);
         final int testNumber = 0;
         final String input = "edit 0 n/I have changed a/I am not filling any other arguments";
         final EditCommand parsedCommand = parseAndAssertCommandType(input, EditCommand.class);
-        final EditCommand expectedCommand = new EditCommand(testNumber, "I have changed", "st",
-                "dur", "deadline", "12-10-2020", Importance.valueOf("low".toUpperCase()),
+        final EditCommand expectedCommand = new EditCommand(testNumber, "I have changed", "1600",
+                "2", "deadline", "12-10-2020", Importance.valueOf("low".toUpperCase()),
                 "I am not filling any other arguments");
         assertEquals(parsedCommand, expectedCommand);
     }

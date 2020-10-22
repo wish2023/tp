@@ -57,7 +57,7 @@ public class AddCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) throws AddMissingRequiredParametersException {
-        if (taskName.equals("")) {
+        if (taskName.equals("") || taskStartTime.equals("")) {
             throw new AddMissingRequiredParametersException();
         }
         taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
