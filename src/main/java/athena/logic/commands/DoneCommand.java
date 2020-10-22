@@ -1,4 +1,4 @@
-package athena.commands;
+package athena.logic.commands;
 
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
@@ -7,23 +7,23 @@ import athena.Ui;
 import java.util.Objects;
 
 /**
- * Handles the delete command.
+ * Handles the done command.
  */
-public class DeleteCommand extends Command {
-    private int deleteIndex;
+public class DoneCommand extends Command {
+    private int taskNumber;
 
     /**
-     * Initializes the object with the index of task to be deleted.
+     * Initializes the object with the task number of task to be mark as done.
      *
-     * @param index Integer representing the index of task.
+     * @param taskNumber Integer representing the task number of task.
      */
-    public DeleteCommand(int index) {
-        deleteIndex = index;
+    public DoneCommand(int taskNumber) {
+        this.taskNumber = taskNumber;
     }
 
     /**
-     * Deletes a task from the Tasks list and
-     * calls Ui to print task deleted.
+     * Marks a task as done from the Tasks list and
+     * calls Ui to print task marked as done.
      *
      * @param taskList Tasks list
      * @param ui       Ui
@@ -32,9 +32,8 @@ public class DeleteCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException {
-        Task deletedTask = taskList.deleteTask(deleteIndex);
-        String taskRestore = deletedTask.getTaskRestore();
-        ui.printTaskDeleted(deletedTask, taskRestore);
+        Task taskDone = taskList.markTaskAsDone(taskNumber);
+        ui.printTaskDone(taskDone);
     }
 
     /**
@@ -47,15 +46,15 @@ public class DeleteCommand extends Command {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof DeleteCommand)) {
+        if (!(o instanceof DoneCommand)) {
             return false;
         }
-        DeleteCommand that = (DeleteCommand) o;
-        return deleteIndex == that.deleteIndex;
+        DoneCommand that = (DoneCommand) o;
+        return taskNumber == that.taskNumber;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(deleteIndex);
+        return Objects.hash(taskNumber);
     }
 }

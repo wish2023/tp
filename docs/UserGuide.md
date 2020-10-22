@@ -20,7 +20,7 @@ e.g. if the command specifies `n/NAME t/TIME`, `t/TIME n/NAME` is also acceptabl
 * For dates, the program follows the DD-MM-YYYY format.
 * For time, the program follows the HHMM format.
 
-### Adding a task: `add`
+### Adding a task: `add` or `a`
 Adds a task to the planner.
 
 Format: `add n/NAME t/TIME [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
@@ -41,24 +41,35 @@ Parameters:
 
 Example of usage: 
 
-`add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`
+* `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`
+* `a n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`
 
-### Listing tasks: `list`
+### Listing tasks: `list` or `l`
 Shows a list of all tasks in the planner. Each task will be printed with a number to be used as an identifier for other commands.
 
 Format: `list [f/FORECAST] [i/IMPORTANCE]`
 
 Parameters:
 * `FORECAST`: TODAY to show the tasks today, WEEK to show the tasks this week, ALL to show all tasks, or choose a specific date. 
-  Default: TODAY.
+  Default: WEEK.
 * `IMPORTANCE`: One of HIGH, MEDIUM, LOW, ALL. 
   Default: ALL.
+
+Shortcut format:
+* `l3` = `list i/HIGH`
+* `l2` = `list i/MEDIUM`
+* `l1` = `list i/LOW`
+* `lw` = `list f/WEEK`
+* `lt` = `list f/TODAY`
+* `lm` = `list f/MONTH`
   
 Example of usage: 
 
-`list f/WEEK i/medium`
+* `list f/WEEK i/medium`
+* `l2 f/WEEK`
+* `lm i/medium`
 
-### Mark task as done: `done`
+### Mark task as done: `done` or `dn`
 Marks the specified task from the planner as done.
 
 Format: `done INDEX`
@@ -67,9 +78,10 @@ Format: `done INDEX`
 
 Example of usage: 
 
-`done 103`
+* `done 103`
+* `dn 103` 
 
-### Edit task: `edit`
+### Edit task: `edit` or `e`
 Allows users to edit the specified task from the planner.
 
 Format: `edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
@@ -86,9 +98,10 @@ Parameters:
    
 Example of usage: 
 
-`edit 103 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
+* `edit 103 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
+* `e 103 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
 
-### Delete task: `delete`
+### Delete task: `delete` or `dl`
 Deletes the specified task from the planner.
 
 Format: `delete INDEX`
@@ -97,12 +110,25 @@ Format: `delete INDEX`
  
 Example of usage: 
 
-`delete 103`
+* `delete 103`
+* `dl 103`
 
-### Exit program: `exit` 
+### View task: `view` or `v`
+View the specified task details from the planner.
+
+Format: `view INDEX`
+
+* `INDEX` refers to the index number shown in the displayed task list. It must be a positive integer.
+ 
+Example of usage: 
+
+* `view 103`
+* `v 103`
+
+### Exit program: `exit` or `ex`
 Exits the program.
 
-Format: `exit`
+Format: `exit` or `ex`
 
 ### Saving the data
 ATHENA data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.  
@@ -121,4 +147,5 @@ ATHENA data is saved in the hard disk automatically after any command that chang
 * Mark task as done `done INDEX`
 * Edit task `edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
 * Delete task `delete INDEX`
+* View task `view INDEX`
 * Exit program `exit`

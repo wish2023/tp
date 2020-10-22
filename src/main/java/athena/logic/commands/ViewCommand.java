@@ -1,29 +1,29 @@
-package athena.commands;
+package athena.logic.commands;
 
 import athena.exceptions.TaskNotFoundException;
-import athena.task.Task;
 import athena.TaskList;
 import athena.Ui;
+
 import java.util.Objects;
 
 /**
- * Handles the done command.
+ * Handles the view command.
  */
-public class DoneCommand extends Command {
+public class ViewCommand extends Command {
     private int taskNumber;
 
     /**
-     * Initializes the object with the task number of task to be mark as done.
+     * Initializes the object with the task number of task to be viewed.
      *
      * @param taskNumber Integer representing the task number of task.
      */
-    public DoneCommand(int taskNumber) {
+    public ViewCommand(int taskNumber) {
         this.taskNumber = taskNumber;
     }
 
     /**
-     * Marks a task as done from the Tasks list and
-     * calls Ui to print task marked as done.
+     * View a task from the Tasks list and
+     * calls Ui to print task details.
      *
      * @param taskList Tasks list
      * @param ui       Ui
@@ -32,8 +32,8 @@ public class DoneCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException {
-        Task taskDone = taskList.markTaskAsDone(taskNumber);
-        ui.printTaskDone(taskDone);
+        String taskDescription = taskList.getTaskDescription(taskNumber);
+        ui.printTaskDetails(taskDescription);
     }
 
     /**
@@ -46,10 +46,10 @@ public class DoneCommand extends Command {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof DoneCommand)) {
+        if (!(o instanceof ViewCommand)) {
             return false;
         }
-        DoneCommand that = (DoneCommand) o;
+        ViewCommand that = (ViewCommand) o;
         return taskNumber == that.taskNumber;
     }
 

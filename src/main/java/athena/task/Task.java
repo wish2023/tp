@@ -1,11 +1,12 @@
 package athena.task;
 
 import athena.Importance;
-import athena.Recurrence;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -14,14 +15,10 @@ import java.util.Objects;
 public class Task {
     public static final String YES = "Y";
     public static final String NO = "N";
+    public static final int DATE_TIME_FORMAT = 5;
+    public static final int FIRST_INDEX = 0;
     private String name;
 
-    private String startTime;
-    private String duration;
-    private String deadline;
-
-    private String recurrence;
-    private LocalDate recurrenceDate;
     private boolean isFlexible;
 
     private boolean isDone = false;
@@ -30,6 +27,8 @@ public class Task {
     private int number;
 
     private Time timeInfo;
+
+
 
     //TODO: add dependencies between Tasks
 
@@ -58,34 +57,36 @@ public class Task {
                 String recurrence, Importance importance, String notes, int number, Boolean isFlexible) {
         this.name = name;
         assert !this.name.equals("");
-        this.startTime = startTime;
-        assert !this.startTime.equals("");
-        this.duration = duration;
-        this.deadline = deadline;
-        this.recurrence = recurrence;
         this.importance = importance;
         this.notes = notes;
         this.number = number;
         this.isFlexible = isFlexible;
-        this.timeInfo = new Time(this.isFlexible, startTime, duration, deadline, recurrence);
-
-
-
-        //TODO: refactor this into Time class
-
-        if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
-            recurrenceDate = LocalDate.now();
-        } else {
-            try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                recurrenceDate = LocalDate.parse(recurrence, formatter);
-            } catch (DateTimeParseException e) {
-                // TODO: Handle this properly
-                System.out.println("I don't understand the date you gave. So I set it to today.");
-                recurrenceDate = LocalDate.now();
-            }
-        }
+        this.timeInfo = new Time(isFlexible, startTime, duration, deadline, recurrence);
     }
+
+
+    public LocalDate getRecurrenceDate(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse(date, formatter);
+    }
+
+    public Task(String name, boolean isFlexible, boolean isDone, Importance importance,
+                String notes, int number, Time timeInfo) {
+        this.name = name;
+        this.isFlexible = isFlexible;
+        this.isDone = isDone;
+        this.importance = importance;
+        this.notes = notes;
+        this.number = number;
+        this.timeInfo = timeInfo.getClone();
+    }
+
+    public Task getClone() {
+        Task copy = new Task(name, isFlexible, isDone, importance, notes, number, timeInfo);
+
+        return copy;
+    }
+
 
     /**
      * Edits the features of the task.
@@ -102,24 +103,11 @@ public class Task {
                      String deadline, String recurrence, Importance importance, String notes) {
         this.name = name;
         assert !this.name.equals("");
-        this.startTime = startTime;
-        assert !this.startTime.equals("");
-        this.duration = duration;
-        assert !this.duration.equals("");
-        this.deadline = deadline;
-        assert !this.deadline.equals("");
-        //TODO: refactor this into Time class
+        assert !startTime.equals("");
+        assert !duration.equals("");
+        assert !deadline.equals("");
 
-        if (!recurrence.equals(null)) {
-            this.recurrence = recurrence;
-            if (recurrence.toUpperCase().equals(Recurrence.TODAY.toString())) {
-                recurrenceDate = LocalDate.now();
-            } else {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                recurrenceDate = LocalDate.parse(recurrence, formatter);
-            }
-        }
-        assert !this.recurrenceDate.equals(null);
+        this.timeInfo.edit(startTime, duration, deadline, recurrence);
 
         this.importance = importance;
         assert this.importance != null;
@@ -128,6 +116,7 @@ public class Task {
             this.notes = notes;
         }
     }
+
 
     /**
      * Return the importance of the task.
@@ -155,33 +144,6 @@ public class Task {
     }
 
     /**
-     * Returns start time of the task.
-     *
-     * @return Start time of task
-     */
-    public String getStartTime() {
-        return startTime;
-    }
-
-    /**
-     * Returns duration of the task.
-     *
-     * @return Duration of task
-     */
-    public String getDuration() {
-        return duration;
-    }
-
-    /**
-     * Returns due date of the task.
-     *
-     * @return Due date of task
-     */
-    public String getDeadline() {
-        return deadline;
-    }
-
-    /**
      * Returns if the task is done.
      *
      * @return Status of task completion
@@ -200,21 +162,21 @@ public class Task {
     }
 
     /**
-     * Returns when the task repeats.
-     *
-     * @return When the task repeats
-     */
-    public String getRecurrence() {
-        return recurrence;
-    }
-
-    /**
      * Returns when the task repeats as a LocalDate object.
      *
      * @return When the task repeats as a LocalDate object
      */
-    public LocalDate getDate() {
-        return recurrenceDate;
+    public ArrayList<LocalDate> getDates() {
+        return timeInfo.getRecurrenceDates();
+    }
+
+    /**
+     * Deletes the specified date from recurrenceDates.
+     *
+     * @param date Date to delete
+     */
+    public void removeDate(LocalDate date) {
+        timeInfo.removeDate(date);
     }
 
     /**
@@ -251,8 +213,9 @@ public class Task {
 
     //TODO: rework this, hard to do if dependencies are added
     public String getTaskRestore() {
-        String taskRestore = "add n/" + this.getName() + " t/" + this.getStartTime() + " d/" + this.getDuration()
-                + " D/" + this.getDeadline() + " r/" + this.getRecurrence() + " t/" + this.getImportance()
+        String taskRestore = "add n/" + this.getName() + " t/" + timeInfo.getStartTime()
+                + " d/" + timeInfo.getDuration() + " D/" + this.timeInfo + " r/"
+                + timeInfo.getRecurrence() + " t/" + this.getImportance()
                 + " a/" + this.getNotes();
         return taskRestore;
     }
@@ -261,6 +224,16 @@ public class Task {
         return timeInfo;
     }
 
+    public ArrayList<LocalDate> makeDeepCopyDates(ArrayList<LocalDate> oldDates) {
+        ArrayList<LocalDate> copy = new ArrayList<LocalDate>();
+        for (LocalDate date : oldDates) {
+            LocalDate dateCopy = getRecurrenceDate(date.toString());
+            copy.add(dateCopy);
+        }
+        return copy;
+    }
+
+
     /**
      * Converts a task object to a string.
      *
@@ -268,7 +241,19 @@ public class Task {
      */
     @Override
     public String toString() {
-        return getStatus() + " " + name + " at " + startTime + " finish by " + deadline;
+        return getStatus() + " " + name + " at " + timeInfo.getStartTime() + " finish by "
+                + timeInfo.getDeadline();
+    }
+
+    /**
+     * Converts a task object to a string of details.
+     * @return task as a string
+     */
+    public String getDetailsAsString() {
+        return "\n Done? " + getStatus() + "\n Name: " + name + "\n Start time: " + timeInfo.getStartTime()
+                + "\n Deadline: " + timeInfo.getDeadline() + "\n Duration: " + timeInfo.getDuration()
+                + "\n Recurrence: " + timeInfo.getRecurrence()
+                + "\n Importance: " + importance + "\n Notes: " + notes;
     }
 
     /**
@@ -286,19 +271,17 @@ public class Task {
             return false;
         }
         Task task = (Task) o;
+
         return isDone == task.isDone
                 && number == task.number
                 && Objects.equals(name, task.name)
-                && Objects.equals(startTime, task.startTime)
-                && Objects.equals(duration, task.duration)
-                && Objects.equals(deadline, task.deadline)
-                && Objects.equals(recurrence, task.recurrence)
+                && Objects.equals(timeInfo, task.timeInfo)
                 && importance == task.importance
                 && Objects.equals(notes, task.notes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, startTime, duration, deadline, recurrence, isDone, importance, notes, number);
+        return Objects.hash(name, timeInfo, isDone, importance, notes, number);
     }
 }

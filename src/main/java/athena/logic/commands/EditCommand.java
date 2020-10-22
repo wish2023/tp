@@ -1,16 +1,16 @@
-package athena.commands;
+package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
-import athena.exceptions.AddMissingRequiredParametersException;
-
+import athena.exceptions.TaskNotFoundException;
 import java.util.Objects;
 
 /**
- * Handles adding tasks to the Tasks list.
+ * Handles the edit command.
  */
-public class AddCommand extends Command {
+public class EditCommand extends Command {
+    private int taskNumber;
     private String taskName;
     private String taskStartTime;
     private String taskDuration;
@@ -18,11 +18,11 @@ public class AddCommand extends Command {
     private String taskRecurrence;
     private Importance taskImportance;
     private String taskNotes;
-    private Boolean isTaskFlexible;
 
     /**
      * Initializes the object with the parameters.
      *
+     * @param number     Integer representing index of task.
      * @param name       String representing name of task.
      * @param startTime  String representing start time of task.
      * @param duration   String representing duration of task.
@@ -30,45 +30,38 @@ public class AddCommand extends Command {
      * @param recurrence String representing recurrence of task.
      * @param importance String representing importance of task.
      * @param notes      String representing additional notes of task.
-     * @param isFlexible  Boolean representing if task time is flexible
      */
-    public AddCommand(String name, String startTime, String duration, String deadline,
-                      String recurrence, String importance, String notes, boolean isFlexible) {
+    public EditCommand(int number, String name, String startTime, String duration, String deadline,
+                       String recurrence, Importance importance, String notes) {
+        taskNumber = number;
         taskName = name;
-        assert !taskName.equals("");
         taskStartTime = startTime;
-        assert !taskStartTime.equals("");
         taskDuration = duration;
         taskDeadline = deadline;
         taskRecurrence = recurrence;
-        taskImportance = Importance.valueOf(importance.toUpperCase());
+        taskImportance = importance;
         taskNotes = notes;
-        isTaskFlexible = isFlexible;
     }
 
     /**
-     * Adds a task to the Tasks list and
-     * calls Ui to print out the task added.
+     * Edits a task from the Tasks list and
+     * calls Ui to print task edited.
      *
      * @param taskList Tasks list
      * @param ui       Ui
-     * @throws AddMissingRequiredParametersException Exception thrown when required parameters are not provided for
-     *                                               add command
+     * @throws TaskNotFoundException Exception thrown when the user tries to enter the index of a task that
+     *                               does not exist
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) throws AddMissingRequiredParametersException {
-        if (taskName.equals("")) {
-            throw new AddMissingRequiredParametersException();
-        }
-        taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
-                taskRecurrence, taskImportance, taskNotes, isTaskFlexible);
-        ui.printTaskAdded(taskName, taskStartTime, taskDuration, taskDeadline,
-                taskRecurrence, taskImportance.toString(), taskNotes);
+    public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException {
+        taskList.editTask(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
+                taskRecurrence, taskImportance, taskNotes);
+        ui.printTaskEdited(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
+                taskRecurrence, taskImportance, taskNotes);
     }
 
     /**
      * Determines if two objects have the same attributes.
-     *
      * @param o object
      * @return true if the two objects have the same attributes
      */
@@ -77,11 +70,12 @@ public class AddCommand extends Command {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof AddCommand)) {
+        if (!(o instanceof EditCommand)) {
             return false;
         }
-        AddCommand that = (AddCommand) o;
-        return Objects.equals(taskName, that.taskName)
+        EditCommand that = (EditCommand) o;
+        return taskNumber == that.taskNumber
+                && Objects.equals(taskName, that.taskName)
                 && Objects.equals(taskStartTime, that.taskStartTime)
                 && Objects.equals(taskDuration, that.taskDuration)
                 && Objects.equals(taskDeadline, that.taskDeadline)
@@ -92,8 +86,7 @@ public class AddCommand extends Command {
 
     @Override
     public int hashCode() {
-        return Objects.hash(taskName, taskStartTime, taskDuration,
+        return Objects.hash(taskNumber, taskName, taskStartTime, taskDuration,
                 taskDeadline, taskRecurrence, taskImportance, taskNotes);
     }
-
 }
