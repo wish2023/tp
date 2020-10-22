@@ -22,6 +22,11 @@ The rest of the App consists of these components.
 **API** :
 [`Ui.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Ui.java)
 
+The UI consists of two main parts: The `UiManager` and `ColorManager`.
+
+The `Ui` component
+* Prints out results of the `Command` and `Exceptions` component
+
 ### Parser component
 
 **API** :
