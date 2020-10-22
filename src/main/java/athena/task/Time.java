@@ -2,6 +2,7 @@ package athena.task;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -17,30 +18,35 @@ import java.util.Objects;
 public class Time implements Comparable<Time> {
 
     private static final int DATE_TIME_FORMAT = 5;
-    private Boolean isFlexible;
-    private Integer startTime;
-    private String duration;
+    private boolean isFlexible;
+    private LocalTime startTime;
+    private int duration;
     private String deadline;
 
     private String recurrence;
     private ArrayList<LocalDate> recurrenceDates = new ArrayList<>();
 
-    public Time(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence) {
+    public Time(boolean isFlexible, LocalTime startTime, int duration, String deadline, String recurrence) {
         this.isFlexible = isFlexible;
-        if (startTime.length() > 0) {
-            this.startTime = Integer.valueOf(startTime);
-        } else {
-            this.startTime = -1;
-        }
+        this.startTime = startTime;
         this.duration = duration;
         this.deadline = deadline;
         this.recurrence = recurrence;
+        setRecurrence(recurrence);
+    }
 
+    public Time(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence) {
+        this.isFlexible = isFlexible;
+        assert !startTime.equals("");
+        this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
+        this.duration = Integer.parseInt(duration);
+        this.deadline = deadline;
+        this.recurrence = recurrence;
         setRecurrence(recurrence);
     }
 
     public Time getClone() {
-        return new Time(isFlexible, String.valueOf(startTime), duration, deadline, recurrence);
+        return new Time(isFlexible, startTime, duration, deadline, recurrence);
     }
 
     public void setRecurrence(String recurrence) {
@@ -155,16 +161,25 @@ public class Time implements Comparable<Time> {
      *
      * @return Start time of task
      */
-    public String getStartTime() {
-        if (startTime != null) {
-            return String.valueOf(startTime.intValue());
-        }
-        return "";
+
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
     }
 
 
-    public void setStartTime(Integer startTime) {
-        this.startTime = startTime;
+    /**
+     * Converts the start time to a string.
+     *
+     * @return Start time of task as a string.
+     */
+    public String getStartTimeString() {
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
+        return startTime.format(timeFormatter);
     }
 
     public String getRecurrence() {
@@ -176,8 +191,17 @@ public class Time implements Comparable<Time> {
      *
      * @return Duration of task
      */
-    public String getDuration() {
+    public int getDuration() {
         return duration;
+    }
+
+    /**
+     * Converts the duration to a string.
+     *
+     * @return Duration of task as a string.
+     */
+    public String getDurationString() {
+        return Integer.toString(duration);
     }
 
     /**
@@ -200,8 +224,8 @@ public class Time implements Comparable<Time> {
     }
 
     public void edit(String startTime, String duration, String deadline, String recurrence) {
-        this.startTime = Integer.getInteger(startTime);
-        this.duration = duration;
+        this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
+        this.duration = Integer.parseInt(duration);
         this.deadline = deadline;
 
         this.recurrence = recurrence;
@@ -236,7 +260,6 @@ public class Time implements Comparable<Time> {
                 && Objects.equals(deadline, time.deadline)
                 && Objects.equals(recurrenceDates, time.recurrenceDates);
     }
-
 
     //    @Override
     //    public int compareTo(Time o) {

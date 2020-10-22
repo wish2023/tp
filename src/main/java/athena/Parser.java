@@ -126,9 +126,9 @@ public class Parser {
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
                 taskList.getTaskFromNumber(number).getName());
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos,
-                taskList.getTaskFromNumber(number).getTimeInfo().getStartTime());
+                taskList.getTaskFromNumber(number).getTimeInfo().getStartTimeString());
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos,
-                taskList.getTaskFromNumber(number).getTimeInfo().getDuration());
+                taskList.getTaskFromNumber(number).getTimeInfo().getDurationString());
         String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos,
                 taskList.getTaskFromNumber(number).getTimeInfo().getDeadline());
         String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos,
@@ -173,7 +173,7 @@ public class Parser {
     public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos)
             throws InvalidCommandException {
         String importanceDefault = "ALL";
-        String forecastDefault = "TODAY";
+        String forecastDefault = "WEEK";
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
         String forecast = getParameterDesc(taskInfo, FORECAST_DELIMITER, forecastPos, forecastDefault);
         Command command = new ListCommand(Importance.valueOf(importance.toUpperCase()),

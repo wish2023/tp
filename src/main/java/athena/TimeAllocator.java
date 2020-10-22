@@ -7,6 +7,7 @@ import athena.task.taskfilter.FlexibleTimeFilter;
 import athena.task.taskfilter.ForecastFilter;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -42,8 +43,8 @@ public class TimeAllocator {
             for (Task currTask : predefinedTimeTasks) {
                 int tag = currTask.getNumber();
                 Time timeInfo = currTask.getTimeInfo();
-                for (int i = 0; i < Integer.parseInt(timeInfo.getDuration()); i++) {
-                    dayLog.set(Integer.parseInt(timeInfo.getStartTime()), tag);
+                for (int i = 0; i < timeInfo.getDuration(); i++) {
+                    dayLog.set(timeInfo.getStartTime().getHour(), tag);
                 }
             }
 
@@ -72,10 +73,11 @@ public class TimeAllocator {
                 ArrayList<Task> tasksToRemove = new ArrayList<Task>();
                 while (temp.contains(-1)) {
                     for (Task currTask : undefinedTimeTasks) {
-                        Integer span = Integer.parseInt(currTask.getTimeInfo().getDuration());
+                        Integer span = currTask.getTimeInfo().getDuration();
                         if (span <= space) {
                             int taskNumber = currTask.getNumber();
-                            this.flexibleTaskList.getTaskFromNumber(taskNumber).getTimeInfo().setStartTime(end - space);
+                            this.flexibleTaskList.getTaskFromNumber(taskNumber)
+                                    .getTimeInfo().setStartTime(LocalTime.of(end - space, 0));
                             for (int i = 0; i < span; i++) {
                                 temp.set(i + end - space - pos, currTask.getNumber());
                             }

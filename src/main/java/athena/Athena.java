@@ -35,6 +35,7 @@ public class Athena {
         String inputString;
         Command userCommand;
 
+        ui.printAthenaLogo();
         ui.printWelcomeMessage();
 
         taskList = storage.loadTaskListData();
@@ -43,12 +44,12 @@ public class Athena {
 
         while (!isExit) {
             try {
+                allocator = new TimeAllocator(taskList);
+                allocator.runAllocate();
                 inputString = input.nextLine();
                 userCommand = parser.parse(inputString, taskList);
                 userCommand.execute(taskList, ui);
                 storage.saveTaskListData(taskList);
-                allocator = new TimeAllocator(taskList);
-                allocator.runAllocate();
                 isExit = userCommand.getIsExit();
             } catch (CommandException e) {
                 e.printErrorMessage();
