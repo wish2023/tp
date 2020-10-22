@@ -1,14 +1,17 @@
-package athena;
+package athena.logic;
 
-import athena.commands.AddCommand;
-import athena.commands.Command;
-import athena.commands.DeleteCommand;
-import athena.commands.DoneCommand;
-import athena.commands.EditCommand;
-import athena.commands.ExitCommand;
-import athena.commands.HelpCommand;
-import athena.commands.ListCommand;
-import athena.commands.ViewCommand;
+import athena.Forecast;
+import athena.Importance;
+import athena.TaskList;
+import athena.logic.commands.AddCommand;
+import athena.logic.commands.Command;
+import athena.logic.commands.DeleteCommand;
+import athena.logic.commands.DoneCommand;
+import athena.logic.commands.EditCommand;
+import athena.logic.commands.ExitCommand;
+import athena.logic.commands.HelpCommand;
+import athena.logic.commands.ListCommand;
+import athena.logic.commands.ViewCommand;
 import athena.exceptions.CommandException;
 import athena.exceptions.DeleteNoIndexException;
 import athena.exceptions.DoneNoIndexException;
@@ -126,13 +129,13 @@ public class Parser {
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
                 taskList.getTaskFromNumber(number).getName());
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos,
-                taskList.getTaskFromNumber(number).getStartTime());
+                taskList.getTaskFromNumber(number).getTimeInfo().getStartTimeString());
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos,
-                taskList.getTaskFromNumber(number).getDuration());
+                taskList.getTaskFromNumber(number).getTimeInfo().getDurationString());
         String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos,
-                taskList.getTaskFromNumber(number).getDeadline());
+                taskList.getTaskFromNumber(number).getTimeInfo().getDeadline());
         String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos,
-                taskList.getTaskFromNumber(number).getRecurrence());
+                taskList.getTaskFromNumber(number).getTimeInfo().getRecurrence());
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos,
                 taskList.getTaskFromNumber(number).getImportance().toString()).toUpperCase();
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos,
@@ -173,7 +176,7 @@ public class Parser {
     public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos)
             throws InvalidCommandException {
         String importanceDefault = "ALL";
-        String forecastDefault = "TODAY";
+        String forecastDefault = "WEEK";
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
         String forecast = getParameterDesc(taskInfo, FORECAST_DELIMITER, forecastPos, forecastDefault);
         Command command = new ListCommand(Importance.valueOf(importance.toUpperCase()),

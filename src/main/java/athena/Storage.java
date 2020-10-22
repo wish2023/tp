@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Converts TaskLists to .csv files and back
@@ -47,9 +48,11 @@ public class Storage {
         try {
             FileWriter csvWriter = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {
-                taskString = replaceCommas(task.getName()) + "," + replaceCommas(task.getStartTime()) + ","
-                        + replaceCommas(task.getDuration()) + "," + replaceCommas(task.getDeadline()) + ","
-                        + replaceCommas(task.getRecurrence()) + "," + task.getImportance() + ","
+                taskString = replaceCommas(task.getName()) + ","
+                        + replaceCommas(task.getTimeInfo().getStartTimeString()) + ","
+                        + replaceCommas(task.getTimeInfo().getDurationString()) + ","
+                        + replaceCommas(task.getTimeInfo().getDeadline()) + ","
+                        + replaceCommas(task.getTimeInfo().getRecurrence()) + "," + task.getImportance() + ","
                         + replaceCommas(task.getNotes()) + "," + task.getNumber();
                 if (task.isFlexible()) {
                     taskString = taskString + "," + "true";

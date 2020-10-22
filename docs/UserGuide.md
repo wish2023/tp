@@ -60,8 +60,7 @@ Format: `list [f/FORECAST] [i/IMPORTANCE]`
 
 Parameters:
 * `FORECAST`: TODAY to show the tasks today, WEEK to show the tasks this week, ALL to show all tasks, or choose a specific date. 
-  
-  Default: TODAY.
+  Default: WEEK.
 * `IMPORTANCE`: One of HIGH, MEDIUM, LOW, ALL. 
   
   Default: ALL.
@@ -160,4 +159,5 @@ ATHENA's data is saved in the hard disk automatically after any command that cha
 | Mark task as done | `done INDEX`                                                                                                |
 | Edit task         | `edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]` |
 | Delete task       | `delete INDEX`                                                                                              |
+| View task         | `view INDEX`                                                                                                |
 | Exit program      | `exit`                                                                                                      |
