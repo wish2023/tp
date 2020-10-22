@@ -1,5 +1,35 @@
 # Developer Guide
 
+- [Introduction](#introduction)
+- [Setting up and getting started](#setting-up-and-getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Setting up the project in your computer](#setting-up-the-project-in-your-computer)
+- [Design & implementation](#design--implementation)
+    - [Architecture](#architecture)  
+    - [UI component](#ui-component)  
+    - [Logic component](#logic-component)  
+    - [TaskList component](#tasklist-component)  
+    - [Storage component](#storage-component)
+- [Other Guides](#other-guides-documentation-logging-testing-configuration-dev-ops)    
+- [Implementation](#implementation)  
+- [Appendix: Requirements ](#appendix-requirements)
+    - [Product scope](#product-scope)
+        - [Target user profile](#target-user-profile)
+        - [Value proposition](#value-proposition)
+    - [User stories](#user-stories)
+    - [Non-functional requirements](#non-functional-requirements) 
+    - [Glossary](#glossary)
+    - [Instruction for manual testing](#instructions-for-manual-testing)
+
+## Introduction
+
+ATHENA aims to help students to automate the process of organising their schedule. After the user inputs pre-allocated time slots for work and relaxation, ATHENA figures out the best theoretical timetable based on the user’s needs.
+
+This document describes the software architecture and design for the implementation
+of ATHENA. The intended audience of this document is the developers, designers, and
+software testers of ATHENA.
+
+
 ## Setting up and getting started
 
 ### Prerequisites
@@ -19,6 +49,9 @@
 6. Locate the `build.gradle` file and select it. Click `OK`. If asked, choose to `Open as Project` (not `Open as File`).
 7. Click `OK` to accept the default settings if prompted. 
 8. Wait for the importing process to finish, and you are good to go!
+9. Verify the setup:
+    1. Run `Athena` and try a few commands.
+    2. Run the JUnit tests to ensure they all pass.
 
 ## **Design & implementation**
 
@@ -44,9 +77,10 @@ The rest of the App consists of these components.
 
 ### Logic component
 
+![Structure of the Logic Component](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/docs/structures/LogicStructure.png)
+
 **API** :
-![Structure of the Logic Component]
-[`Logic.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Logic.java)
+[`Logic.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/logic/Logic.java)
 
 1. `Logic` uses the `Parser` class to parse the user command.
 1. This results in a `Command` object which is executed by the `LogicManager`.
@@ -55,6 +89,7 @@ The rest of the App consists of these components.
 
 Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
 
+*work in progress* 
 
 ### TaskList component
 
@@ -66,6 +101,7 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 1. The `TaskList` stores task data in `Task` type objects.
 2. The `TaskList` is updated in `Athena`.
 3. A new `Task` object is created everytime the user uses the command `add`.
+
 ### Storage component
 
 **API** : 
@@ -180,7 +216,7 @@ Given below are instructions to test the app manually.
 
    1. Download the jar file and copy into an empty folder
 
-   2. Double-click the jar file Expected: Shows the command line interface with welcome message.
+   2. Double-click the jar file. Expected: Shows the command line interface with welcome message.
 
 2. Shutdown ATHENA
 
