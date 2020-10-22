@@ -57,7 +57,7 @@ class TimeAllocatorTest {
             assert false;
         }
 
-        assertTrue(messyTaskList.equals(taskList));
+        assertEquals(messyTaskList, taskList);
 
 
     }

@@ -11,14 +11,14 @@ import java.util.Locale;
 public class ForecastFilter extends TaskFilter {
 
     private Forecast forecast;
-    private LocalDate todayDate = LocalDate.now();
+    private LocalDate filterDate = LocalDate.now();
 
     public ForecastFilter(Forecast forecast) {
         this.forecast = forecast;
     }
 
-    public void setTodayDate(LocalDate todayDate) {
-        this.todayDate = todayDate;
+    public void setDate(LocalDate filterDate) {
+        this.filterDate = filterDate;
     }
 
     /**
@@ -47,11 +47,11 @@ public class ForecastFilter extends TaskFilter {
         if (forecast == Forecast.ALL) {
             isDateIncluded = true;
         } else if (forecast == Forecast.WEEK) {
-            int currentWeekNumber = getWeekNumber(todayDate);
+            int currentWeekNumber = getWeekNumber(filterDate);
             int taskWeekNumber = getWeekNumber(taskDate);
             isDateIncluded = (currentWeekNumber == taskWeekNumber);
         } else {
-            isDateIncluded = taskDate.equals(todayDate);
+            isDateIncluded = taskDate.equals(filterDate);
         }
         return isDateIncluded;
     }

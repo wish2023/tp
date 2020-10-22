@@ -108,8 +108,8 @@ class TaskListTest {
 
     @Test
     void getFilteredList_todayForecast_returnTasksForToday() {
-        TaskList expectedTaskList = getForecastTestExpectedTasks(Forecast.TODAY);
-        ForecastFilter todayFilter = new ForecastFilter(Forecast.TODAY);
+        TaskList expectedTaskList = getForecastTestExpectedTasks(Forecast.DAY);
+        ForecastFilter todayFilter = new ForecastFilter(Forecast.DAY);
         assertEquals(testTaskList.getFilteredList(todayFilter), expectedTaskList);
     }
 
@@ -156,7 +156,7 @@ class TaskListTest {
         } else if (forecast == Forecast.WEEK) {
             taskList.addTask(task1);
             taskList.addTask(task2);
-        } else if (forecast == Forecast.TODAY) {
+        } else if (forecast == Forecast.DAY) {
             taskList.addTask(task1);
         }
         return taskList;

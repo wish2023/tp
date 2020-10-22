@@ -2,9 +2,7 @@ package athena;
 
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
-import athena.task.taskfilter.FlexibleTimeFilter;
 import athena.task.taskfilter.ForecastFilter;
-import athena.task.taskfilter.ImportanceFilter;
 import athena.task.taskfilter.TaskFilter;
 
 import java.util.ArrayList;
@@ -216,14 +214,11 @@ public class TaskList {
         ArrayList<Task> filteredTasks = new ArrayList<>();
         for (Task task : tasks) {
             if (taskFilter.isTaskIncluded(task)) {
-                if (taskFilter instanceof ImportanceFilter) {
-                    filteredTasks.add(task);
-                } else if (taskFilter instanceof ForecastFilter) {
+                if (taskFilter instanceof ForecastFilter) {
                     assert taskFilter instanceof ForecastFilter;
                     Task filteredTask = ((ForecastFilter) taskFilter).removeExcludedDates(task);
                     filteredTasks.add(filteredTask);
                 } else {
-                    assert taskFilter instanceof FlexibleTimeFilter;
                     filteredTasks.add(task);
 
                 }

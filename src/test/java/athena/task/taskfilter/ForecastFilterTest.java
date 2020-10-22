@@ -59,7 +59,7 @@ class ForecastFilterTest {
      */
     @Test
     void testIsTaskIncluded_filterByToday_returnsTrue() {
-        ForecastFilter forecastFilter = new ForecastFilter(Forecast.TODAY);
+        ForecastFilter forecastFilter = new ForecastFilter(Forecast.DAY);
         String todayDateString = LocalDate.now().toString();
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 todayDateString, Importance.LOW, "testNotes", 0, false); // Tested on 13-10-2020
@@ -72,7 +72,7 @@ class ForecastFilterTest {
      */
     @Test
     void testIsTaskIncluded_day_returnsFalse() {
-        ForecastFilter forecastFilter = new ForecastFilter(Forecast.TODAY);
+        ForecastFilter forecastFilter = new ForecastFilter(Forecast.DAY);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 "14-10-2020", Importance.LOW, "testNotes", 0, false); // Tested on 13-10-2020
         boolean isTaskIncluded = forecastFilter.isTaskIncluded(inputTask);
@@ -85,7 +85,7 @@ class ForecastFilterTest {
      */
     @Test
     void testRemoveExcludedDates_filterToday_returnsOnlyTodayDate() {
-        ForecastFilter forecastFilter = new ForecastFilter(Forecast.TODAY);
+        ForecastFilter forecastFilter = new ForecastFilter(Forecast.DAY);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 todayDate.getDayOfWeek().toString(), Importance.LOW, "testNotes", 0, false);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -118,7 +118,7 @@ class ForecastFilterTest {
      */
     @Test
     void testRemoveExcludedDates_filterDay_returnsFalse() {
-        ForecastFilter forecastFilter = new ForecastFilter(Forecast.TODAY);
+        ForecastFilter forecastFilter = new ForecastFilter(Forecast.DAY);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 todayDate.getDayOfWeek().toString(), Importance.LOW, "testNotes", 0, false);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");

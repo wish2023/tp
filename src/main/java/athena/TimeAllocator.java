@@ -6,17 +6,13 @@ import athena.task.Time;
 import athena.task.taskfilter.FlexibleTimeFilter;
 import athena.task.taskfilter.ForecastFilter;
 
-import javax.print.DocFlavor;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 
 public class TimeAllocator {
-    TaskList flexibleTask;
-    TaskList fixedTask;
+    TaskList flexibleTaskList;
+    TaskList fixedTaskList;
     TaskList taskList;
 
 
@@ -28,26 +24,20 @@ public class TimeAllocator {
      * @param tasks tasks in the current TaskList
      */
     public TimeAllocator(TaskList tasks) {
-        this.flexibleTask = tasks.getFilteredList(new FlexibleTimeFilter(true));
-        this.fixedTask = tasks.getFilteredList(new FlexibleTimeFilter(false));
+        this.flexibleTaskList = tasks.getFilteredList(new FlexibleTimeFilter(true));
+        this.fixedTaskList = tasks.getFilteredList(new FlexibleTimeFilter(false));
         this.taskList = tasks;
 
     }
 
     public void runAllocate() throws TaskNotFoundException {
         LocalDate currDay = LocalDate.now();
-        ForecastFilter forecast = new ForecastFilter(Forecast.TODAY);
+        ForecastFilter forecast = new ForecastFilter(Forecast.DAY);
         for (int day = 0; day < 31; day++) {
             System.out.println(day);
             ArrayList<Integer> dayLog = new ArrayList<Integer>(Collections.nCopies(24, -1));
-            TaskList fixedDayTasks = getFixedDayTasks(currDay);
-            TaskList flexibleDayTasks = getFlexibleDayTasks(currDay);
-            ArrayList<Task> predefinedTimeTasks = fixedDayTasks.getTasks();
-            ArrayList<Task> undefinedTimeTasks = flexibleDayTasks.getTasks();
-            predefinedTimeTasks.sort(new SortTaskByTime());
-            predefinedTimeTasks.sort(new SortTaskByImportance());
-            undefinedTimeTasks.sort(new SortTaskByTime());
-            undefinedTimeTasks.sort(new SortTaskByImportance());
+            ArrayList<Task> predefinedTimeTasks = getSortedFixedTasks(getFixedDayTasks(currDay));
+            ArrayList<Task> undefinedTimeTasks = getSortedFixedTasks(getFlexibleDayTasks(currDay));
 
             for (Task currTask : predefinedTimeTasks) {
                 int tag = currTask.getNumber();
@@ -85,7 +75,7 @@ public class TimeAllocator {
                         Integer span = Integer.parseInt(currTask.getTimeInfo().getDuration());
                         if (span <= space) {
                             int taskNumber = currTask.getNumber();
-                            this.flexibleTask.getTaskFromNumber(taskNumber).getTimeInfo().setStartTime(end - space);
+                            this.flexibleTaskList.getTaskFromNumber(taskNumber).getTimeInfo().setStartTime(end - space);
                             for (int i = 0; i < span; i++) {
                                 temp.set(i + end - space - pos, currTask.getNumber());
                             }
@@ -96,14 +86,8 @@ public class TimeAllocator {
                             }
                         }
                     }
-                    for (Task remTask : tasksToRemove) {
-                        undefinedTimeTasks.remove(remTask);
-                    }
-                    int count = 0;
-                    for (int taskNumber : temp) {
-                        dayLog.set(count, taskNumber);
-                        count++;
-                    }
+                    removeAssignedTasks(undefinedTimeTasks, tasksToRemove);
+                    setTempToPerm(dayLog, temp);
                     if (start == end) {
                         break;
                     } else {
@@ -116,8 +100,6 @@ public class TimeAllocator {
                 }
 
             }
-
-
             //System.out.println(fixedDayTasks.getTasks());
             //System.out.println(flexibleDayTasks.getTasks());
             currDay.plusDays(1);
@@ -125,18 +107,40 @@ public class TimeAllocator {
 
     }
 
+    private ArrayList<Task> getSortedFixedTasks(TaskList taskList) {
+        TaskList fixedDayTasks = taskList;
+        ArrayList<Task> sortedTimeTasks = fixedDayTasks.getTasks();
+        sortedTimeTasks.sort(new TaskTimeComparator());
+        sortedTimeTasks.sort(new TaskImportanceComparator());
+        return sortedTimeTasks;
+    }
+
+    private void removeAssignedTasks(ArrayList<Task> undefinedTimeTasks, ArrayList<Task> tasksToRemove) {
+        for (Task remTask : tasksToRemove) {
+            undefinedTimeTasks.remove(remTask);
+        }
+    }
+
+    private void setTempToPerm(ArrayList<Integer> dayLog, ArrayList<Integer> temp) {
+        int count = 0;
+        for (int taskNumber : temp) {
+            dayLog.set(count, taskNumber);
+            count++;
+        }
+    }
+
 
     private TaskList getFixedDayTasks(LocalDate date) {
-        ForecastFilter forecast = new ForecastFilter(Forecast.TODAY);
-        forecast.setTodayDate(date);
-        TaskList a = this.fixedTask.getFilteredList(forecast);
+        ForecastFilter forecast = new ForecastFilter(Forecast.DAY);
+        forecast.setDate(date);
+        TaskList a = this.fixedTaskList.getFilteredList(forecast);
         return a;
     }
 
     private TaskList getFlexibleDayTasks(LocalDate date) {
-        ForecastFilter forecast = new ForecastFilter(Forecast.TODAY);
-        forecast.setTodayDate(date);
-        TaskList a = this.flexibleTask.getFilteredList(forecast);
+        ForecastFilter forecast = new ForecastFilter(Forecast.DAY);
+        forecast.setDate(date);
+        TaskList a = this.flexibleTaskList.getFilteredList(forecast);
         return a;
     }
 

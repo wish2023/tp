@@ -4,7 +4,7 @@ import athena.task.Task;
 
 import java.util.Comparator;
 
-public class SortTaskByTime implements Comparator<Task> {
+public class TaskTimeComparator implements Comparator<Task> {
 
     public int compare(Task o1, Task o2) {
         Integer t1 = Integer.parseInt(o1.getTimeInfo().getDuration());

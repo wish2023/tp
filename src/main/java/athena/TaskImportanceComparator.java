@@ -4,7 +4,7 @@ import athena.task.Task;
 
 import java.util.Comparator;
 
-public class SortTaskByImportance implements Comparator<Task> {
+public class TaskImportanceComparator implements Comparator<Task> {
 
 
     @Override
