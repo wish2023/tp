@@ -36,7 +36,7 @@ The rest of the App consists of these components.
 
 1. The `TaskList` stores task data in `Task` type objects.
 2. The `TaskList` is updated in `Athena`.
-3. `Task` stores
+3. A new `Task` object is created everytime the user uses the command `add`.
 ### Storage component
 
 **API** : 
