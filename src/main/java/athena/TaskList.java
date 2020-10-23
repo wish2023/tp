@@ -82,9 +82,7 @@ public class TaskList {
      * @param task Task to be added.
      */
     public void addTask(Task task) {
-        if (this.maxNumber < task.getNumber()) {
-            this.maxNumber = task.getNumber();
-        }
+        updateMaxNumber(task.getNumber());
         tasks.add(task);
     }
 
@@ -103,11 +101,61 @@ public class TaskList {
 
     public void addTask(int number, String name, String startTime, String duration,
                         String deadline, String recurrence, Importance importance, String notes, boolean isFlexible) {
+        Task task = createTask(number, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
+        if (isNoClash(task)) {
+            updateMaxNumber(number);
+            tasks.add(task);
+        } else {
+            maxNumber--;
+            System.out.println("There's a clash"); // Have a message from UI for this? Throw a specific exception if clash?
+        }
+    }
+
+    private boolean isNoClash(Task task) {
+        // Check clash in start time + duration with every task
+        // If clash, check recurrence dates
+        LocalTime taskStartTime = task.getTimeInfo().getStartTime();
+        int taskDuration = task.getTimeInfo().getDuration();
+        if (isTimeClash(taskStartTime, taskDuration)) {
+            return !isRecurrenceClash(task);
+        } else {
+            return true;
+        }
+    }
+
+    private boolean isRecurrenceClash(Task taskToCompare) {
+        LocalDate dateToCompare = taskToCompare.getTimeInfo().getRecurrenceDates().get(0); // Clash iff clash with first date
+        for (Task task : tasks) {
+            for (LocalDate date : task.getTimeInfo().getRecurrenceDates()) {
+                if (dateToCompare.equals(date)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isTimeClash(LocalTime taskStartTime, int taskDuration) {
+        LocalTime taskEndTime = taskStartTime.plusHours(taskDuration);
+        for (Task task : tasks) {
+            LocalTime existingTaskStartTime = task.getTimeInfo().getStartTime();
+            LocalTime existingTaskEndTime = existingTaskStartTime.plusHours(task.getTimeInfo().getDuration());
+            if (isIndividualTimeClash(taskStartTime, taskEndTime, existingTaskStartTime, existingTaskEndTime)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isIndividualTimeClash(LocalTime taskStartTime, LocalTime taskEndTime, LocalTime existingTaskStartTime, LocalTime existingTaskEndTime) {
+        return !(taskEndTime.compareTo(existingTaskStartTime) <= 0 ||
+                taskStartTime.compareTo(existingTaskEndTime) >= 0);
+    }
+
+    private void updateMaxNumber(int number) {
         if (this.maxNumber < number) {
             this.maxNumber = number;
         }
-        Task task = createTask(number, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
-        tasks.add(task);
     }
 
     /**
@@ -173,7 +221,11 @@ public class TaskList {
                          String deadline, String recurrence, Importance importance,
                          String notes) throws TaskNotFoundException {
         Task task = getTaskFromNumber(taskNumber);
-        task.edit(name, startTime, duration, deadline, recurrence, importance, notes);
+        if (isNoClash(task)) {
+            task.edit(name, startTime, duration, deadline, recurrence, importance, notes);
+        } else {
+            System.out.println("There's a clash"); // Have a message from UI for this? Throw a specific exception if clash?
+        }
     }
 
     /**
