@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.Ui;
+import athena.ui.Ui;
 
 /**
  * Exception that is thrown when the user enters an index without a task when using the done command.

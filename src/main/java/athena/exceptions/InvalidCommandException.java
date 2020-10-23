@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.Ui;
+import athena.ui.Ui;
 
 /**
  * Exception thrown when the user enters a command not recognized by the program.

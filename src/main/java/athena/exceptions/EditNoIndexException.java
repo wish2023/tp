@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.Ui;
+import athena.ui.Ui;
 
 /**
  * Exception thrown when the user enters the edit command without specifying the index of the task they want to edit.

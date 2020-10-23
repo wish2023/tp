@@ -1,5 +1,6 @@
 package athena;
 
+import athena.ui.Ui;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;

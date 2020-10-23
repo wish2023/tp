@@ -2,7 +2,7 @@ package athena.logic;
 
 import athena.Storage;
 import athena.TaskList;
-import athena.Ui;
+import athena.ui.Ui;
 import athena.exceptions.CommandException;
 import athena.logic.commands.Command;
 

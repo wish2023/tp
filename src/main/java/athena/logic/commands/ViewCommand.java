@@ -2,7 +2,7 @@ package athena.logic.commands;
 
 import athena.exceptions.TaskNotFoundException;
 import athena.TaskList;
-import athena.Ui;
+import athena.ui.Ui;
 
 import java.util.Objects;
 

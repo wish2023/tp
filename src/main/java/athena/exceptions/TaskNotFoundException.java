@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.Ui;
+import athena.ui.Ui;
 
 /**
  * Exception that is thrown when the program is unable to locate the task specified by the user.

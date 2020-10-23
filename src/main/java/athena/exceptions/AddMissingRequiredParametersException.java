@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.Ui;
+import athena.ui.Ui;
 
 /**
  * Handles exception for when the user does not fill in the name or the start time of the task.

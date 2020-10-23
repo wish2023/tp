@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.Ui;
+import athena.ui.Ui;
 
 /**
  * Exception thrown when the user enters the delete command without specifying an index of a task to view.

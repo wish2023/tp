@@ -3,7 +3,7 @@ package athena.logic.commands;
 import athena.Forecast;
 import athena.Importance;
 import athena.TaskList;
-import athena.Ui;
+import athena.ui.Ui;
 import athena.exceptions.EmptyTaskListException;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;

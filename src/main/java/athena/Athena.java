@@ -2,6 +2,7 @@ package athena;
 
 import athena.logic.LogicManager;
 import athena.exceptions.CommandException;
+import athena.ui.Ui;
 
 import java.util.Scanner;
 

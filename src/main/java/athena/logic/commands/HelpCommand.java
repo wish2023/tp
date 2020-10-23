@@ -1,7 +1,7 @@
 package athena.logic.commands;
 
 import athena.TaskList;
-import athena.Ui;
+import athena.ui.Ui;
 
 /**
  * Handles the help command.
