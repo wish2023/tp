@@ -123,6 +123,34 @@ This section contains links to other relevant guides.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Add task feature
+The adding of task mechanism is facilitated by `LogicManager`.
+
+The retrieving of task details is done by `Parser`. It splits the user input based on command type and the various parameters' description regardless of the order the user input the parameters in.
+The `AddCommand` class will then be executed and the task will be added to the `TaskList`.
+
+It implements the following operations:
+
+* `Parser#parse` - Parse user input to retrieve the command type and task details.
+* `Parser#parseAddCommand` - Parse user input to retrieve the respective parameters' details and calls the `AddCommand` class.
+* `AddCommand#execute` - Add task into `TaskList` and calls `Ui` to print message output.
+* `Storage#saveTaskListData` - Writes the current task into the save file.
+
+Given below is an example usage scenario and how the task adding mechanism behaves at each step.
+
+**Step 1.** The user adds a task to the application, by inputting `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`. 
+
+**Step 2.** The input will be read in by the `Athena` class. The input will be parsed into `LogicManager` where the `Parser` will parse the user input to get the command type and details which executes the `AddCommand` class.
+
+**Step 3.** The `TaskList` now contains 1 task (Assignment 1). The message to show if the task is added successfully is subsequently outputted by the `Ui` class to the user.
+ After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
+
+**Step 4.** Upon completion of execution, `LogicManager` returns a boolean value “false” to the active flag in `Athena` to allow the continuous run of the program. 
+
+The following sequence diagram illustrates how the task adding operation works:
+
+*work in progress*
+
 ### Time allocation to task in timetable
 The time allocation mechanism is facilitated by `TimeAllocator`. It allocates time slots to `Task`s in a `TaskList` that are not assigned a fixed time slot by the user. It implements the following operations:
 
