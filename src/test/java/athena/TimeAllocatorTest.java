@@ -51,12 +51,7 @@ class TimeAllocatorTest {
                 Importance.MEDIUM, "Tough assignment", false);
 
         TimeAllocator allocator = new TimeAllocator(messyTaskList);
-        try {
-            allocator.runAllocate();
-        } catch (AllocationFailedException e) {
-            assert false;
-        }
-
+        allocator.runAllocate();
         assertEquals(messyTaskList, taskList);
 
 

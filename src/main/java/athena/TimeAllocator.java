@@ -1,6 +1,5 @@
 package athena;
 
-import athena.exceptions.InternalException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.Time;
@@ -37,7 +36,7 @@ public class TimeAllocator {
      * Finds vacant slots in the timetable
      * Calls the best arrangement for slot
      */
-    public void runAllocate() throws AllocationFailedException {
+    public void runAllocate() {
         LocalDate currDay = LocalDate.now();
         ForecastFilter forecast = new ForecastFilter(Forecast.DAY);
         for (int day = 0; day < 1; day++) {
@@ -58,16 +57,16 @@ public class TimeAllocator {
             boolean done = false;
             while (!done) {
                 int pos = start;
-                pos = getPos(dayLog, pos, sleep);
+                pos = nextVacantSlotStart(dayLog, pos, sleep);
                 int end = pos;
-                end = getEnd(dayLog, end, sleep);
+                end = nextVacantSlotEnd(dayLog, end, sleep);
                 ArrayList<Task> carryOverTasks = new ArrayList<Task>();
                 ArrayList<Integer> bestLog = getBestLog(pos, end, undefinedTimeTasks, carryOverTasks);
                 populateDayLog(pos, dayLog, bestLog);
                 try {
                     assignTime(bestLog, pos);
                 } catch (TaskNotFoundException e) {
-                    throw new AllocationFailedException();
+                    //do nothing
                 }
                 undefinedTimeTasks = carryOverTasks;
                 start = end;
@@ -93,8 +92,6 @@ public class TimeAllocator {
                 this.flexibleTaskList.getTaskFromNumber(taskNumber)
                         .getTimeInfo().setStartTime(LocalTime.of(pos + count, 0));
                 assignedNumbers.add(taskNumber);
-                System.out.println(taskNumber);
-                System.out.println(pos + count);
             }
             count++;
         }
@@ -108,18 +105,18 @@ public class TimeAllocator {
      * @param pos                staring position
      * @param end                ending position
      * @param undefinedTimeTasks Tasks with undefined times
-     * @param carryOverTasks     Tasks that did not get assigned yet
+     * @param carryOverTasks     store tasks that did not get assigned yet
      * @return
      */
     private ArrayList<Integer> getBestLog(int pos, int end, ArrayList<Task> undefinedTimeTasks,
-                                          ArrayList<Task> carryOverTasks) throws AllocationFailedException {
+                                          ArrayList<Task> carryOverTasks) {
         ArrayList<Integer> currentLog = new ArrayList<Integer>();
         ArrayList<Integer> bestLog = new ArrayList<Integer>();
-        boolean active = true;
-        while (active) {
+        boolean hasUsableVacancy = true;
+        while (hasUsableVacancy) {
             currentLog = getLog(undefinedTimeTasks, pos, end);
-            active = currentLog.contains(-1);
-            if ((bestLog.indexOf(-1) < currentLog.indexOf(-1)) | !active) {
+            hasUsableVacancy = currentLog.contains(-1);
+            if ((bestLog.indexOf(-1) < currentLog.indexOf(-1)) | !hasUsableVacancy) {
                 bestLog = currentLog;
             }
             if (!undefinedTimeTasks.isEmpty()) {
@@ -137,7 +134,7 @@ public class TimeAllocator {
                 undefinedTimeTasks.remove(taskRemoved);
                 carryOverTasks.remove(taskRemoved);
             } catch (TaskNotFoundException e) {
-                throw new AllocationFailedException();
+                //do nothing
             }
         }
         carryOverTasks.addAll(undefinedTimeTasks);
@@ -161,7 +158,7 @@ public class TimeAllocator {
                 int taskNumber = currTask.getNumber();
                 for (int i = 0; i < span; i++) {
                     int relativePos = end - space - pos;
-                    log.set(i + relativePos, currTask.getNumber());
+                    log.set(i + relativePos, taskNumber);
                 }
                 space -= span;
             }
@@ -181,7 +178,7 @@ public class TimeAllocator {
      * @param sleep  sleep time
      * @return valid end value
      */
-    private int getEnd(ArrayList<Integer> dayLog, int end, int sleep) {
+    private int nextVacantSlotEnd(ArrayList<Integer> dayLog, int end, int sleep) {
         for (; end < sleep; end++) {
             if (dayLog.get(end) != -1) {
                 break;
@@ -198,7 +195,7 @@ public class TimeAllocator {
      * @param sleep  sleep time
      * @return valid pos value
      */
-    private int getPos(ArrayList<Integer> dayLog, int pos, int sleep) {
+    private int nextVacantSlotStart(ArrayList<Integer> dayLog, int pos, int sleep) {
         for (; pos < sleep; pos++) {
             if (dayLog.get(pos) == -1) {
                 break;
@@ -235,14 +232,14 @@ public class TimeAllocator {
 
     private TaskList getFixedDayTasks(LocalDate date) {
         ForecastFilter forecast = new ForecastFilter(Forecast.DAY, date);
-        TaskList a = this.fixedTaskList.getFilteredList(forecast);
-        return a;
+        TaskList fixedDayTask = this.fixedTaskList.getFilteredList(forecast);
+        return fixedDayTask;
     }
 
     private TaskList getFlexibleDayTasks(LocalDate date) {
         ForecastFilter forecast = new ForecastFilter(Forecast.DAY, date);
-        TaskList a = this.flexibleTaskList.getFilteredList(forecast);
-        return a;
+        TaskList flexibleDayTask = this.flexibleTaskList.getFilteredList(forecast);
+        return flexibleDayTask;
     }
 
     // Psuedocode for allocation runs might refactor into a command class

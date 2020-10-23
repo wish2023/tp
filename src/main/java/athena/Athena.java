@@ -55,8 +55,6 @@ public class Athena {
                 isExit = userCommand.getIsExit();
             } catch (CommandException e) {
                 e.printErrorMessage();
-            } catch (AllocationFailedException e) {
-                e.printErrorMessage();
             }
             continue;
         }
