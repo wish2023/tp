@@ -231,13 +231,13 @@ public class TimeAllocator {
 
 
     private TaskList getFixedDayTasks(LocalDate date) {
-        ForecastFilter forecast = new ForecastFilter(Forecast.DAY, date);
+        ForecastFilter forecast = new ForecastFilter(date);
         TaskList fixedDayTask = this.fixedTaskList.getFilteredList(forecast);
         return fixedDayTask;
     }
 
     private TaskList getFlexibleDayTasks(LocalDate date) {
-        ForecastFilter forecast = new ForecastFilter(Forecast.DAY, date);
+        ForecastFilter forecast = new ForecastFilter(date);
         TaskList flexibleDayTask = this.flexibleTaskList.getFilteredList(forecast);
         return flexibleDayTask;
     }

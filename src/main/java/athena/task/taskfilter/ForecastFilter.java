@@ -19,8 +19,8 @@ public class ForecastFilter extends TaskFilter {
         this.forecast = forecast;
     }
 
-    public ForecastFilter(Forecast forecast, LocalDate date) {
-        this.forecast = forecast;
+    public ForecastFilter(LocalDate date) {
+        this.forecast = Forecast.DAY;
         this.filterDate = date;
     }
 
