@@ -216,13 +216,13 @@ public class TaskList {
      */
     public void editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, Importance importance,
-                         String notes) throws TaskNotFoundException {
+                         String notes) throws TaskNotFoundException, ClashInTaskException {
         Task task = getTaskFromNumber(taskNumber);
-        if (isNoClash(task)) {
-            task.edit(name, startTime, duration, deadline, recurrence, importance, notes);
-        } else {
-            System.out.println("There's a clash"); // Have a message from UI for this? Throw a specific exception if clash?
-        }
+        Task possibleEditedTask = createTask(taskNumber,name,startTime,
+                duration,deadline,recurrence,importance,notes,task.isFlexible());
+        checkClash(possibleEditedTask);
+        task.edit(name, startTime, duration, deadline, recurrence, importance, notes);
+
     }
 
     /**
