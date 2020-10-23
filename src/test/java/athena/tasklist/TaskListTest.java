@@ -3,6 +3,7 @@ package athena.tasklist;
 import athena.Forecast;
 import athena.Importance;
 import athena.TaskList;
+import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
@@ -50,7 +51,7 @@ class TaskListTest {
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     @Test
-    void editTask_givenAttributes_attributeChanged() throws TaskNotFoundException {
+    void editTask_givenAttributes_attributeChanged() throws TaskNotFoundException, ClashInTaskException {
         int index = 0;
         Task task = new Task("Assignment1", "1100",
                 "2", "16-09-2020", "13-10-2020", Importance.HIGH,

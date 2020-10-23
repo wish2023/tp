@@ -1,5 +1,6 @@
 package athena;
 
+import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
@@ -150,6 +151,7 @@ public class TaskList {
     }
 
     private void updateMaxNumber(int number) {
+        maxNumber++;
         if (this.maxNumber < number) {
             this.maxNumber = number;
         }
@@ -167,7 +169,8 @@ public class TaskList {
      * @param notes      Additional notes of task
      */
     public void addTask(String name, String startTime, String duration,
-                        String deadline, String recurrence, Importance importance, String notes, Boolean isFlexible) {
+                        String deadline, String recurrence,
+                        Importance importance, String notes, Boolean isFlexible) throws ClashInTaskException {
         maxNumber++;
         addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
     }

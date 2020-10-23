@@ -1,5 +1,7 @@
 package athena;
 
+import athena.exceptions.ClashInTaskException;
+
 /**
  * Sets up a task list for testing classes.
  */
@@ -10,7 +12,7 @@ public class TestSetup {
      *
      * @return Task list of default tasks
      */
-    public static TaskList getTestTaskList() {
+    public static TaskList getTestTaskList() throws ClashInTaskException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
@@ -35,7 +37,7 @@ public class TestSetup {
         return taskList;
     }
 
-    public static TaskList getCommaTestTaskList() {
+    public static TaskList getCommaTestTaskList() throws ClashInTaskException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment,1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);

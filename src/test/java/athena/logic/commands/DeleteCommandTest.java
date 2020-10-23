@@ -3,6 +3,7 @@ package athena.logic.commands;
 import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
+import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +24,7 @@ class DeleteCommandTest {
      *
      * @return TaskList for testing
      */
-    private TaskList getTaskList() {
+    private TaskList getTaskList() throws ClashInTaskException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
@@ -39,7 +40,7 @@ class DeleteCommandTest {
      *
      * @return TaskList for testing without task number 2
      */
-    private TaskList getTaskListWithoutTask() {
+    private TaskList getTaskListWithoutTask() throws ClashInTaskException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
@@ -52,7 +53,7 @@ class DeleteCommandTest {
      * Creates the components needed for testing.
      */
     @BeforeEach
-    public void setup() {
+    public void setup() throws ClashInTaskException {
         ui = new Ui();
         taskList = getTaskList();
         taskListWithoutTask = getTaskListWithoutTask();

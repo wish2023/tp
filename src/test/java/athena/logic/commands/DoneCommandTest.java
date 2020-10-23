@@ -3,6 +3,7 @@ package athena.logic.commands;
 import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
+import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ class DoneCommandTest {
      *
      * @return TaskList for testing.
      */
-    private TaskList getTaskList() {
+    private TaskList getTaskList() throws ClashInTaskException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
@@ -40,7 +41,7 @@ class DoneCommandTest {
      *
      * @return TaskList for testing with a done task number 1.
      */
-    private TaskList getTaskListWithDone() {
+    private TaskList getTaskListWithDone() throws ClashInTaskException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
@@ -57,7 +58,7 @@ class DoneCommandTest {
      * Creates the components needed for testing.
      */
     @BeforeEach
-    public void setup() {
+    public void setup() throws ClashInTaskException {
         ui = new Ui();
         taskList = getTaskList();
         taskListWithDone = getTaskListWithDone();

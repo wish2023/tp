@@ -4,6 +4,7 @@ import athena.Forecast;
 import athena.Importance;
 import athena.TaskList;
 import athena.TestSetup;
+import athena.exceptions.ClashInTaskException;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
@@ -29,7 +30,7 @@ class TimetableTest {
      * Tests that the timetable from 8am to 12pm is drawn correctly.
      */
     @Test
-    void drawTimetable_start8End12_returnsCorrectlyDrawnTimetable() {
+    void drawTimetable_start8End12_returnsCorrectlyDrawnTimetable() throws ClashInTaskException {
         TaskList taskList = new TaskList();
         taskList.addTask("Assignment 1", "0800", "2", "6pm", "19-10-2020",
                 Importance.HIGH, "Tough assignment", false);
@@ -80,7 +81,7 @@ class TimetableTest {
      * Checks if the timetable returns all tasks with no filter.
      */
     @Test
-    void getTimetable_noFilter_returnsAllTasks() {
+    void getTimetable_noFilter_returnsAllTasks() throws ClashInTaskException {
         final ArrayList<TimetableDay> days = new ArrayList<TimetableDay>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate date;
@@ -137,7 +138,7 @@ class TimetableTest {
      * Checks if the timetable returns only high importance tasks with the high importance filter.
      */
     @Test
-    void getTimetable_highImportanceFilter_returnsHighImportanceTasks() {
+    void getTimetable_highImportanceFilter_returnsHighImportanceTasks() throws ClashInTaskException {
         final ArrayList<TimetableDay> days = new ArrayList<TimetableDay>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate date;
