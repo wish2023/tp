@@ -267,6 +267,7 @@ public class Ui {
 
     public void printCorruptedLine(String corruptedLine) {
         System.out.println("This task is invalid: " + corruptedLine + "\nPlease remove externally to continue\n");
+    }
 
     private String colourTextBlue(String inputString) {
         String ansiBlue = "\u001B[34m";

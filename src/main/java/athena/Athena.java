@@ -57,6 +57,8 @@ public class Athena {
                 isExit = logicManager.execute(inputString);
             } catch (CommandException e) {
                 e.printErrorMessage();
+            } catch (StorageException e) {
+                e.printStackTrace();
             }
             continue;
         }
