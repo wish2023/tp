@@ -110,6 +110,24 @@ public class TaskList {
         tasks.add(task);
     }
 
+    /**
+     * Adds a task to the task list.
+     *
+     * @param name       Name of task
+     * @param startTime  Start time of task
+     * @param duration   Duration of task
+     * @param deadline   Deadline of task
+     * @param recurrence Recurrence of task
+     * @param importance Importance of task
+     * @param notes      Additional notes of task
+     */
+    public void addTask(String name, String startTime, String duration,
+                        String deadline, String recurrence,
+                        Importance importance, String notes, Boolean isFlexible) throws ClashInTaskException {
+        maxNumber++;
+        addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
+    }
+
     private void decrementMaxNumber() {
         maxNumber--;
     }
@@ -123,7 +141,7 @@ public class TaskList {
     }
 
     private void checkRecurrenceClash(Task taskToCompare) throws ClashInTaskException {
-        LocalDate dateToCompare = taskToCompare.getTimeInfo().getRecurrenceDates().get(0); // Clash iff clash with first date
+        LocalDate dateToCompare = taskToCompare.getTimeInfo().getRecurrenceDates().get(0);
         for (Task task : tasks) {
             for (LocalDate date : task.getTimeInfo().getRecurrenceDates()) {
                 if (dateToCompare.equals(date) && taskToCompare.getNumber() != task.getNumber()) {
@@ -145,9 +163,10 @@ public class TaskList {
         return false;
     }
 
-    private boolean isIndividualTimeClash(LocalTime taskStartTime, LocalTime taskEndTime, LocalTime existingTaskStartTime, LocalTime existingTaskEndTime) {
-        return !(taskEndTime.compareTo(existingTaskStartTime) <= 0 ||
-                taskStartTime.compareTo(existingTaskEndTime) >= 0);
+    private boolean isIndividualTimeClash(LocalTime taskStartTime, LocalTime taskEndTime,
+                                          LocalTime existingTaskStartTime, LocalTime existingTaskEndTime) {
+        return !(taskEndTime.compareTo(existingTaskStartTime) <= 0
+                || taskStartTime.compareTo(existingTaskEndTime) >= 0);
     }
 
     private void updateMaxNumber(int number) {
@@ -157,23 +176,6 @@ public class TaskList {
         }
     }
 
-    /**
-     * Adds a task to the task list.
-     *
-     * @param name       Name of task
-     * @param startTime  Start time of task
-     * @param duration   Duration of task
-     * @param deadline   Deadline of task
-     * @param recurrence Recurrence of task
-     * @param importance Importance of task
-     * @param notes      Additional notes of task
-     */
-    public void addTask(String name, String startTime, String duration,
-                        String deadline, String recurrence,
-                        Importance importance, String notes, Boolean isFlexible) throws ClashInTaskException {
-        maxNumber++;
-        addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
-    }
 
     /**
      * Returns the task description of the task with the given number.
