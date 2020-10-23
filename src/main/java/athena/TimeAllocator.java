@@ -1,5 +1,6 @@
 package athena;
 
+import athena.exceptions.InternalException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.Time;
@@ -18,7 +19,7 @@ public class TimeAllocator {
 
 
     /**
-     * This is run manually by the user to generate a timetable that they like.
+     * This is run automatically to generate a timetable.
      * option to auto assign at every input, reassignment at the end is possible
      * need to maintain the flexibility of the tasks to allow for multiple reruns
      *
@@ -31,20 +32,24 @@ public class TimeAllocator {
 
     }
 
-    public void runAllocate() throws TaskNotFoundException {
+    /**
+     * Populates a record of fixed tasks.
+     * Finds vacant slots in the timetable
+     * Calls the best arrangement for slot
+     */
+    public void runAllocate() throws AllocationFailedException {
         LocalDate currDay = LocalDate.now();
         ForecastFilter forecast = new ForecastFilter(Forecast.DAY);
-        for (int day = 0; day < 31; day++) {
-            System.out.println(day);
+        for (int day = 0; day < 1; day++) {
             ArrayList<Integer> dayLog = new ArrayList<Integer>(Collections.nCopies(24, -1));
             ArrayList<Task> predefinedTimeTasks = getSortedFixedTasks(getFixedDayTasks(currDay));
-            ArrayList<Task> undefinedTimeTasks = getSortedFixedTasks(getFlexibleDayTasks(currDay));
-
+            ArrayList<Task> undefinedTimeTasks = getSortedFlexibleTasks(getFlexibleDayTasks(currDay));
+            currDay = currDay.plusDays(1);
             for (Task currTask : predefinedTimeTasks) {
                 int tag = currTask.getNumber();
                 Time timeInfo = currTask.getTimeInfo();
                 for (int i = 0; i < timeInfo.getDuration(); i++) {
-                    dayLog.set(timeInfo.getStartTime().getHour(), tag);
+                    dayLog.set(timeInfo.getStartTime().getHour() + i, tag);
                 }
             }
 
@@ -53,60 +58,153 @@ public class TimeAllocator {
             boolean done = false;
             while (!done) {
                 int pos = start;
-                while (dayLog.get(pos) != -1) {
-                    pos++;
-                    if (pos == sleep) {
-                        done = true;
-                        break;
-                    }
-                }
+                pos = getPos(dayLog, pos, sleep);
                 int end = pos;
-                while (dayLog.get(end) == -1) {
-                    end++;
-                    if (end == sleep) {
-                        done = true;
-                        break;
-                    }
+                end = getEnd(dayLog, end, sleep);
+                ArrayList<Task> carryOverTasks = new ArrayList<Task>();
+                ArrayList<Integer> bestLog = getBestLog(pos, end, undefinedTimeTasks, carryOverTasks);
+                populateDayLog(pos, dayLog, bestLog);
+                try {
+                    assignTime(bestLog, pos);
+                } catch (TaskNotFoundException e) {
+                    throw new AllocationFailedException();
                 }
-                int space = end - pos;
-                ArrayList<Integer> temp = new ArrayList<Integer>(Collections.nCopies(space, -1));
-                ArrayList<Task> tasksToRemove = new ArrayList<Task>();
-                while (temp.contains(-1)) {
-                    for (Task currTask : undefinedTimeTasks) {
-                        Integer span = currTask.getTimeInfo().getDuration();
-                        if (span <= space) {
-                            int taskNumber = currTask.getNumber();
-                            this.flexibleTaskList.getTaskFromNumber(taskNumber)
-                                    .getTimeInfo().setStartTime(LocalTime.of(end - space, 0));
-                            for (int i = 0; i < span; i++) {
-                                temp.set(i + end - space - pos, currTask.getNumber());
-                            }
-                            space -= span;
-                            tasksToRemove.add(currTask);
-                            if (space == 0) {
-                                break;
-                            }
-                        }
-                    }
-                    removeAssignedTasks(undefinedTimeTasks, tasksToRemove);
-                    setTempToPerm(dayLog, temp);
-                    if (start == end) {
-                        break;
-                    } else {
-                        start = end;
-                    }
-                    if (undefinedTimeTasks.size() == 0) {
-                        done = true;
-                        break;
-                    }
+                undefinedTimeTasks = carryOverTasks;
+                start = end;
+                if (end == sleep) {
+                    done = true;
                 }
-
             }
-            //System.out.println(fixedDayTasks.getTasks());
-            //System.out.println(flexibleDayTasks.getTasks());
-            currDay.plusDays(1);
         }
+    }
 
+    /**
+     * Assigns the best time to the Tasks.
+     *
+     * @param bestLog list of taskNumbers in the index corresponding to the hour they are assigned to
+     * @param pos     starting position of the log
+     * @throws TaskNotFoundException if task is not in the taskList
+     */
+    private void assignTime(ArrayList<Integer> bestLog, int pos) throws TaskNotFoundException {
+        int count = 0;
+        ArrayList<Integer> assignedNumbers = new ArrayList<>();
+        for (int taskNumber : bestLog) {
+            if (!assignedNumbers.contains(taskNumber)) {
+                this.flexibleTaskList.getTaskFromNumber(taskNumber)
+                        .getTimeInfo().setStartTime(LocalTime.of(pos + count, 0));
+                assignedNumbers.add(taskNumber);
+                System.out.println(taskNumber);
+                System.out.println(pos + count);
+            }
+            count++;
+        }
+    }
+
+    /**
+     * Creates the arrangement that reduces the breaks in the timetable.
+     * Iterates through the undefinedTimeTasks
+     * Modifies the excess tasks left over
+     *
+     * @param pos                staring position
+     * @param end                ending position
+     * @param undefinedTimeTasks Tasks with undefined times
+     * @param carryOverTasks     Tasks that did not get assigned yet
+     * @return
+     */
+    private ArrayList<Integer> getBestLog(int pos, int end, ArrayList<Task> undefinedTimeTasks,
+                                          ArrayList<Task> carryOverTasks) throws AllocationFailedException {
+        ArrayList<Integer> currentLog = new ArrayList<Integer>();
+        ArrayList<Integer> bestLog = new ArrayList<Integer>();
+        boolean active = true;
+        while (active) {
+            currentLog = getLog(undefinedTimeTasks, pos, end);
+            active = currentLog.contains(-1);
+            if ((bestLog.indexOf(-1) < currentLog.indexOf(-1)) | !active) {
+                bestLog = currentLog;
+            }
+            if (!undefinedTimeTasks.isEmpty()) {
+                carryOverTasks.add(undefinedTimeTasks.get(0));
+                undefinedTimeTasks.remove(0);
+
+            } else {
+                break;
+            }
+
+        }
+        for (int taskNumber : bestLog) {
+            try {
+                Task taskRemoved = taskList.getTaskFromNumber(taskNumber);
+                undefinedTimeTasks.remove(taskRemoved);
+                carryOverTasks.remove(taskRemoved);
+            } catch (TaskNotFoundException e) {
+                throw new AllocationFailedException();
+            }
+        }
+        carryOverTasks.addAll(undefinedTimeTasks);
+        return bestLog;
+    }
+
+    /**
+     * Gets a filled vacant slots given undefinedTimeTasks.
+     *
+     * @param undefinedTimeTasks Tasks to be slotted into the timetable
+     * @param pos                starting position
+     * @param end                ending position
+     * @return ArrayList containing taskNumbers
+     */
+    private ArrayList<Integer> getLog(ArrayList<Task> undefinedTimeTasks, int pos, int end) {
+        int space = end - pos;
+        ArrayList<Integer> log = new ArrayList<Integer>(Collections.nCopies(space, -1));
+        for (Task currTask : undefinedTimeTasks) {
+            int span = currTask.getTimeInfo().getDuration();
+            if (span <= space) {
+                int taskNumber = currTask.getNumber();
+                for (int i = 0; i < span; i++) {
+                    int relativePos = end - space - pos;
+                    log.set(i + relativePos, currTask.getNumber());
+                }
+                space -= span;
+            }
+            if (space == 0) {
+                break;
+            }
+        }
+        return log;
+    }
+
+
+    /**
+     * Finds end of vacant time slot.
+     *
+     * @param dayLog log of the day's tasks
+     * @param end    ending position
+     * @param sleep  sleep time
+     * @return valid end value
+     */
+    private int getEnd(ArrayList<Integer> dayLog, int end, int sleep) {
+        for (; end < sleep; end++) {
+            if (dayLog.get(end) != -1) {
+                break;
+            }
+        }
+        return end;
+    }
+
+    /**
+     * Finds start of vacant time slot.
+     *
+     * @param dayLog log of the day's tasks
+     * @param pos    starting position
+     * @param sleep  sleep time
+     * @return valid pos value
+     */
+    private int getPos(ArrayList<Integer> dayLog, int pos, int sleep) {
+        for (; pos < sleep; pos++) {
+            if (dayLog.get(pos) == -1) {
+                break;
+            }
+        }
+        return pos;
     }
 
     private ArrayList<Task> getSortedFixedTasks(TaskList taskList) {
@@ -117,31 +215,32 @@ public class TimeAllocator {
         return sortedTimeTasks;
     }
 
-    private void removeAssignedTasks(ArrayList<Task> undefinedTimeTasks, ArrayList<Task> tasksToRemove) {
-        for (Task remTask : tasksToRemove) {
-            undefinedTimeTasks.remove(remTask);
-        }
+    private ArrayList<Task> getSortedFlexibleTasks(TaskList taskList) {
+        TaskList flexibleDayTasks = taskList;
+        ArrayList<Task> sortedTimeTasks = flexibleDayTasks.getTasks();
+        sortedTimeTasks.sort(new TaskTimeComparator());
+        sortedTimeTasks.sort(new TaskImportanceComparator());
+        return sortedTimeTasks;
     }
 
-    private void setTempToPerm(ArrayList<Integer> dayLog, ArrayList<Integer> temp) {
+
+    private void populateDayLog(int pos, ArrayList<Integer> dayLog, ArrayList<Integer> bestLog) {
         int count = 0;
-        for (int taskNumber : temp) {
-            dayLog.set(count, taskNumber);
+        for (int taskNumber : bestLog) {
+            dayLog.set(count + pos, taskNumber);
             count++;
         }
     }
 
 
     private TaskList getFixedDayTasks(LocalDate date) {
-        ForecastFilter forecast = new ForecastFilter(Forecast.DAY);
-        forecast.setDate(date);
+        ForecastFilter forecast = new ForecastFilter(Forecast.DAY, date);
         TaskList a = this.fixedTaskList.getFilteredList(forecast);
         return a;
     }
 
     private TaskList getFlexibleDayTasks(LocalDate date) {
-        ForecastFilter forecast = new ForecastFilter(Forecast.DAY);
-        forecast.setDate(date);
+        ForecastFilter forecast = new ForecastFilter(Forecast.DAY, date);
         TaskList a = this.flexibleTaskList.getFilteredList(forecast);
         return a;
     }

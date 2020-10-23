@@ -2,6 +2,8 @@ package athena;
 
 import athena.commands.Command;
 import athena.exceptions.CommandException;
+import athena.exceptions.InternalException;
+
 import java.util.Scanner;
 
 /**
@@ -52,6 +54,8 @@ public class Athena {
                 storage.saveTaskListData(taskList);
                 isExit = userCommand.getIsExit();
             } catch (CommandException e) {
+                e.printErrorMessage();
+            } catch (AllocationFailedException e) {
                 e.printErrorMessage();
             }
             continue;

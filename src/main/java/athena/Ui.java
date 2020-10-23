@@ -283,4 +283,8 @@ public class Ui {
 
         return ansiYellow + inputString + ANSI_RESET;
     }
+
+    public void printAllocationFailed() {
+        System.out.println("Allocation Failed \n");
+    }
 }

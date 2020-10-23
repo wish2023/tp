@@ -2,10 +2,12 @@ package athena.task.taskfilter;
 
 import athena.task.Task;
 import athena.Forecast;
+
 import java.time.LocalDate;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class ForecastFilter extends TaskFilter {
@@ -15,6 +17,11 @@ public class ForecastFilter extends TaskFilter {
 
     public ForecastFilter(Forecast forecast) {
         this.forecast = forecast;
+    }
+
+    public ForecastFilter(Forecast forecast, LocalDate date) {
+        this.forecast = forecast;
+        this.filterDate = date;
     }
 
     public void setDate(LocalDate filterDate) {

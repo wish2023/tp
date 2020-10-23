@@ -14,17 +14,17 @@ class TimeAllocatorTest {
                 Importance.MEDIUM, "Tough assignment", false);
         taskList.addTask(1, "Assignment 2", "0100", "2", "6pm", "today",
                 Importance.MEDIUM, "Tough assignment", true);
-        taskList.addTask(2, "Assignment 3", "0400", "5", "6pm", "today",
+        taskList.addTask(2, "Assignment 3", "1900", "5", "6pm", "today",
                 Importance.MEDIUM, "Tough assignment", true);
         taskList.addTask(3, "Assignment 4", "1300", "2", "6pm", "today",
                 Importance.MEDIUM, "Tough assignment", false);
-        taskList.addTask(4, "Assignment 5", "0900", "3", "6pm", "today",
+        taskList.addTask(4, "Assignment 5", "1000", "3", "6pm", "today",
                 Importance.MEDIUM, "Tough assignment", true);
-        taskList.addTask(5, "Assignment 6", "1800", "6", "6pm", "today",
+        taskList.addTask(5, "Assignment 6", "0400", "6", "6pm", "today",
                 Importance.MEDIUM, "Tough assignment", true);
         taskList.addTask(6, "Assignment 7", "1700", "3", "6pm", "today",
                 Importance.MEDIUM, "Tough assignment", false);
-        taskList.addTask(7, "Assignment 8", "1200", "1", "6pm", "today",
+        taskList.addTask(7, "Assignment 8", "1500", "1", "6pm", "today",
                 Importance.MEDIUM, "Tough assignment", true);
         taskList.addTask(8, "Assignment 9", "0300", "1", "6pm", "today",
                 Importance.MEDIUM, "Tough assignment", false);
@@ -53,7 +53,7 @@ class TimeAllocatorTest {
         TimeAllocator allocator = new TimeAllocator(messyTaskList);
         try {
             allocator.runAllocate();
-        } catch (TaskNotFoundException e) {
+        } catch (AllocationFailedException e) {
             assert false;
         }
 
