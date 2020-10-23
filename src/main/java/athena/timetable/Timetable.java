@@ -1,11 +1,14 @@
 package athena.timetable;
 
+import athena.Forecast;
 import athena.TaskList;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
@@ -31,8 +34,10 @@ public class Timetable {
     private ArrayList<TimetableDay> timetableDays;
     private TreeMap<LocalDate, TimetableDay> timetableDayMap;
 
-    private int wakeUpHour;
-    private int sleepHour;
+    private Forecast forecast;
+
+    private int wakeUpHour = 8;
+    private int sleepHour = 22;
 
     /**
      * Creates a timetable object from a TaskList object.
@@ -57,6 +62,8 @@ public class Timetable {
 
         this.wakeUpHour = wakeUpHour;
         this.sleepHour = sleepHour;
+
+        this.forecast = Forecast.WEEK;
     }
 
     /**
@@ -69,6 +76,7 @@ public class Timetable {
     public Timetable(TaskList taskList, ImportanceFilter importanceFilter, ForecastFilter forecastFilter) {
         assert taskList != null;
         this.taskList = taskList.getFilteredList(importanceFilter).getFilteredList(forecastFilter);
+        this.forecast = forecastFilter.getForecast();
         populateTimetable();
     }
 
@@ -299,28 +307,7 @@ public class Timetable {
         return row;
     }
 
-    /**
-     * Utility method to get the first day of this week.
-     *
-     * @return The first day of this week.
-     */
-    private LocalDate getFirstDayOfWeek() {
-        LocalDate now = LocalDate.now();
-        TemporalField field = WeekFields.of(Locale.forLanguageTag("en_SG")).dayOfWeek();
-        return now.with(field, 1);
-    }
-
-    private LocalDate[] getDatesInWeek() {
-        LocalDate[] datesInWeek = new LocalDate[7];
-        LocalDate date = getFirstDayOfWeek();
-        for (int i = 0; i < 7; i++) {
-            datesInWeek[i] = date;
-            date = date.plusDays(1);
-        }
-        return datesInWeek;
-    }
-
-    private String getTaskListForDates(LocalDate[] dates) {
+    private String getTaskListForDates(ArrayList<LocalDate> dates) {
         String list = "Your task list: \n";
         for (LocalDate date : dates) {
             if (timetableDayMap.containsKey(date)) {
@@ -333,7 +320,7 @@ public class Timetable {
         return list;
     }
 
-    String drawTimetable(LocalDate[] datesInWeek) {
+    String drawTimetable(ArrayList<LocalDate> datesInWeek) {
         String result = drawTimetableTimeHeader(wakeUpHour, sleepHour);
         for (LocalDate date : datesInWeek) {
             if (timetableDayMap.containsKey(date)) {
@@ -352,12 +339,56 @@ public class Timetable {
      */
     @Override
     public String toString() {
-        // TODO: get dates based on the forecastfilter
-        LocalDate[] dates = getDatesInWeek();
+        ArrayList<LocalDate> dates = getDatesBasedOnForecast();
         String output = drawTimetable(dates);
         output += "\n";
         output += getTaskListForDates(dates);
 
         return output.trim();
+    }
+
+    /**
+     * Utility method to get the first day of this week.
+     *
+     * @return The first day of this week.
+     */
+    private LocalDate getFirstDayOfWeek() {
+        LocalDate now = LocalDate.now();
+        TemporalField weekField = WeekFields.of(Locale.forLanguageTag("en_SG")).dayOfWeek();
+        return now.with(weekField, 1);
+    }
+
+    /**
+     * Utility method to get the first day of this month.
+     *
+     * @return The first day of this month.
+     */
+    private LocalDate getFirstDayOfMonth() {
+        LocalDate now = LocalDate.now();
+        return now.withDayOfMonth(1);
+    }
+
+    private ArrayList<LocalDate> getDatesBasedOnForecast() {
+        ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
+        LocalDate startDate;
+        LocalDate endDate;
+
+        if (forecast == Forecast.WEEK) {
+            startDate = getFirstDayOfWeek();
+            endDate = startDate.plusWeeks(1);
+        } else if (forecast == Forecast.TODAY) {
+            startDate = LocalDate.now();
+            endDate = startDate.plusDays(1);
+        } else {
+            startDate = getFirstDayOfMonth();
+            endDate = startDate.plusMonths(1);
+        }
+
+        for (LocalDate currentDate = startDate; currentDate.compareTo(endDate) != 0;
+             currentDate = currentDate.plusDays(1)) {
+            dates.add(currentDate);
+        }
+
+        return dates;
     }
 }

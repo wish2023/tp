@@ -17,6 +17,10 @@ public class ForecastFilter extends TaskFilter {
         this.forecast = forecast;
     }
 
+    public Forecast getForecast() {
+        return forecast;
+    }
+
 
     /**
      * Checks whether to include a task based on its date.
