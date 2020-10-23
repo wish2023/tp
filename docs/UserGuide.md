@@ -147,4 +147,5 @@ ATHENA data is saved in the hard disk automatically after any command that chang
 * Mark task as done `done INDEX`
 * Edit task `edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
 * Delete task `delete INDEX`
+* View task `view INDEX`
 * Exit program `exit`

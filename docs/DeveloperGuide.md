@@ -1,6 +1,26 @@
 # Developer Guide
 
-## Design & implementation
+## Setting up and getting started
+
+### Prerequisites
+1. Ensure you have `JDK 11` installed in your computer.
+2. Install IntelliJ IDEA.
+
+### Setting up the project in your computer
+1. Fork this repository, and clone the fork to your computer.
+2. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first).
+3. Set up the correct JDK version for Gradle  
+   1. Click `Configure` > `Project Defaults` > `Project Structure`.
+   2. Click `New…` and select the directory where you installed `JDK 11`.
+   3. Click `OK`.
+4. IntelliJ IDEA by default has the Gradle plugin installed. If you have disabled it, go to `File` > `Settings` > `Plugins` to re-enable them.
+   If your project involves GUI programming, similarly ensure the JavaFX plugin has not been disabled.
+5. Click `Import Project`(or `Open or Import` in newer version of Intellij).
+6. Locate the `build.gradle` file and select it. Click `OK`. If asked, choose to `Open as Project` (not `Open as File`).
+7. Click `OK` to accept the default settings if prompted. 
+8. Wait for the importing process to finish, and you are good to go!
+
+## **Design & implementation**
 
 ### Architecture
 
@@ -13,7 +33,7 @@ The ***Architecture Diagram*** given above explains the high-level design of the
 The rest of the App consists of these components.
 
 * [**`Ui`**](#ui-component): The UI of ATHENA.
-* [**`Parser`**](#parser-component): Parses user input and command executor.
+* [**`Logic`**](#logic-component): Parses user input and command executor.
 * [**`TaskList`**](#tasklist-component): The list that stores the user's tasks.
 * [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
 
@@ -22,22 +42,46 @@ The rest of the App consists of these components.
 **API** :
 [`Ui.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Ui.java)
 
-### Parser component
+### Logic component
 
 **API** :
-[`Parser.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Parser.java)
+![Structure of the Logic Component]
+[`Logic.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Logic.java)
+
+1. `Logic` uses the `Parser` class to parse the user command.
+1. This results in a `Command` object which is executed by the `LogicManager`.
+1. The command execution can affect the `TaskList` (e.g. adding a task).
+1. The result of the command execution will also call the `Ui` to print the respective messages for each command.
+
+Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
+
 
 ### TaskList component
+
+![TaskListStructure](https://raw.githubusercontent.com/wish2023/tp/DG-tasklist/docs/structures/TaskListStructure.png)
 
 **API** :
 [`TaskList.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/TaskList.java)
 
+1. The `TaskList` stores task data in `Task` type objects.
+2. The `TaskList` is updated in `Athena`.
+3. A new `Task` object is created everytime the user uses the command `add`.
 ### Storage component
 
 **API** : 
 [`Storage.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Storage.java)
 
 --------------------------------------------------------------------------------------------------------------------
+
+## **Other Guides: Documentation, logging, testing, configuration, dev-ops**
+
+This section contains links to other relevant guides.
+
+* [Documentation guide](./Documentation.md)
+* [Testing guide](./Testing.md)
+* [DevOps guide](./DevOps.md)
+
+-----------------------------------------------------------------------------------------------------------------------
 
 ## **Implementation**
 
@@ -96,40 +140,41 @@ Given below is an example usage scenario and how the storage mechanism behaves a
 * can type fast and prefers typing to mouse interactions
 * is comfortable using the command line interface
 
-### Value proposition
+#### Value proposition
 * ATHENA helps students to automate the process of organising their schedule. After the user inputs pre-allocated time slots for work and relaxation, ATHENA figures out the best theoretical timetable based on the user’s needs.
 * It can be updated anytime during the week.
 * ATHENA helps to reduce the amount of time and effort that users need to spend planning their time by finding free spaces to slot tasks in, with the goal of reducing dead space in the user’s timetable. 
 * The planner will also make sure the user has enough time to eat, exercise and sleep. The user can set up ATHENA to follow a fixed weekly routine, and only needs to update a task list. ATHENA will then plan the timetable based on the importance and deadlines of the tasks in the list, making sure that the user is able to finish everything on time.
 
-## User Stories
+### User Stories
 
-|Version | As a ...                    | I want to ...                                    | So that I can ...                                                      |
-| -------| --------------------------- | ------------------------------------------------ | ---------------------------------------------------------------------- |
-| `v1.0` | forgetful student           | upload my tasks for the week                     | remember to do them                                                    |
-| `v1.0` | student                     | mark my tasks as done                            | know that I have done them                                             |
-| `v1.0` | student                     | get reminded to do the tasks that are due soon   | I will be on time                                                      |
-| `v1.0` | student                     | edit the tasks I added                           | update accordingly to small changes                                    |
-| `v1.0` | student                     | delete the tasks I added                         | remove tasks that are not needed to do anymore                         |
-| `v1.0` | student                     | set my task according to importance              | complete the more important tasks first                                |
-| `v1.0` | student                     | leave some notes for a task                      | remember about it                                                      |
-| `v2.0` | student                     | know a planner that tells me what time to rest   | I don’t exhaust myself                                                 |
-| `v2.0` | student                     | see an overview of the week ahead                | make sure that I am staying on task                                    |
+| Version | As a ...          | I want to ...                                  | So that I ...                                     |
+| ------- | ----------------- | ---------------------------------------------- | ------------------------------------------------- |
+| `v1.0`  | forgetful student | upload my tasks for the week                   | remember to do them                               |
+| `v1.0`  | student           | mark my tasks as done                          | know that I have done them and can put them aside |
+| `v1.0`  | student           | get reminded to do the tasks that are due soon | will be on time                                   |
+| `v1.0`  | student           | edit the tasks I added                         | update accordingly to small changes               |
+| `v1.0`  | student           | delete the tasks I added                       | remove tasks that are not needed to do anymore    |
+| `v1.0`  | student           | set my task according to importance            | complete the more important tasks first           |
+| `v1.0`  | student           | leave some notes for a task                    | remember about it                                 |
+| `v2.0`  | student           | have a planner that tells me what time to rest | don’t exhaust myself                              |
+| `v2.0`  | student           | see an overview of the week ahead              | make sure that I am staying on top of my tasks    |
+| `v2.0`  | busy student      | know what tasks to work on next                | don’t need to spend time planning                 |
 
-## Non-Functional Requirements
+### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `11` installed.
 2.  A user with above average typing speed for regular English text should be able to use the features of ATHENA faster using commands than using the mouse.
 
-## Glossary
+### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, OS-X
 
-## Instructions for manual testing
+### Instructions for manual testing
 
 Given below are instructions to test the app manually.
 
-### Launch and shutdown
+#### Launch and shutdown
 
 1. Initial launch
 
@@ -142,90 +187,110 @@ Given below are instructions to test the app manually.
    1. Test case: `exit`<br>
       Expected: A farewell message by ATHENA will be shown.   
     
-### Adding a task
+#### Adding a task
 
-* Add a task to the list.
+Adding a task to the list.
 
-   1. Test case: `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`<br>
-      Expected: First task is added to the list. Details of the added task is shown.
+1. Test case: `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`<br>
+   Expected: First task is added to the list. Details of the added task is shown.
 
-   2. Test case: `add t/1100 D/16-09-2020`<br>
-      Expected: No task is added. Error details is shown.
+2. Test case: `add t/1100 D/16-09-2020`<br>
+   Expected: No task is added. Error details is shown.
       
-### Deleting a task
+#### Deleting a task
 
-* Deleting a task while all tasks are shown.
+Deleting a task while all tasks are shown.
 
-   1. Prerequisites: List all tasks using the `list` command.
+1. Prerequisites: List all tasks using the `list` command.
 
-   2. Test case: `delete 1`<br>
-      Expected: Task with index 1 is deleted from the list. Details of the deleted task is shown.
+2. Test case: `delete 1`<br>
+   Expected: Task with index 1 is deleted from the list. Details of the deleted task is shown.
 
-   3. Test case: `delete -1`<br>
-      Expected: No task is deleted. Error details is shown.
+3. Test case: `delete -1`<br>
+   Expected: No task is deleted. Error details is shown.
 
-   4. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+4. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size)<br>
+   Expected: Similar to previous.
  
-### Marking a task as done
+#### Marking a task as done
 
-* Marking a task as done while all tasks are shown.
+Marking a task as done while all tasks are shown.
 
-   1. Prerequisites: List all tasks using the `list` command.
+1. Prerequisites: List all tasks using the `list` command.
 
-   2. Test case: `done 1`<br>
-      Expected: Task with index 1 is marked as done in the list. Details of the task is shown.
+2. Test case: `done 1`<br>
+   Expected: Task with index 1 is marked as done in the list. Details of the task is shown.
 
-   3. Test case: `done -1`<br>
-      Expected: No task is marked as done. Error details is shown.
+3. Test case: `done -1`<br>
+   Expected: No task is marked as done. Error details is shown.
 
-   4. Other incorrect delete commands to try: `done`, `done x` (where x is larger than the list size)<br>
+4. Other incorrect delete commands to try: `done`, `done x` (where x is larger than the list size)<br>
       Expected: Similar to previous.
       
-### Viewing the full details of a task
+#### Viewing the full details of a task
 
-* Viewing a task details while all tasks are shown.
+Viewing a task details while all tasks are shown.
 
-   1. Prerequisites: List all tasks using the `list` command.
+1. Prerequisites: List all tasks using the `list` command.
 
-   2. Test case: `view 1`<br>
-      Expected: Details of the task with index 1 in the list is shown.
+2. Test case: `view 1`<br>
+   Expected: Details of the task with index 1 in the list is shown.
 
-   3. Test case: `view -1`<br>
-      Expected: No task details is shown. Error details is shown.
+3. Test case: `view -1`<br>
+   Expected: No task details is shown. Error details is shown.
 
-   4. Other incorrect delete commands to try: `view`, `view x` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+4. Other incorrect delete commands to try: `view`, `view x` (where x is larger than the list size)<br>
+   Expected: Similar to previous.
 
-### Editing a task
+#### Editing a task
 
-* Editing a task details while all tasks are shown.
+Editing a task details while all tasks are shown.
 
-   1. Prerequisites: List all tasks using the `list` command.
+1. Prerequisites: List all tasks using the `list` command.
 
-   2. Test case: `edit 1 n/new name`<br>
-      Expected: Name of the task with index 1 in the list will be changed to `new name`.
+2. Test case: `edit 1 n/new name`<br>
+   Expected: Name of the task with index 1 in the list will be changed to `new name`.
 
-   3. Test case: `edit -1`<br>
-      Expected: No task will be edited. Error details is shown.
+3. Test case: `edit -1`<br>
+   Expected: No task will be edited. Error details is shown.
 
-   4. Other incorrect delete commands to try: `edit`, `edit x` (where x is larger than the list size)<br>
-      Expected: Similar to previous.    
+4. Other incorrect delete commands to try: `edit`, `edit x` (where x is larger than the list size)<br>
+   Expected: Similar to previous.
 
-### Listing all tasks
+#### Listing all tasks
 
-* Listing all the tasks with or without filters.
+Listing all the tasks with or without filters.
 
-   1. Test case: `list`<br>
-      Expected: All the tasks will be listed.
+1. Test case: `list`<br>
+   Expected: All the tasks will be listed.
 
-   2. Test case: `list i/HIGH f/TODAY`<br>
-      Expected: All the tasks today with high importance will be shown.
+2. Test case: `list i/HIGH f/TODAY`<br>
+   Expected: All the tasks today with high importance will be shown.
       
-### Help
+#### Help
 
-* Guide on the use of ATHENA.
+Guide on the use of ATHENA.
 
-   1. Test case: `help`<br>
-      Expected: A guide on how to use ATHENA will be shown. 
-                                
+1. Test case: `help`<br>
+   Expected: A guide on how to use ATHENA will be shown.
+
+
+#### Data storage
+
+Storage of user data (e.g. tasks).
+
+1. Dealing with corrupted data files
+
+   1. Open data.csv located next to Athena.jar.
+
+   2. Test case (If the file is not empty): Add `,aaaa` at the end of the first line.
+
+      Expected: The task on that line is corrupted. When you launch Athena again, it will fail to start, while providing an error message to the user.
+
+   3. Test case (If the file is not empty): Remove a comma (`,`) from the file.
+
+      Expected: The task on that line is corrupted. When you launch Athena again, it will fail to start, while providing an error message to the user.
+
+   4. Test case: Add `aaaaa` at the end of the file.
+
+      Expected: An invalid task is added. When you launch Athena again, it will fail to start, while providing an error message to the user.
