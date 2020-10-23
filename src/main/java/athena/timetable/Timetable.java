@@ -2,6 +2,7 @@ package athena.timetable;
 
 import athena.Forecast;
 import athena.TaskList;
+import athena.common.utils.DateUtils;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
@@ -339,56 +340,11 @@ public class Timetable {
      */
     @Override
     public String toString() {
-        ArrayList<LocalDate> dates = getDatesBasedOnForecast();
+        ArrayList<LocalDate> dates = DateUtils.getDatesBasedOnForecast(forecast);
         String output = drawTimetable(dates);
         output += "\n";
         output += getTaskListForDates(dates);
 
         return output.trim();
-    }
-
-    /**
-     * Utility method to get the first day of this week.
-     *
-     * @return The first day of this week.
-     */
-    private LocalDate getFirstDayOfWeek() {
-        LocalDate now = LocalDate.now();
-        TemporalField weekField = WeekFields.of(Locale.forLanguageTag("en_SG")).dayOfWeek();
-        return now.with(weekField, 1);
-    }
-
-    /**
-     * Utility method to get the first day of this month.
-     *
-     * @return The first day of this month.
-     */
-    private LocalDate getFirstDayOfMonth() {
-        LocalDate now = LocalDate.now();
-        return now.withDayOfMonth(1);
-    }
-
-    private ArrayList<LocalDate> getDatesBasedOnForecast() {
-        ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
-        LocalDate startDate;
-        LocalDate endDate;
-
-        if (forecast == Forecast.WEEK) {
-            startDate = getFirstDayOfWeek();
-            endDate = startDate.plusWeeks(1);
-        } else if (forecast == Forecast.TODAY) {
-            startDate = LocalDate.now();
-            endDate = startDate.plusDays(1);
-        } else {
-            startDate = getFirstDayOfMonth();
-            endDate = startDate.plusMonths(1);
-        }
-
-        for (LocalDate currentDate = startDate; currentDate.compareTo(endDate) != 0;
-             currentDate = currentDate.plusDays(1)) {
-            dates.add(currentDate);
-        }
-
-        return dates;
     }
 }
