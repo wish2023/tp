@@ -1,5 +1,6 @@
 package athena;
 
+import athena.exceptions.ClashInTaskException;
 import athena.task.Task;
 
 import java.io.File;
@@ -100,6 +101,8 @@ public class Storage {
                 e.printStackTrace();
             } catch (ArrayIndexOutOfBoundsException e) {
                 ui.printInvalidTask();
+            } catch (ClashInTaskException e) {
+                ui.printClashInTaskException();
             }
         }
         output.setMaxNumber(maxNumber);
