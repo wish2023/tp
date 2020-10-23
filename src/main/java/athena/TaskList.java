@@ -100,39 +100,36 @@ public class TaskList {
      */
 
     public void addTask(int number, String name, String startTime, String duration,
-                        String deadline, String recurrence, Importance importance, String notes, boolean isFlexible) {
+                        String deadline, String recurrence,
+                        Importance importance, String notes, boolean isFlexible) throws ClashInTaskException {
         Task task = createTask(number, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
-        if (isNoClash(task)) {
-            updateMaxNumber(number);
-            tasks.add(task);
-        } else {
-            maxNumber--;
-            System.out.println("There's a clash"); // Have a message from UI for this? Throw a specific exception if clash?
-        }
+        decrementMaxNumber();
+        checkClash(task);
+        updateMaxNumber(number);
+        tasks.add(task);
     }
 
-    private boolean isNoClash(Task task) {
-        // Check clash in start time + duration with every task
-        // If clash, check recurrence dates
+    private void decrementMaxNumber() {
+        maxNumber--;
+    }
+
+    private void checkClash(Task task) throws ClashInTaskException {
         LocalTime taskStartTime = task.getTimeInfo().getStartTime();
         int taskDuration = task.getTimeInfo().getDuration();
         if (isTimeClash(taskStartTime, taskDuration)) {
-            return !isRecurrenceClash(task);
-        } else {
-            return true;
+            checkRecurrenceClash(task);
         }
     }
 
-    private boolean isRecurrenceClash(Task taskToCompare) {
+    private void checkRecurrenceClash(Task taskToCompare) throws ClashInTaskException {
         LocalDate dateToCompare = taskToCompare.getTimeInfo().getRecurrenceDates().get(0); // Clash iff clash with first date
         for (Task task : tasks) {
             for (LocalDate date : task.getTimeInfo().getRecurrenceDates()) {
-                if (dateToCompare.equals(date)) {
-                    return true;
+                if (dateToCompare.equals(date) && taskToCompare.getNumber() != task.getNumber()) {
+                    throw new ClashInTaskException();
                 }
             }
         }
-        return false;
     }
 
     private boolean isTimeClash(LocalTime taskStartTime, int taskDuration) {
