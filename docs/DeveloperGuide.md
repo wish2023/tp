@@ -23,7 +23,7 @@
 
 ## Introduction
 
-ATHENA aims to help students to automate the process of organising their schedule. After the user inputs pre-allocated time slots for work and relaxation, ATHENA figures out the best theoretical timetable based on the user’s needs.
+ATHENA aims to help students to automate the process of organising their schedule. After the user inputs pre-allocated time slots for work and relaxation, ATHENA figures out the best timetable based on the user’s needs.
 
 This document describes the software architecture and design for the implementation
 of ATHENA. The intended audience of this document is the developers, designers, and
@@ -50,7 +50,7 @@ software testers of ATHENA.
 7. Click `OK` to accept the default settings if prompted. 
 8. Wait for the importing process to finish, and you are good to go!
 9. Verify the setup:
-    1. Run `Athena` and try a few commands.
+    1. Run `Athena` and try a few commands such as `list` or `help`.
     2. Run the JUnit tests to ensure they all pass.
 
 ## **Design & implementation**
@@ -126,26 +126,27 @@ This section describes some noteworthy details on how certain features are imple
 ### Add task feature
 The adding of task mechanism is facilitated by `LogicManager`.
 
-The retrieving of task details is done by `Parser`. It splits the user input based on command type and the various parameters' description regardless of the order the user input the parameters in.
+The retrieving of task details is done by `Parser`. It splits the user input based on the command type and the various parameters' description.
+The user can input the parameters in any order.
 The `AddCommand` class will then be executed and the task will be added to the `TaskList`.
 
-It implements the following operations:
+`Parser`, `AddCommand`, `TaskList` implements the following operations:
 
 * `Parser#parse` - Parse user input to retrieve the command type and task details.
-* `Parser#parseAddCommand` - Parse user input to retrieve the respective parameters' details and calls the `AddCommand` class.
+* `Parser#parseAddCommand` - Parse user input to retrieve the respective parameters' details and creates an `AddCommand` object.
 * `AddCommand#execute` - Add task into `TaskList` and calls `Ui` to print message output.
-* `Storage#saveTaskListData` - Writes the current task into the save file.
+* `Storage#saveTaskListData` - Writes the current task list into the save file.
 
 Given below is an example usage scenario and how the task adding mechanism behaves at each step.
 
 **Step 1.** The user adds a task to the application, by inputting `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`. 
 
-**Step 2.** The input will be read in by the `Athena` class. The input will be parsed into `LogicManager` where the `Parser` will parse the user input to get the command type and details which executes the `AddCommand` class.
+**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where the `Parser` will parse the user input to get the command type and details which creates an `AddCommand` object.
 
 **Step 3.** The `TaskList` now contains 1 task (Assignment 1). The message to show if the task is added successfully is subsequently outputted by the `Ui` class to the user.
  After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
 
-**Step 4.** Upon completion of execution, `LogicManager` returns a boolean value “false” to the active flag in `Athena` to allow the continuous run of the program. 
+**Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
 
 The following sequence diagram illustrates how the task adding operation works:
 

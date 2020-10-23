@@ -1,6 +1,6 @@
 # ATHENA (Automated Timetable Helper Encourager n' Assistant)
 
-Our product aims to help students to automate the process of organising their schedule. After the user inputs pre-allocated time slots for work and relaxation, ATHENA figures out the best theoretical timetable based on the user’s needs.
+Our product aims to help students to automate the process of organising their schedule. After the user inputs pre-allocated time slots for work and relaxation, ATHENA figures out the best timetable based on the user’s needs.
 
 It can be updated anytime during the week.
 
