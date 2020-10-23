@@ -106,7 +106,7 @@ class TaskListTest {
         assertEquals(testTaskList.getFilteredList(weekFilter), expectedTaskList);
     }
 
-    @Test
+    @Test //hdhfgn
     void getFilteredList_todayForecast_returnTasksForToday() {
         TaskList expectedTaskList = getForecastTestExpectedTasks(Forecast.TODAY);
         ForecastFilter todayFilter = new ForecastFilter(Forecast.TODAY);
@@ -165,16 +165,17 @@ class TaskListTest {
 
     private void setupTestTaskList() {
         String todayDateString = LocalDate.now().toString();
+        System.out.println("hello " + todayDateString);
         testTaskList = new TaskList();
         int index = 0;
         testTaskList.addTask(new Task("uno", "1100",
                 "2", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", index++, false));
         testTaskList.addTask(new Task("dos", "1100",
-                "2", "16-09-2020", "23-10-2020", Importance.MEDIUM,
+                "2", "16-09-2020", "22-10-2020", Importance.MEDIUM,
                 "Refer to slides", index++, false));
         testTaskList.addTask(new Task("tres", "1100",
-                "2", "16-09-2020", "13-11-2020", Importance.LOW,
+                "2", "16-09-2020", "13-11-2021", Importance.LOW,
                 "Refer to slides", index++, false));
     }
 }
