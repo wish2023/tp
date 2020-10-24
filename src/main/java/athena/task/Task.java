@@ -2,10 +2,8 @@ package athena.task;
 
 import athena.Importance;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -29,7 +27,6 @@ public class Task {
     private Time timeInfo;
 
 
-
     //TODO: add dependencies between Tasks
 
     /**
@@ -43,7 +40,8 @@ public class Task {
 
     /**
      * Constructor for the task class.
-     *  @param name       name of the task
+     *
+     * @param name       name of the task
      * @param startTime  starting time of the task
      * @param duration   how long the task is scheduled to last for
      * @param deadline   when the task is due
@@ -51,7 +49,7 @@ public class Task {
      * @param importance importance of the task
      * @param notes      additional notes for the task
      * @param number     task number
-     * @param isFlexible  time flexibility
+     * @param isFlexible time flexibility
      */
     public Task(String name, String startTime, String duration, String deadline,
                 String recurrence, Importance importance, String notes, int number, Boolean isFlexible) {
@@ -247,6 +245,7 @@ public class Task {
 
     /**
      * Converts a task object to a string of details.
+     *
      * @return task as a string
      */
     public String getDetailsAsString() {
@@ -255,6 +254,7 @@ public class Task {
                 + "\n Recurrence: " + timeInfo.getRecurrence()
                 + "\n Importance: " + importance + "\n Notes: " + notes;
     }
+
 
     /**
      * Compare this task with another object.
