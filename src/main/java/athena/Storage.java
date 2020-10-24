@@ -1,8 +1,12 @@
 package athena;
 
-import athena.exceptions.ClashInTaskException;
-import athena.task.Task;
 
+import athena.exceptions.ClashInTaskException;
+import athena.exceptions.StorageCorruptedException;
+import athena.exceptions.StorageException;
+import athena.exceptions.StorageLoadFailException;
+import athena.task.Task;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -11,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.time.format.DateTimeFormatter;
 
+
 /**
  * Converts TaskLists to .csv files and back
  */
@@ -18,7 +23,6 @@ import java.time.format.DateTimeFormatter;
 public class Storage {
     private String filePath;
     private TaskList tasks;
-    private Ui ui;
 
     private int size;
 
@@ -26,11 +30,9 @@ public class Storage {
      * Initialises Storage object.
      *
      * @param filepath Location of the save file
-     * @param ui       prints out error messages
      */
-    public Storage(String filepath, Ui ui) {
+    public Storage(String filepath) {
         this.filePath = filepath;
-        this.ui = ui;
     }
 
     private String replaceCommas(String info) {
@@ -45,7 +47,6 @@ public class Storage {
     public void saveTaskListData(TaskList tasks) {
         this.tasks = tasks;
         String taskString = null;
-        //TODO: add compatibility for more task attributes
         try {
             FileWriter csvWriter = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {
@@ -75,32 +76,31 @@ public class Storage {
      */
 
     //TODO: add compatibility for more task attributes
-    public TaskList loadTaskListData() {
+    public TaskList loadTaskListData() throws StorageException {
         File csvFile = new File(filePath);
         TaskList loadedTaskList = new TaskList();
         if (csvFile.isFile()) {
             String row;
+            String[] data = null;
             BufferedReader csvReader = null;
             try {
                 csvReader = new BufferedReader(new FileReader(filePath));
                 while ((row = csvReader.readLine()) != null) {
-                    String[] data = row.split(",");
+                    data = row.split(",");
                     for (int i = 0; i < data.length; i++) {
                         data[i] = data[i].replaceAll("]c}", ",");
                     }
                     loadedTaskList.addTask(Integer.parseInt(data[7]), data[0], data[1], data[2], data[3], data[4],
                             Importance.valueOf(data[5].toUpperCase()), data[6], Boolean.parseBoolean(data[8]));
                 }
-
                 csvReader.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new StorageLoadFailException();
             } catch (ArrayIndexOutOfBoundsException e) {
-                ui.printInvalidTask();
+               throw new StorageCorruptedException(data);
             } catch (ClashInTaskException e) {
-                ui.printClashInTaskException();
+                throw new StorageCorruptedException(data);
+                
             }
         }
         return loadedTaskList;

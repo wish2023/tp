@@ -331,12 +331,16 @@ public class Parser {
             return parseViewCommand(taskInfo);
         }
 
+        case "help": {
+            return new HelpCommand();
+        }
+
         case "exit": {
             return new ExitCommand();
         }
 
         default: {
-            return new HelpCommand();
+            throw new InvalidCommandException();
         }
         }
     }

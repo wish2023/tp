@@ -41,10 +41,10 @@ class TimetableTest {
         taskList.addTask("TP 4", "1100", "2", "6pm", "22-10-2020",
                 Importance.HIGH, "Tough assignment", false);
 
-        LocalDate[] dates = new LocalDate[7];
+        ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
         LocalDate date = LocalDate.parse("18-10-2020", DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         for (int i = 0; i < 7; i++) {
-            dates[i] = date;
+            dates.add(date);
             date = date.plusDays(1);
         }
 

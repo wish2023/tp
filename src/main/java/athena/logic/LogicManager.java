@@ -4,6 +4,8 @@ import athena.Storage;
 import athena.TaskList;
 import athena.Ui;
 import athena.exceptions.CommandException;
+import athena.exceptions.StorageCorruptedException;
+import athena.exceptions.StorageException;
 import athena.logic.commands.Command;
 
 /**
@@ -18,11 +20,12 @@ public class LogicManager implements Logic {
     public LogicManager() {
         ui = new Ui();
         parser = new Parser();
-        storage = new Storage("data.csv", ui);
+        storage = new Storage("data.csv");
     }
 
     @Override
-    public boolean execute(String inputString) throws CommandException {
+    public boolean execute(String inputString) throws CommandException, StorageException,
+            StorageCorruptedException {
         Command userCommand;
 
         taskList = storage.loadTaskListData();
