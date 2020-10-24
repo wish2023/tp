@@ -3,7 +3,12 @@ package athena;
 import athena.logic.LogicManager;
 import athena.exceptions.CommandException;
 import athena.ui.AthenaUi;
-
+import athena.exceptions.StorageCorruptedException;
+import athena.exceptions.StorageException;
+import athena.exceptions.StorageLoadFailException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import athena.exceptions.InternalException;
 import java.util.Scanner;
 
 /**
@@ -22,7 +27,7 @@ public class Athena {
     public Athena() {
         athenaUi = new AthenaUi();
         logicManager = new LogicManager();
-        storage = new Storage("data.csv", athenaUi);
+        storage = new Storage("data.csv");
     }
 
     public static void main(String[] args) {
@@ -39,8 +44,13 @@ public class Athena {
         athenaUi.printAthenaLogo();
         athenaUi.printWelcomeMessage();
 
-        taskList = storage.loadTaskListData();
         boolean isExit = false;
+        try {
+            taskList = storage.loadTaskListData();
+        } catch (StorageException e) {
+            e.printErrorMessage();
+            isExit = true;
+        }
         Scanner input = new Scanner(System.in);
 
         while (!isExit) {
@@ -51,6 +61,8 @@ public class Athena {
                 isExit = logicManager.execute(inputString);
             } catch (CommandException e) {
                 e.printErrorMessage();
+            } catch (StorageException e) {
+                e.printStackTrace();
             }
             continue;
         }

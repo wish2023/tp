@@ -3,6 +3,7 @@ package athena.ui;
 import athena.Importance;
 import athena.task.Task;
 import athena.timetable.Timetable;
+import java.util.ArrayList;
 import org.fusesource.jansi.AnsiConsole;
 
 /**
@@ -263,5 +264,41 @@ public class AthenaUi implements Ui {
      */
     public void printTimetable(Timetable timetable) {
         System.out.println(timetable);
+    }
+
+    public void printStorageLoadFail() {
+        System.out.println("Storage loading has failed\n");
+    }
+
+    public void printCorruptedLine(String corruptedLine) {
+        System.out.println("This task is invalid: " + corruptedLine + "\nPlease remove externally to continue\n");
+    }
+
+    private String colourTextBlue(String inputString) {
+        String ansiBlue = "\u001B[34m";
+
+        return ansiBlue + inputString + ANSI_RESET;
+    }
+
+    private String colourTextRed(String inputString) {
+        String ansiRed = "\u001B[31m";
+
+        return ansiRed + inputString + ANSI_RESET;
+    }
+
+    private String colourTextPurple(String inputString) {
+        String ansiGreen = "\u001b[35m";
+
+        return ansiGreen + inputString + ANSI_RESET;
+    }
+
+    private String colourTextYellow(String inputString) {
+        String ansiYellow = "\u001b[33m";
+
+        return ansiYellow + inputString + ANSI_RESET;
+    }
+
+    public void printAllocationFailed() {
+        System.out.println("Allocation Failed \n");
     }
 }

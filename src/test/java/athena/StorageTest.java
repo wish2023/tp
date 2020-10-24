@@ -1,6 +1,8 @@
 package athena;
 
-import athena.ui.AthenaUi;
+import athena.exceptions.StorageCorruptedException;
+import athena.exceptions.StorageException;
+import athena.exceptions.StorageLoadFailException;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
@@ -20,9 +22,8 @@ class StorageTest {
      */
     @Test
     void saveTaskListData_noPreviousSave_createSaveFile() {
-        AthenaUi athenaUi = new AthenaUi();
         TaskList taskList = TestSetup.getTestTaskList();
-        Storage storage = new Storage("src/test/java/athena/loadTask.csv", athenaUi);
+        Storage storage = new Storage("src/test/java/athena/loadTask.csv");
         storage.saveTaskListData(taskList);
         assertTrue(areFilesSame("src/test/java/athena/loadTask.csv", "src/test/java/athena/StorageTestAnswer1.csv"));
     }
@@ -60,20 +61,26 @@ class StorageTest {
      */
     @Test
     void loadTaskListData_saveFileFound_createTaskList() {
-        AthenaUi athenaUi = new AthenaUi();
-        Storage storage = new Storage("src/test/java/athena/StorageTestAnswer1.csv", athenaUi);
-        TaskList taskList;
-        taskList = storage.loadTaskListData();
+        Storage storage = new Storage("src/test/java/athena/StorageTestAnswer1.csv");
+        TaskList taskList = null;
+        try {
+            taskList = storage.loadTaskListData();
+        } catch (StorageException e) {
+            assert false;
+        }
         TaskList tester = TestSetup.getTestTaskList();
         assertTrue(tester.equals(taskList));
     }
 
     @Test
     void loadTaskListData_commaInTaskAttribute_commaIsReplaced() {
-        AthenaUi athenaUi = new AthenaUi();
-        Storage storage = new Storage("src/test/java/athena/StorageTestAnswer2.csv", athenaUi);
-        TaskList taskList;
-        taskList = storage.loadTaskListData();
+        Storage storage = new Storage("src/test/java/athena/StorageTestAnswer2.csv");
+        TaskList taskList = null;
+        try {
+            taskList = storage.loadTaskListData();
+        } catch (StorageException e) {
+            assert false;
+        }
         TaskList tester = TestSetup.getCommaTestTaskList();
         assertTrue(tester.equals(taskList));
 
@@ -81,10 +88,13 @@ class StorageTest {
 
     @Test
     void loadTaskListData_scrambledTaskNumbers_correctMaxNumber() {
-        AthenaUi ui = new AthenaUi();
-        Storage storage = new Storage("src/test/java/athena/StorageMaxNumberTest.csv", ui);
-        TaskList taskList;
-        taskList = storage.loadTaskListData();
+        Storage storage = new Storage("src/test/java/athena/StorageMaxNumberTest.csv");
+        TaskList taskList = null;
+        try {
+            taskList = storage.loadTaskListData();
+        } catch (StorageException e) {
+            assert false;
+        }
         assertEquals(taskList.getMaxNumber(), 61);
     }
 }
