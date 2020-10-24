@@ -2,7 +2,7 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.Ui;
+import athena.ui.AthenaUi;
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class DoneCommandTest {
     private TaskList taskList;
     private TaskList taskListWithDone;
-    private Ui ui;
+    private AthenaUi athenaUi;
 
     /**
      * Creates a task list for testing.
@@ -59,7 +59,7 @@ class DoneCommandTest {
      */
     @BeforeEach
     public void setup() throws ClashInTaskException {
-        ui = new Ui();
+        athenaUi = new AthenaUi();
         taskList = getTaskList();
         taskListWithDone = getTaskListWithDone();
     }
@@ -99,8 +99,8 @@ class DoneCommandTest {
      */
     private void assertCommandBehaviour(DoneCommand doneCommand, TaskList expectedTaskList,
                                         TaskList actualTaskList) throws TaskNotFoundException {
-        Ui ui = new Ui();
-        doneCommand.execute(taskList, ui);
+        AthenaUi athenaUi = new AthenaUi();
+        doneCommand.execute(taskList, athenaUi);
         assertEquals(expectedTaskList, actualTaskList);
     }
 
@@ -113,7 +113,7 @@ class DoneCommandTest {
     private void assertDoneFailsDueToInvalidNumber(int taskNumber, TaskList taskList) {
         DoneCommand command = createDoneCommand(taskNumber);
         assertThrows(TaskNotFoundException.class, () -> {
-            command.execute(taskList, ui);
+            command.execute(taskList, athenaUi);
         });
     }
 

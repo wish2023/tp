@@ -1,12 +1,12 @@
 package athena.exceptions;
 
-import athena.Ui;
+import athena.ui.AthenaUi;
 
 public class StorageLoadFailException extends StorageException {
 
     @Override
     public void printErrorMessage() {
-        Ui ui = new Ui();
-        ui.printStorageLoadFail();
+        AthenaUi athenaUi = new AthenaUi();
+        athenaUi.printStorageLoadFail();
     }
 }

@@ -3,7 +3,7 @@ package athena.logic.commands;
 import athena.Forecast;
 import athena.Importance;
 import athena.TaskList;
-import athena.Ui;
+import athena.ui.AthenaUi;
 import athena.exceptions.EmptyTaskListException;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
@@ -33,18 +33,18 @@ public class ListCommand extends Command {
      * calls Ui to print the list of tasks.
      *
      * @param taskList Tasks list
-     * @param ui       Ui
+     * @param athenaUi       Ui
      * @throws EmptyTaskListException Exception thrown when the task list is empty
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) throws EmptyTaskListException {
+    public void execute(TaskList taskList, AthenaUi athenaUi) throws EmptyTaskListException {
         if (taskList.getTasks().isEmpty()) {
             throw new EmptyTaskListException();
         }
         ImportanceFilter importanceFilter = new ImportanceFilter(taskImportance);
         ForecastFilter forecastFilter = new ForecastFilter(taskForecast);
         Timetable timetable = new Timetable(taskList, importanceFilter, forecastFilter);
-        ui.printTimetable(timetable);
+        athenaUi.printTimetable(timetable);
     }
 
     /**

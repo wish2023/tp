@@ -13,7 +13,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -97,7 +96,7 @@ public class Storage {
             } catch (IOException e) {
                 throw new StorageLoadFailException();
             } catch (ArrayIndexOutOfBoundsException e) {
-               throw new StorageCorruptedException(data);
+                throw new StorageCorruptedException(data);
             } catch (ClashInTaskException e) {
                 throw new StorageCorruptedException(data);
                 

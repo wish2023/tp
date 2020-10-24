@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.Ui;
+import athena.ui.AthenaUi;
 
 /**
  * Exception thrown when the user enters a command not recognized by the program.
@@ -15,7 +15,7 @@ public class InvalidCommandException extends CommandException {
      */
     @Override
     public void printErrorMessage() {
-        Ui ui = new Ui();
-        ui.printInvalidCommandException();
+        AthenaUi athenaUi = new AthenaUi();
+        athenaUi.printInvalidCommandException();
     }
 }

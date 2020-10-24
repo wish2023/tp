@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.Ui;
+import athena.ui.AthenaUi;
 
 /**
  * Exception that is thrown when the user enters an index without a task when using the delete command.
@@ -15,7 +15,7 @@ public class DeleteInvalidIndexException extends CommandException {
      */
     @Override
     public void printErrorMessage() {
-        Ui ui = new Ui();
-        ui.printDeleteInvalidIndexException();
+        AthenaUi athenaUi = new AthenaUi();
+        athenaUi.printDeleteInvalidIndexException();
     }
 }

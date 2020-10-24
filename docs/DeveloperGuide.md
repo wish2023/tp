@@ -65,7 +65,7 @@ The ***Architecture Diagram*** given above explains the high-level design of the
 
 The rest of the App consists of these components.
 
-* [**`Ui`**](#ui-component): The UI of ATHENA.
+* [**`Ui`**](#athenaUi-component): The UI of ATHENA.
 * [**`Logic`**](#logic-component): Parses user input and command executor.
 * [**`TaskList`**](#tasklist-component): The list that stores the user's tasks.
 * [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
@@ -74,6 +74,14 @@ The rest of the App consists of these components.
 
 **API** :
 [`Ui.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Ui.java)
+
+The User Interface (UI) seen by the user consists of two main parts: `AthenaUi` and `ColorText`. `AthenaUi` implements the interface `Ui`. `AthenaUi` outputs all the output messages that the user sees after launching the application while `ColorText` applies relevant colours to certain output strings.
+
+As UI outputs the front end viewed by the user, it also prints out error messages tied to exceptions that get thrown to the main `Athena` class. Additionally, since `LogicManager` executes user commands, it requires `AthenaUi`.
+
+Shown below is the class diagram of the UI component
+
+![UiStructure](https://raw.githubusercontent.com/alstontham/tp/DG-UG/docs/structures/UiStructure.png)
 
 ### Logic component
 

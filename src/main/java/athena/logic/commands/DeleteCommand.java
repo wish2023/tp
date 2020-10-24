@@ -3,7 +3,7 @@ package athena.logic.commands;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.TaskList;
-import athena.Ui;
+import athena.ui.AthenaUi;
 import java.util.Objects;
 
 /**
@@ -26,15 +26,15 @@ public class DeleteCommand extends Command {
      * calls Ui to print task deleted.
      *
      * @param taskList Tasks list
-     * @param ui       Ui
+     * @param athenaUi       Ui
      * @throws TaskNotFoundException Exception thrown when the user tries to enter the index of a task that
      *                               does not exist
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException {
+    public void execute(TaskList taskList, AthenaUi athenaUi) throws TaskNotFoundException {
         Task deletedTask = taskList.deleteTask(deleteIndex);
         String taskRestore = deletedTask.getTaskRestore();
-        ui.printTaskDeleted(deletedTask, taskRestore);
+        athenaUi.printTaskDeleted(deletedTask, taskRestore);
     }
 
     /**

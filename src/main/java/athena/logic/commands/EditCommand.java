@@ -2,7 +2,7 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.Ui;
+import athena.ui.AthenaUi;
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
 import java.util.Objects;
@@ -49,15 +49,15 @@ public class EditCommand extends Command {
      * calls Ui to print task edited.
      *
      * @param taskList Tasks list
-     * @param ui       Ui
+     * @param athenaUi       Ui
      * @throws TaskNotFoundException Exception thrown when the user tries to enter the index of a task that
      *                               does not exist
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException, ClashInTaskException {
+    public void execute(TaskList taskList, AthenaUi athenaUi) throws TaskNotFoundException, ClashInTaskException {
         taskList.editTask(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
-        ui.printTaskEdited(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
+        athenaUi.printTaskEdited(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
     }
 

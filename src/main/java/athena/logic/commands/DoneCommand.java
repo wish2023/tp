@@ -3,7 +3,8 @@ package athena.logic.commands;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.TaskList;
-import athena.Ui;
+import athena.ui.AthenaUi;
+
 import java.util.Objects;
 
 /**
@@ -26,14 +27,14 @@ public class DoneCommand extends Command {
      * calls Ui to print task marked as done.
      *
      * @param taskList Tasks list
-     * @param ui       Ui
+     * @param athenaUi       Ui
      * @throws TaskNotFoundException Exception thrown when the user tries to enter the index of a task that
      *                               does not exist
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException {
+    public void execute(TaskList taskList, AthenaUi athenaUi) throws TaskNotFoundException {
         Task taskDone = taskList.markTaskAsDone(taskNumber);
-        ui.printTaskDone(taskDone);
+        athenaUi.printTaskDone(taskDone);
     }
 
     /**

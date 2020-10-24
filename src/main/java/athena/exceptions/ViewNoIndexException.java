@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.Ui;
+import athena.ui.AthenaUi;
 
 /**
  * Exception thrown when the user enters the delete command without specifying an index of a task to view.
@@ -15,7 +15,7 @@ public class ViewNoIndexException extends CommandException {
      */
     @Override
     public void printErrorMessage() {
-        Ui ui = new Ui();
-        ui.printViewNoIndexException();
+        AthenaUi athenaUi = new AthenaUi();
+        athenaUi.printViewNoIndexException();
     }
 }
