@@ -2,7 +2,7 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.ui.AthenaUi;;
+import athena.ui.AthenaUi;
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
 import org.junit.jupiter.api.Test;
