@@ -8,7 +8,7 @@ import org.fusesource.jansi.AnsiConsole;
 /**
  * Represents all of the text that the user sees on the command line.
  */
-public class AthenaUi implements Ui{
+public class AthenaUi implements Ui {
     private ColorText colorText;
     private static final String ANSI_RESET = "\u001B[0m";
 

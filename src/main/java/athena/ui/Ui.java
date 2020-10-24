@@ -5,7 +5,7 @@ import athena.task.Task;
 import athena.timetable.Timetable;
 
 /**
- * API of the Ui component
+ * API of the Ui component.
  */
 public interface Ui {
     /**
