@@ -22,8 +22,13 @@ class StorageTest {
      * Checks if a save file is created correctly if a save file doesn't originally exist.
      */
     @Test
-    void saveTaskListData_noPreviousSave_createSaveFile() throws ClashInTaskException {
-        TaskList taskList = TestSetup.getTestTaskList();
+    void saveTaskListData_noPreviousSave_createSaveFile() {
+        TaskList taskList = null;
+        try {
+            taskList = TestSetup.getTestTaskList();
+        } catch (ClashInTaskException e) {
+            assert false;
+        }
         Storage storage = new Storage("src/test/java/athena/loadTask.csv");
         storage.saveTaskListData(taskList);
         assertTrue(areFilesSame("src/test/java/athena/loadTask.csv", "src/test/java/athena/StorageTestAnswer1.csv"));
@@ -83,7 +88,12 @@ class StorageTest {
             assert false;
         }
 
-        TaskList tester = TestSetup.getCommaTestTaskList();
+        TaskList tester = null;
+        try {
+            tester = TestSetup.getCommaTestTaskList();
+        } catch (ClashInTaskException e) {
+            assert false;
+        }
         assertTrue(tester.equals(taskList));
 
     }
