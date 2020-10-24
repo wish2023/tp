@@ -1,6 +1,7 @@
 package athena;
 
 import athena.exceptions.StorageCorruptedException;
+import athena.exceptions.StorageException;
 import athena.exceptions.StorageLoadFailException;
 import athena.task.Task;
 
@@ -74,7 +75,7 @@ public class Storage {
      */
 
     //TODO: add compatibility for more task attributes
-    public TaskList loadTaskListData() throws StorageLoadFailException, StorageCorruptedException {
+    public TaskList loadTaskListData() throws StorageException {
         File csvFile = new File(filePath);
         TaskList output = new TaskList();
         int maxNumber = 0;
