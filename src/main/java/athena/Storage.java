@@ -1,7 +1,7 @@
 package athena;
 
 import athena.task.Task;
-import athena.ui.Ui;
+import athena.ui.AthenaUi;
 
 import java.io.File;
 import java.io.FileReader;
@@ -17,7 +17,7 @@ import java.io.FileNotFoundException;
 public class Storage {
     private String filePath;
     private TaskList tasks;
-    private Ui ui;
+    private AthenaUi athenaUi;
 
     private int size;
 
@@ -25,11 +25,11 @@ public class Storage {
      * Initialises Storage object.
      *
      * @param filepath Location of the save file
-     * @param ui       prints out error messages
+     * @param athenaUi       prints out error messages
      */
-    public Storage(String filepath, Ui ui) {
+    public Storage(String filepath, AthenaUi athenaUi) {
         this.filePath = filepath;
-        this.ui = ui;
+        this.athenaUi = athenaUi;
     }
 
     private String replaceCommas(String info) {
@@ -99,7 +99,7 @@ public class Storage {
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ArrayIndexOutOfBoundsException e) {
-                ui.printInvalidTask();
+                athenaUi.printInvalidTask();
             }
         }
         output.setMaxNumber(maxNumber);

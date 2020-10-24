@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.ui.Ui;
+import athena.ui.AthenaUi;
 
 /**
  * Exception that is thrown when the user enters an index without a task when using the view command.
@@ -15,7 +15,7 @@ public class ViewInvalidIndexException extends CommandException {
      */
     @Override
     public void printErrorMessage() {
-        Ui ui = new Ui();
-        ui.printViewInvalidIndexException();
+        AthenaUi athenaUi = new AthenaUi();
+        athenaUi.printViewInvalidIndexException();
     }
 }

@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.ui.Ui;
+import athena.ui.AthenaUi;
 
 /**
  * Exception thrown when the user enters the edit command without specifying the index of the task they want to edit.
@@ -15,7 +15,7 @@ public class EditNoIndexException extends CommandException {
      */
     @Override
     public void printErrorMessage() {
-        Ui ui = new Ui();
-        ui.printEditNoIndexException();
+        AthenaUi athenaUi = new AthenaUi();
+        athenaUi.printEditNoIndexException();
     }
 }

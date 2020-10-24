@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.ui.Ui;
+import athena.ui.AthenaUi;
 
 /**
  * Exception that is thrown when the program is unable to locate the task specified by the user.
@@ -22,7 +22,7 @@ public class TaskNotFoundException extends CommandException {
      */
     @Override
     public void printErrorMessage() {
-        Ui ui = new Ui();
-        ui.printTaskNotFound(taskNumber);
+        AthenaUi athenaUi = new AthenaUi();
+        athenaUi.printTaskNotFound(taskNumber);
     }
 }

@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.ui.Ui;
+import athena.ui.AthenaUi;
 
 /**
  * Handles exception for when the user does not fill in the name or the start time of the task.
@@ -15,7 +15,7 @@ public class AddMissingRequiredParametersException extends CommandException {
      */
     @Override
     public void printErrorMessage() {
-        Ui ui = new Ui();
-        ui.printAddMissingRequiredParametersException();
+        AthenaUi athenaUi = new AthenaUi();
+        athenaUi.printAddMissingRequiredParametersException();
     }
 }

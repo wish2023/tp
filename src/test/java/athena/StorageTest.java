@@ -1,6 +1,6 @@
 package athena;
 
-import athena.ui.Ui;
+import athena.ui.AthenaUi;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
@@ -19,9 +19,9 @@ class StorageTest {
      */
     @Test
     void saveTaskListData_noPreviousSave_createSaveFile() {
-        Ui ui = new Ui();
+        AthenaUi athenaUi = new AthenaUi();
         TaskList taskList = TestSetup.getTestTaskList();
-        Storage storage = new Storage("src/test/java/athena/loadTask.csv", ui);
+        Storage storage = new Storage("src/test/java/athena/loadTask.csv", athenaUi);
         storage.saveTaskListData(taskList);
         assertTrue(areFilesSame("src/test/java/athena/loadTask.csv", "src/test/java/athena/StorageTestAnswer1.csv"));
     }
@@ -59,8 +59,8 @@ class StorageTest {
      */
     @Test
     void loadTaskListData_saveFileFound_createTaskList() {
-        Ui ui = new Ui();
-        Storage storage = new Storage("src/test/java/athena/StorageTestAnswer1.csv", ui);
+        AthenaUi athenaUi = new AthenaUi();
+        Storage storage = new Storage("src/test/java/athena/StorageTestAnswer1.csv", athenaUi);
         TaskList taskList;
         taskList = storage.loadTaskListData();
         TaskList tester = TestSetup.getTestTaskList();
@@ -69,8 +69,8 @@ class StorageTest {
 
     @Test
     void loadTaskListData_commaInTaskAttribute_commaIsReplaced() {
-        Ui ui = new Ui();
-        Storage storage = new Storage("src/test/java/athena/StorageTestAnswer2.csv", ui);
+        AthenaUi athenaUi = new AthenaUi();
+        Storage storage = new Storage("src/test/java/athena/StorageTestAnswer2.csv", athenaUi);
         TaskList taskList;
         taskList = storage.loadTaskListData();
         TaskList tester = TestSetup.getCommaTestTaskList();

@@ -13,10 +13,10 @@ src/main/resources/docs/
 *.iml
 bin/
 
-/text-ui-test/ACTUAL.txt
-/text-ui-test/EXPECTED.TXT
-/text-ui-test/EXPECTED-UNIX.TXT
-/text-ui-test/data.csv
+/text-athenaUi-test/ACTUAL.txt
+/text-athenaUi-test/EXPECTED.TXT
+/text-athenaUi-test/EXPECTED-UNIX.TXT
+/text-athenaUi-test/data.csv
 
 savedata.csv
 data.csv

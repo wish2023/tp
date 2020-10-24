@@ -2,7 +2,7 @@ package athena.logic.commands;
 
 import athena.exceptions.TaskNotFoundException;
 import athena.TaskList;
-import athena.ui.Ui;
+import athena.ui.AthenaUi;
 
 import java.util.Objects;
 
@@ -26,14 +26,14 @@ public class ViewCommand extends Command {
      * calls Ui to print task details.
      *
      * @param taskList Tasks list
-     * @param ui       Ui
+     * @param athenaUi       Ui
      * @throws TaskNotFoundException Exception thrown when the user tries to enter the index of a task that
      *                               does not exist
      */
     @Override
-    public void execute(TaskList taskList, Ui ui) throws TaskNotFoundException {
+    public void execute(TaskList taskList, AthenaUi athenaUi) throws TaskNotFoundException {
         String taskDescription = taskList.getTaskDescription(taskNumber);
-        ui.printTaskDetails(taskDescription);
+        athenaUi.printTaskDetails(taskDescription);
     }
 
     /**

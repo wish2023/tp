@@ -1,7 +1,7 @@
 package athena.logic.commands;
 
 import athena.TaskList;
-import athena.ui.Ui;
+import athena.ui.AthenaUi;
 import athena.exceptions.CommandException;
 
 /**
@@ -21,10 +21,10 @@ public abstract class Command {
      * For Commands execution.
      *
      * @param taskList Tasks list
-     * @param ui       Ui
+     * @param athenaUi       Ui
      * @throws CommandException Exception thrown when there is an error in user command
      */
-    public abstract void execute(TaskList taskList, Ui ui) throws CommandException;
+    public abstract void execute(TaskList taskList, AthenaUi athenaUi) throws CommandException;
 
     /**
      * Check if the command is exit.

@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.ui.Ui;
+import athena.ui.AthenaUi;
 
 /**
  * Exception thrown when the user enters the done command without specifying an index of a task to done.
@@ -15,7 +15,7 @@ public class DoneNoIndexException extends CommandException {
      */
     @Override
     public void printErrorMessage() {
-        Ui ui = new Ui();
-        ui.printDoneNoIndexException();
+        AthenaUi athenaUi = new AthenaUi();
+        athenaUi.printDoneNoIndexException();
     }
 }

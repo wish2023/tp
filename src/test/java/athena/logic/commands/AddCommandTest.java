@@ -2,7 +2,7 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.ui.Ui;
+import athena.ui.AthenaUi;
 import athena.exceptions.AddMissingRequiredParametersException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ class AddCommandTest {
 
     private TaskList taskList;
     private TaskList taskListWithAddedTask;
-    private Ui ui;
+    private AthenaUi athenaUi;
 
     /**
      * Creates a task list for testing.
@@ -49,7 +49,7 @@ class AddCommandTest {
      */
     @BeforeEach
     public void setup() {
-        ui = new Ui();
+        athenaUi = new AthenaUi();
         taskList = getTaskList();
         taskListWithAddedTask = getTaskListWithAddedTask();
     }
@@ -83,8 +83,8 @@ class AddCommandTest {
      */
     private void assertCommandBehaviour(AddCommand addCommand, TaskList expectedTaskList,
                                         TaskList actualTaskList) throws AddMissingRequiredParametersException {
-        Ui ui = new Ui();
-        addCommand.execute(taskList, ui);
+        AthenaUi athenaUi = new AthenaUi();
+        addCommand.execute(taskList, athenaUi);
         assertEquals(expectedTaskList, actualTaskList);
     }
 
