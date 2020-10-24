@@ -143,7 +143,7 @@ public class TaskList {
         LocalDate dateToCompare = taskToCompare.getTimeInfo().getRecurrenceDates().get(0);
         for (LocalDate date : task.getTimeInfo().getRecurrenceDates()) {
             if (dateToCompare.equals(date) && taskToCompare.getNumber() != task.getNumber()
-            && !task.isFlexible() && !taskToCompare.isFlexible()) {
+                    && !task.isFlexible() && !taskToCompare.isFlexible()) {
                 throw new ClashInTaskException();
             }
         }
