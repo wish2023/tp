@@ -31,7 +31,7 @@ class DoneCommandTest {
                 Importance.HIGH, "Tough assignment", false);
         taskList.addTask(1, "Assignment 2", "1600", "2", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment", false);
-        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "13-12-2020",
+        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "14-12-2020",
                 Importance.MEDIUM, "Tough assignment", false);
         return taskList;
     }
@@ -49,7 +49,7 @@ class DoneCommandTest {
                 "13-12-2020", Importance.MEDIUM, "Tough assignment", 1, false);
         doneTask.setDone();
         taskList.addTask(doneTask);
-        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "13-12-2020",
+        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "14-12-2020",
                 Importance.MEDIUM, "Tough assignment", false);
         return taskList;
     }

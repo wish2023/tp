@@ -30,7 +30,7 @@ class EditCommandTest {
                 Importance.HIGH, "Tough assignment", false);
         taskList.addTask(1, "Assignment 2", "1600", "2", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment", false);
-        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "13-12-2020",
+        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "14-12-2020",
                 Importance.MEDIUM, "Tough assignment", false);
         return taskList;
     }
@@ -46,7 +46,7 @@ class EditCommandTest {
                 Importance.HIGH, "Tough assignment", false);
         taskList.addTask(1,"Homework 2", "0800", "4", "8pm", "10-12-2020",
                 Importance.HIGH, "Very easy homework", false);
-        taskList.addTask(2,"Assignment 3", "1600", "2", "6pm", "13-12-2020",
+        taskList.addTask(2,"Assignment 3", "1600", "2", "6pm", "14-12-2020",
                 Importance.MEDIUM, "Tough assignment", false);
         return taskList;
     }

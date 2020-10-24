@@ -102,9 +102,9 @@ class TimetableTest {
         date = LocalDate.parse("14-12-2020", formatter);
         day = new TimetableDay(date);
 
-        day.addTask(new Task("Assignment 3", "1600", "2", "6pm",
+        day.addTask(new Task("Assignment 3", "1000", "2", "6pm",
                 "14-12-2020", Importance.LOW, "Tough assignment", 2, false));
-        day.addTask(new Task("Assignment 4", "1600", "2", "6pm",
+        day.addTask(new Task("Assignment 4", "1300", "2", "6pm",
                 "14-12-2020", Importance.MEDIUM, "Tough assignment", 3, false));
         day.addTask(new Task("Assignment 5", "1600", "2", "6pm",
                 "14-12-2020", Importance.HIGH, "Tough assignment", 4, false));
@@ -114,17 +114,17 @@ class TimetableTest {
         day = new TimetableDay(date);
         day.addTask(new Task("Assignment 6", "1600", "2", "6pm",
                 "15-12-2020", Importance.MEDIUM, "Tough assignment", 5, false));
-        day.addTask(new Task("Assignment 7", "1600", "2", "6pm",
+        day.addTask(new Task("Assignment 7", "1900", "2", "6pm",
                 "15-12-2020", Importance.HIGH, "Tough assignment", 6, false));
-        day.addTask(new Task("Assignment 8", "1600", "2", "6pm",
+        day.addTask(new Task("Assignment 8", "2100", "2", "6pm",
                 "15-12-2020", Importance.MEDIUM, "Tough assignment", 7, false));
         days.add(day);
 
         date = LocalDate.parse("16-12-2020", formatter);
         day = new TimetableDay(date);
-        day.addTask(new Task("Assignment 9", "1600", "2", "6pm",
+        day.addTask(new Task("Assignment 9", "0600", "2", "6pm",
                 "16-12-2020", Importance.LOW, "Tough assignment", 8, false));
-        day.addTask(new Task("Assignment 10", "1600", "2", "6pm",
+        day.addTask(new Task("Assignment 10", "1300", "2", "6pm",
                 "16-12-2020", Importance.MEDIUM, "Tough assignment", 9, false));
         days.add(day);
 
@@ -158,7 +158,7 @@ class TimetableTest {
 
         date = LocalDate.parse("15-12-2020", formatter);
         day = new TimetableDay(date);
-        day.addTask(new Task("Assignment 7", "1600", "2", "6pm",
+        day.addTask(new Task("Assignment 7", "1900", "2", "6pm",
                 "15-12-2020", Importance.HIGH, "Tough assignment", 6, false));
         days.add(day);
 
