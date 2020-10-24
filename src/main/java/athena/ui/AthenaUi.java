@@ -53,9 +53,15 @@ public class AthenaUi implements Ui {
         System.out.println("You've successfully added " + colorText.toBlue(taskName) + " to your list!\n"
                 + "It will start at " + colorText.toBlue(taskStartTime) + " and finish on "
                 + colorText.toBlue(taskDeadline) + ".\n"
-                + "You should spend a total of " + colorText.toBlue(taskDuration) + " hour(s) on it.\n"
-                + "It is set to happen every" + colorText.toBlue(taskRecurrence) + " and has an importance of "
-                + colorText.toBlue(taskImportance) + ".\n"
+                + "You should spend a total of " + colorText.toBlue(taskDuration) + " hour(s) on it.");
+        if (taskRecurrence.toLowerCase().equals("today")) {
+            System.out.print("It is set to happen " + colorText.toBlue(taskRecurrence));
+        } else if (taskRecurrence.contains("-")) {
+            System.out.print("It is set to happen on " + colorText.toBlue(taskRecurrence));
+        } else {
+            System.out.print("It is set to happen every " + colorText.toBlue(taskRecurrence));
+        }
+        System.out.println(" and has an importance of " + colorText.toBlue(taskImportance) + ".\n"
                 + "Additionally, you've also added these notes!\n" + colorText.toBlue(taskNotes) + ".\n"
                 + "Looks like another mission to complete! Let's do it!\n");
     }
