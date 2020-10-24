@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.Ui;
+import athena.ui.AthenaUi;
 
 public class StorageCorruptedException extends StorageException {
     private String[] corruptedLine;
@@ -11,11 +11,11 @@ public class StorageCorruptedException extends StorageException {
 
     @Override
     public void printErrorMessage() {
-        Ui ui = new Ui();
+        AthenaUi athenaUi = new AthenaUi();
         String line = "";
         for (String info : corruptedLine) {
             line += info;
         }
-        ui.printCorruptedLine(line);
+        athenaUi.printCorruptedLine(line);
     }
 }

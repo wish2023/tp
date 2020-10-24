@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.Ui;
+import athena.ui.AthenaUi;
 
 public class ClashInTaskException extends CommandException {
     public ClashInTaskException() {
@@ -9,7 +9,7 @@ public class ClashInTaskException extends CommandException {
 
     @Override
     public void printErrorMessage() {
-        Ui ui = new Ui();
-        ui.printClashInTaskException();
+        AthenaUi athenaUi = new AthenaUi();
+        athenaUi.printClashInTaskException();
     }
 }

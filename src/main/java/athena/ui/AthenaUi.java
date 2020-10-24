@@ -3,7 +3,6 @@ package athena.ui;
 import athena.Importance;
 import athena.task.Task;
 import athena.timetable.Timetable;
-import java.util.ArrayList;
 import org.fusesource.jansi.AnsiConsole;
 
 /**
