@@ -1,11 +1,11 @@
 package athena;
 
+
+import athena.exceptions.ClashInTaskException;
 import athena.exceptions.StorageCorruptedException;
 import athena.exceptions.StorageException;
 import athena.exceptions.StorageLoadFailException;
 import athena.task.Task;
-import athena.ui.AthenaUi;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -96,7 +96,10 @@ public class Storage {
             } catch (IOException e) {
                 throw new StorageLoadFailException();
             } catch (ArrayIndexOutOfBoundsException e) {
+               throw new StorageCorruptedException(data);
+            } catch (ClashInTaskException e) {
                 throw new StorageCorruptedException(data);
+                
             }
         }
         return loadedTaskList;

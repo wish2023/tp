@@ -4,6 +4,7 @@ import athena.Importance;
 import athena.TaskList;
 import athena.ui.AthenaUi;
 import athena.exceptions.AddMissingRequiredParametersException;
+import athena.exceptions.ClashInTaskException;
 
 import java.util.Objects;
 
@@ -56,7 +57,8 @@ public class AddCommand extends Command {
      *                                               add command
      */
     @Override
-    public void execute(TaskList taskList, AthenaUi athenaUi) throws AddMissingRequiredParametersException {
+    public void execute(TaskList taskList, AthenaUi athenaUi)
+            throws AddMissingRequiredParametersException, ClashInTaskException {
         if (taskName.equals("") || taskStartTime.equals("")) {
             throw new AddMissingRequiredParametersException();
         }

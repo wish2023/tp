@@ -3,6 +3,7 @@ package athena.tasklist;
 import athena.Forecast;
 import athena.Importance;
 import athena.TaskList;
+import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
@@ -46,7 +47,7 @@ class TaskListTest {
      * parameters.
      */
     @Test
-    void addTask_givenLargerTaskNumber_correctMaxNumber() {
+    void addTask_givenLargerTaskNumber_correctMaxNumber() throws ClashInTaskException {
         String todayDateString = LocalDate.now().toString();
         int testMaxNumber = 100;
         testTaskList.addTask(testMaxNumber, "big number", "1100",
@@ -59,9 +60,9 @@ class TaskListTest {
      * Tests that the max number is incremented when adding a task without providing a task number.
      */
     @Test
-    void addTask_noGivenTaskNumber_maxNumberIncremented() {
+    void addTask_noGivenTaskNumber_maxNumberIncremented() throws ClashInTaskException {
         String todayDateString = LocalDate.now().toString();
-        testTaskList.addTask("big number", "1100",
+        testTaskList.addTask("big number", "0200",
                 "2", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", false);
         assertEquals(testTaskList.getMaxNumber(), 3);
@@ -88,7 +89,7 @@ class TaskListTest {
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     @Test
-    void editTask_givenAttributes_attributeChanged() throws TaskNotFoundException {
+    void editTask_givenAttributes_attributeChanged() throws TaskNotFoundException, ClashInTaskException {
         int index = 0;
         Task task = new Task("Assignment1", "1100",
                 "2", "16-09-2020", "13-10-2020", Importance.HIGH,

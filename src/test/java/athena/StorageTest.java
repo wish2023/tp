@@ -1,5 +1,6 @@
 package athena;
 
+import athena.exceptions.ClashInTaskException;
 import athena.exceptions.StorageCorruptedException;
 import athena.exceptions.StorageException;
 import athena.exceptions.StorageLoadFailException;
@@ -21,7 +22,7 @@ class StorageTest {
      * Checks if a save file is created correctly if a save file doesn't originally exist.
      */
     @Test
-    void saveTaskListData_noPreviousSave_createSaveFile() {
+    void saveTaskListData_noPreviousSave_createSaveFile() throws ClashInTaskException {
         TaskList taskList = TestSetup.getTestTaskList();
         Storage storage = new Storage("src/test/java/athena/loadTask.csv");
         storage.saveTaskListData(taskList);
@@ -60,7 +61,7 @@ class StorageTest {
      * Checks if the program is able to load a save file correctly.
      */
     @Test
-    void loadTaskListData_saveFileFound_createTaskList() {
+    void loadTaskListData_saveFileFound_createTaskList() throws ClashInTaskException {
         Storage storage = new Storage("src/test/java/athena/StorageTestAnswer1.csv");
         TaskList taskList = null;
         try {
@@ -73,7 +74,7 @@ class StorageTest {
     }
 
     @Test
-    void loadTaskListData_commaInTaskAttribute_commaIsReplaced() {
+    void loadTaskListData_commaInTaskAttribute_commaIsReplaced() throws ClashInTaskException {
         Storage storage = new Storage("src/test/java/athena/StorageTestAnswer2.csv");
         TaskList taskList = null;
         try {
@@ -81,6 +82,7 @@ class StorageTest {
         } catch (StorageException e) {
             assert false;
         }
+
         TaskList tester = TestSetup.getCommaTestTaskList();
         assertTrue(tester.equals(taskList));
 

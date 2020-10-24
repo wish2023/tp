@@ -1,10 +1,13 @@
 package athena;
 
+import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.TaskFilter;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -79,9 +82,7 @@ public class TaskList {
      * @param task Task to be added.
      */
     public void addTask(Task task) {
-        if (this.maxNumber < task.getNumber()) {
-            this.maxNumber = task.getNumber();
-        }
+        updateMaxNumber(task.getNumber());
         tasks.add(task);
     }
 
@@ -99,11 +100,12 @@ public class TaskList {
      */
 
     public void addTask(int number, String name, String startTime, String duration,
-                        String deadline, String recurrence, Importance importance, String notes, boolean isFlexible) {
-        if (this.maxNumber < number) {
-            this.maxNumber = number;
-        }
+                        String deadline, String recurrence,
+                        Importance importance, String notes, boolean isFlexible) throws ClashInTaskException {
         Task task = createTask(number, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
+        decrementMaxNumber();
+        checkClash(task);
+        updateMaxNumber(number);
         tasks.add(task);
     }
 
@@ -119,10 +121,61 @@ public class TaskList {
      * @param notes      Additional notes of task
      */
     public void addTask(String name, String startTime, String duration,
-                        String deadline, String recurrence, Importance importance, String notes, Boolean isFlexible) {
+                        String deadline, String recurrence,
+                        Importance importance, String notes, Boolean isFlexible) throws ClashInTaskException {
         maxNumber++;
         addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
     }
+
+    private void decrementMaxNumber() {
+        maxNumber--;
+    }
+
+    private void checkClash(Task taskToCompare) throws ClashInTaskException {
+        for (Task task : tasks) {
+            if (isTimeClash(taskToCompare, task)) {
+                checkRecurrenceClash(taskToCompare, task);
+            }
+        }
+    }
+
+    private void checkRecurrenceClash(Task taskToCompare, Task task) throws ClashInTaskException {
+        LocalDate dateToCompare = taskToCompare.getTimeInfo().getRecurrenceDates().get(0);
+        for (LocalDate date : task.getTimeInfo().getRecurrenceDates()) {
+            if (dateToCompare.equals(date) && taskToCompare.getNumber() != task.getNumber()
+                    && !task.isFlexible() && !taskToCompare.isFlexible()) {
+                throw new ClashInTaskException();
+            }
+        }
+    }
+
+    private boolean isTimeClash(Task taskToCompare, Task task) {
+        LocalTime taskStartTime = taskToCompare.getTimeInfo().getStartTime();
+        int taskDuration = taskToCompare.getTimeInfo().getDuration();
+        LocalTime taskEndTime = taskStartTime.plusHours(taskDuration);
+
+        LocalTime existingTaskStartTime = task.getTimeInfo().getStartTime();
+        LocalTime existingTaskEndTime = existingTaskStartTime.plusHours(task.getTimeInfo().getDuration());
+        if (isIndividualTimeClash(taskStartTime, taskEndTime, existingTaskStartTime, existingTaskEndTime)) {
+            return true;
+        }
+        return false;
+    }
+
+
+    private boolean isIndividualTimeClash(LocalTime taskStartTime, LocalTime taskEndTime,
+                                          LocalTime existingTaskStartTime, LocalTime existingTaskEndTime) {
+        return !(taskEndTime.compareTo(existingTaskStartTime) <= 0
+                || taskStartTime.compareTo(existingTaskEndTime) >= 0);
+    }
+
+    private void updateMaxNumber(int number) {
+        maxNumber++;
+        if (this.maxNumber < number) {
+            this.maxNumber = number;
+        }
+    }
+
 
     /**
      * Returns the task description of the task with the given number.
@@ -168,9 +221,13 @@ public class TaskList {
      */
     public void editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, Importance importance,
-                         String notes) throws TaskNotFoundException {
+                         String notes) throws TaskNotFoundException, ClashInTaskException {
         Task task = getTaskFromNumber(taskNumber);
+        Task possibleEditedTask = createTask(taskNumber,name,startTime,
+                duration,deadline,recurrence,importance,notes,task.isFlexible());
+        checkClash(possibleEditedTask);
         task.edit(name, startTime, duration, deadline, recurrence, importance, notes);
+
     }
 
     /**
