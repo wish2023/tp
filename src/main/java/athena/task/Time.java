@@ -128,11 +128,11 @@ public class Time implements Comparable<Time> {
     }
 
     private int getMonth(String recurrence) {
-        return Integer.parseInt(recurrence.substring(3,5));
+        return Integer.parseInt(recurrence.substring(3, 5));
     }
 
     private int getDay(String recurrence) {
-        return Integer.parseInt(recurrence.substring(0,2));
+        return Integer.parseInt(recurrence.substring(0, 2));
     }
 
     private int getYear(String recurrence) {
@@ -161,9 +161,16 @@ public class Time implements Comparable<Time> {
      *
      * @return Start time of task
      */
+
+
     public LocalTime getStartTime() {
         return startTime;
     }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
 
     /**
      * Converts the start time to a string.
@@ -205,6 +212,7 @@ public class Time implements Comparable<Time> {
     public String getDeadline() {
         return deadline;
     }
+
 
     public Boolean getFlexible() {
         return isFlexible;
