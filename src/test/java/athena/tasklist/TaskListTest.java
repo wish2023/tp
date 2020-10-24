@@ -47,7 +47,7 @@ class TaskListTest {
      * parameters.
      */
     @Test
-    void addTask_givenLargerTaskNumber_correctMaxNumber() {
+    void addTask_givenLargerTaskNumber_correctMaxNumber() throws ClashInTaskException {
         String todayDateString = LocalDate.now().toString();
         int testMaxNumber = 100;
         testTaskList.addTask(testMaxNumber, "big number", "1100",
@@ -60,9 +60,9 @@ class TaskListTest {
      * Tests that the max number is incremented when adding a task without providing a task number.
      */
     @Test
-    void addTask_noGivenTaskNumber_maxNumberIncremented() {
+    void addTask_noGivenTaskNumber_maxNumberIncremented() throws ClashInTaskException {
         String todayDateString = LocalDate.now().toString();
-        testTaskList.addTask("big number", "1100",
+        testTaskList.addTask("big number", "0200",
                 "2", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", false);
         assertEquals(testTaskList.getMaxNumber(), 3);
@@ -145,7 +145,7 @@ class TaskListTest {
         assertEquals(testTaskList.getFilteredList(weekFilter), expectedTaskList);
     }
 
-    @Test //hdhfgn
+    @Test
     void getFilteredList_todayForecast_returnTasksForToday() {
         TaskList expectedTaskList = getForecastTestExpectedTasks(Forecast.DAY);
         ForecastFilter todayFilter = new ForecastFilter(Forecast.DAY);
@@ -204,7 +204,6 @@ class TaskListTest {
 
     private void setupTestTaskList() {
         String todayDateString = LocalDate.now().toString();
-        System.out.println("hello " + todayDateString);
         testTaskList = new TaskList();
         int index = 0;
         testTaskList.addTask(new Task("uno", "1100",

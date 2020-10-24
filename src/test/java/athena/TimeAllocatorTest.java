@@ -1,5 +1,6 @@
 package athena;
 
+import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class TimeAllocatorTest {
 
     @Test
-    void runAllocate_overCapacityDay_validSchedule() {
+    void runAllocate_overCapacityDay_validSchedule() throws ClashInTaskException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "0000", "1", "6pm", "today",
                 Importance.MEDIUM, "Tough assignment", false);
