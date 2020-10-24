@@ -97,7 +97,7 @@ public class Storage {
             } catch (IOException e) {
                 throw new StorageLoadFailException();
             } catch (ArrayIndexOutOfBoundsException e) {
-               throw new StorageCorruptedException(data);
+                throw new StorageCorruptedException(data);
             } catch (ClashInTaskException e) {
                 throw new StorageCorruptedException(data);
                 
