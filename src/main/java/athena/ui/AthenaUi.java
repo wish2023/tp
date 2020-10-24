@@ -110,7 +110,7 @@ public class AthenaUi implements Ui {
      * @param task The task that the user has deleted.
      */
     public void printTaskDeleted(Task task, String taskRestore) {
-        System.out.println("Are we pretending the task " + colorText.toBlue(task.toString())
+        System.out.println("Are we pretending the task " + colorText.toBlue(task.getName())
                 + " never existed? Very well...\n");
         System.out.println("We both know the human propensity to make mistakes, if you want it back just type:\n"
                 + colorText.toBlue(taskRestore) + "\nYou can thank me later!\n");
