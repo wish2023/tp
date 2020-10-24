@@ -242,7 +242,7 @@ public class Task {
     @Override
     public String toString() {
         return getStatus() + " " + name + " at " + timeInfo.getStartTime() + " finish by "
-                + timeInfo.getDeadline();
+                + timeInfo.getDeadline() + " [" + number + "]";
     }
 
     /**

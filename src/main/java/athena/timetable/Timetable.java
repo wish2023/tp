@@ -366,6 +366,6 @@ public class Timetable {
         output += "\n";
         output += getTaskListString(dates);
 
-        return output.trim();
+        return output.trim() + "\n";
     }
 }
