@@ -77,10 +77,7 @@ public class Storage {
     //TODO: add compatibility for more task attributes
     public TaskList loadTaskListData() throws StorageException {
         File csvFile = new File(filePath);
-        TaskList output = new TaskList();
-        int maxNumber = 0;
-        String[] data = new String[0];
-
+        TaskList loadedTaskList = new TaskList();
         if (csvFile.isFile()) {
             String row;
             BufferedReader csvReader = null;
@@ -91,9 +88,8 @@ public class Storage {
                     for (int i = 0; i < data.length; i++) {
                         data[i] = data[i].replaceAll("]c}", ",");
                     }
-                    output.addTask(Integer.parseInt(data[7]), data[0], data[1], data[2], data[3], data[4],
+                    loadedTaskList.addTask(Integer.parseInt(data[7]), data[0], data[1], data[2], data[3], data[4],
                             Importance.valueOf(data[5].toUpperCase()), data[6], Boolean.parseBoolean(data[8]));
-                    maxNumber = Integer.parseInt(data[7]);
                 }
                 csvReader.close();
             } catch (IOException e) {
@@ -102,7 +98,6 @@ public class Storage {
                 throw new StorageCorruptedException(data);
             }
         }
-        output.setMaxNumber(maxNumber);
-        return output;
+        return loadedTaskList;
     }
 }
