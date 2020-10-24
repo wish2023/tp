@@ -3,9 +3,9 @@
 - [Introduction](#introduction)
 - [Quick Start](#quick-start)
 - [Features](#features)
-    - [Viewing Help](#viewing-help-help)
-    - [Adding a task](#adding-a-task-add-or-a)  
-    - [Listing tasks](#listing-tasks-list-or-l)  
+    - [View Help](#view-help-help)
+    - [Add a task](#add-a-task-add-or-a)  
+    - [List tasks](#list-tasks-list-or-l)  
     - [Mark task as done](#mark-task-as-done-done-or-dn)  
     - [Edit task](#edit-task-edit-or-e)  
     - [Delete task](#delete-task-delete-or-dl)
@@ -18,166 +18,234 @@
 
 ## Introduction
 
-ATHENA (Automated Timetable Helper Encourager n' Assistant) is a desktop daily life planner optimized for use via a Command Line Interface (CLI).
+Welcome and thank you for choosing ATHENA! ATHENA is your Automated Timetable Helper Encourager n' Assistant and is a desktop daily life planner optimized for use via a Command Line Interface (CLI).
+
+ATHENA uses algorithmic optimisation to give you the best timetable that allows you to make the most of your time. With ATHENA, you can save time on planning your timetable and be more efficient with your time!
+
+You can take a look at the table of contents above if you are looking for a specific command, or you can begin by looking at the **[Quick Start](#Quick-Start)** section below!
+
+We hope you enjoy using ATHENA and start being more productive today!
 
 ## Quick Start
 
-1. Ensure that you have Java 11 or above installed.
-2. Download the latest version of `ATHENA` from [here](https://github.com/AY2021S1-CS2113T-W12-2/tp/releases).
-3. Copy jar file into an empty folder.
-4. Double-click the jar file. Expected: Shows the command line interface with welcome message.
+1. Ensure that you have **Java 11** or above installed.
+2. Download the latest version of **ATHENA** from [here](https://github.com/AY2021S1-CS2113T-W12-2/tp/releases).
+3. Copy the downloaded Athena.jar into your **Desktop**.
+4. Open the terminal/command prompt and enter `cd Desktop`.
+5. Then, enter `java -jar Athena.jar`.
+6. A welcome message as seen below will be shown:
+
+
+![welcome screenshot](screenshots/athena%20welcome.jpg)
+ 
 
 ## Features 
 Notes about the command format:
 * Words in UPPER_CASE are the parameters to be supplied by the user.
-
-    e.g. for `add n/NAME`, NAME is a parameter which can be entered as: `add n/Assignment1`.
+e.g. in `add n/NAME`, NAME is a parameter which can be used as: `add n/Assignment1`.
 * Parameters can be in any order.
-
-    e.g. if the command specifies `n/NAME t/TIME`, `t/TIME n/NAME` is also acceptable.
-* Parameters in square brackets are optional. 
-    
-    e.g `n/NAME  [d/DURATION]` can be used as `n/Task1 d/1` or as `n/Task1`.
+e.g. if the command specifies `n/NAME t/TIME`, `t/TIME n/NAME` is also acceptable.
+* Items in square brackets are optional. e.g `n/NAME  [d/DURATION]` can be used as `n/Task1 d/1` or as `n/Task1`.
 * For some commands, if no parameters are specified, the command will execute using the default values for each parameter.
-* For dates, the program follows the DD-MM-YYYY format.
-* For time, the program follows the HHMM format.
+* For dates, the program follows the **DD-MM-YYYY** format.
+* For time, the program follows the **HHMM** format.
 
-### Viewing Help: `help`
+### View Help: `help`
 Prints out a message on how to use ATHENA.
 
-Format: `help`
+#### Format: `help`
 
-### Adding a task: `add` or `a`
+#### Expected output
+
+![help command screenshot](screenshots/athena%20help.jpg)
+
+
+### Add a task: `add` or `a`
 Adds a task to the planner.
 
-Format: `add n/NAME t/TIME [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
+#### Format
+`add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
 
-Parameters:
+#### Parameters
 * `NAME` is the name of the task.
-* `TIME` is the time to start doing this task (HHMM). For example, 1100.
-* `DURATION` is the expected time taken to complete task (in hours)
-   
-   Default: 1 hour.
-* `DEADLINE` is the date to do task by (DD-MM-YYYY). For example, 16-09-2020.
-   
-   Default: No deadline.
-* `RECURRENCE` is one of TODAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY or a specific date (DD-MM-YYYY).
+* `TIME` is the time to start doing this task (**HHMM**). For example, 1100.
 
-   Default: TODAY.
-* `IMPORTANCE` is one of HIGH, MEDIUM, LOW.
+   Default: Allocated by Athena (only available for non recurring tasks)
+* `DURATION` is the expected time taken to complete task (in hours)
+
+   Default: 1 hour.
+* `DEADLINE` is the date to do task by (**DD-MM-YYYY**). For example, 16-09-2020.
+
+   Default: No deadline.
+* `RECURRENCE` is one of **TODAY**, **MONDAY**, **TUESDAY**, **WEDNESDAY**, **THURSDAY**, **FRIDAY**, **SATURDAY**, **SUNDAY** or a specific date (**DD-MM-YYYY**).
+
+   If it is not **TODAY** or a specific date, it will be treated as occuring every week. For example, **MONDAY** means happening every Monday.
    
-   Default: MEDIUM.
+   Default: **TODAY**.
+* `IMPORTANCE` is one of **HIGH**, **MEDIUM**, **LOW**.
+
+   Default: **MEDIUM**.
 * `ADDITIONAL-NOTES` is the additional notes of the task.
-   
+
    Default: No notes.
 
-Example of usage: 
+#### Example usage 
 
 * `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`
+* `add n/Assignment1 t/1100`
 * `a n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`
 
-### Listing tasks: `list` or `l`
-Shows a list of all tasks in the planner. Each task will be printed with a number to be used as an identifier for other commands.
+#### Expected output 
 
-Format: `list [f/FORECAST] [i/IMPORTANCE]`
+![add command screenshot](screenshots/athena%20add.jpg)
 
-Parameters:
-* `FORECAST`: TODAY to show the tasks today, WEEK to show the tasks this week, ALL to show all tasks, or choose a specific date. 
-  Default: WEEK.
-* `IMPORTANCE`: One of HIGH, MEDIUM, LOW, ALL. 
-  
-  Default: ALL.
 
-Shortcut format:
+### List tasks: `list` or `l`
+Shows your tasks organized in a timetable. Each task will be printed with a number to be used as an identifier for other commands (e.g. `edit`, `done`, `delete`).
+
+#### Format
+`list [f/FORECAST] [i/IMPORTANCE]`
+
+#### Parameters
+* `FORECAST`: **DAY** to show the tasks today, **WEEK** to show the tasks this week, **ALL** to show all tasks. 
+
+  Default: **WEEK**.
+* `IMPORTANCE`: One of **HIGH**, **MEDIUM**, **LOW**, **ALL**. 
+
+  Default: **ALL**.
+
+#### Shortcut format
 * `l3` = `list i/HIGH`
 * `l2` = `list i/MEDIUM`
 * `l1` = `list i/LOW`
 * `lw` = `list f/WEEK`
-* `lt` = `list f/TODAY`
+* `ld` = `list f/DAY`
 * `lm` = `list f/MONTH`
   
-Example of usage: 
+#### Example usage 
 
+* `l`
+* `ld`
 * `list f/WEEK i/medium`
 * `l2 f/WEEK`
 * `lm i/medium`
 
+#### Expected output
+
+When you input `l`:
+
+![l command screenshot](screenshots/athena%20l.jpg)
+
+When you input `ld`:
+
+![ld command screenshot](screenshots/athena%20ld.jpg)
+
+
 ### Mark task as done: `done` or `dn`
-Marks the specified task from the planner as done.
+Mark the specified task from the planner as done.
 
-Format: `done INDEX`
+#### Format
+`done INDEX`
 
-* `INDEX` refers to the index number of a specific task shown in the displayed task list. It must be a positive integer.
+* `INDEX` refers to the index number shown in the displayed task list. It must be a positive integer.
 
-Example of usage: 
+#### Example usage
 
-* `done 103`
-* `dn 103` 
+* `done 0`
+* `dn 0` 
+
+#### Expected output
+
+![done command screenshot](screenshots/athena%20done.jpg)
+
 
 ### Edit task: `edit` or `e`
-Allows users to edit the specified task from the planner.
+Edits the specified task from the planner.
 
-Format: `edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
+#### Format
+`edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
 
-Parameters:
+#### Parameters
 * `INDEX` refers to the index number shown in the displayed task list. It must be a positive integer.
 * `NAME` is the name of the task.
-* `TIME` is the time to start doing this task (HHMM). For example, 1100.
+* `TIME` is the time to start doing this task (**HHMM**). For example, 1100.
 * `DURATION` is the expected time taken to complete task (in hours).
-* `DEADLINE` is the date to do task by (DD-MM-YYYY). For example, 16-09-2020.
-* `RECURRENCE` is one of TODAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY or a specific date (DD-MM-YYYY).
-* `IMPORTANCE` is one of HIGH, MEDIUM, LOW.
+* `DEADLINE` is the date to do task by (**DD-MM-YYYY**). For example, 16-09-2020.
+* `RECURRENCE` is one of **TODAY**, **MONDAY**, **TUESDAY**, **WEDNESDAY**, **THURSDAY**, **FRIDAY**, **SATURDAY**, **SUNDAY** or a specific date (**DD-MM-YYYY**).
+* `IMPORTANCE` is one of **HIGH**, **MEDIUM**, **LOW**.
 * `ADDITIONAL-NOTES` is the additional notes of the task.
    
-Example of usage: 
+#### Example usage
 
-* `edit 103 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
-* `e 103 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
+* `edit 1 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
+* `edit 1 t/1800`
+* `e 1 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
+
+#### Expected output
+
+![edit command screenshot](screenshots/athena%20edit.jpg)
+
 
 ### Delete task: `delete` or `dl`
 Deletes the specified task from the planner.
 
-Format: `delete INDEX`
+#### Format: `delete INDEX`
 
-* `INDEX` refers to the index number of a specific task shown in the displayed task list. It must be a positive integer.
+* `INDEX` refers to the index number shown in the displayed task list. It must be a positive integer.
  
-Example of usage: 
+#### Example usage
 
-* `delete 103`
-* `dl 103`
+* `delete 1`
+* `dl 1`
+
+#### Expected output
+
+![delete command screenshot](screenshots/athena%20delete.jpg)
+
 
 ### View task: `view` or `v`
-View the specified task details from the planner.
+Views the specified task details from the planner.
 
-Format: `view INDEX`
+#### Format
+`view INDEX`
 
-* `INDEX` refers to the index number of a specific task shown in the displayed task list. It must be a positive integer.
+* `INDEX` refers to the index number shown in the displayed task list. It must be a positive integer.
  
-Example of usage: 
+#### Example of usage 
 
-* `view 103`
-* `v 103`
+* `view 0`
+* `v 0`
+
+#### Expected output
+
+![view command screenshot](screenshots/athena%20view.jpg)
+
 
 ### Exit program: `exit` or `ex`
 Exits the program.
 
-Format: `exit` or `ex`
+#### Format: `exit` or `ex`
+
+#### Expected output:
+
+![exit command screenshot](screenshots/athena%20exit.jpg)
+
 
 ### Saving the data
-ATHENA's data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.  
+Your tasks are automatically saved in *data.csv* which is located next to the program jar file. There is no need to save manually.  
    
 ## FAQ
 
 **Q**: How do I transfer my data to another computer? 
 
-**A**: You can copy the data.csv file created next to ATHENA.jar to the other computer and place it next to ATHENA.jar there.
+**A**: You can copy the *data.csv* file created next to ATHENA.jar to the other computer and place it next to ATHENA.jar there.
 
 ## Command Summary
 
-| Action            | Format                                                                                            |
-| :---              | :---                                                                                                        |
+| Action            | Format                                                                                                      |
+| :---------------- | :---------------------------------------------------------------------------------------------------------- |
 | Help              | `help`                                                                                                      |
-| Add task          | `add n/NAME t/TIME [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`            |
+| Add task          | `add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`            |
 | List tasks        | `list [f/FORECAST] [i/IMPORTANCE]`                                                                          |
 | Mark task as done | `done INDEX`                                                                                                |
 | Edit task         | `edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]` |
