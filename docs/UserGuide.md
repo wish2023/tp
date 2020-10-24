@@ -3,9 +3,9 @@
 - [Introduction](#introduction)
 - [Quick Start](#quick-start)
 - [Features](#features)
-    - [Viewing Help](#viewing-help-help)
-    - [Adding a task](#adding-a-task-add-or-a)  
-    - [Listing tasks](#listing-tasks-list-or-l)  
+    - [View Help](#view-help-help)
+    - [Add a task](#add-a-task-add-or-a)  
+    - [List tasks](#list-tasks-list-or-l)  
     - [Mark task as done](#mark-task-as-done-done-or-dn)  
     - [Edit task](#edit-task-edit-or-e)  
     - [Delete task](#delete-task-delete-or-dl)
@@ -50,7 +50,7 @@ e.g. if the command specifies `n/NAME t/TIME`, `t/TIME n/NAME` is also acceptabl
 * For dates, the program follows the **DD-MM-YYYY** format.
 * For time, the program follows the **HHMM** format.
 
-### Viewing Help: `help`
+### View Help: `help`
 Prints out a message on how to use ATHENA.
 
 #### Format: `help`
@@ -60,7 +60,7 @@ Prints out a message on how to use ATHENA.
 ![help command screenshot](screenshots/athena%20help.jpg)
 
 
-### Adding a task: `add` or `a`
+### Add a task: `add` or `a`
 Adds a task to the planner.
 
 #### Format
@@ -100,7 +100,7 @@ Adds a task to the planner.
 ![add command screenshot](screenshots/athena%20add.jpg)
 
 
-### Listing tasks: `list` or `l`
+### List tasks: `list` or `l`
 Shows your tasks organized in a timetable. Each task will be printed with a number to be used as an identifier for other commands (e.g. `edit`, `done`, `delete`).
 
 #### Format
