@@ -142,7 +142,8 @@ public class TaskList {
     private void checkRecurrenceClash(Task taskToCompare, Task task) throws ClashInTaskException {
         LocalDate dateToCompare = taskToCompare.getTimeInfo().getRecurrenceDates().get(0);
         for (LocalDate date : task.getTimeInfo().getRecurrenceDates()) {
-            if (dateToCompare.equals(date) && taskToCompare.getNumber() != task.getNumber()) {
+            if (dateToCompare.equals(date) && taskToCompare.getNumber() != task.getNumber()
+            && !task.isFlexible() && !taskToCompare.isFlexible()) {
                 throw new ClashInTaskException();
             }
         }
