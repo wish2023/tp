@@ -48,7 +48,7 @@ public class DateUtils {
         if (forecast == Forecast.WEEK) {
             startDate = getFirstDayOfWeek();
             endDate = startDate.plusWeeks(1);
-        } else if (forecast == Forecast.TODAY) {
+        } else if (forecast == Forecast.DAY) {
             startDate = LocalDate.now();
             endDate = startDate.plusDays(1);
         } else {

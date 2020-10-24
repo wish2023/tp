@@ -329,7 +329,7 @@ public class Timetable {
         return datesInWeek;
     }
 
-    private String getTaskListForDates(LocalDate[] dates) {
+    private String getTaskListString(ArrayList<LocalDate> dates) {
         String list = "Your task list: \n";
         for (LocalDate date : dates) {
             if (timetableDayMap.containsKey(date)) {
@@ -364,7 +364,7 @@ public class Timetable {
         ArrayList<LocalDate> dates = DateUtils.getDatesBasedOnForecast(forecast);
         String output = drawTimetable(dates);
         output += "\n";
-        output += getTaskListForDates(dates);
+        output += getTaskListString(dates);
 
         return output.trim();
     }
