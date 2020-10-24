@@ -88,7 +88,7 @@ public class Parser {
         //TODO: allow for empty string, assign flexible attribute, true if string is null, false if filled
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullDefault);
         boolean isFlexible = (time == nullDefault);
-        String durationDefault = "1 hour";
+        String durationDefault = "1";
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, durationDefault);
         String deadlineDefault = "No deadline";
         String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos, deadlineDefault);
@@ -331,12 +331,16 @@ public class Parser {
             return parseViewCommand(taskInfo);
         }
 
+        case "help": {
+            return new HelpCommand();
+        }
+
         case "exit": {
             return new ExitCommand();
         }
 
         default: {
-            return new HelpCommand();
+            throw new InvalidCommandException();
         }
         }
     }

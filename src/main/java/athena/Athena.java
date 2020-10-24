@@ -13,6 +13,7 @@ public class Athena {
     private AthenaUi athenaUi;
     private Storage storage;
     private TaskList taskList;
+    private TimeAllocator allocator;
     private LogicManager logicManager;
 
     /**
@@ -44,6 +45,8 @@ public class Athena {
 
         while (!isExit) {
             try {
+                allocator = new TimeAllocator(taskList);
+                allocator.runAllocate();
                 inputString = input.nextLine();
                 isExit = logicManager.execute(inputString);
             } catch (CommandException e) {

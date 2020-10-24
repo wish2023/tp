@@ -1,5 +1,21 @@
 # User Guide
 
+- [Introduction](#introduction)
+- [Quick Start](#quick-start)
+- [Features](#features)
+    - [Viewing Help](#viewing-help-help)
+    - [Adding a task](#adding-a-task-add-or-a)  
+    - [Listing tasks](#listing-tasks-list-or-l)  
+    - [Mark task as done](#mark-task-as-done-done-or-dn)  
+    - [Edit task](#edit-task-edit-or-e)  
+    - [Delete task](#delete-task-delete-or-dl)
+    - [View task](#view-task-view-or-v)
+    - [Delete task](#delete-task-delete-or-dl)
+    - [Exit](#exit-program-exit-or-ex)
+    - [Saving the data](#saving-the-data)
+- [FAQ](#faq)    
+- [Command Summary](#command-summary)  
+
 ## Introduction
 
 ATHENA (Automated Timetable Helper Encourager n' Assistant) is a desktop daily life planner optimized for use via a Command Line Interface (CLI).
@@ -8,6 +24,8 @@ ATHENA (Automated Timetable Helper Encourager n' Assistant) is a desktop daily l
 
 1. Ensure that you have Java 11 or above installed.
 2. Download the latest version of `ATHENA` from [here](https://github.com/AY2021S1-CS2113T-W12-2/tp/releases).
+3. Copy jar file into an empty folder.
+4. Double-click the jar file. Expected: Shows the command line interface with welcome message.
 
 ## Features 
 Notes about the command format:
@@ -24,6 +42,11 @@ Notes about the command format:
 * For dates, the program follows the DD-MM-YYYY format.
 * For time, the program follows the HHMM format.
 
+### Viewing Help: `help`
+Prints out a message on how to use ATHENA.
+
+Format: `help`
+
 ### Adding a task: `add` or `a`
 Adds a task to the planner.
 
@@ -38,8 +61,8 @@ Parameters:
 * `DEADLINE` is the date to do task by (DD-MM-YYYY). For example, 16-09-2020.
    
    Default: No deadline.
-* `RECURRENCE` is TODAY or a specific date (DD-MM-YYYY).
-   
+* `RECURRENCE` is one of TODAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY or a specific date (DD-MM-YYYY).
+
    Default: TODAY.
 * `IMPORTANCE` is one of HIGH, MEDIUM, LOW.
    
@@ -102,7 +125,7 @@ Parameters:
 * `TIME` is the time to start doing this task (HHMM). For example, 1100.
 * `DURATION` is the expected time taken to complete task (in hours).
 * `DEADLINE` is the date to do task by (DD-MM-YYYY). For example, 16-09-2020.
-* `RECURRENCE` is one of TODAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+* `RECURRENCE` is one of TODAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY or a specific date (DD-MM-YYYY).
 * `IMPORTANCE` is one of HIGH, MEDIUM, LOW.
 * `ADDITIONAL-NOTES` is the additional notes of the task.
    

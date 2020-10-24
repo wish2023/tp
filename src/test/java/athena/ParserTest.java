@@ -10,6 +10,7 @@ import athena.logic.commands.HelpCommand;
 import athena.logic.commands.ListCommand;
 import athena.logic.commands.ViewCommand;
 import athena.exceptions.CommandException;
+import athena.exceptions.InvalidCommandException;
 import athena.logic.Parser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,14 +37,14 @@ class ParserTest {
     }
 
     /**
-     * Checks if the help command is shown if the user enters an invalid command.
-     *
-     * @throws CommandException Exception thrown if there is an error with the user entered command
+     * Checks if an exception is thrown if the user enters an invalid command.
      */
     @Test
-    public void parse_unknownCommandWord_returnsHelp() throws CommandException {
+    public void parse_unknownCommandWord_throwsException() {
         final String input = "unknown arguments";
-        parseAndAssertCommandType(input, HelpCommand.class);
+        assertThrows(InvalidCommandException.class, () -> {
+            parseAndAssertCommandType(input, Command.class);
+        });
     }
 
     /*
@@ -252,30 +253,44 @@ class ParserTest {
         assertEquals(parsedCommand, expectedCommand);
     }
 
+    /**
+     * Checks if an exception is thrown when the user provides invalid parameters for the edit command.
+     */
     @Test
-    public void parse_editCommandBadArg_throwsException() throws CommandException {
+    public void parse_editCommandBadArg_throwsException() {
         final String input = "edit abcde";
         assertThrows(CommandException.class, () -> {
             parseAndAssertCommandType(input, EditCommand.class);
         });
     }
 
+    /**
+     * Another case to check if an exception is thrown when the user provides invalid parameters for the edit command.
+     */
     @Test
-    public void parse_editCommandBadArg2_throwsException() throws CommandException {
+    public void parse_editCommandBadArg2_throwsException() {
         final String input = "edit 1a/";
         assertThrows(CommandException.class, () -> {
             parseAndAssertCommandType(input, EditCommand.class);
         });
     }
 
+    /**
+     * Third case to check if an exception is thrown when the user provides invalid parameters for the edit command.
+     */
     @Test
-    public void parse_editCommandBadArg3_throwsException() throws CommandException {
+    public void parse_editCommandBadArg3_throwsException() {
         final String input = "edit 1 n/n/";
         assertThrows(CommandException.class, () -> {
             parseAndAssertCommandType(input, EditCommand.class);
         });
     }
 
+    /**
+     * Checks if lists out tasks properly with two specified parameters.
+     *
+     * @throws CommandException Exception thrown if there is an error with the user entered command
+     */
     @Test
     public void parse_viewCommandBadArg_throwsException() throws CommandException {
         final String input = "view abcde";
