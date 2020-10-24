@@ -248,7 +248,7 @@ public class Parser {
         shortcutCommandsWithDetails.put("l2", "list i/MEDIUM");
         shortcutCommandsWithDetails.put("l1", "list i/LOW");
         shortcutCommandsWithDetails.put("lw", "list f/WEEK");
-        shortcutCommandsWithDetails.put("lt", "list f/TODAY");
+        shortcutCommandsWithDetails.put("ld", "list f/DAY");
         shortcutCommandsWithDetails.put("lm", "list f/MONTH");
 
         String actualInputMeaning = userInput;

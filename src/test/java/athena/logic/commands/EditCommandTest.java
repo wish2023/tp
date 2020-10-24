@@ -2,7 +2,7 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.Ui;
+import athena.ui.AthenaUi;
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class EditCommandTest {
     private TaskList taskList;
     private TaskList editedTaskList;
-    private Ui ui;
+    private AthenaUi athenaUi;
 
     /**
      * Creates a task list for testing.
@@ -56,7 +56,7 @@ class EditCommandTest {
      */
     @BeforeEach
     public void setup() throws ClashInTaskException {
-        ui = new Ui();
+        athenaUi = new AthenaUi();
         taskList = getTaskList();
         editedTaskList = getEditedTaskList();
     }
@@ -97,8 +97,8 @@ class EditCommandTest {
      */
     private void assertCommandBehaviour(EditCommand editCommand, TaskList expectedTaskList,
                                         TaskList actualTaskList) throws TaskNotFoundException, ClashInTaskException {
-        Ui ui = new Ui();
-        editCommand.execute(taskList, ui);
+        AthenaUi athenaUi = new AthenaUi();
+        editCommand.execute(taskList, athenaUi);
         assertEquals(expectedTaskList, actualTaskList);
     }
 
@@ -111,7 +111,7 @@ class EditCommandTest {
     private void assertEditingFailsDueToInvalidNumber(int taskNumber, TaskList taskList) {
         EditCommand command = createEditCommand(taskNumber);
         assertThrows(TaskNotFoundException.class, () -> {
-            command.execute(taskList, ui);
+            command.execute(taskList, athenaUi);
         });
     }
 

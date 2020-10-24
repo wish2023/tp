@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-import athena.Ui;
+import athena.ui.AthenaUi;
 
 /**
  * Exception thrown when the user wants to view their list of tasks but the task list is empty.
@@ -15,7 +15,7 @@ public class EmptyTaskListException extends CommandException {
      */
     @Override
     public void printErrorMessage() {
-        Ui ui = new Ui();
-        ui.printEmptyTaskListException();
+        AthenaUi athenaUi = new AthenaUi();
+        athenaUi.printEmptyTaskListException();
     }
 }

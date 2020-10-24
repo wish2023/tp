@@ -2,7 +2,7 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.Ui;
+import athena.ui.AthenaUi;
 import athena.exceptions.AddMissingRequiredParametersException;
 import athena.exceptions.ClashInTaskException;
 
@@ -52,19 +52,19 @@ public class AddCommand extends Command {
      * calls Ui to print out the task added.
      *
      * @param taskList Tasks list
-     * @param ui       Ui
+     * @param athenaUi       Ui
      * @throws AddMissingRequiredParametersException Exception thrown when required parameters are not provided for
      *                                               add command
      */
     @Override
-    public void execute(TaskList taskList, Ui ui)
+    public void execute(TaskList taskList, AthenaUi athenaUi)
             throws AddMissingRequiredParametersException, ClashInTaskException {
         if (taskName.equals("") || taskStartTime.equals("")) {
             throw new AddMissingRequiredParametersException();
         }
         taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes, isTaskFlexible);
-        ui.printTaskAdded(taskName, taskStartTime, taskDuration, taskDeadline,
+        athenaUi.printTaskAdded(taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance.toString(), taskNotes);
     }
 

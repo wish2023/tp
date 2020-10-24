@@ -67,7 +67,6 @@ class StorageTest {
      */
     @Test
     void loadTaskListData_saveFileFound_createTaskList() throws ClashInTaskException {
-        Ui ui = new Ui();
         Storage storage = new Storage("src/test/java/athena/StorageTestAnswer1.csv");
         TaskList taskList = null;
         try {
@@ -80,7 +79,7 @@ class StorageTest {
     }
 
     @Test
-    void loadTaskListData_commaInTaskAttribute_commaIsReplaced() {
+    void loadTaskListData_commaInTaskAttribute_commaIsReplaced() throws ClashInTaskException {
         Storage storage = new Storage("src/test/java/athena/StorageTestAnswer2.csv");
         TaskList taskList = null;
         try {
@@ -101,7 +100,6 @@ class StorageTest {
 
     @Test
     void loadTaskListData_scrambledTaskNumbers_correctMaxNumber() {
-        Ui ui = new Ui();
         Storage storage = new Storage("src/test/java/athena/StorageMaxNumberTest.csv");
         TaskList taskList = null;
         try {

@@ -2,7 +2,7 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.Ui;
+import athena.ui.AthenaUi;
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class DeleteCommandTest {
     private TaskList taskList;
     private TaskList taskListWithoutTask;
-    private Ui ui;
+    private AthenaUi athenaUi;
 
     /**
      * Creates a task list for testing.
@@ -54,7 +54,7 @@ class DeleteCommandTest {
      */
     @BeforeEach
     public void setup() throws ClashInTaskException {
-        ui = new Ui();
+        athenaUi = new AthenaUi();
         taskList = getTaskList();
         taskListWithoutTask = getTaskListWithoutTask();
     }
@@ -97,8 +97,8 @@ class DeleteCommandTest {
      */
     private void assertCommandBehaviour(DeleteCommand deleteCommand, TaskList expectedTaskList,
                                         TaskList actualTaskList) throws TaskNotFoundException {
-        Ui ui = new Ui();
-        deleteCommand.execute(taskList, ui);
+        AthenaUi athenaUi = new AthenaUi();
+        deleteCommand.execute(taskList, athenaUi);
         assertEquals(expectedTaskList, actualTaskList);
     }
 
@@ -111,7 +111,7 @@ class DeleteCommandTest {
     private void assertDeletionFailsDueToInvalidNumber(int taskNumber, TaskList taskList) {
         DeleteCommand command = createDeleteCommand(taskNumber);
         assertThrows(TaskNotFoundException.class, () -> {
-            command.execute(taskList, ui);
+            command.execute(taskList, athenaUi);
         });
     }
 

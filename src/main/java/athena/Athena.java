@@ -2,21 +2,20 @@ package athena;
 
 import athena.logic.LogicManager;
 import athena.exceptions.CommandException;
+import athena.ui.AthenaUi;
 import athena.exceptions.StorageCorruptedException;
 import athena.exceptions.StorageException;
 import athena.exceptions.StorageLoadFailException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import athena.exceptions.InternalException;
-
-
 import java.util.Scanner;
 
 /**
  * The main class of the ATHENA program.
  */
 public class Athena {
-    private Ui ui;
+    private AthenaUi athenaUi;
     private Storage storage;
     private TaskList taskList;
     private TimeAllocator allocator;
@@ -26,7 +25,7 @@ public class Athena {
      * Creates an ATHENA object.
      */
     public Athena() {
-        ui = new Ui();
+        athenaUi = new AthenaUi();
         logicManager = new LogicManager();
         storage = new Storage("data.csv");
     }
@@ -42,8 +41,9 @@ public class Athena {
     public void runProgram() {
         String inputString;
 
-        ui.printAthenaLogo();
-        ui.printWelcomeMessage();
+        athenaUi.printAthenaLogo();
+        athenaUi.printWelcomeMessage();
+
         boolean isExit = false;
         try {
             taskList = storage.loadTaskListData();
