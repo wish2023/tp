@@ -1,4 +1,4 @@
-package athena.commands;
+package athena.logic.commands;
 
 import athena.TaskList;
 import athena.Ui;

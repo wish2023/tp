@@ -30,6 +30,44 @@ class TaskListTest {
     }
 
     /**
+     * Tests that the max number is updated when adding a task with a larger task number through a Task object.
+     */
+    @Test
+    void addTask_givenTaskWithLargerTaskNumber_correctMaxNumber() {
+        int testMaxNumber = 5;
+        testTaskList.addTask(new Task("tres", "1100",
+                "2", "16-09-2020", "13-11-2020", Importance.LOW,
+                "Refer to slides", testMaxNumber, false));
+        assertEquals(testTaskList.getMaxNumber(), testMaxNumber);
+    }
+
+    /**
+     * Tests that the max number is updated when adding a task with a larger task number through providing the
+     * parameters.
+     */
+    @Test
+    void addTask_givenLargerTaskNumber_correctMaxNumber() {
+        String todayDateString = LocalDate.now().toString();
+        int testMaxNumber = 100;
+        testTaskList.addTask(testMaxNumber, "big number", "1100",
+                "2", "16-09-2020", "13-11-2020", Importance.HIGH,
+                "Refer to slides", false);
+        assertEquals(testTaskList.getMaxNumber(), testMaxNumber);
+    }
+
+    /**
+     * Tests that the max number is incremented when adding a task without providing a task number.
+     */
+    @Test
+    void addTask_noGivenTaskNumber_maxNumberIncremented() {
+        String todayDateString = LocalDate.now().toString();
+        testTaskList.addTask("big number", "1100",
+                "2", todayDateString, todayDateString, Importance.HIGH,
+                "Refer to slides", false);
+        assertEquals(testTaskList.getMaxNumber(), 3);
+    }
+
+    /**
      * Asserts if the deleted task at a certain index is the same task that is added to the task list.
      *
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
@@ -37,7 +75,7 @@ class TaskListTest {
     @Test
     void deleteTask_validTaskIndex_correctTaskDeleted() throws TaskNotFoundException {
         Task expectedTask = new Task("Assignment1", "1100",
-                "2 hours", "16-09-2020", "13-10-2020", Importance.HIGH,
+                "2", "16-09-2020", "13-10-2020", Importance.HIGH,
                 "Refer to slides", 12, false);
         testTaskList.addTask(expectedTask);
         Task actualTask = testTaskList.deleteTask(12);
@@ -53,26 +91,26 @@ class TaskListTest {
     void editTask_givenAttributes_attributeChanged() throws TaskNotFoundException {
         int index = 0;
         Task task = new Task("Assignment1", "1100",
-                "2 hours", "16-09-2020", "13-10-2020", Importance.HIGH,
+                "2", "16-09-2020", "13-10-2020", Importance.HIGH,
                 "Refer to slides", index, false);
         testTaskList.addTask(task);
 
         Task expectedTask = new Task("Assignment2", "1200",
-                "4 hours", "16-11-2020", "13-10-2020", Importance.LOW,
+                "4", "16-11-2020", "13-10-2020", Importance.LOW,
                 "I have changed", index, false);
 
         testTaskList.editTask(index, "Assignment2", "1200",
-                "4 hours", "16-11-2020", "13-10-2020", Importance.LOW,
+                "4", "16-11-2020", "13-10-2020", Importance.LOW,
                 "I have changed");
 
         assertEquals(testTaskList.getTaskFromNumber(index), expectedTask);
     }
 
     @Test
-    // Filter list using high, low, medium importance
-    // Filter list using today, week, all forecast
-    // TODO ^^
     void getFilteredList_highImportance_returnTasksWithHighImportance() {
+        // Filter list using high, low, medium importance
+        // Filter list using today, week, all forecast
+        // TODO ^^
         TaskList expectedTaskList = getImportanceTestExpectedTasks(Importance.HIGH);
         ImportanceFilter highFilter = new ImportanceFilter(Importance.HIGH);
         assertEquals(testTaskList.getFilteredList(highFilter), expectedTaskList);
@@ -108,8 +146,8 @@ class TaskListTest {
 
     @Test
     void getFilteredList_todayForecast_returnTasksForToday() {
-        TaskList expectedTaskList = getForecastTestExpectedTasks(Forecast.TODAY);
-        ForecastFilter todayFilter = new ForecastFilter(Forecast.TODAY);
+        TaskList expectedTaskList = getForecastTestExpectedTasks(Forecast.DAY);
+        ForecastFilter todayFilter = new ForecastFilter(Forecast.DAY);
         assertEquals(testTaskList.getFilteredList(todayFilter), expectedTaskList);
     }
 
@@ -117,13 +155,13 @@ class TaskListTest {
         String todayDateString = LocalDate.now().toString();
         TaskList taskList = new TaskList();
         Task task1 = new Task("uno", "1100",
-                "2 hours", todayDateString, todayDateString, Importance.HIGH,
+                "2", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", 0, false);
         Task task2 = new Task("dos", "1100",
-                "2 hours", "16-09-2020", "23-10-2020", Importance.MEDIUM,
+                "2", "16-09-2020", "23-10-2019", Importance.MEDIUM,
                 "Refer to slides", 1, false);
         Task task3 = new Task("tres", "1100",
-                "2 hours", "16-09-2020", "13-11-2020", Importance.LOW,
+                "2", "16-09-2020", "13-11-2019", Importance.LOW,
                 "Refer to slides", 2, false);
 
         if (importance == Importance.HIGH) {
@@ -140,13 +178,13 @@ class TaskListTest {
         String todayDateString = LocalDate.now().toString();
         TaskList taskList = new TaskList();
         Task task1 = new Task("uno", "1100",
-                "2 hours", todayDateString, todayDateString, Importance.HIGH,
+                "2", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", 0, false);
         Task task2 = new Task("dos", "1100",
-                "2 hours", "16-09-2020", "23-10-2020", Importance.MEDIUM,
+                "2", "16-09-2020", "23-10-2019", Importance.MEDIUM,
                 "Refer to slides", 1, false);
         Task task3 = new Task("tres", "1100",
-                "2 hours", "16-09-2020", "13-11-2020", Importance.LOW,
+                "2", "16-09-2020", "13-11-2019", Importance.LOW,
                 "Refer to slides", 2, false);
 
         if (forecast == Forecast.ALL) {
@@ -156,7 +194,7 @@ class TaskListTest {
         } else if (forecast == Forecast.WEEK) {
             taskList.addTask(task1);
             taskList.addTask(task2);
-        } else if (forecast == Forecast.TODAY) {
+        } else if (forecast == Forecast.DAY) {
             taskList.addTask(task1);
         }
         return taskList;
@@ -168,13 +206,13 @@ class TaskListTest {
         testTaskList = new TaskList();
         int index = 0;
         testTaskList.addTask(new Task("uno", "1100",
-                "2 hours", todayDateString, todayDateString, Importance.HIGH,
+                "2", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", index++, false));
         testTaskList.addTask(new Task("dos", "1100",
-                "2 hours", "16-09-2020", "23-10-2020", Importance.MEDIUM,
+                "2", "16-09-2020", "23-10-2019", Importance.MEDIUM,
                 "Refer to slides", index++, false));
         testTaskList.addTask(new Task("tres", "1100",
-                "2 hours", "16-09-2020", "13-11-2020", Importance.LOW,
+                "2", "16-09-2020", "13-11-2019", Importance.LOW,
                 "Refer to slides", index++, false));
     }
 }

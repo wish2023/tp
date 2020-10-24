@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Converts TaskLists to .csv files and back
@@ -47,9 +48,11 @@ public class Storage {
         try {
             FileWriter csvWriter = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {
-                taskString = replaceCommas(task.getName()) + "," + replaceCommas(task.getStartTime()) + ","
-                        + replaceCommas(task.getDuration()) + "," + replaceCommas(task.getDeadline()) + ","
-                        + replaceCommas(task.getRecurrence()) + "," + task.getImportance() + ","
+                taskString = replaceCommas(task.getName()) + ","
+                        + replaceCommas(task.getTimeInfo().getStartTimeString()) + ","
+                        + replaceCommas(task.getTimeInfo().getDurationString()) + ","
+                        + replaceCommas(task.getTimeInfo().getDeadline()) + ","
+                        + replaceCommas(task.getTimeInfo().getRecurrence()) + "," + task.getImportance() + ","
                         + replaceCommas(task.getNotes()) + "," + task.getNumber();
                 if (task.isFlexible()) {
                     taskString = taskString + "," + "true";
@@ -73,8 +76,7 @@ public class Storage {
     //TODO: add compatibility for more task attributes
     public TaskList loadTaskListData() {
         File csvFile = new File(filePath);
-        TaskList output = new TaskList();
-        int maxNumber = 0;
+        TaskList loadedTaskList = new TaskList();
         if (csvFile.isFile()) {
             String row;
             BufferedReader csvReader = null;
@@ -85,9 +87,8 @@ public class Storage {
                     for (int i = 0; i < data.length; i++) {
                         data[i] = data[i].replaceAll("]c}", ",");
                     }
-                    output.addTask(Integer.parseInt(data[7]), data[0], data[1], data[2], data[3], data[4],
+                    loadedTaskList.addTask(Integer.parseInt(data[7]), data[0], data[1], data[2], data[3], data[4],
                             Importance.valueOf(data[5].toUpperCase()), data[6], Boolean.parseBoolean(data[8]));
-                    maxNumber = Integer.parseInt(data[7]);
                 }
 
                 csvReader.close();
@@ -99,7 +100,6 @@ public class Storage {
                 ui.printInvalidTask();
             }
         }
-        output.setMaxNumber(maxNumber);
-        return output;
+        return loadedTaskList;
     }
 }

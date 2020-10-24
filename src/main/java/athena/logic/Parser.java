@@ -1,19 +1,25 @@
-package athena;
+package athena.logic;
 
-import athena.commands.Command;
-import athena.commands.AddCommand;
-import athena.commands.DeleteCommand;
-import athena.commands.DoneCommand;
-import athena.commands.EditCommand;
-import athena.commands.ExitCommand;
-import athena.commands.HelpCommand;
-import athena.commands.ListCommand;
+import athena.Forecast;
+import athena.Importance;
+import athena.TaskList;
+import athena.logic.commands.AddCommand;
+import athena.logic.commands.Command;
+import athena.logic.commands.DeleteCommand;
+import athena.logic.commands.DoneCommand;
+import athena.logic.commands.EditCommand;
+import athena.logic.commands.ExitCommand;
+import athena.logic.commands.HelpCommand;
+import athena.logic.commands.ListCommand;
+import athena.logic.commands.ViewCommand;
 import athena.exceptions.CommandException;
 import athena.exceptions.DeleteNoIndexException;
 import athena.exceptions.DoneNoIndexException;
 import athena.exceptions.EditNoIndexException;
 import athena.exceptions.InvalidCommandException;
 import athena.exceptions.TaskNotFoundException;
+import athena.exceptions.ViewNoIndexException;
+import java.util.HashMap;
 
 /**
  * Handles parsing of user input.
@@ -82,7 +88,7 @@ public class Parser {
         //TODO: allow for empty string, assign flexible attribute, true if string is null, false if filled
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullDefault);
         boolean isFlexible = (time == nullDefault);
-        String durationDefault = "1 hour";
+        String durationDefault = "1";
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, durationDefault);
         String deadlineDefault = "No deadline";
         String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos, deadlineDefault);
@@ -123,13 +129,13 @@ public class Parser {
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
                 taskList.getTaskFromNumber(number).getName());
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos,
-                taskList.getTaskFromNumber(number).getStartTime());
+                taskList.getTaskFromNumber(number).getTimeInfo().getStartTimeString());
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos,
-                taskList.getTaskFromNumber(number).getDuration());
+                taskList.getTaskFromNumber(number).getTimeInfo().getDurationString());
         String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos,
-                taskList.getTaskFromNumber(number).getDeadline());
+                taskList.getTaskFromNumber(number).getTimeInfo().getDeadline());
         String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos,
-                taskList.getTaskFromNumber(number).getRecurrence());
+                taskList.getTaskFromNumber(number).getTimeInfo().getRecurrence());
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos,
                 taskList.getTaskFromNumber(number).getImportance().toString()).toUpperCase();
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos,
@@ -170,7 +176,7 @@ public class Parser {
     public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos)
             throws InvalidCommandException {
         String importanceDefault = "ALL";
-        String forecastDefault = "TODAY";
+        String forecastDefault = "WEEK";
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
         String forecast = getParameterDesc(taskInfo, FORECAST_DELIMITER, forecastPos, forecastDefault);
         Command command = new ListCommand(Importance.valueOf(importance.toUpperCase()),
@@ -179,16 +185,109 @@ public class Parser {
     }
 
     /**
+     * Parses user input when command is done.
+     *
+     * @param taskInfo      String representing task information
+     * @return command object
+     */
+    public static Command parseDoneCommand(String taskInfo) throws CommandException {
+        try {
+            int taskIndex = Integer.parseInt(taskInfo);
+            return new DoneCommand(taskIndex);
+        } catch (NumberFormatException e) {
+            throw new DoneNoIndexException();
+        }
+    }
+
+    /**
+     * Parses user input when command is delete.
+     *
+     * @param taskInfo      String representing task information
+     * @return command object
+     */
+    public static Command parseDeleteCommand(String taskInfo) throws CommandException {
+        try {
+            int taskIndex = Integer.parseInt(taskInfo);
+            return new DeleteCommand(taskIndex);
+        } catch (NumberFormatException e) {
+            throw new DeleteNoIndexException();
+        }
+    }
+
+    /**
+     * Parses user input when command is view.
+     *
+     * @param taskInfo      String representing task information
+     * @return command object
+     */
+    public static Command parseViewCommand(String taskInfo) throws CommandException {
+        try {
+            int taskIndex = Integer.parseInt(taskInfo);
+            return new ViewCommand(taskIndex);
+        } catch (NumberFormatException e) {
+            throw new ViewNoIndexException();
+        }
+    }
+
+    /**
+     * Parses user input for shortcut commands.
+     *
+     * @param userInput String representing command and information of task
+     * @return actual input meaning string
+     */
+    public static String parseShortcutCommands(String userInput) {
+        HashMap<String, String> shortcutCommandsWithDetails = new HashMap<String, String>();
+        shortcutCommandsWithDetails.put("a", "add");
+        shortcutCommandsWithDetails.put("e", "edit");
+        shortcutCommandsWithDetails.put("l", "list");
+        shortcutCommandsWithDetails.put("dn", "done");
+        shortcutCommandsWithDetails.put("dl", "delete");
+        shortcutCommandsWithDetails.put("v", "view");
+        shortcutCommandsWithDetails.put("ex", "exit");
+        shortcutCommandsWithDetails.put("l3", "list i/HIGH");
+        shortcutCommandsWithDetails.put("l2", "list i/MEDIUM");
+        shortcutCommandsWithDetails.put("l1", "list i/LOW");
+        shortcutCommandsWithDetails.put("lw", "list f/WEEK");
+        shortcutCommandsWithDetails.put("lt", "list f/TODAY");
+        shortcutCommandsWithDetails.put("lm", "list f/MONTH");
+
+        String actualInputMeaning = userInput;
+        if (shortcutCommandsWithDetails.get(actualInputMeaning) != null) {
+            actualInputMeaning = shortcutCommandsWithDetails.get(actualInputMeaning);
+        }
+        return actualInputMeaning;
+    }
+
+    /**
+     * Parses user input to split shortcut command and task information.
+     *
+     * @param userInput String representing task information
+     * @return task information string
+     */
+    public static String parseShortcutCommandAndDetails(String userInput) {
+        String[] commandAndDetails = userInput.split(COMMAND_WORD_DELIMITER, 2);
+        String shortcutInput = parseShortcutCommands(commandAndDetails[0]);
+        String remainingTaskInfo = "";
+        if (commandAndDetails.length > 1) {
+            remainingTaskInfo = commandAndDetails[1];
+        }
+        String fullInput = shortcutInput + " " + remainingTaskInfo;
+        fullInput = fullInput.trim();
+        return fullInput;
+    }
+
+    /**
      * Parses user input and recognises what type of command
      * and parameters the user typed.
      *
-     * @param input    String representing user input
+     * @param userInput    String representing user input
      * @param taskList Tasks list
      * @return new Command object based on what the user input is
      * @throws CommandException Exception thrown when there is an error when the user inputs a command
      */
-    public static Command parse(String input, TaskList taskList) throws CommandException {
-        String[] commandAndDetails = input.split(COMMAND_WORD_DELIMITER, 2);
+    public static Command parse(String userInput, TaskList taskList) throws CommandException {
+        String fullInput = parseShortcutCommandAndDetails(userInput);
+        String[] commandAndDetails = fullInput.split(COMMAND_WORD_DELIMITER, 2);
         String commandType = commandAndDetails[0];
         String taskInfo = "";
         if (commandAndDetails.length > 1) {
@@ -221,21 +320,15 @@ public class Parser {
         }
 
         case "done": {
-            try {
-                int taskIndex = Integer.parseInt(taskInfo);
-                return new DoneCommand(taskIndex);
-            } catch (NumberFormatException e) {
-                throw new DoneNoIndexException();
-            }
+            return parseDoneCommand(taskInfo);
         }
 
         case "delete": {
-            try {
-                int taskIndex = Integer.parseInt(taskInfo);
-                return new DeleteCommand(taskIndex);
-            } catch (NumberFormatException e) {
-                throw new DeleteNoIndexException();
-            }
+            return parseDeleteCommand(taskInfo);
+        }
+
+        case "view": {
+            return parseViewCommand(taskInfo);
         }
 
         case "help": {

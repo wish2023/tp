@@ -1,5 +1,21 @@
 # User Guide
 
+- [Introduction](#introduction)
+- [Quick Start](#quick-start)
+- [Features](#features)
+    - [Viewing Help](#viewing-help-help)
+    - [Adding a task](#adding-a-task-add-or-a)  
+    - [Listing tasks](#listing-tasks-list-or-l)  
+    - [Mark task as done](#mark-task-as-done-done-or-dn)  
+    - [Edit task](#edit-task-edit-or-e)  
+    - [Delete task](#delete-task-delete-or-dl)
+    - [View task](#view-task-view-or-v)
+    - [Delete task](#delete-task-delete-or-dl)
+    - [Exit](#exit-program-exit-or-ex)
+    - [Saving the data](#saving-the-data)
+- [FAQ](#faq)    
+- [Command Summary](#command-summary)  
+
 ## Introduction
 
 ATHENA (Automated Timetable Helper Encourager n' Assistant) is a desktop daily life planner optimized for use via a Command Line Interface (CLI).
@@ -8,6 +24,8 @@ ATHENA (Automated Timetable Helper Encourager n' Assistant) is a desktop daily l
 
 1. Ensure that you have Java 11 or above installed.
 2. Download the latest version of `ATHENA` from [here](https://github.com/AY2021S1-CS2113T-W12-2/tp/releases).
+3. Copy jar file into an empty folder.
+4. Double-click the jar file. Expected: Shows the command line interface with welcome message.
 
 ## Features 
 Notes about the command format:
@@ -20,7 +38,12 @@ e.g. if the command specifies `n/NAME t/TIME`, `t/TIME n/NAME` is also acceptabl
 * For dates, the program follows the DD-MM-YYYY format.
 * For time, the program follows the HHMM format.
 
-### Adding a task: `add`
+### Viewing Help: `help`
+Prints out a message on how to use ATHENA.
+
+Format: `help`
+
+### Adding a task: `add` or `a`
 Adds a task to the planner.
 
 Format: `add n/NAME t/TIME [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
@@ -32,7 +55,7 @@ Parameters:
    Default: 1 hour.
 * `DEADLINE` is the date to do task by (DD-MM-YYYY). For example, 16-09-2020.
    Default: No deadline.
-* `RECURRENCE` is TODAY or a specific date (DD-MM-YYYY).
+* `RECURRENCE` is one of TODAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY or a specific date (DD-MM-YYYY).
    Default: TODAY.
 * `IMPORTANCE` is one of HIGH, MEDIUM, LOW.
    Default: MEDIUM.
@@ -41,24 +64,35 @@ Parameters:
 
 Example of usage: 
 
-`add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`
+* `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`
+* `a n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`
 
-### Listing tasks: `list`
+### Listing tasks: `list` or `l`
 Shows a list of all tasks in the planner. Each task will be printed with a number to be used as an identifier for other commands.
 
 Format: `list [f/FORECAST] [i/IMPORTANCE]`
 
 Parameters:
 * `FORECAST`: TODAY to show the tasks today, WEEK to show the tasks this week, ALL to show all tasks, or choose a specific date. 
-  Default: TODAY.
+  Default: WEEK.
 * `IMPORTANCE`: One of HIGH, MEDIUM, LOW, ALL. 
   Default: ALL.
+
+Shortcut format:
+* `l3` = `list i/HIGH`
+* `l2` = `list i/MEDIUM`
+* `l1` = `list i/LOW`
+* `lw` = `list f/WEEK`
+* `lt` = `list f/TODAY`
+* `lm` = `list f/MONTH`
   
 Example of usage: 
 
-`list f/WEEK i/medium`
+* `list f/WEEK i/medium`
+* `l2 f/WEEK`
+* `lm i/medium`
 
-### Mark task as done: `done`
+### Mark task as done: `done` or `dn`
 Marks the specified task from the planner as done.
 
 Format: `done INDEX`
@@ -67,9 +101,10 @@ Format: `done INDEX`
 
 Example of usage: 
 
-`done 103`
+* `done 103`
+* `dn 103` 
 
-### Edit task: `edit`
+### Edit task: `edit` or `e`
 Allows users to edit the specified task from the planner.
 
 Format: `edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
@@ -80,15 +115,16 @@ Parameters:
 * `TIME` is the time to start doing this task (HHMM). For example, 1100.
 * `DURATION` is the expected time taken to complete task (in hours).
 * `DEADLINE` is the date to do task by (DD-MM-YYYY). For example, 16-09-2020.
-* `RECURRENCE` is one of TODAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+* `RECURRENCE` is one of TODAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY or a specific date (DD-MM-YYYY).
 * `IMPORTANCE` is one of HIGH, MEDIUM, LOW.
 * `ADDITIONAL-NOTES` is the additional notes of the task.
    
 Example of usage: 
 
-`edit 103 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
+* `edit 103 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
+* `e 103 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
 
-### Delete task: `delete`
+### Delete task: `delete` or `dl`
 Deletes the specified task from the planner.
 
 Format: `delete INDEX`
@@ -97,12 +133,25 @@ Format: `delete INDEX`
  
 Example of usage: 
 
-`delete 103`
+* `delete 103`
+* `dl 103`
 
-### Exit program: `exit` 
+### View task: `view` or `v`
+View the specified task details from the planner.
+
+Format: `view INDEX`
+
+* `INDEX` refers to the index number shown in the displayed task list. It must be a positive integer.
+ 
+Example of usage: 
+
+* `view 103`
+* `v 103`
+
+### Exit program: `exit` or `ex`
 Exits the program.
 
-Format: `exit`
+Format: `exit` or `ex`
 
 ### Saving the data
 ATHENA data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.  
@@ -121,4 +170,5 @@ ATHENA data is saved in the hard disk automatically after any command that chang
 * Mark task as done `done INDEX`
 * Edit task `edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
 * Delete task `delete INDEX`
+* View task `view INDEX`
 * Exit program `exit`

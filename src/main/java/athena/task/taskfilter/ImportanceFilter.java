@@ -3,6 +3,7 @@ package athena.task.taskfilter;
 import athena.Importance;
 import athena.task.Task;
 
+
 public class ImportanceFilter extends TaskFilter {
 
     private Importance importance;

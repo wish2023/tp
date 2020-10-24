@@ -2,7 +2,9 @@ package athena;
 
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
+import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.TaskFilter;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -132,8 +134,9 @@ public class TaskList {
      */
     public String getTaskDescription(int taskNumber) throws TaskNotFoundException {
         Task task = getTaskFromNumber(taskNumber);
-        return task.toString();
+        return task.getDetailsAsString();
     }
+
 
     /**
      * Deletes the task at the specified position in the task list.
@@ -211,15 +214,31 @@ public class TaskList {
         ArrayList<Task> filteredTasks = new ArrayList<>();
         for (Task task : tasks) {
             if (taskFilter.isTaskIncluded(task)) {
-                filteredTasks.add(task);
+                if (taskFilter instanceof ForecastFilter) {
+                    assert taskFilter instanceof ForecastFilter;
+                    Task filteredTask = ((ForecastFilter) taskFilter).removeExcludedDates(task);
+                    filteredTasks.add(filteredTask);
+                } else {
+                    filteredTasks.add(task);
+
+                }
             }
         }
-
         return new TaskList(filteredTasks);
+    }
+
+
+    public ArrayList<Task> makeDeepCopyTasks(ArrayList<Task> oldTasks) {
+        ArrayList<Task> tasksCopy = new ArrayList<Task>();
+        for (Task task : oldTasks) {
+            tasksCopy.add(task.getClone());
+        }
+        return tasksCopy;
     }
 
     /**
      * Gets the max index.
+     *
      * @return Max index
      */
     public int getMaxNumber() {
@@ -228,6 +247,7 @@ public class TaskList {
 
     /**
      * Sets the max index.
+     *
      * @param maxIndex Max index
      */
     public void setMaxNumber(int maxIndex) {
@@ -236,6 +256,7 @@ public class TaskList {
 
     /**
      * Determines if two objects have the same attributes.
+     *
      * @param o object
      * @return true if the two objects have the same attributes
      */
