@@ -2,6 +2,7 @@ package athena.logic;
 
 import athena.exceptions.CommandException;
 import athena.exceptions.StorageCorruptedException;
+import athena.exceptions.StorageException;
 import athena.exceptions.StorageLoadFailException;
 
 /**
@@ -14,5 +15,6 @@ public interface Logic {
      * @return true if command is exit, false if not exit.
      * @throws CommandException If an error occurs during command execution.
      */
-    boolean execute(String inputString) throws CommandException, StorageLoadFailException, StorageCorruptedException;
+    boolean execute(String inputString) throws CommandException, StorageLoadFailException, StorageCorruptedException,
+                                                StorageException;
 }

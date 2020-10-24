@@ -5,7 +5,7 @@ import athena.TaskList;
 import athena.Ui;
 import athena.exceptions.CommandException;
 import athena.exceptions.StorageCorruptedException;
-import athena.exceptions.StorageLoadFailException;
+import athena.exceptions.StorageException;
 import athena.logic.commands.Command;
 
 /**
@@ -24,7 +24,7 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public boolean execute(String inputString) throws CommandException, StorageLoadFailException,
+    public boolean execute(String inputString) throws CommandException, StorageException,
             StorageCorruptedException {
         Command userCommand;
 
