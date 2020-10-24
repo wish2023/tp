@@ -42,10 +42,13 @@ The rest of the App consists of these components.
 **API** :
 [`Ui.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Ui.java)
 
-The User Interface (UI) seen by the user consists of two main parts: The `Ui` itself and `ColourManager`. `Ui` handles all of the output that the user sees after launching the application while `ColourManager` applies relevant colours to certain output strings. 
+The User Interface (UI) seen by the user consists of two main parts: `AthenaUi` and `ColorText`. `AthenaUi` implements the interface `Ui`. `AthenaUi` outputs all the output messages that the user sees after launching the application while `ColorText` applies relevant colours to certain output strings.
 
-The `Ui` component
-* Prints out results of the `Command` and `Exceptions` component
+As UI outputs the front end viewed by the user, it also prints out error messages tied to exceptions that get thrown to the main `Athena` class. Additionally, since `LogicManager` executes user commands, it requires `AthenaUi`.
+
+Shown below is the class diagram of the UI component
+
+![UiStructure](https://raw.githubusercontent.com/alstontham/tp/DG-UG/docs/structures/UiStructure.png)
 
 ### Logic component
 
