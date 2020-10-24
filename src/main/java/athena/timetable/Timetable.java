@@ -1,11 +1,15 @@
 package athena.timetable;
 
+import athena.Forecast;
 import athena.TaskList;
+import athena.common.utils.DateUtils;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
@@ -31,8 +35,10 @@ public class Timetable {
     private ArrayList<TimetableDay> timetableDays;
     private TreeMap<LocalDate, TimetableDay> timetableDayMap;
 
-    private int wakeUpHour;
-    private int sleepHour;
+    private Forecast forecast;
+
+    private int wakeUpHour = 8;
+    private int sleepHour = 22;
 
     /**
      * Creates a timetable object from a TaskList object.
@@ -57,6 +63,8 @@ public class Timetable {
 
         this.wakeUpHour = wakeUpHour;
         this.sleepHour = sleepHour;
+
+        this.forecast = Forecast.WEEK;
     }
 
     /**
@@ -69,6 +77,7 @@ public class Timetable {
     public Timetable(TaskList taskList, ImportanceFilter importanceFilter, ForecastFilter forecastFilter) {
         assert taskList != null;
         this.taskList = taskList.getFilteredList(importanceFilter).getFilteredList(forecastFilter);
+        this.forecast = forecastFilter.getForecast();
         populateTimetable();
     }
 
@@ -320,7 +329,7 @@ public class Timetable {
         return datesInWeek;
     }
 
-    private String getTaskListForDates(LocalDate[] dates) {
+    private String getTaskListString(ArrayList<LocalDate> dates) {
         String list = "Your task list: \n";
         for (LocalDate date : dates) {
             if (timetableDayMap.containsKey(date)) {
@@ -333,7 +342,7 @@ public class Timetable {
         return list;
     }
 
-    String drawTimetable(LocalDate[] datesInWeek) {
+    String drawTimetable(ArrayList<LocalDate> datesInWeek) {
         String result = drawTimetableTimeHeader(wakeUpHour, sleepHour);
         for (LocalDate date : datesInWeek) {
             if (timetableDayMap.containsKey(date)) {
@@ -352,11 +361,10 @@ public class Timetable {
      */
     @Override
     public String toString() {
-        // TODO: get dates based on the forecastfilter
-        LocalDate[] dates = getDatesInWeek();
+        ArrayList<LocalDate> dates = DateUtils.getDatesBasedOnForecast(forecast);
         String output = drawTimetable(dates);
         output += "\n";
-        output += getTaskListForDates(dates);
+        output += getTaskListString(dates);
 
         return output.trim();
     }
