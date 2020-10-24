@@ -81,7 +81,7 @@ class StorageTest {
 
     @Test
     void loadTaskListData_scrambledTaskNumbers_correctMaxNumber() {
-        Ui ui = new Ui();
+        AthenaUi ui = new AthenaUi();
         Storage storage = new Storage("src/test/java/athena/StorageMaxNumberTest.csv", ui);
         TaskList taskList;
         taskList = storage.loadTaskListData();
