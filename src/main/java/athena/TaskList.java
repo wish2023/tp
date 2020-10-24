@@ -132,36 +132,36 @@ public class TaskList {
         maxNumber--;
     }
 
-    private void checkClash(Task task) throws ClashInTaskException {
-        LocalTime taskStartTime = task.getTimeInfo().getStartTime();
-        int taskDuration = task.getTimeInfo().getDuration();
-        if (isTimeClash(taskStartTime, taskDuration)) {
-            checkRecurrenceClash(task);
+    private void checkClash(Task taskToCompare) throws ClashInTaskException {
+        for (Task task : tasks) {
+            if (isTimeClash(taskToCompare, task)) {
+                checkRecurrenceClash(taskToCompare, task);
+            }
         }
     }
 
-    private void checkRecurrenceClash(Task taskToCompare) throws ClashInTaskException {
+    private void checkRecurrenceClash(Task taskToCompare, Task task) throws ClashInTaskException {
         LocalDate dateToCompare = taskToCompare.getTimeInfo().getRecurrenceDates().get(0);
-        for (Task task : tasks) {
-            for (LocalDate date : task.getTimeInfo().getRecurrenceDates()) {
-                if (dateToCompare.equals(date) && taskToCompare.getNumber() != task.getNumber()) {
-                    throw new ClashInTaskException();
-                }
+        for (LocalDate date : task.getTimeInfo().getRecurrenceDates()) {
+            if (dateToCompare.equals(date) && taskToCompare.getNumber() != task.getNumber()) {
+                throw new ClashInTaskException();
             }
         }
     }
 
-    private boolean isTimeClash(LocalTime taskStartTime, int taskDuration) {
+    private boolean isTimeClash(Task taskToCompare, Task task) {
+        LocalTime taskStartTime = taskToCompare.getTimeInfo().getStartTime();
+        int taskDuration = taskToCompare.getTimeInfo().getDuration();
         LocalTime taskEndTime = taskStartTime.plusHours(taskDuration);
-        for (Task task : tasks) {
-            LocalTime existingTaskStartTime = task.getTimeInfo().getStartTime();
-            LocalTime existingTaskEndTime = existingTaskStartTime.plusHours(task.getTimeInfo().getDuration());
-            if (isIndividualTimeClash(taskStartTime, taskEndTime, existingTaskStartTime, existingTaskEndTime)) {
-                return true;
-            }
+
+        LocalTime existingTaskStartTime = task.getTimeInfo().getStartTime();
+        LocalTime existingTaskEndTime = existingTaskStartTime.plusHours(task.getTimeInfo().getDuration());
+        if (isIndividualTimeClash(taskStartTime, taskEndTime, existingTaskStartTime, existingTaskEndTime)) {
+            return true;
         }
         return false;
     }
+
 
     private boolean isIndividualTimeClash(LocalTime taskStartTime, LocalTime taskEndTime,
                                           LocalTime existingTaskStartTime, LocalTime existingTaskEndTime) {
