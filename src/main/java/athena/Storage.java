@@ -80,6 +80,7 @@ public class Storage {
         TaskList loadedTaskList = new TaskList();
         if (csvFile.isFile()) {
             String row;
+            String[] data = null;
             BufferedReader csvReader = null;
             try {
                 csvReader = new BufferedReader(new FileReader(filePath));
