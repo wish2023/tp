@@ -5,7 +5,9 @@ import athena.exceptions.ClashInTaskException;
 import athena.exceptions.StorageCorruptedException;
 import athena.exceptions.StorageException;
 import athena.exceptions.StorageLoadFailException;
+import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -55,6 +57,11 @@ public class Storage {
                         + replaceCommas(task.getTimeInfo().getDeadline()) + ","
                         + replaceCommas(task.getTimeInfo().getRecurrence()) + "," + task.getImportance() + ","
                         + replaceCommas(task.getNotes()) + "," + task.getNumber();
+                if (task.isDone()) {
+                    taskString = taskString + "," + "true";
+                } else {
+                    taskString = taskString + "," + "false";
+                }
                 if (task.isFlexible()) {
                     taskString = taskString + "," + "true";
                 } else {
@@ -90,7 +97,10 @@ public class Storage {
                         data[i] = data[i].replaceAll("]c}", ",");
                     }
                     loadedTaskList.addTask(Integer.parseInt(data[7]), data[0], data[1], data[2], data[3], data[4],
-                            Importance.valueOf(data[5].toUpperCase()), data[6], Boolean.parseBoolean(data[8]));
+                            Importance.valueOf(data[5].toUpperCase()), data[6], Boolean.parseBoolean(data[9]));
+                    if (data[8].equals("true")) {
+                        Task currTask = loadedTaskList.markTaskAsDone(Integer.parseInt(data[7]));
+                    }
                 }
                 csvReader.close();
             } catch (IOException e) {
@@ -99,7 +109,8 @@ public class Storage {
                 throw new StorageCorruptedException(data);
             } catch (ClashInTaskException e) {
                 throw new StorageCorruptedException(data);
-                
+            } catch (TaskNotFoundException e) {
+                throw new StorageLoadFailException();
             }
         }
         return loadedTaskList;
