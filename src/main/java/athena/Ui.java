@@ -245,6 +245,13 @@ public class Ui {
     }
 
     /**
+     * Prints a message telling user there's a clash with this task.
+     */
+    public void printClashInTaskException() {
+        System.out.println(colourTextRed("There's a clash in this task, please choose a difference time or date"));
+    }
+
+    /**
      * Prints a message when the user chooses to exit the program.
      */
     public void printExitMessage() {

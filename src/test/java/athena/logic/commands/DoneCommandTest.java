@@ -3,6 +3,7 @@ package athena.logic.commands;
 import athena.Importance;
 import athena.TaskList;
 import athena.Ui;
+import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import org.junit.jupiter.api.Test;
@@ -24,13 +25,13 @@ class DoneCommandTest {
      *
      * @return TaskList for testing.
      */
-    private TaskList getTaskList() {
+    private TaskList getTaskList() throws ClashInTaskException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
         taskList.addTask(1, "Assignment 2", "1600", "2", "6pm", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment", false);
-        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "13-12-2020",
+        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "14-12-2020",
                 Importance.MEDIUM, "Tough assignment", false);
         return taskList;
     }
@@ -40,7 +41,7 @@ class DoneCommandTest {
      *
      * @return TaskList for testing with a done task number 1.
      */
-    private TaskList getTaskListWithDone() {
+    private TaskList getTaskListWithDone() throws ClashInTaskException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
@@ -48,7 +49,7 @@ class DoneCommandTest {
                 "13-12-2020", Importance.MEDIUM, "Tough assignment", 1, false);
         doneTask.setDone();
         taskList.addTask(doneTask);
-        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "13-12-2020",
+        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "14-12-2020",
                 Importance.MEDIUM, "Tough assignment", false);
         return taskList;
     }
@@ -57,7 +58,7 @@ class DoneCommandTest {
      * Creates the components needed for testing.
      */
     @BeforeEach
-    public void setup() {
+    public void setup() throws ClashInTaskException {
         ui = new Ui();
         taskList = getTaskList();
         taskListWithDone = getTaskListWithDone();

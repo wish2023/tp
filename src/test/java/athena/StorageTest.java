@@ -1,5 +1,6 @@
 package athena;
 
+import athena.exceptions.ClashInTaskException;
 import athena.exceptions.StorageCorruptedException;
 import athena.exceptions.StorageException;
 import athena.exceptions.StorageLoadFailException;
@@ -60,7 +61,7 @@ class StorageTest {
      * Checks if the program is able to load a save file correctly.
      */
     @Test
-    void loadTaskListData_saveFileFound_createTaskList() {
+    void loadTaskListData_saveFileFound_createTaskList() throws ClashInTaskException {
         Ui ui = new Ui();
         Storage storage = new Storage("src/test/java/athena/StorageTestAnswer1.csv");
         TaskList taskList = null;
@@ -82,6 +83,7 @@ class StorageTest {
         } catch (StorageException e) {
             assert false;
         }
+
         TaskList tester = TestSetup.getCommaTestTaskList();
         assertTrue(tester.equals(taskList));
 
