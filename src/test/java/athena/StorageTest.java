@@ -23,7 +23,12 @@ class StorageTest {
      */
     @Test
     void saveTaskListData_noPreviousSave_createSaveFile() {
-        TaskList taskList = TestSetup.getTestTaskList();
+        TaskList taskList = null;
+        try {
+            taskList = TestSetup.getTestTaskList();
+        } catch (ClashInTaskException e) {
+            assert false;
+        }
         Storage storage = new Storage("src/test/java/athena/loadTask.csv");
         storage.saveTaskListData(taskList);
         assertTrue(areFilesSame("src/test/java/athena/loadTask.csv", "src/test/java/athena/StorageTestAnswer1.csv"));
@@ -84,7 +89,12 @@ class StorageTest {
             assert false;
         }
 
-        TaskList tester = TestSetup.getCommaTestTaskList();
+        TaskList tester = null;
+        try {
+            tester = TestSetup.getCommaTestTaskList();
+        } catch (ClashInTaskException e) {
+            assert false;
+        }
         assertTrue(tester.equals(taskList));
 
     }
