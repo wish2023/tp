@@ -2,6 +2,7 @@ package athena;
 
 import athena.logic.LogicManager;
 import athena.exceptions.CommandException;
+import athena.exceptions.InternalException;
 
 import java.util.Scanner;
 
@@ -12,6 +13,7 @@ public class Athena {
     private Ui ui;
     private Storage storage;
     private TaskList taskList;
+    private TimeAllocator allocator;
     private LogicManager logicManager;
 
     /**
@@ -43,6 +45,8 @@ public class Athena {
 
         while (!isExit) {
             try {
+                allocator = new TimeAllocator(taskList);
+                allocator.runAllocate();
                 inputString = input.nextLine();
                 isExit = logicManager.execute(inputString);
             } catch (CommandException e) {
