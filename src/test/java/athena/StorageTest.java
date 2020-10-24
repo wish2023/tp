@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -75,5 +76,14 @@ class StorageTest {
         TaskList tester = TestSetup.getCommaTestTaskList();
         assertTrue(tester.equals(taskList));
 
+    }
+
+    @Test
+    void loadTaskListData_scrambledTaskNumbers_correctMaxNumber() {
+        Ui ui = new Ui();
+        Storage storage = new Storage("src/test/java/athena/StorageMaxNumberTest.csv", ui);
+        TaskList taskList;
+        taskList = storage.loadTaskListData();
+        assertEquals(taskList.getMaxNumber(), 61);
     }
 }

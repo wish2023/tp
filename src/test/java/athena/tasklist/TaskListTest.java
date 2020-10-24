@@ -30,6 +30,44 @@ class TaskListTest {
     }
 
     /**
+     * Tests that the max number is updated when adding a task with a larger task number through a Task object.
+     */
+    @Test
+    void addTask_givenTaskWithLargerTaskNumber_correctMaxNumber() {
+        int testMaxNumber = 5;
+        testTaskList.addTask(new Task("tres", "1100",
+                "2", "16-09-2020", "13-11-2020", Importance.LOW,
+                "Refer to slides", testMaxNumber, false));
+        assertEquals(testTaskList.getMaxNumber(), testMaxNumber);
+    }
+
+    /**
+     * Tests that the max number is updated when adding a task with a larger task number through providing the
+     * parameters.
+     */
+    @Test
+    void addTask_givenLargerTaskNumber_correctMaxNumber() {
+        String todayDateString = LocalDate.now().toString();
+        int testMaxNumber = 100;
+        testTaskList.addTask(testMaxNumber, "big number", "1100",
+                "2", "16-09-2020", "13-11-2020", Importance.HIGH,
+                "Refer to slides", false);
+        assertEquals(testTaskList.getMaxNumber(), testMaxNumber);
+    }
+
+    /**
+     * Tests that the max number is incremented when adding a task without providing a task number.
+     */
+    @Test
+    void addTask_noGivenTaskNumber_maxNumberIncremented() {
+        String todayDateString = LocalDate.now().toString();
+        testTaskList.addTask("big number", "1100",
+                "2", todayDateString, todayDateString, Importance.HIGH,
+                "Refer to slides", false);
+        assertEquals(testTaskList.getMaxNumber(), 3);
+    }
+
+    /**
      * Asserts if the deleted task at a certain index is the same task that is added to the task list.
      *
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
@@ -110,6 +148,8 @@ class TaskListTest {
     void getFilteredList_todayForecast_returnTasksForToday() {
         TaskList expectedTaskList = getForecastTestExpectedTasks(Forecast.TODAY);
         ForecastFilter todayFilter = new ForecastFilter(Forecast.TODAY);
+        System.out.println(expectedTaskList.getTasks());
+        System.out.println(testTaskList.getFilteredList(todayFilter).getTasks());
         assertEquals(testTaskList.getFilteredList(todayFilter), expectedTaskList);
     }
 

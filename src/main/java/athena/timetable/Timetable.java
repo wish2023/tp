@@ -308,7 +308,28 @@ public class Timetable {
         return row;
     }
 
-    private String getTaskListForDates(ArrayList<LocalDate> dates) {
+    /**
+     * Utility method to get the first day of this week.
+     *
+     * @return The first day of this week.
+     */
+    private LocalDate getFirstDayOfWeek() {
+        LocalDate now = LocalDate.now();
+        TemporalField field = WeekFields.of(Locale.getDefault()).dayOfWeek();
+        return now.with(field, 1);
+    }
+
+    private LocalDate[] getDatesInWeek() {
+        LocalDate[] datesInWeek = new LocalDate[7];
+        LocalDate date = getFirstDayOfWeek();
+        for (int i = 0; i < 7; i++) {
+            datesInWeek[i] = date;
+            date = date.plusDays(1);
+        }
+        return datesInWeek;
+    }
+
+    private String getTaskListForDates(LocalDate[] dates) {
         String list = "Your task list: \n";
         for (LocalDate date : dates) {
             if (timetableDayMap.containsKey(date)) {
