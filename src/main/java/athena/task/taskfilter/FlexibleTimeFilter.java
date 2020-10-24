@@ -20,7 +20,7 @@ public class FlexibleTimeFilter extends TaskFilter {
      */
     @Override
     public boolean isTaskIncluded(Task task) {
-        return task.isFlexible() ^ doesIncludeFlexibleTask;
+        return task.isFlexible() == doesIncludeFlexibleTask;
     }
 
 }

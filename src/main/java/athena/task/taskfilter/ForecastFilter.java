@@ -2,16 +2,18 @@ package athena.task.taskfilter;
 
 import athena.task.Task;
 import athena.Forecast;
+
 import java.time.LocalDate;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class ForecastFilter extends TaskFilter {
 
     private Forecast forecast;
-    private LocalDate todayDate = LocalDate.now();
+    private LocalDate filterDate = LocalDate.now();
 
     public ForecastFilter(Forecast forecast) {
         this.forecast = forecast;
@@ -21,6 +23,14 @@ public class ForecastFilter extends TaskFilter {
         return forecast;
     }
 
+    public ForecastFilter(LocalDate date) {
+        this.forecast = Forecast.DAY;
+        this.filterDate = date;
+    }
+
+    public void setDate(LocalDate filterDate) {
+        this.filterDate = filterDate;
+    }
 
     /**
      * Checks whether to include a task based on its date.
@@ -48,11 +58,11 @@ public class ForecastFilter extends TaskFilter {
         if (forecast == Forecast.ALL) {
             isDateIncluded = true;
         } else if (forecast == Forecast.WEEK) {
-            int currentWeekNumber = getWeekNumber(todayDate);
+            int currentWeekNumber = getWeekNumber(filterDate);
             int taskWeekNumber = getWeekNumber(taskDate);
             isDateIncluded = (currentWeekNumber == taskWeekNumber);
         } else {
-            isDateIncluded = taskDate.equals(todayDate);
+            isDateIncluded = taskDate.equals(filterDate);
         }
         return isDateIncluded;
     }
