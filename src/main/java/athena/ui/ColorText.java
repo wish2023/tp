@@ -1,9 +1,9 @@
 package athena.ui;
 
-public class Color {
+public class ColorText {
     private static final String ANSI_RESET = "\u001B[0m";
 
-    public Color() {
+    public ColorText() {
 
     }
 
