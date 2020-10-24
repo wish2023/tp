@@ -120,10 +120,10 @@ class TaskListTest {
                 "2", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", 0, false);
         Task task2 = new Task("dos", "1100",
-                "2", "16-09-2020", "23-10-2020", Importance.MEDIUM,
+                "2", "16-09-2020", "23-10-2019", Importance.MEDIUM,
                 "Refer to slides", 1, false);
         Task task3 = new Task("tres", "1100",
-                "2", "16-09-2020", "13-11-2020", Importance.LOW,
+                "2", "16-09-2020", "13-11-2019", Importance.LOW,
                 "Refer to slides", 2, false);
 
         if (importance == Importance.HIGH) {
@@ -143,10 +143,10 @@ class TaskListTest {
                 "2", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", 0, false);
         Task task2 = new Task("dos", "1100",
-                "2", "16-09-2020", "23-10-2020", Importance.MEDIUM,
+                "2", "16-09-2020", "23-10-2019", Importance.MEDIUM,
                 "Refer to slides", 1, false);
         Task task3 = new Task("tres", "1100",
-                "2", "16-09-2020", "13-11-2020", Importance.LOW,
+                "2", "16-09-2020", "13-11-2019", Importance.LOW,
                 "Refer to slides", 2, false);
 
         if (forecast == Forecast.ALL) {
@@ -171,10 +171,10 @@ class TaskListTest {
                 "2", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", index++, false));
         testTaskList.addTask(new Task("dos", "1100",
-                "2", "16-09-2020", "23-10-2020", Importance.MEDIUM,
+                "2", "16-09-2020", "23-10-2019", Importance.MEDIUM,
                 "Refer to slides", index++, false));
         testTaskList.addTask(new Task("tres", "1100",
-                "2", "16-09-2020", "13-11-2020", Importance.LOW,
+                "2", "16-09-2020", "13-11-2019", Importance.LOW,
                 "Refer to slides", index++, false));
     }
 }
