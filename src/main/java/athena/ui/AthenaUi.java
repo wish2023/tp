@@ -53,8 +53,8 @@ public class AthenaUi implements Ui {
         System.out.println("You've successfully added " + colorText.toBlue(taskName) + " to your list!\n"
                 + "It will start at " + colorText.toBlue(taskStartTime) + " and finish on "
                 + colorText.toBlue(taskDeadline) + ".\n"
-                + "You should spend a total of " + colorText.toBlue(taskDuration) + " on it.\n"
-                + "It is set to happen " + colorText.toBlue(taskRecurrence) + " and has an importance of "
+                + "You should spend a total of " + colorText.toBlue(taskDuration) + " hour(s) on it.\n"
+                + "It is set to happen every" + colorText.toBlue(taskRecurrence) + " and has an importance of "
                 + colorText.toBlue(taskImportance) + ".\n"
                 + "Additionally, you've also added these notes!\n" + colorText.toBlue(taskNotes) + ".\n"
                 + "Looks like another mission to complete! Let's do it!\n");
@@ -126,7 +126,7 @@ public class AthenaUi implements Ui {
         System.out.println(colorText.toYellow("Not sure of what I'm capable of doing? "
                 + "Well here's a list just for you!\n\n"
                 + "To add a task (parameters in square brackets are optional fields):\n"
-                + "add n/NAME t/TIME [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]\n"
+                + "add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]\n"
                 + "e.g. add n/Assignment1 t/1100 d/16/09 D/2 r/Monday i/high a/Refer to lecture notes\n\n"
                 + "To list your current tasks:\n"
                 + "list f/FORECAST i/IMPORTANCE\n"
@@ -141,6 +141,9 @@ public class AthenaUi implements Ui {
                 + "To delete a task:\n"
                 + "delete INDEX\n"
                 + "e.g. delete 2\n\n"
+                + "To view a task:\n"
+                + "view INDEX\n"
+                + "e.g. view 2\n\n"
                 + "To say farewell to me, ATHENA:\n"
                 + "bye\n"
                 + "But why would you want to leave me anyways? Hmph.\n"));
@@ -252,7 +255,7 @@ public class AthenaUi implements Ui {
      * Prints a message telling user there's a clash with this task.
      */
     public void printClashInTaskException() {
-        System.out.println(colourTextRed("There's a clash in this task, please choose a difference time or date"));
+        System.out.println(colorText.toRed("There's a clash in this task, please choose a difference time or date"));
     }
 
     /**
@@ -278,30 +281,6 @@ public class AthenaUi implements Ui {
 
     public void printCorruptedLine(String corruptedLine) {
         System.out.println("This task is invalid: " + corruptedLine + "\nPlease remove externally to continue\n");
-    }
-
-    private String colourTextBlue(String inputString) {
-        String ansiBlue = "\u001B[34m";
-
-        return ansiBlue + inputString + ANSI_RESET;
-    }
-
-    private String colourTextRed(String inputString) {
-        String ansiRed = "\u001B[31m";
-
-        return ansiRed + inputString + ANSI_RESET;
-    }
-
-    private String colourTextPurple(String inputString) {
-        String ansiGreen = "\u001b[35m";
-
-        return ansiGreen + inputString + ANSI_RESET;
-    }
-
-    private String colourTextYellow(String inputString) {
-        String ansiYellow = "\u001b[33m";
-
-        return ansiYellow + inputString + ANSI_RESET;
     }
 
     public void printAllocationFailed() {
