@@ -57,6 +57,8 @@ software testers of ATHENA.
 
 ### Architecture
 
+![Architecture Diagram](structures/ArchitectureDiagram.png)
+
 The ***Architecture Diagram*** given above explains the high-level design of the ATHENA. Given below is a quick overview of each component.
 
 **`Main`** has one class called [`Athena`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Athena.java). It is responsible for,
@@ -70,7 +72,17 @@ The rest of the App consists of these components.
 * [**`TaskList`**](#tasklist-component): The list that stores the user's tasks.
 * [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
 
+**How the architecture components interact with each other**
+
+The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+
+*work in progress*
+
+The sections below give more details of each component.
+
 ### UI component
+
+![UiStructure](https://raw.githubusercontent.com/alstontham/tp/DG-UG/docs/structures/UiStructure.png)
 
 **API** :
 [`Ui.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Ui.java)
@@ -79,13 +91,9 @@ The User Interface (UI) seen by the user consists of two main parts: `AthenaUi` 
 
 As UI outputs the front end viewed by the user, it also prints out error messages tied to exceptions that get thrown to the main `Athena` class. Additionally, since `LogicManager` executes user commands, it requires `AthenaUi`.
 
-Shown below is the class diagram of the UI component
-
-![UiStructure](https://raw.githubusercontent.com/alstontham/tp/DG-UG/docs/structures/UiStructure.png)
-
 ### Logic component
 
-![Structure of the Logic Component](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/docs/structures/LogicStructure.png)
+![Structure of the Logic Component](structures/LogicStructure.png)
 
 **API** :
 [`Logic.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/logic/Logic.java)
