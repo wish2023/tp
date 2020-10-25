@@ -1,0 +1,27 @@
+title List
+
+ListCommand->*+Timetable: <<create>>
+Timetable-->ListCommand:
+ListCommand->*+ForecastFilter: <<create>>
+ForecastFilter-->-ListCommand:
+ListCommand->*+TaskFilter: <<create>>
+TaskFilter-->-ListCommand:
+
+
+Timetable->+TaskList: getFilteredList()
+TaskList->+TaskFilter: isTaskIncluded()
+TaskFilter-->-TaskList:
+TaskList->+ForecastFilter: removeExcludedDates()
+ForecastFilter-->-TaskList:
+
+TaskList->TaskList: <<create>>
+activate TaskList
+deactivate TaskList
+
+TaskList-->-Timetable:
+
+Timetable->Timetable: populateTimetable()
+activate Timetable
+deactivate Timetable
+
+Timetable-->-ListCommand:
