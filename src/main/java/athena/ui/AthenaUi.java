@@ -49,10 +49,17 @@ public class AthenaUi implements Ui {
      */
     public void printTaskAdded(String taskName, String taskStartTime, String taskDuration, String taskDeadline,
                                String taskRecurrence, String taskImportance, String taskNotes) {
-        System.out.println("\nYou've successfully added " + colorText.toBlue(taskName) + " to your list!\n"
-                + "It will start at " + colorText.toBlue(taskStartTime) + " and finish on "
-                + colorText.toBlue(taskDeadline) + ".\n"
-                + "You should spend a total of " + colorText.toBlue(taskDuration) + " hour(s) on it.");
+        System.out.print("\nYou've successfully added " + colorText.toBlue(taskName) + " to your list!\n"
+                + "It will start at " + colorText.toBlue(taskStartTime));
+
+        if (taskDeadline.toLowerCase().equals("no deadline")) {
+            System.out.println(" and has no deadline.\n");
+        } else {
+            System.out.println(" and finish on " + colorText.toBlue(taskDeadline) + ".\n");
+        }
+
+        System.out.println("You should spend a total of " + colorText.toBlue(taskDuration) + " hour(s) on it.");
+
         if (taskRecurrence.toLowerCase().equals("today")) {
             System.out.print("It is set to happen " + colorText.toBlue(taskRecurrence));
         } else if (taskRecurrence.contains("-")) {
@@ -60,6 +67,7 @@ public class AthenaUi implements Ui {
         } else {
             System.out.print("It is set to happen every " + colorText.toBlue(taskRecurrence));
         }
+
         System.out.println(" and has an importance of " + colorText.toBlue(taskImportance) + ".\n"
                 + "Additionally, you've also added these notes!\n" + colorText.toBlue(taskNotes) + ".\n"
                 + "Looks like another mission to complete! Let's do it!\n");
@@ -172,7 +180,7 @@ public class AthenaUi implements Ui {
      */
     public void printTaskNotFound(int taskNumber) {
         System.out.println(colorText.toRed("\nThe task with the label ")
-                + colorText.toRed(Integer.toString(taskNumber)) + colorText.toRed(" cannot be found\n"));
+                + colorText.toRed(Integer.toString(taskNumber)) + colorText.toRed(" cannot be found.\n"));
     }
 
     /**
@@ -263,7 +271,7 @@ public class AthenaUi implements Ui {
      * Prints a message telling user there's a clash with this task.
      */
     public void printClashInTaskException() {
-        System.out.println(colorText.toRed("\nThere's a clash in this task, please choose a difference time or date"));
+        System.out.println(colorText.toRed("\nThere's a clash in this task, please choose a difference time or date."));
     }
 
     /**
@@ -284,15 +292,15 @@ public class AthenaUi implements Ui {
     }
 
     public void printStorageLoadFail() {
-        System.out.println(colorText.toRed("\nStorage loading has failed\n"));
+        System.out.println(colorText.toRed("\nStorage loading has failed.\n"));
     }
 
     public void printCorruptedLine(String corruptedLine) {
-        System.out.println(colorText.toRed("\nThis task is invalid: " + corruptedLine
-                + "\nPlease remove externally to continue\n"));
+        System.out.println(colorText.toRed("\nThis task is invalid: " + corruptedLine + ".\n"
+                + "\nPlease remove externally to continue.\n"));
     }
 
     public void printAllocationFailed() {
-        System.out.println(colorText.toRed("\nAllocation Failed \n"));
+        System.out.println(colorText.toRed("\nAllocation Failed.\n"));
     }
 }
