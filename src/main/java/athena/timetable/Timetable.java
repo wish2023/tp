@@ -3,6 +3,7 @@ package athena.timetable;
 import athena.Forecast;
 import athena.TaskList;
 import athena.common.utils.DateUtils;
+import athena.exceptions.TaskDuringSleepTimeException;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
@@ -74,7 +75,8 @@ public class Timetable {
      * @param importanceFilter Filters tasks of a certain importance
      * @param forecastFilter   Filters tasks based on forecast
      */
-    public Timetable(TaskList taskList, ImportanceFilter importanceFilter, ForecastFilter forecastFilter) {
+    public Timetable(TaskList taskList, ImportanceFilter importanceFilter, ForecastFilter forecastFilter)
+            throws TaskDuringSleepTimeException {
         assert taskList != null;
         this.taskList = taskList.getFilteredList(importanceFilter).getFilteredList(forecastFilter);
         this.forecast = forecastFilter.getForecast();

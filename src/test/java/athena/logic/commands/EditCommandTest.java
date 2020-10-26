@@ -2,6 +2,7 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
+import athena.exceptions.CommandException;
 import athena.ui.AthenaUi;
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
@@ -24,7 +25,7 @@ class EditCommandTest {
      *
      * @return TaskList for testing.
      */
-    public static TaskList getTaskList() throws ClashInTaskException {
+    public static TaskList getTaskList() throws CommandException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
@@ -40,7 +41,7 @@ class EditCommandTest {
      *
      * @return TaskList for testing with an edited task number 2.
      */
-    public static TaskList getEditedTaskList() throws ClashInTaskException {
+    public static TaskList getEditedTaskList() throws CommandException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
@@ -55,7 +56,7 @@ class EditCommandTest {
      * Creates the components needed for testing.
      */
     @BeforeEach
-    public void setup() throws ClashInTaskException {
+    public void setup() throws CommandException {
         athenaUi = new AthenaUi();
         taskList = getTaskList();
         editedTaskList = getEditedTaskList();
@@ -67,7 +68,7 @@ class EditCommandTest {
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     @Test
-    public void execute_validNumber_taskIsEdited() throws TaskNotFoundException, ClashInTaskException {
+    public void execute_validNumber_taskIsEdited() throws CommandException {
         assertEditingSuccessful(1, taskList, editedTaskList);
     }
 
@@ -96,7 +97,7 @@ class EditCommandTest {
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     private void assertCommandBehaviour(EditCommand editCommand, TaskList expectedTaskList,
-                                        TaskList actualTaskList) throws TaskNotFoundException, ClashInTaskException {
+                                        TaskList actualTaskList) throws CommandException {
         AthenaUi athenaUi = new AthenaUi();
         editCommand.execute(taskList, athenaUi);
         assertEquals(expectedTaskList, actualTaskList);
@@ -124,7 +125,7 @@ class EditCommandTest {
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     private void assertEditingSuccessful(int taskNumber, TaskList taskList, TaskList editedTaskList)
-            throws TaskNotFoundException, ClashInTaskException {
+            throws CommandException {
         TaskList expectedTaskList = editedTaskList;
         TaskList actualTaskList = taskList;
 

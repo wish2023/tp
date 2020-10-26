@@ -2,6 +2,8 @@ package athena.task.taskfilter;
 
 import athena.Forecast;
 import athena.Importance;
+import athena.exceptions.CommandException;
+import athena.exceptions.TaskDuringSleepTimeException;
 import athena.task.Task;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +28,7 @@ class ForecastFilterTest {
      * Checks if task is included after applying the all forecast filter.
      */
     @Test
-    void testIsTaskIncluded_filterAll_returnsTrue() {
+    void testIsTaskIncluded_filterAll_returnsTrue() throws CommandException {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.ALL);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 "20-12-2020", Importance.MEDIUM, "testNotes", 0, false);
@@ -38,7 +40,7 @@ class ForecastFilterTest {
      * Checks if task in this week is included after applying the week forecast filter.
      */
     @Test
-    void testIsTaskIncluded_filterByWeek_returnsTrue() {
+    void testIsTaskIncluded_filterByWeek_returnsTrue() throws CommandException {
         LocalDate testDate = getFirstDayOfWeek();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -57,7 +59,7 @@ class ForecastFilterTest {
      * Checks if a task not in this week is excluded from the week forecast filter.
      */
     @Test
-    void testIsTaskIncluded_filterByWeek_returnsFalse() {
+    void testIsTaskIncluded_filterByWeek_returnsFalse() throws CommandException {
         LocalDate nextWeekDate = LocalDate.now().plusWeeks(1);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String testDateString = nextWeekDate.format(formatter);
@@ -73,7 +75,7 @@ class ForecastFilterTest {
      * Checks if task for today is included after applying the today forecast filter.
      */
     @Test
-    void testIsTaskIncluded_filterByToday_returnsTrue() {
+    void testIsTaskIncluded_filterByToday_returnsTrue() throws CommandException {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.DAY);
         String todayDateString = LocalDate.now().toString();
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
@@ -86,7 +88,7 @@ class ForecastFilterTest {
      * Checks if task is not included after applying the today forecast filter.
      */
     @Test
-    void testIsTaskIncluded_day_returnsFalse() {
+    void testIsTaskIncluded_day_returnsFalse() throws CommandException {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.DAY);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 "14-10-2020", Importance.LOW, "testNotes", 0, false); // Tested on 13-10-2020
@@ -98,7 +100,7 @@ class ForecastFilterTest {
      * Check if relevant dates have been removed from task after filtering for a day.
      */
     @Test
-    void testRemoveExcludedDates_filterToday_returnsOnlyTodayDate() {
+    void testRemoveExcludedDates_filterToday_returnsOnlyTodayDate() throws CommandException {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.DAY);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 todayDate.getDayOfWeek().toString(), Importance.LOW, "testNotes", 0, false);
@@ -114,7 +116,7 @@ class ForecastFilterTest {
      * Check if relevant dates have been removed from task after filtering for a week.
      */
     @Test
-    void testRemoveExcludedDates_filterWeek_returnsOnlyTodayDate() {
+    void testRemoveExcludedDates_filterWeek_returnsOnlyTodayDate() throws CommandException {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.WEEK);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 todayDate.getDayOfWeek().toString(), Importance.LOW, "testNotes", 0, false);
@@ -130,7 +132,7 @@ class ForecastFilterTest {
      * Ensure tasks are not filtered incorrectly for day filter.
      */
     @Test
-    void testRemoveExcludedDates_filterDay_returnsFalse() {
+    void testRemoveExcludedDates_filterDay_returnsFalse() throws CommandException {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.DAY);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 todayDate.getDayOfWeek().toString(), Importance.LOW, "testNotes", 0, false);
@@ -146,7 +148,7 @@ class ForecastFilterTest {
      * Ensure tasks are not filtered incorrectly for week filter.
      */
     @Test
-    void testRemoveExcludedDates_filterWeek_returnsFalse() {
+    void testRemoveExcludedDates_filterWeek_returnsFalse() throws CommandException {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.WEEK);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 todayDate.getDayOfWeek().toString(), Importance.LOW, "testNotes", 0, false);

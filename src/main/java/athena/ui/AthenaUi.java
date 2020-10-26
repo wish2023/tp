@@ -292,4 +292,9 @@ public class AthenaUi implements Ui {
     public void printAllocationFailed() {
         System.out.println("Allocation Failed \n");
     }
+
+    public void printSleepTimeNotAllowed() {
+        System.out.println(colorText.toRed(
+                "You are not allowed to add a task from 12am to 8am. It is time to sleep! \n"));
+    }
 }

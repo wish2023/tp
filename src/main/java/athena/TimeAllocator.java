@@ -1,5 +1,6 @@
 package athena;
 
+import athena.exceptions.TaskDuringSleepTimeException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.Time;
@@ -24,7 +25,7 @@ public class TimeAllocator {
      *
      * @param tasks tasks in the current TaskList
      */
-    public TimeAllocator(TaskList tasks) {
+    public TimeAllocator(TaskList tasks) throws TaskDuringSleepTimeException {
         this.flexibleTaskList = tasks.getFilteredList(new FlexibleTimeFilter(true));
         this.fixedTaskList = tasks.getFilteredList(new FlexibleTimeFilter(false));
         this.taskList = tasks;

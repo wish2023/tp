@@ -1,5 +1,7 @@
 package athena.task;
 
+import athena.exceptions.TaskDuringSleepTimeException;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -26,7 +28,11 @@ public class Time implements Comparable<Time> {
     private String recurrence;
     private ArrayList<LocalDate> recurrenceDates = new ArrayList<>();
 
-    public Time(boolean isFlexible, LocalTime startTime, int duration, String deadline, String recurrence) {
+    public Time(boolean isFlexible, LocalTime startTime, int duration, String deadline, String recurrence)
+            throws TaskDuringSleepTimeException {
+        if (startTime.getHour() < 8) {
+            throw new TaskDuringSleepTimeException();
+        }
         this.isFlexible = isFlexible;
         this.startTime = startTime;
         this.duration = duration;
@@ -35,17 +41,21 @@ public class Time implements Comparable<Time> {
         setRecurrence(recurrence);
     }
 
-    public Time(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence) {
+    public Time(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence)
+            throws TaskDuringSleepTimeException {
         this.isFlexible = isFlexible;
         assert !startTime.equals("");
         this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
+        if (this.startTime.getHour() < 8) {
+            throw new TaskDuringSleepTimeException();
+        }
         this.duration = Integer.parseInt(duration);
         this.deadline = deadline;
         this.recurrence = recurrence;
         setRecurrence(recurrence);
     }
 
-    public Time getClone() {
+    public Time getClone() throws TaskDuringSleepTimeException {
         return new Time(isFlexible, startTime, duration, deadline, recurrence);
     }
 

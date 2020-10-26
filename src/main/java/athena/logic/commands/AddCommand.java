@@ -2,6 +2,7 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
+import athena.exceptions.TaskDuringSleepTimeException;
 import athena.ui.AthenaUi;
 import athena.exceptions.AddMissingRequiredParametersException;
 import athena.exceptions.ClashInTaskException;
@@ -58,7 +59,7 @@ public class AddCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, AthenaUi athenaUi)
-            throws AddMissingRequiredParametersException, ClashInTaskException {
+            throws AddMissingRequiredParametersException, ClashInTaskException, TaskDuringSleepTimeException {
         if (taskName.equals("") || taskStartTime.equals("")) {
             throw new AddMissingRequiredParametersException();
         }
