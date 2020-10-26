@@ -24,7 +24,8 @@ Task-->-ForecastFilter:
 ForecastFilter->Task:getDates()
 activate Task
 Task-->-ForecastFilter:
-ForecastFilter->ForecastFilter: isDateIncluded()
+ForecastFilter->-ForecastFilter: isDateIncluded()
+activate ForecastFilter
 ForecastFilter->Task:removeDate()
 activate Task
 Task-->-ForecastFilter:
