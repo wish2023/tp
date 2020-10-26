@@ -1,20 +1,46 @@
 # User Guide
 
-- [Introduction](#introduction)
-- [Quick Start](#quick-start)
-- [Features](#features)
-    - [View Help](#view-help-help)
-    - [Add a task](#add-a-task-add-or-a)  
-    - [List tasks](#list-tasks-list-or-l)  
-    - [Mark task as done](#mark-task-as-done-done-or-dn)  
-    - [Edit task](#edit-task-edit-or-e)  
-    - [Delete task](#delete-task-delete-or-dl)
-    - [View task](#view-task-view-or-v)
-    - [Delete task](#delete-task-delete-or-dl)
-    - [Exit](#exit-program-exit-or-ex)
+- [User Guide](#user-guide)
+  - [Introduction](#introduction)
+  - [Quick Start](#quick-start)
+  - [Features](#features)
+    - [Viewing Help: `help`](#viewing-help-help)
+      - [Format: `help`](#format-help)
+      - [Expected output](#expected-output)
+    - [Adding a task: `add` or `a`](#adding-a-task-add-or-a)
+      - [Format](#format)
+      - [Parameters](#parameters)
+      - [Example usage](#example-usage)
+      - [Expected output](#expected-output-1)
+    - [Listing tasks: `list` or `l`](#listing-tasks-list-or-l)
+      - [Format](#format-1)
+      - [Parameters](#parameters-1)
+      - [Shortcut format](#shortcut-format)
+      - [Example usage](#example-usage-1)
+      - [Expected output](#expected-output-2)
+    - [Mark task as done: `done` or `dn`](#mark-task-as-done-done-or-dn)
+      - [Format](#format-2)
+      - [Example usage](#example-usage-2)
+      - [Expected output](#expected-output-3)
+    - [Edit task: `edit` or `e`](#edit-task-edit-or-e)
+      - [Format](#format-3)
+      - [Parameters](#parameters-2)
+      - [Example usage](#example-usage-3)
+      - [Expected output](#expected-output-4)
+    - [Delete task: `delete` or `dl`](#delete-task-delete-or-dl)
+      - [Format: `delete INDEX`](#format-delete-index)
+      - [Example usage](#example-usage-4)
+      - [Expected output](#expected-output-5)
+    - [View task: `view` or `v`](#view-task-view-or-v)
+      - [Format](#format-4)
+      - [Example of usage](#example-of-usage)
+      - [Expected output](#expected-output-6)
+    - [Exit program: `exit` or `ex`](#exit-program-exit-or-ex)
+      - [Format: `exit` or `ex`](#format-exit-or-ex)
+      - [Expected output:](#expected-output-7)
     - [Saving the data](#saving-the-data)
-- [FAQ](#faq)    
-- [Command Summary](#command-summary)  
+  - [FAQ](#faq)
+  - [Command Summary](#command-summary)
 
 ## Introduction
 
@@ -36,7 +62,7 @@ We hope you enjoy using ATHENA and start being more productive today!
 6. A welcome message as seen below will be shown:
 
 
-![welcome screenshot](screenshots/athena%20welcome.jpg)
+![welcome screenshot](https://i.imgur.com/fHHBNPO.jpg)
  
 
 ## Features 
@@ -50,17 +76,17 @@ e.g. if the command specifies `n/NAME t/TIME`, `t/TIME n/NAME` is also acceptabl
 * For dates, the program follows the **DD-MM-YYYY** format.
 * For time, the program follows the **HHMM** format.
 
-### View Help: `help`
+### Viewing Help: `help`
 Prints out a message on how to use ATHENA.
 
 #### Format: `help`
 
 #### Expected output
 
-![help command screenshot](screenshots/athena%20help.jpg)
+![help command screenshot](https://i.imgur.com/iCoqAlc.jpg)
 
 
-### Add a task: `add` or `a`
+### Adding a task: `add` or `a`
 Adds a task to the planner.
 
 #### Format
@@ -97,10 +123,10 @@ Adds a task to the planner.
 
 #### Expected output 
 
-![add command screenshot](screenshots/athena%20add.jpg)
+![add command screenshot](https://i.imgur.com/ZAS0qup.jpg)
 
 
-### List tasks: `list` or `l`
+### Listing tasks: `list` or `l`
 Shows your tasks organized in a timetable. Each task will be printed with a number to be used as an identifier for other commands (e.g. `edit`, `done`, `delete`).
 
 #### Format
@@ -134,11 +160,11 @@ Shows your tasks organized in a timetable. Each task will be printed with a numb
 
 When you input `l`:
 
-![l command screenshot](screenshots/athena%20l.jpg)
+![l command screenshot](https://i.imgur.com/QXYQYeY.jpg)
 
 When you input `ld`:
 
-![ld command screenshot](screenshots/athena%20ld.jpg)
+![ld command screenshot](https://i.imgur.com/csGF90q.jpg)
 
 
 ### Mark task as done: `done` or `dn`
@@ -156,7 +182,7 @@ Mark the specified task from the planner as done.
 
 #### Expected output
 
-![done command screenshot](screenshots/athena%20done.jpg)
+![done command screenshot](https://i.imgur.com/GZcX1Ez.jpg)
 
 
 ### Edit task: `edit` or `e`
@@ -183,7 +209,7 @@ Edits the specified task from the planner.
 
 #### Expected output
 
-![edit command screenshot](screenshots/athena%20edit.jpg)
+![edit command screenshot](https://i.imgur.com/1TDTW7E.jpg)
 
 
 ### Delete task: `delete` or `dl`
@@ -200,7 +226,7 @@ Deletes the specified task from the planner.
 
 #### Expected output
 
-![delete command screenshot](screenshots/athena%20delete.jpg)
+![delete command screenshot](https://i.imgur.com/Knn9lzJ.jpg)
 
 
 ### View task: `view` or `v`
@@ -218,7 +244,7 @@ Views the specified task details from the planner.
 
 #### Expected output
 
-![view command screenshot](screenshots/athena%20view.jpg)
+![view command screenshot](https://i.imgur.com/MbHhJrW.jpg)
 
 
 ### Exit program: `exit` or `ex`
@@ -228,7 +254,7 @@ Exits the program.
 
 #### Expected output:
 
-![exit command screenshot](screenshots/athena%20exit.jpg)
+![exit command screenshot](https://i.imgur.com/bHzPHND.jpg)
 
 
 ### Saving the data
