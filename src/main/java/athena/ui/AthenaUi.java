@@ -265,12 +265,27 @@ public class AthenaUi implements Ui {
     }
 
     /**
+     * Prints a message telling user they've entered an invalid importance.
+     */
+    public void printInvalidImportanceException() {
+        System.out.println(colorText.toRed("You have entered an invalid importance. Please choose from high, medium, or low"));
+    }
+
+    /**
+     * Prints a message telling user they've entered an invalid forecast.
+     */
+    public void printInvalidForecastException() {
+        System.out.println(colorText.toRed("You have entered an invalid forecast. Please choose from day, week, or all"));
+    }
+
+    /**
      * Prints a message when the user chooses to exit the program.
      */
     public void printExitMessage() {
         System.out.println(colorText.toPurple("Going so soon? Well I'll be here the next time you need me. "
                 + "Farewell!\n"));
     }
+
 
     /**
      * Prints the timetable.
@@ -292,4 +307,6 @@ public class AthenaUi implements Ui {
     public void printAllocationFailed() {
         System.out.println("Allocation Failed \n");
     }
+
+
 }
