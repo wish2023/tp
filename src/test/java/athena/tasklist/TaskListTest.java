@@ -143,8 +143,6 @@ class TaskListTest {
     void getFilteredList_weekForecast_returnTasksForWeek() {
         TaskList expectedTaskList = getForecastTestExpectedTasks(Forecast.WEEK);
         ForecastFilter weekFilter = new ForecastFilter(Forecast.WEEK);
-        System.out.println(expectedTaskList.getTasks());
-        System.out.println(testTaskList.getFilteredList(weekFilter).getTasks());
         assertEquals(testTaskList.getFilteredList(weekFilter), expectedTaskList);
     }
 
