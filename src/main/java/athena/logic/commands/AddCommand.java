@@ -59,7 +59,7 @@ public class AddCommand extends Command {
     @Override
     public void execute(TaskList taskList, AthenaUi athenaUi)
             throws AddMissingRequiredParametersException, ClashInTaskException {
-        if (taskName.equals("") || taskStartTime.equals("")) {
+        if (taskName.equals("")) {
             throw new AddMissingRequiredParametersException();
         }
         taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,

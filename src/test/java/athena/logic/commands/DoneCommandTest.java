@@ -2,6 +2,7 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
+import athena.exceptions.DoneInvalidIndexException;
 import athena.ui.AthenaUi;
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
@@ -70,7 +71,7 @@ class DoneCommandTest {
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     @Test
-    public void execute_validNumber_taskIsDone() throws TaskNotFoundException {
+    public void execute_validNumber_taskIsDone() throws DoneInvalidIndexException {
         assertDoneSuccessful(1, taskList, taskListWithDone);
     }
 
@@ -98,7 +99,7 @@ class DoneCommandTest {
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     private void assertCommandBehaviour(DoneCommand doneCommand, TaskList expectedTaskList,
-                                        TaskList actualTaskList) throws TaskNotFoundException {
+                                        TaskList actualTaskList) throws DoneInvalidIndexException {
         AthenaUi athenaUi = new AthenaUi();
         doneCommand.execute(taskList, athenaUi);
         assertEquals(expectedTaskList, actualTaskList);
@@ -126,7 +127,7 @@ class DoneCommandTest {
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     private void assertDoneSuccessful(int taskNumber, TaskList taskList, TaskList taskListWithoutTask)
-            throws TaskNotFoundException {
+            throws DoneInvalidIndexException {
         TaskList expectedTaskList = taskListWithoutTask;
         TaskList actualTaskList = taskList;
 

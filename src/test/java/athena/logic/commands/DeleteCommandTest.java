@@ -2,6 +2,7 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
+import athena.exceptions.DeleteInvalidIndexException;
 import athena.ui.AthenaUi;
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
@@ -65,7 +66,7 @@ class DeleteCommandTest {
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     @Test
-    public void execute_validNumber_taskIsDeleted() throws TaskNotFoundException {
+    public void execute_validNumber_taskIsDeleted() throws DeleteInvalidIndexException {
         assertDeletionSuccessful(1, taskList, taskListWithoutTask);
     }
 
@@ -96,7 +97,7 @@ class DeleteCommandTest {
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     private void assertCommandBehaviour(DeleteCommand deleteCommand, TaskList expectedTaskList,
-                                        TaskList actualTaskList) throws TaskNotFoundException {
+                                        TaskList actualTaskList) throws DeleteInvalidIndexException {
         AthenaUi athenaUi = new AthenaUi();
         deleteCommand.execute(taskList, athenaUi);
         assertEquals(expectedTaskList, actualTaskList);
@@ -124,7 +125,7 @@ class DeleteCommandTest {
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     private void assertDeletionSuccessful(int taskNumber, TaskList taskList, TaskList taskListWithoutTask)
-            throws TaskNotFoundException {
+            throws DeleteInvalidIndexException {
         TaskList expectedTaskList = taskListWithoutTask;
         TaskList actualTaskList = taskList;
 
