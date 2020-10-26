@@ -3,7 +3,6 @@ package athena.logic.commands;
 import athena.Forecast;
 import athena.Importance;
 import athena.TaskList;
-import athena.exceptions.TaskDuringSleepTimeException;
 import athena.ui.AthenaUi;
 import athena.exceptions.EmptyTaskListException;
 import athena.task.taskfilter.ForecastFilter;
@@ -39,7 +38,7 @@ public class ListCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, AthenaUi athenaUi)
-            throws EmptyTaskListException, TaskDuringSleepTimeException {
+            throws EmptyTaskListException {
         if (taskList.getTasks().isEmpty()) {
             throw new EmptyTaskListException();
         }

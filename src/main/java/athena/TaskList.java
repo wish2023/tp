@@ -290,7 +290,7 @@ public class TaskList {
     }
 
 
-    public ArrayList<Task> makeDeepCopyTasks(ArrayList<Task> oldTasks) throws TaskDuringSleepTimeException {
+    public ArrayList<Task> makeDeepCopyTasks(ArrayList<Task> oldTasks) {
         ArrayList<Task> tasksCopy = new ArrayList<Task>();
         for (Task task : oldTasks) {
             tasksCopy.add(task.getClone());

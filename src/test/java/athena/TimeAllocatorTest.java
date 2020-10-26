@@ -1,9 +1,6 @@
 package athena;
 
-import athena.exceptions.ClashInTaskException;
 import athena.exceptions.CommandException;
-import athena.exceptions.TaskDuringSleepTimeException;
-import athena.exceptions.TaskNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

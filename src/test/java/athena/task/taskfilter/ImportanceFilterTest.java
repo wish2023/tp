@@ -2,7 +2,6 @@ package athena.task.taskfilter;
 
 import athena.Importance;
 import athena.exceptions.CommandException;
-import athena.exceptions.TaskDuringSleepTimeException;
 import athena.task.Task;
 import org.junit.jupiter.api.Test;
 
