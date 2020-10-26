@@ -91,8 +91,8 @@ public class AthenaUi implements Ui {
     public void printTaskEdited(int taskIndex, String taskName, String taskStartTime, String taskDuration,
                                 String taskDeadline, String taskRecurrence, Importance taskImportance,
                                 String taskNotes) {
-        System.out.println("\nYou've changed the details of task number " + colorText.toBlue(Integer.toString(taskIndex))
-                + ": " + colorText.toBlue(taskName) + "!\n"
+        System.out.println("\nYou've changed the details of task number "
+                + colorText.toBlue(Integer.toString(taskIndex)) + ": " + colorText.toBlue(taskName) + "!\n"
                 + "Here are the new details of your task!\n"
                 + "Start Time: " + colorText.toBlue(taskStartTime) + "\n"
                 + "Duration: " + colorText.toBlue(taskDuration) + "\n"
@@ -255,8 +255,8 @@ public class AthenaUi implements Ui {
      * Prints a message telling user their task list is empty.
      */
     public void printEmptyTaskListException() {
-        System.out.println(colorText.toRed("\nYou don't have any tasks in your list! You should probably add some in if "
-                + "you want to be productive.\n"));
+        System.out.println(colorText.toRed("\nYou don't have any tasks in your list! "
+                + "You should probably add some in if you want to be productive.\n"));
     }
 
     /**
