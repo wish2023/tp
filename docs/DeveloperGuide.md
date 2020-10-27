@@ -12,6 +12,13 @@
     - [Storage component](#storage-component)
 - [Other Guides](#other-guides-documentation-logging-testing-configuration-dev-ops)    
 - [Implementation](#implementation)  
+    - [Add task feature](#add-task-feature)
+    - [Delete task feature](#delete-task-feature)
+    - [Mark task as done feature](#mark-task-as-done-feature)
+    - [Edit task feature](#edit-task-feature)
+    - [View task feature](#view-task-feature)
+    - [Time allocation to task in timetable](#time-allocation-to-task-in-timetable)
+    - [Data Storage](#data-storage)
 - [Appendix: Requirements ](#appendix-requirements)
     - [Product scope](#product-scope)
         - [Target user profile](#target-user-profile)
@@ -159,12 +166,123 @@ Given below is an example usage scenario and how the task adding mechanism behav
 
 **Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where the `Parser` will parse the user input to get the command type and details which creates an `AddCommand` object.
 
-**Step 3.** The `TaskList` now contains 1 task (Assignment 1). The message to show if the task is added successfully is subsequently outputted by the `Ui` class to the user.
+**Step 3.** The `TaskList` now contains 1 task (Assignment1). The message to show if the task is added successfully is subsequently outputted by the `Ui` class to the user.
  After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
 
 **Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
 
 The following sequence diagram illustrates how the task adding operation works:
+
+*work in progress*
+
+### Delete task feature
+The deleting task mechanism is facilitated by `LogicManager`.
+
+The retrieving of input details is done by `Parser`. It splits the user input based on the command type and the index of task.
+The `DeleteCommand` class will then be executed and the task will be removed from the `TaskList`.
+
+`Parser`, `DeleteCommand`, `TaskList` implements the following operations:
+
+* `Parser#parse` - Parse user input to retrieve the command type and index of task.
+* `Parser#parseDeleteCommand` - Parse user input to retrieve the index of task to be deleted and creates an `DeleteCommand` object.
+* `DeleteCommand#execute` - Remove task into `TaskList` and calls `Ui` to print message output.
+* `Storage#saveTaskListData` - Updates the current task list into the save file.
+
+Given below is an example usage scenario and how the deleting task mechanism behaves at each step.
+
+**Step 1.** The user deletes a task from the application, by inputting `delete 1`. 
+
+**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where the `Parser` will parse the user input to get the command type and details which creates an `DeleteCommand` object.
+
+**Step 3.** The `TaskList` now removed task with index 1. The message to show if the task is deleted successfully is subsequently outputted by the `Ui` class to the user.
+ After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
+
+**Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
+
+The following sequence diagram illustrates how the task deleting operation works:
+
+*work in progress*
+
+### Mark task as done feature
+The marking task as done mechanism is facilitated by `LogicManager`.
+
+The retrieving of input details is done by `Parser`. It splits the user input based on the command type and the index of task.
+The `DoneCommand` class will then be executed and the task will be marked as done in the `TaskList`.
+
+`Parser`, `DoneCommand`, `TaskList` implements the following operations:
+
+* `Parser#parse` - Parse user input to retrieve the command type and index of task.
+* `Parser#parseDoneCommand` - Parse user input to retrieve the index of task to be marked as done and creates an `DoneCommand` object.
+* `DoneCommand#execute` - Marks task as done into `TaskList` and calls `Ui` to print message output.
+* `Storage#saveTaskListData` - Writes the current task list into the save file.
+
+Given below is an example usage scenario and how the marking task as done mechanism behaves at each step.
+
+**Step 1.** The user marks a task as done in the application, by inputting `done 1`. 
+
+**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where the `Parser` will parse the user input to get the command type and details which creates an `DoneCommand` object.
+
+**Step 3.** The `TaskList` now has task with index 1 marked as done. The message to show if the task is marked as done successfully is subsequently outputted by the `Ui` class to the user.
+ After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
+
+**Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
+
+The following sequence diagram illustrates how the marking task as done operation works:
+
+*work in progress*
+
+### Edit task feature
+The adding of task mechanism is facilitated by `LogicManager`.
+
+The retrieving of task details is done by `Parser`. It splits the user input based on the command type and the various parameters' description.
+The user can input the parameters in any order.
+The `EditCommand` class will then be executed and the edited task details will be added to the `TaskList`.
+
+`Parser`, `EditCommand`, `TaskList` implements the following operations:
+
+* `Parser#parse` - Parse user input to retrieve the command type, task index and details.
+* `Parser#parseEditCommand` - Parse user input to retrieve the respective parameters' details and creates an `EditCommand` object.
+* `EditCommand#execute` - Edits the specified task in `TaskList` and calls `Ui` to print message output.
+* `Storage#saveTaskListData` - Writes the current task list into the save file.
+
+Given below is an example usage scenario and how the editing task mechanism behaves at each step.
+
+**Step 1.** The user edits a task to the application, by inputting `edit 1 n/Assignment2 t/1100 D/16-09-2020`. 
+
+**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where the `Parser` will parse the user input to get the command type and details which creates an `EditCommand` object.
+
+**Step 3.** The `TaskList` now has task with index 1 name changed from "Assignment1" to "Assignment2". The message to show if the task is edited successfully is subsequently outputted by the `Ui` class to the user.
+ After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the edited task details in the `TaskList` into the save file.
+
+**Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
+
+The following sequence diagram illustrates how the editing task operation works:
+
+*work in progress*
+
+### View task feature
+The viewing task mechanism is facilitated by `LogicManager`.
+
+The retrieving of input details is done by `Parser`. It splits the user input based on the command type and the index of task.
+The `ViewCommand` class will then be executed and the details of that specific task from the `TaskList` will be shown.
+
+`Parser`, `ViewCommand`, `TaskList` implements the following operations:
+
+* `Parser#parse` - Parse user input to retrieve the command type and index of task.
+* `Parser#parseViewCommand` - Parse user input to retrieve the index of task to be viewed and creates an `ViewCommand` object.
+* `ViewCommand#execute` - Retrieve task details from `TaskList` and calls `Ui` to print task details output.
+
+Given below is an example usage scenario and how the viewing task mechanism behaves at each step.
+
+**Step 1.** The user views a task from the application, by inputting `view 1`. 
+
+**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where the `Parser` will parse the user input to get the command type and details which creates an `ViewCommand` object.
+
+**Step 3.** The `TaskList` now retrieve details of 1 task (Assignment 1). The message to show if the task details is subsequently outputted by the `Ui` class to the user.
+
+**Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
+
+The following sequence diagram illustrates how the viewing task operation works:
 
 *work in progress*
 
