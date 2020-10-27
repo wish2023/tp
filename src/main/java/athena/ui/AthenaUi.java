@@ -140,20 +140,21 @@ public class AthenaUi implements Ui {
                 + "Well here's a list just for you!\n\n"
                 + "To " + colorText.toPurple("add a task")
                 + " (parameters in square brackets are optional fields):\n"
-                + colorText.toYellow("add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] "
+                + colorText.toYellow("add n/NAME [t/TIME] [D/DEADLINE] [d/DURATION] [r/RECURRENCE] "
                 + "[i/IMPORTANCE] [a/ADDITIONAL-NOTES]\n")
-                + "e.g. add n/Assignment1 t/1100 d/16/09 D/2 r/Monday i/high a/Refer to lecture notes\n\n"
+                + "e.g.  add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes\n\n"
                 + "To " + colorText.toPurple("list your current tasks:\n")
-                + colorText.toYellow("list f/FORECAST i/IMPORTANCE\n")
+                + " (parameters in square brackets are optional fields):\n"
+                + colorText.toYellow("list [f/FORECAST] [i/IMPORTANCE]\n")
                 + "e.g. list f/WEEK i/medium\n\n"
                 + "To " + colorText.toPurple("mark a task as done:\n")
                 + colorText.toYellow("done INDEX\n")
                 + "e.g. done 2\n\n"
                 + "To " + colorText.toPurple("edit a task")
                 + " (parameters in square brackets are optional fields):\n"
-                + colorText.toYellow("edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] "
+                + colorText.toYellow("edit INDEX [n/NAME] [t/TIME] [D/DEADLINE] [d/DURATION] "
                 + "[r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]\n")
-                + "e.g. edit 2 n/Assignment1 t/1100 d/16/09 D/2 r/Monday i/high a/Refer to lecture notes\n\n"
+                + "e.g.  edit 1 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes\n\n"
                 + "To " + colorText.toPurple("delete a task:\n")
                 + colorText.toYellow("delete INDEX\n")
                 + "e.g. delete 2\n\n"
@@ -189,6 +190,13 @@ public class AthenaUi implements Ui {
     public void printAddMissingRequiredParametersException() {
         System.out.println(colorText.toRed("\nYou haven't specified the name of the task! "
                 + "How can we go on a conquest if we don't know what to slay?\n")
+                + "In case you've forgotten, this is how you add a task:\n"
+                + colorText.toYellow("add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] "
+                + "[i/IMPORTANCE] [a/ADDITIONAL-NOTES]\n"));
+    }
+
+    public void printAddDateWrongFormatException() {
+        System.out.println(colorText.toRed("\nYou didn't format something in the right way!\n")
                 + "In case you've forgotten, this is how you add a task:\n"
                 + colorText.toYellow("add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] "
                 + "[i/IMPORTANCE] [a/ADDITIONAL-NOTES]\n"));
