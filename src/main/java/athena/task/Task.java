@@ -1,6 +1,7 @@
 package athena.task;
 
 import athena.Importance;
+import athena.exceptions.TaskDuringSleepTimeException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -52,7 +53,8 @@ public class Task {
      * @param isFlexible time flexibility
      */
     public Task(String name, String startTime, String duration, String deadline,
-                String recurrence, Importance importance, String notes, int number, Boolean isFlexible) {
+                String recurrence, Importance importance, String notes, int number, Boolean isFlexible)
+            throws TaskDuringSleepTimeException {
         this.name = name;
         assert !this.name.equals("");
         this.importance = importance;
@@ -64,12 +66,12 @@ public class Task {
 
 
     public LocalDate getRecurrenceDate(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         return LocalDate.parse(date, formatter);
     }
 
     public Task(String name, boolean isFlexible, boolean isDone, Importance importance,
-                String notes, int number, Time timeInfo) {
+                String notes, int number, Time timeInfo) throws TaskDuringSleepTimeException {
         this.name = name;
         this.isFlexible = isFlexible;
         this.isDone = isDone;
@@ -80,7 +82,12 @@ public class Task {
     }
 
     public Task getClone() {
-        Task copy = new Task(name, isFlexible, isDone, importance, notes, number, timeInfo);
+        Task copy = null;
+        try {
+            copy = new Task(name, isFlexible, isDone, importance, notes, number, timeInfo);
+        } catch (TaskDuringSleepTimeException e) {
+            assert false;   // a task that can be cloned should have been blocked from being assigned the sleep time
+        }
 
         return copy;
     }

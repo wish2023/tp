@@ -1,6 +1,7 @@
 package athena.task;
 
 import athena.Importance;
+import athena.exceptions.CommandException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +30,7 @@ class TaskTest {
      * Ensure repeating dates have been set correctly.
      */
     @Test
-    void testSetRecurrence_thisDayOfWeek_returnsTrue() {
+    void testSetRecurrence_thisDayOfWeek_returnsTrue() throws CommandException {
         String dayOfWeek = LocalDate.now().getDayOfWeek().toString();
         Task task = new Task("testName", "0900", "1", "05-11-2020",
                 dayOfWeek, Importance.MEDIUM, "testNotes", 0, false);
@@ -40,7 +41,7 @@ class TaskTest {
      * Ensure repeating dates have not been set incorrectly.
      */
     @Test
-    void testSetRecurrence_thisDayOfWeek_returnsFalse() {
+    void testSetRecurrence_thisDayOfWeek_returnsFalse() throws CommandException {
         String dayOfWeek = LocalDate.now().plusDays(1).getDayOfWeek().toString();
         Task task = new Task("testName", "0900", "1", "05-11-2020",
                 dayOfWeek, Importance.MEDIUM, "testNotes", 0, false);

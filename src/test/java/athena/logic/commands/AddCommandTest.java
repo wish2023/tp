@@ -2,6 +2,7 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
+import athena.exceptions.CommandException;
 import athena.ui.AthenaUi;
 import athena.exceptions.AddMissingRequiredParametersException;
 import athena.exceptions.ClashInTaskException;
@@ -24,7 +25,7 @@ class AddCommandTest {
      *
      * @return TaskList for testing
      */
-    public static TaskList getTaskList() throws ClashInTaskException {
+    public static TaskList getTaskList() throws CommandException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
@@ -36,7 +37,7 @@ class AddCommandTest {
      *
      * @return TaskList for testing with an added task
      */
-    public static TaskList getTaskListWithAddedTask() throws ClashInTaskException {
+    public static TaskList getTaskListWithAddedTask() throws CommandException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
@@ -49,7 +50,7 @@ class AddCommandTest {
      * Creates the components needed for testing.
      */
     @BeforeEach
-    public void setup() throws ClashInTaskException {
+    public void setup() throws CommandException {
         athenaUi = new AthenaUi();
         taskList = getTaskList();
         taskListWithAddedTask = getTaskListWithAddedTask();
@@ -61,7 +62,7 @@ class AddCommandTest {
      * @throws AddMissingRequiredParametersException Exception thrown when the compulsory parameters are not given
      */
     @Test
-    public void execute_taskIsAdded() throws AddMissingRequiredParametersException, ClashInTaskException {
+    public void execute_taskIsAdded() throws CommandException {
         assertAddSuccessful(taskList, taskListWithAddedTask);
     }
 
@@ -83,7 +84,7 @@ class AddCommandTest {
      * @throws AddMissingRequiredParametersException Exception thrown when the compulsory parameters are not given
      */
     private void assertCommandBehaviour(AddCommand addCommand, TaskList expectedTaskList, TaskList actualTaskList)
-            throws AddMissingRequiredParametersException, ClashInTaskException {
+            throws CommandException {
         AthenaUi athenaUi = new AthenaUi();
         addCommand.execute(taskList, athenaUi);
         assertEquals(expectedTaskList, actualTaskList);
@@ -97,7 +98,7 @@ class AddCommandTest {
      * @throws AddMissingRequiredParametersException Exception thrown when the compulsory parameters are not given
      */
     private void assertAddSuccessful(TaskList taskList, TaskList taskListWithAddedTask)
-            throws AddMissingRequiredParametersException, ClashInTaskException {
+            throws CommandException {
         TaskList expectedTaskList = taskListWithAddedTask;
         TaskList actualTaskList = taskList;
 

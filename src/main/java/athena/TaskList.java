@@ -1,6 +1,7 @@
 package athena;
 
 import athena.exceptions.ClashInTaskException;
+import athena.exceptions.TaskDuringSleepTimeException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
@@ -62,7 +63,8 @@ public class TaskList {
      * @return Task as Task object
      */
     private Task createTask(int number, String name, String startTime, String duration, String deadline,
-                            String recurrence, Importance importance, String notes, Boolean isFlexible) {
+                            String recurrence, Importance importance, String notes, Boolean isFlexible)
+            throws TaskDuringSleepTimeException {
         Task task = new Task(name, startTime, duration, deadline, recurrence, importance, notes, number, isFlexible);
         return task;
     }
@@ -101,7 +103,8 @@ public class TaskList {
 
     public void addTask(int number, String name, String startTime, String duration,
                         String deadline, String recurrence,
-                        Importance importance, String notes, boolean isFlexible) throws ClashInTaskException {
+                        Importance importance, String notes, boolean isFlexible)
+            throws ClashInTaskException, TaskDuringSleepTimeException {
         Task task = createTask(number, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
         decrementMaxNumber();
         checkClash(task);
@@ -122,7 +125,8 @@ public class TaskList {
      */
     public void addTask(String name, String startTime, String duration,
                         String deadline, String recurrence,
-                        Importance importance, String notes, Boolean isFlexible) throws ClashInTaskException {
+                        Importance importance, String notes, Boolean isFlexible)
+            throws ClashInTaskException, TaskDuringSleepTimeException {
         maxNumber++;
         addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
     }
@@ -151,10 +155,16 @@ public class TaskList {
 
     private boolean isTimeClash(Task taskToCompare, Task task) {
         LocalTime taskStartTime = taskToCompare.getTimeInfo().getStartTime();
+        if (taskStartTime == null) {
+            return false;
+        }
         int taskDuration = taskToCompare.getTimeInfo().getDuration();
         LocalTime taskEndTime = taskStartTime.plusHours(taskDuration);
 
         LocalTime existingTaskStartTime = task.getTimeInfo().getStartTime();
+        if (existingTaskStartTime == null) {
+            return false;
+        }
         LocalTime existingTaskEndTime = existingTaskStartTime.plusHours(task.getTimeInfo().getDuration());
         if (isIndividualTimeClash(taskStartTime, taskEndTime, existingTaskStartTime, existingTaskEndTime)) {
             return true;
@@ -221,10 +231,11 @@ public class TaskList {
      */
     public void editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, Importance importance,
-                         String notes) throws TaskNotFoundException, ClashInTaskException {
+                         String notes)
+            throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException {
         Task task = getTaskFromNumber(taskNumber);
-        Task possibleEditedTask = createTask(taskNumber,name,startTime,
-                duration,deadline,recurrence,importance,notes,task.isFlexible());
+        Task possibleEditedTask = createTask(taskNumber, name, startTime,
+                duration, deadline, recurrence, importance, notes, task.isFlexible());
         checkClash(possibleEditedTask);
         task.edit(name, startTime, duration, deadline, recurrence, importance, notes);
 

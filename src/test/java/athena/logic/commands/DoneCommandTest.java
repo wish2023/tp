@@ -3,6 +3,7 @@ package athena.logic.commands;
 import athena.Importance;
 import athena.TaskList;
 import athena.exceptions.DoneInvalidIndexException;
+import athena.exceptions.CommandException;
 import athena.ui.AthenaUi;
 import athena.exceptions.ClashInTaskException;
 import athena.task.Task;
@@ -25,7 +26,7 @@ class DoneCommandTest {
      *
      * @return TaskList for testing.
      */
-    private TaskList getTaskList() throws ClashInTaskException {
+    private TaskList getTaskList() throws CommandException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
@@ -41,7 +42,7 @@ class DoneCommandTest {
      *
      * @return TaskList for testing with a done task number 1.
      */
-    private TaskList getTaskListWithDone() throws ClashInTaskException {
+    private TaskList getTaskListWithDone() throws CommandException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
@@ -58,7 +59,7 @@ class DoneCommandTest {
      * Creates the components needed for testing.
      */
     @BeforeEach
-    public void setup() throws ClashInTaskException {
+    public void setup() throws CommandException {
         athenaUi = new AthenaUi();
         taskList = getTaskList();
         taskListWithDone = getTaskListWithDone();

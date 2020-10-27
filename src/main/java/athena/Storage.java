@@ -5,16 +5,16 @@ import athena.exceptions.ClashInTaskException;
 import athena.exceptions.StorageCorruptedException;
 import athena.exceptions.StorageException;
 import athena.exceptions.StorageLoadFailException;
+import athena.exceptions.TaskDuringSleepTimeException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
+import athena.task.Time;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 
 
 /**
@@ -51,11 +51,12 @@ public class Storage {
         try {
             FileWriter csvWriter = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {
+                Time timeInfo = task.getTimeInfo();
                 taskString = replaceCommas(task.getName()) + ","
-                        + replaceCommas(task.getTimeInfo().getStartTimeString()) + ","
-                        + replaceCommas(task.getTimeInfo().getDurationString()) + ","
-                        + replaceCommas(task.getTimeInfo().getDeadline()) + ","
-                        + replaceCommas(task.getTimeInfo().getRecurrence()) + "," + task.getImportance() + ","
+                        + replaceCommas(timeInfo.getStartTimeString()) + ","
+                        + replaceCommas(timeInfo.getDurationString()) + ","
+                        + replaceCommas(timeInfo.getDeadline()) + ","
+                        + replaceCommas(timeInfo.getRecurrence()) + "," + task.getImportance() + ","
                         + replaceCommas(task.getNotes()) + "," + task.getNumber();
                 if (task.isDone()) {
                     taskString = taskString + "," + "true";
@@ -111,6 +112,8 @@ public class Storage {
                 throw new StorageCorruptedException(data);
             } catch (TaskNotFoundException e) {
                 throw new StorageLoadFailException();
+            } catch (TaskDuringSleepTimeException e) {
+                throw new StorageCorruptedException(data);
             }
         }
         return loadedTaskList;

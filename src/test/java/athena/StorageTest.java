@@ -1,9 +1,8 @@
 package athena;
 
 import athena.exceptions.ClashInTaskException;
-import athena.exceptions.StorageCorruptedException;
+import athena.exceptions.CommandException;
 import athena.exceptions.StorageException;
-import athena.exceptions.StorageLoadFailException;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
@@ -22,7 +21,7 @@ class StorageTest {
      * Checks if a save file is created correctly if a save file doesn't originally exist.
      */
     @Test
-    void saveTaskListData_noPreviousSave_createSaveFile() {
+    void saveTaskListData_noPreviousSave_createSaveFile() throws CommandException {
         TaskList taskList = null;
         try {
             taskList = TestSetup.getTestTaskList();
@@ -66,7 +65,7 @@ class StorageTest {
      * Checks if the program is able to load a save file correctly.
      */
     @Test
-    void loadTaskListData_saveFileFound_createTaskList() throws ClashInTaskException {
+    void loadTaskListData_saveFileFound_createTaskList() throws CommandException {
         Storage storage = new Storage("src/test/java/athena/StorageTestAnswer1.csv");
         TaskList taskList = null;
         try {
@@ -79,7 +78,7 @@ class StorageTest {
     }
 
     @Test
-    void loadTaskListData_commaInTaskAttribute_commaIsReplaced() throws ClashInTaskException {
+    void loadTaskListData_commaInTaskAttribute_commaIsReplaced() throws CommandException {
         Storage storage = new Storage("src/test/java/athena/StorageTestAnswer2.csv");
         TaskList taskList = null;
         try {
