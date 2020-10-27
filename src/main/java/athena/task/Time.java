@@ -30,8 +30,10 @@ public class Time implements Comparable<Time> {
 
     public Time(boolean isFlexible, LocalTime startTime, int duration, String deadline, String recurrence)
             throws TaskDuringSleepTimeException {
-        if (startTime.getHour() < 8) {
-            throw new TaskDuringSleepTimeException();
+        if (startTime != null) {
+            if (startTime.getHour() < 8) {
+                throw new TaskDuringSleepTimeException();
+            }
         }
         this.isFlexible = isFlexible;
         this.startTime = startTime;
@@ -44,17 +46,19 @@ public class Time implements Comparable<Time> {
     public Time(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence)
             throws TaskDuringSleepTimeException {
         this.isFlexible = isFlexible;
-        this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
-        if (this.startTime.getHour() < 8) {
-            throw new TaskDuringSleepTimeException();
-        }
-        if (startTime.length() > 0) {
-            this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
-        }
+
         this.duration = Integer.parseInt(duration);
         this.deadline = deadline;
         this.recurrence = recurrence;
         setRecurrence(recurrence);
+
+        if (startTime.length() > 0) {
+            this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
+            if (this.startTime.getHour() < 8) {
+                throw new TaskDuringSleepTimeException();
+            }
+        }
+
     }
 
     public Time getClone() throws TaskDuringSleepTimeException {
