@@ -103,11 +103,20 @@ The sections below give more details for each component.
 **API** :
 [`Logic.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/logic/Logic.java)
 
-1. `Logic` uses the `Parser` class to parse the user command.
-2. This results in a `Command` object which is executed by the `LogicManager`.
-3. The command execution can affect the `TaskList` (e.g. adding a task).
+1. `Logic` consists of `LogicManager`, which calls the `Parser` class to parse the user command.
+2. This results in a `Command` object being created, which is then executed by the `LogicManager`.
+3. The command execution can affect the `TaskList` (e.g. Adding a task).
 4. The result of the command execution will also call the `Ui` to print the respective messages for each command.
 
+The following sequence diagram illustrates how the `LogicManager` works:
+
+![LogicManagerSequenceDiagram](sequenceDiagrams/LogicManager%20diagram.png)
+
+The following sequence diagram illustrates how the `Parser` works:
+
+![ParserSequenceDiagram](sequenceDiagrams/Parser%20diagram.png)
+
+The respective Command sequence diagrams will be illustrated [here](#implementation) under the implementation part of this document.
 
 ### TaskList component
 
@@ -167,7 +176,7 @@ Given below is an example usage scenario and how the task adding mechanism behav
 
 The following sequence diagram illustrates how Step 3 of the task adding operation works:
 
-![AddTaskSequenceDiagram](https://ay2021s1-cs2113t-w12-2.github.io/tp/sequenceDiagrams/AddSequenceDiagram.png)
+![AddTaskSequenceDiagram](sequenceDiagrams/AddCommand%20diagram.png)
 
 ### Delete task feature
 The deleting task mechanism is facilitated by `LogicManager`.
@@ -196,7 +205,7 @@ Given below is an example usage scenario and how the deleting task mechanism beh
 
 The following sequence diagram illustrates how Step 3 of the task deleting operation works:
 
-*work in progress*
+![DeleteTaskSequenceDiagram](sequenceDiagrams/DeleteCommand%20diagram.png)
 
 ### Mark task as done feature
 The marking task as done mechanism is facilitated by `LogicManager`.
@@ -225,7 +234,7 @@ Given below is an example usage scenario and how the marking task as done mechan
 
 The following sequence diagram illustrates how Step 3 of the marking task as done operation works:
 
-*work in progress*
+![DoneTaskSequenceDiagram](sequenceDiagrams/DoneCommand%20diagram.png)
 
 ### Edit task feature
 The editing of task mechanism is facilitated by `LogicManager`.
@@ -281,7 +290,7 @@ Given below is an example usage scenario and how the viewing task mechanism beha
 
 The following sequence diagram illustrates how Step 3 of the viewing task operation works:
 
-*work in progress*
+![ViewTaskSequenceDiagram](sequenceDiagrams/ViewCommand%20diagram.png)
 
 ### Time allocation to task in timetable
 The time allocation mechanism is facilitated by `TimeAllocator`. It allocates time slots to `Task`s in a `TaskList` that are not assigned a fixed time slot by the user. It implements the following operations:
@@ -289,7 +298,7 @@ The time allocation mechanism is facilitated by `TimeAllocator`. It allocates ti
 * Work in progress hehe
 
 Implementation
-TimeAllocator takes in  TaskList and separates it into a fixedTaskList and a flexibleTaskList
+TimeAllocator takes in TaskList and separates it into a fixedTaskList and a flexibleTaskList.
 
 When runAllocate is executed, a ForecastFilter is created in order to separate the tasks based on their days in order to identify the day that they belong to.
 
@@ -312,9 +321,6 @@ It then modifies the ForecastFilter to identify the tasks on the next day.
 Once runAllocate finishes running, it changes the startTime of tasks that have been allocated without altering the isFlexible attribute of the tasks.
 
 
-
-
-
 Given below is an example usage scenario and how the allocation mechanism behaves at each step.
 
 **Step 1**. The user launches the application. The *data.csv* file located next to the application jar file contains 5 tasks. These tasks are loaded into the `TaskList`. 3 of them have a fixed time slot, while the other 2 are not assigned any time slot.
@@ -327,7 +333,7 @@ Given below is an example usage scenario and how the allocation mechanism behave
 
 The following sequence diagram illustrates how the allocate operation works:
 
-*Work in progress*
+![TimeAllocatorSequenceDiagram](sequenceDiagrams/TimeAllocator%20diagram.png)
 
 **Step 4.** The user executes `list` to get an overview of the week. The user sees all 5 tasks in the printed timetable.
 
@@ -351,6 +357,14 @@ Given below is an example usage scenario and how the storage mechanism behaves a
 **Step 4.** The user launches the application again. The `TaskList` is initialized to be empty. `Storage#loadTaskListData` will read from `data.csv` and add the tasks inside the file into the empty `TaskList`. The `TaskList` now contains the task added earlier (Assignment 1) in **step 3**.
 
 **Step 5.** The user executes `list` to get an overview of the week. The user sees *Assignment 1* in the printed timetable.
+
+The following sequence diagram illustrates how the loading from storage operation works:
+
+![LoadStorageSequenceDiagram](sequenceDiagrams/loadStorage%20diagram.png)
+
+The following sequence diagram illustrates how the saving to storage operation works:
+
+![SaveStorageSequenceDiagram](sequenceDiagrams/saveStorage%20diagram.png)
 
 -----------------------------------------------------------------------------------------------------------------------
 
