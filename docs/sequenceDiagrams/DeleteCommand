@@ -1,4 +1,4 @@
-title View
+title Delete
 actor ATHENA
 
 ATHENA->DeleteCommand: execute()
