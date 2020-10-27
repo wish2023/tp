@@ -1,0 +1,31 @@
+title View
+
+actor ATHENA
+
+ATHENA->ViewCommand: execute()
+activate ViewCommand
+ViewCommand->TaskList: getTaskDescription()
+activate TaskList
+TaskList->-TaskList: getTaskFromNumber()
+activate TaskList
+TaskList->Task:getNumber()
+activate Task
+Task-->-TaskList:
+TaskList->+Task:getDetailsAsString()
+Task->-Task:getStatus()
+activate Task
+Task->+Time:getStartTime()
+Time-->-Task:
+Task->+Time:getDeadline()
+Time-->-Task:
+Task->+Time:getDuration()
+Time-->-Task:
+Task->+Time:getRecurrence()
+Time-->-Task:
+
+Task-->-TaskList:
+TaskList-->-ViewCommand:
+ViewCommand->AthenaUI: printTaskDetails()
+activate AthenaUI
+AthenaUI-->-ViewCommand:
+ViewCommand-->ATHENA:

@@ -1,0 +1,23 @@
+title Done
+
+actor ATHENA
+
+ATHENA->DoneCommand: execute()
+activate DoneCommand
+DoneCommand->TaskList: markTaskAsDone()
+activate TaskList
+TaskList->-TaskList: getTaskFromNumber()
+activate TaskList
+TaskList->Task:getNumber()
+activate Task
+Task-->-TaskList:
+TaskList->Task:setDone()
+activate Task
+Task-->-TaskList:
+TaskList-->-DoneCommand:
+DoneCommand->AthenaUI: printTaskDone()
+activate AthenaUI
+AthenaUI->+Task: getName()
+Task-->-AthenaUI:
+AthenaUI-->-DoneCommand:
+DoneCommand-->ATHENA:

@@ -1,0 +1,36 @@
+title View
+actor ATHENA
+
+ATHENA->DeleteCommand: execute()
+activate DeleteCommand
+DeleteCommand->TaskList: deleteTask()
+activate TaskList
+TaskList->-TaskList: getTaskFromNumber()
+activate TaskList
+TaskList->+Task:getNumber()
+Task-->-TaskList:
+DeleteCommand->+Task:getTaskRestore()
+Task->-Task:getName()
+activate Task
+Task->+Time:getDuration()
+Time-->-Task:
+Task->+Time:getDeadline()
+Time-->-Task:
+Task->+Time:getRecurrence()
+Time-->-Task:
+Task->-Task:getImportance()
+activate Task
+Task->-Task:getNotes()
+activate Task
+Task->+Time:getStartTime()
+Time-->-Task:
+
+Task-->-TaskList:
+TaskList-->-DeleteCommand:
+DeleteCommand->AthenaUI: printTaskDeleted()
+activate AthenaUI
+AthenaUI->+Task:getName()
+Task-->-AthenaUI:
+AthenaUI-->-DeleteCommand:
+DeleteCommand-->ATHENA:
+
