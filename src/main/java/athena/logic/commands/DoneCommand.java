@@ -1,5 +1,6 @@
 package athena.logic.commands;
 
+import athena.exceptions.DoneInvalidIndexException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.TaskList;
@@ -32,9 +33,14 @@ public class DoneCommand extends Command {
      *                               does not exist
      */
     @Override
-    public void execute(TaskList taskList, AthenaUi athenaUi) throws TaskNotFoundException {
-        Task taskDone = taskList.markTaskAsDone(taskNumber);
-        athenaUi.printTaskDone(taskDone);
+    public void execute(TaskList taskList, AthenaUi athenaUi) throws DoneInvalidIndexException {
+        try {
+            Task taskDone = taskList.markTaskAsDone(taskNumber);
+            athenaUi.printTaskDone(taskDone);
+        } catch (TaskNotFoundException e) {
+            throw new DoneInvalidIndexException();
+        }
+
     }
 
     /**
