@@ -52,7 +52,7 @@ public class TimeAllocator {
                 }
             }
 
-            int start = 0;
+            int start = 8;
             int sleep = 24;
             boolean done = false;
             while (!done) {
