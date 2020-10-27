@@ -3,7 +3,7 @@
 - [Introduction](#introduction)
 - [Setting up and getting started](#setting-up-and-getting-started)
     - [Prerequisites](#prerequisites)
-    - [Setting up the project in your computer](#setting-up-the-project-in-your-computer)
+    - [Setting up the project on your computer](#setting-up-the-project-on-your-computer)
 - [Design & implementation](#design--implementation)
     - [Architecture](#architecture)  
     - [UI component](#ui-component)  
