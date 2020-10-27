@@ -1,6 +1,7 @@
 title List
 
 ListCommand->*ImportanceFilter:
+activate ListCommand
 activate ImportanceFilter
 ImportanceFilter-->ListCommand:
 destroy ImportanceFilter
