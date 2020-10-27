@@ -14,13 +14,13 @@ public class TaskImportanceComparator implements Comparator<Task> {
         if (i1 == i2) {
             return 0;
         } else if (i1 == Importance.HIGH) {
-            return 1;
+            return -1;
         } else if (i2 == Importance.HIGH) {
-            return -1;
-        } else if (i1 == Importance.MEDIUM) {
             return 1;
-        } else if (i2 == Importance.MEDIUM) {
+        } else if (i1 == Importance.MEDIUM) {
             return -1;
+        } else if (i2 == Importance.MEDIUM) {
+            return 1;
         }
         return 0;
 
