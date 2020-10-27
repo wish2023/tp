@@ -120,7 +120,7 @@ Shows your tasks organized in a timetable. Each task will be printed with a numb
 * `l1` = `list i/LOW`
 * `lw` = `list f/WEEK`
 * `ld` = `list f/DAY`
-* `lm` = `list f/MONTH`
+* `la` = `list f/ALL`
   
 #### Example usage 
 
