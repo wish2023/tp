@@ -15,7 +15,7 @@ class TimeAllocatorTest {
                 Importance.MEDIUM, "Tough assignment", false);
         taskList.addTask(1, "Assignment 2", "0100", "2", "6pm", "today",
                 Importance.MEDIUM, "Tough assignment", true);
-        taskList.addTask(2, "Assignment 3", "1900", "5", "6pm", "today",
+        taskList.addTask(2, "Assignment 3", "", "5", "6pm", "today",
                 Importance.MEDIUM, "Tough assignment", true);
         taskList.addTask(3, "Assignment 4", "1300", "2", "6pm", "today",
                 Importance.MEDIUM, "Tough assignment", false);

@@ -37,8 +37,10 @@ public class Time implements Comparable<Time> {
 
     public Time(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence) {
         this.isFlexible = isFlexible;
-        assert !startTime.equals("");
-        this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
+        //assert !startTime.equals("");
+        if (startTime.length() > 0) {
+            this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
+        }
         this.duration = Integer.parseInt(duration);
         this.deadline = deadline;
         this.recurrence = recurrence;
@@ -179,6 +181,9 @@ public class Time implements Comparable<Time> {
      */
     public String getStartTimeString() {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
+        if (startTime == null) {
+            return "";
+        }
         return startTime.format(timeFormatter);
     }
 
