@@ -1,0 +1,20 @@
+title LogicManager
+
+actor Athena
+Athena->+LogicManager: execute()
+
+LogicManager->+Storage: loadTaskListData()
+Storage-->-LogicManager:
+
+LogicManager->+Parser: parse()
+Parser-->-LogicManager:
+
+LogicManager->+Command: execute()
+
+deactivate TaskList
+
+Command-->-LogicManager:
+
+LogicManager->+Storage: saveTaskListData()
+Storage-->-LogicManager:
+LogicManager-->-Athena:

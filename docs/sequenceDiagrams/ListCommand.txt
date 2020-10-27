@@ -2,16 +2,10 @@ title List
 
 
 actor Athena
-Athena->+LogicManager: execute()
-
-LogicManager->+Storage: loadTaskListData()
-Storage-->-LogicManager:
-
-LogicManager->+Parser: parse()
-Parser-->-LogicManager:
 
 
-LogicManager->+ListCommand: execute()
+
+Athena->+ListCommand: execute()
 ListCommand->*ImportanceFilter:
 activate ImportanceFilter
 ImportanceFilter-->ListCommand:
@@ -40,7 +34,4 @@ Timetable->Timetable: populateTimetable()
 activate Timetable
 deactivate Timetable
 Timetable-->-ListCommand:
-ListCommand-->-LogicManager:
-
-LogicManager->+Storage: saveTaskListData()
-Storage-->-LogicManager:
+ListCommand-->-Athena:
