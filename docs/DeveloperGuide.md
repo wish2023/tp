@@ -258,7 +258,7 @@ Given below is an example usage scenario and how the editing task mechanism beha
 
 The following sequence diagram illustrates how the editing task operation works:
 
-![EditTaskSequenceDiagram](sequenceDiagrams/EditSequenceDiagram.png)
+![EditTaskSequenceDiagram](sequenceDiagrams/EditCommand%20diagram.png)
 
 ### View task feature
 The viewing task mechanism is facilitated by `LogicManager`.

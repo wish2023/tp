@@ -1,15 +1,8 @@
 title Edit
 
 actor Athena
-Athena->+LogicManager: execute()
 
-LogicManager->+Storage: loadTaskListData()
-Storage-->-LogicManager:
-
-LogicManager->+Parser: parse()
-Parser-->-LogicManager:
-
-LogicManager->+EditCommand: execute()
+Athena->+EditCommand: execute()
 EditCommand->+TaskList: editTask()
 
 TaskList->TaskList: getTaskFromNumber()
@@ -31,7 +24,4 @@ Task-->-TaskList:
 TaskList-->-EditCommand:
 deactivate TaskList
 
-EditCommand-->-LogicManager:
-
-LogicManager->+Storage: saveTaskListData()
-Storage-->-LogicManager:
+EditCommand-->-Athena:
