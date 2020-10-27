@@ -39,7 +39,7 @@ public class AddCommand extends Command {
         taskName = name;
         assert !taskName.equals("");
         taskStartTime = startTime;
-        assert !taskStartTime.equals("");
+        //assert !taskStartTime.equals("");
         taskDuration = duration;
         taskDeadline = deadline;
         taskRecurrence = recurrence;
@@ -60,7 +60,7 @@ public class AddCommand extends Command {
     @Override
     public void execute(TaskList taskList, AthenaUi athenaUi)
             throws AddMissingRequiredParametersException, ClashInTaskException, TaskDuringSleepTimeException {
-        if (taskName.equals("") || taskStartTime.equals("")) {
+        if (taskName.equals("")) {
             throw new AddMissingRequiredParametersException();
         }
         taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,

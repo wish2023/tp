@@ -155,10 +155,16 @@ public class TaskList {
 
     private boolean isTimeClash(Task taskToCompare, Task task) {
         LocalTime taskStartTime = taskToCompare.getTimeInfo().getStartTime();
+        if (taskStartTime == null) {
+            return false;
+        }
         int taskDuration = taskToCompare.getTimeInfo().getDuration();
         LocalTime taskEndTime = taskStartTime.plusHours(taskDuration);
 
         LocalTime existingTaskStartTime = task.getTimeInfo().getStartTime();
+        if (existingTaskStartTime == null) {
+            return false;
+        }
         LocalTime existingTaskEndTime = existingTaskStartTime.plusHours(task.getTimeInfo().getDuration());
         if (isIndividualTimeClash(taskStartTime, taskEndTime, existingTaskStartTime, existingTaskEndTime)) {
             return true;
@@ -228,8 +234,8 @@ public class TaskList {
                          String notes)
             throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException {
         Task task = getTaskFromNumber(taskNumber);
-        Task possibleEditedTask = createTask(taskNumber,name,startTime,
-                duration,deadline,recurrence,importance,notes,task.isFlexible());
+        Task possibleEditedTask = createTask(taskNumber, name, startTime,
+                duration, deadline, recurrence, importance, notes, task.isFlexible());
         checkClash(possibleEditedTask);
         task.edit(name, startTime, duration, deadline, recurrence, importance, notes);
 
