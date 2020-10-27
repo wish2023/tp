@@ -4,9 +4,10 @@ import athena.Importance;
 import athena.TaskList;
 import athena.exceptions.CommandException;
 import athena.exceptions.TaskDuringSleepTimeException;
-import athena.ui.AthenaUi;
 import athena.exceptions.AddMissingRequiredParametersException;
 import athena.exceptions.ClashInTaskException;
+import athena.exceptions.AddDateWrongFormatException;
+import athena.ui.AthenaUi;
 
 import java.util.Objects;
 
@@ -64,10 +65,15 @@ public class AddCommand extends Command {
         if (taskName.equals("")) {
             throw new AddMissingRequiredParametersException();
         }
-        taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
-                taskRecurrence, taskImportance, taskNotes, isTaskFlexible);
-        athenaUi.printTaskAdded(taskName, taskStartTime, taskDuration, taskDeadline,
-                taskRecurrence, taskImportance.toString(), taskNotes);
+        try {
+            taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
+                    taskRecurrence, taskImportance, taskNotes, isTaskFlexible);
+            athenaUi.printTaskAdded(taskName, taskStartTime, taskDuration, taskDeadline,
+                    taskRecurrence, taskImportance.toString(), taskNotes);
+        } catch (NumberFormatException e) {
+            throw new AddDateWrongFormatException();
+        }
+
     }
 
     /**
