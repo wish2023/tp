@@ -291,6 +291,33 @@ The time allocation mechanism is facilitated by `TimeAllocator`. It allocates ti
 
 * Work in progress hehe
 
+Implementation
+TimeAllocator takes in  TaskList and separates it into a fixedTaskList and a flexibleTaskList
+
+When runAllocate is executed, a ForecastFilter is created in order to separate the tasks based on their days in order to identify the day that they belong to.
+
+An ArrayList named dayLog is used to keep track of the times that the tasks take up during the day, it stores the taskNumber that occupies each of the hourly slots.
+
+Fixed tasks are placed into the dayLog first as they do not change. 
+
+The start time and sleep time is referenced together with the dayLog to identify the vacant slots.
+
+bestLog identifies the tasks from the flexibleTaskList that reduces the dead space in the logs based on changing the tasks available for getLog to insert into the logs.
+
+getLog iterates through the TaskList provided to it and checks if there is enough space in the log for the task before slotting it in. Once it runs out of valid tasks or if the log is fully filled, it returns the log and modifies the provided TaskList to contain the leftover tasks
+
+The process repeats until the dayLog contains no valid positions for tasks in the flexibleTaskList.
+
+The taskNumber is then used to identify what task to modify. It changes the startTime of this task to the first index it is identified at which corresponds to the hour that it started at.
+
+It then modifies the ForecastFilter to identify the tasks on the next day.
+
+Once runAllocate finishes running, it changes the startTime of tasks that have been allocated without altering the isFlexible attribute of the tasks.
+
+
+
+
+
 Given below is an example usage scenario and how the allocation mechanism behaves at each step.
 
 **Step 1**. The user launches the application. The *data.csv* file located next to the application jar file contains 5 tasks. These tasks are loaded into the `TaskList`. 3 of them have a fixed time slot, while the other 2 are not assigned any time slot.
