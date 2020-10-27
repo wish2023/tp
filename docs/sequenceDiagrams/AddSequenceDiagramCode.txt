@@ -1,7 +1,17 @@
 title Add
 
+actor Athena
+Athena->+LogicManager: execute()
+
+LogicManager->+Storage: loadTaskListData()
+Storage-->-LogicManager:
+
+LogicManager->+Parser: parse()
+Parser-->-LogicManager:
+
+LogicManager->+AddCommand: execute()
 AddCommand->+TaskList: addTask()
-activate AddCommand
+
 
 TaskList->TaskList: addTask()
 activate TaskList
@@ -20,3 +30,8 @@ deactivate TaskList
 
 TaskList-->-AddCommand:
 deactivate TaskList
+
+AddCommand-->-LogicManager:
+
+LogicManager->+Storage: saveTaskListData()
+Storage-->-LogicManager:
