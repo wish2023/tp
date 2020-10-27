@@ -2,10 +2,10 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
+import athena.exceptions.DeleteInvalidIndexException;
 import athena.exceptions.CommandException;
 import athena.ui.AthenaUi;
 import athena.exceptions.ClashInTaskException;
-import athena.exceptions.TaskNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -63,15 +63,15 @@ class DeleteCommandTest {
     /**
      * Tests that a task is a deleted from a list if a valid task number is given.
      *
-     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
+     * @throws DeleteInvalidIndexException Exception thrown when the given task number is not in the list
      */
     @Test
-    public void execute_validNumber_taskIsDeleted() throws TaskNotFoundException {
+    public void execute_validNumber_taskIsDeleted() throws DeleteInvalidIndexException {
         assertDeletionSuccessful(1, taskList, taskListWithoutTask);
     }
 
     /**
-     * Tests that a TaskNotFoundException is thrown when an task number not in the list is given.
+     * Tests that a DeleteInvalidIndexException is thrown when an task number not in the list is given.
      */
     @Test
     public void execute_invalidNumber_taskListIsUnchanged() {
@@ -94,10 +94,10 @@ class DeleteCommandTest {
      * @param deleteCommand    Delete command
      * @param expectedTaskList Expected task list
      * @param actualTaskList   Actual task list
-     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
+     * @throws DeleteInvalidIndexException Exception thrown when the given task number is not in the list
      */
     private void assertCommandBehaviour(DeleteCommand deleteCommand, TaskList expectedTaskList,
-                                        TaskList actualTaskList) throws TaskNotFoundException {
+                                        TaskList actualTaskList) throws DeleteInvalidIndexException {
         AthenaUi athenaUi = new AthenaUi();
         deleteCommand.execute(taskList, athenaUi);
         assertEquals(expectedTaskList, actualTaskList);
@@ -111,7 +111,7 @@ class DeleteCommandTest {
      */
     private void assertDeletionFailsDueToInvalidNumber(int taskNumber, TaskList taskList) {
         DeleteCommand command = createDeleteCommand(taskNumber);
-        assertThrows(TaskNotFoundException.class, () -> {
+        assertThrows(DeleteInvalidIndexException.class, () -> {
             command.execute(taskList, athenaUi);
         });
     }
@@ -122,10 +122,10 @@ class DeleteCommandTest {
      * @param taskNumber          Task number of the task to delete
      * @param taskList            TaskList to delete from
      * @param taskListWithoutTask Reference taskList to compare with after deleting the task
-     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
+     * @throws DeleteInvalidIndexException Exception thrown when the given task number is not in the list
      */
     private void assertDeletionSuccessful(int taskNumber, TaskList taskList, TaskList taskListWithoutTask)
-            throws TaskNotFoundException {
+            throws DeleteInvalidIndexException {
         TaskList expectedTaskList = taskListWithoutTask;
         TaskList actualTaskList = taskList;
 

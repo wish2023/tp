@@ -2,10 +2,10 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
+import athena.exceptions.DoneInvalidIndexException;
 import athena.exceptions.CommandException;
 import athena.ui.AthenaUi;
 import athena.exceptions.ClashInTaskException;
-import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,15 +68,15 @@ class DoneCommandTest {
     /**
      * Tests that a task is marked as done if a valid task number is given.
      *
-     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
+     * @throws DoneInvalidIndexException Exception thrown when the given task number is not in the list
      */
     @Test
-    public void execute_validNumber_taskIsDone() throws TaskNotFoundException {
+    public void execute_validNumber_taskIsDone() throws DoneInvalidIndexException {
         assertDoneSuccessful(1, taskList, taskListWithDone);
     }
 
     /**
-     * Tests that a TaskNotFoundException is thrown when an task number not in the list is given.
+     * Tests that a DoneInvalidIndexException is thrown when an task number not in the list is given.
      */
     @Test
     public void execute_invalidNumber_taskListIsUnchanged() {
@@ -96,10 +96,10 @@ class DoneCommandTest {
     /**
      * Executes the command, and checks that the execution was what we expect.
      *
-     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
+     * @throws DoneInvalidIndexException Exception thrown when the given task number is not in the list
      */
     private void assertCommandBehaviour(DoneCommand doneCommand, TaskList expectedTaskList,
-                                        TaskList actualTaskList) throws TaskNotFoundException {
+                                        TaskList actualTaskList) throws DoneInvalidIndexException {
         AthenaUi athenaUi = new AthenaUi();
         doneCommand.execute(taskList, athenaUi);
         assertEquals(expectedTaskList, actualTaskList);
@@ -113,7 +113,7 @@ class DoneCommandTest {
      */
     private void assertDoneFailsDueToInvalidNumber(int taskNumber, TaskList taskList) {
         DoneCommand command = createDoneCommand(taskNumber);
-        assertThrows(TaskNotFoundException.class, () -> {
+        assertThrows(DoneInvalidIndexException.class, () -> {
             command.execute(taskList, athenaUi);
         });
     }
@@ -124,10 +124,10 @@ class DoneCommandTest {
      * @param taskNumber          Task number of the task to mark as done
      * @param taskList            TaskList to modify
      * @param taskListWithoutTask Reference taskList to compare with after marking the task as done
-     * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
+     * @throws DoneInvalidIndexException Exception thrown when the given task number is not in the list
      */
     private void assertDoneSuccessful(int taskNumber, TaskList taskList, TaskList taskListWithoutTask)
-            throws TaskNotFoundException {
+            throws DoneInvalidIndexException {
         TaskList expectedTaskList = taskListWithoutTask;
         TaskList actualTaskList = taskList;
 

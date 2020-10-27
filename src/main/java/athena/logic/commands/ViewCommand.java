@@ -2,6 +2,7 @@ package athena.logic.commands;
 
 import athena.exceptions.TaskNotFoundException;
 import athena.TaskList;
+import athena.exceptions.ViewInvalidIndexException;
 import athena.ui.AthenaUi;
 
 import java.util.Objects;
@@ -31,9 +32,14 @@ public class ViewCommand extends Command {
      *                               does not exist
      */
     @Override
-    public void execute(TaskList taskList, AthenaUi athenaUi) throws TaskNotFoundException {
-        String taskDescription = taskList.getTaskDescription(taskNumber);
-        athenaUi.printTaskDetails(taskDescription);
+    public void execute(TaskList taskList, AthenaUi athenaUi) throws ViewInvalidIndexException {
+        try {
+            String taskDescription = taskList.getTaskDescription(taskNumber);
+            athenaUi.printTaskDetails(taskDescription);
+        } catch (TaskNotFoundException e) {
+            throw new ViewInvalidIndexException();
+        }
+
     }
 
     /**

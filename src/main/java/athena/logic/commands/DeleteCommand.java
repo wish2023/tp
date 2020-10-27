@@ -1,5 +1,6 @@
 package athena.logic.commands;
 
+import athena.exceptions.DeleteInvalidIndexException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.TaskList;
@@ -31,10 +32,15 @@ public class DeleteCommand extends Command {
      *                               does not exist
      */
     @Override
-    public void execute(TaskList taskList, AthenaUi athenaUi) throws TaskNotFoundException {
-        Task deletedTask = taskList.deleteTask(deleteIndex);
-        String taskRestore = deletedTask.getTaskRestore();
-        athenaUi.printTaskDeleted(deletedTask, taskRestore);
+    public void execute(TaskList taskList, AthenaUi athenaUi) throws DeleteInvalidIndexException {
+        try {
+            Task deletedTask = taskList.deleteTask(deleteIndex);
+            String taskRestore = deletedTask.getTaskRestore();
+            athenaUi.printTaskDeleted(deletedTask, taskRestore);
+        } catch (TaskNotFoundException e) {
+            throw new DeleteInvalidIndexException();
+        }
+
     }
 
     /**
