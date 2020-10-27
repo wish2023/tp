@@ -1,32 +1,44 @@
 # Developer Guide
 
-- [Introduction](#introduction)
-- [Setting up and getting started](#setting-up-and-getting-started)
+- [Developer Guide](#developer-guide)
+  - [Introduction](#introduction)
+  - [Setting up and getting started](#setting-up-and-getting-started)
     - [Prerequisites](#prerequisites)
     - [Setting up the project in your computer](#setting-up-the-project-in-your-computer)
-- [Design & implementation](#design--implementation)
-    - [Architecture](#architecture)  
-    - [UI component](#ui-component)  
-    - [Logic component](#logic-component)  
-    - [TaskList component](#tasklist-component)  
+  - [**Design & implementation**](#design--implementation)
+    - [Architecture](#architecture)
+    - [UI component](#ui-component)
+    - [Logic component](#logic-component)
+    - [TaskList component](#tasklist-component)
     - [Storage component](#storage-component)
-- [Other Guides](#other-guides-documentation-logging-testing-configuration-dev-ops)    
-- [Implementation](#implementation)  
+    - [Timetable component](#timetable-component)
+  - [**Other Guides: Documentation, logging, testing, configuration, dev-ops**](#other-guides-documentation-logging-testing-configuration-dev-ops)
+  - [**Implementation**](#implementation)
     - [Add task feature](#add-task-feature)
     - [Delete task feature](#delete-task-feature)
     - [Mark task as done feature](#mark-task-as-done-feature)
     - [Edit task feature](#edit-task-feature)
     - [View task feature](#view-task-feature)
+    - [List feature](#list-feature)
     - [Time allocation to task in timetable](#time-allocation-to-task-in-timetable)
-    - [Data Storage](#data-storage)
-- [Appendix: Requirements ](#appendix-requirements)
-    - [Product scope](#product-scope)
-        - [Target user profile](#target-user-profile)
-        - [Value proposition](#value-proposition)
-    - [User stories](#user-stories)
-    - [Non-functional requirements](#non-functional-requirements) 
+    - [Data storage](#data-storage)
+  - [Appendix: Requirements](#appendix-requirements)
+  - [Product scope](#product-scope)
+    - [Target user profile](#target-user-profile)
+      - [Value proposition](#value-proposition)
+    - [User Stories](#user-stories)
+    - [Non-Functional Requirements](#non-functional-requirements)
     - [Glossary](#glossary)
-    - [Instruction for manual testing](#instructions-for-manual-testing)
+    - [Instructions for manual testing](#instructions-for-manual-testing)
+      - [Launch and shutdown](#launch-and-shutdown)
+      - [Adding a task](#adding-a-task)
+      - [Deleting a task](#deleting-a-task)
+      - [Marking a task as done](#marking-a-task-as-done)
+      - [Viewing the full details of a task](#viewing-the-full-details-of-a-task)
+      - [Editing a task](#editing-a-task)
+      - [Listing all tasks](#listing-all-tasks)
+      - [Help](#help)
+      - [Data storage](#data-storage-1)
 
 ## Introduction
 
@@ -128,7 +140,12 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 ### Storage component
 
 **API** : 
-[`Storage.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Storage.java)
+[`Storage.java`](structures/StorageStructure.png)
+
+### Timetable component
+
+**API** : 
+[`Timetable.java`](structures/TimetableStructure.png)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -162,14 +179,21 @@ The `AddCommand` class will then be executed and the task will be added to the `
 
 Given below is an example usage scenario and how the task adding mechanism behaves at each step.
 
-**Step 1.** The user adds a task to the application, by inputting `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`. 
+**Step 1.** The user launches the application for the first time. The `TaskList` is initialized to be empty.
 
-**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where the `Parser` will parse the user input to get the command type and details which creates an `AddCommand` object.
+![AddTaskEmptyListObjectDiagram](objectDiagrams/addTask/empty.png)
 
-**Step 3.** The `TaskList` now contains 1 task (Assignment1). The message to show if the task is added successfully is subsequently outputted by the `Ui` class to the user.
- After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
+**Step 2.** The user adds a task to the application, by inputting `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`. 
 
-**Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
+**Step 3.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where the `Parser` will parse the user input to get the command type and details which creates an `AddCommand` object.
+
+**Step 4.** The `TaskList` now contains 1 task (Assignment1). The message to show if the task is added successfully is subsequently outputted by the `Ui` class to the user.
+
+![AddTaskEmptyListObjectDiagram](objectDiagrams/addTask/onetask.png)
+
+**Step 5.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
+
+**Step 6.** After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
 
 The following sequence diagram illustrates how the task adding operation works:
 
@@ -283,6 +307,30 @@ Given below is an example usage scenario and how the viewing task mechanism beha
 **Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
 
 The following sequence diagram illustrates how the viewing task operation works:
+
+*work in progress*
+
+### List feature
+The list command is facilitated by `LogicManager`, using `Parser` which extracts the command type and parameters from the user input, and stores it in a `ListCommand` that contains the parameters provided by the user. `ListCommand` creates a `Timetable` with the existing `TaskList` to generate the output message.
+
+`Parser`, `ListCommand` and `Timetable` implements the following operations:
+
+* `Parser#parse` - Parses user input to extract the command parameters.
+* `Parser#parseListCommand` - Parses user input to retrieve the filters for the `TaskList` and creates a `ListCommand`.
+* `ListCommand#execute` - Prints the user's tasks using `Timetable#toString`.
+* `Timetable#toString` - Gets a string representation of the user's tasks.
+
+Given below is an example usage scenario and how the *list* command behaves at each step.
+
+**Step 1.** The user requests the application to print a list of the existing tasks, by inputting `list`. 
+
+**Step 2.** The input will be read in by the `Athena` class. Then, the input will be passed into `LogicManager` where `Parser#parse` will be called to parse the user input, to create a `ListCommand` containing the parameters provided by the user. The `ListCommand` object is returned to the `LogicManager`.
+
+**Step 3.** `LogicManager` calls `ListCommand#execute`, which creates a `Timetable` based on the `TaskList`, and the `importance` and `forecast` parameters provided by the user. The `Timetable` returns a string representation of the tasks by calling `Timetable#toString` that is printed to the user.
+
+**Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to indicate that the user has not requested to exit the application. 
+
+The following sequence diagram illustrates how the *list* command works:
 
 *work in progress*
 
