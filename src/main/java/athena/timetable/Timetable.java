@@ -214,7 +214,7 @@ public class Timetable {
                 if (taskHour == hour) {
                     return task;
                 }
-            } catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 //do nothing
             }
         }

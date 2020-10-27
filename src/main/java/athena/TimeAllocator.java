@@ -74,7 +74,7 @@ public class TimeAllocator {
                     done = true;
                 }
             }
-            for(Task currTask : carryOverTasks){
+            for (Task currTask : carryOverTasks) {
                 try {
                     taskList.getTaskFromNumber(currTask.getNumber()).getTimeInfo().setStartTime(null);
                 } catch (TaskNotFoundException e) {
