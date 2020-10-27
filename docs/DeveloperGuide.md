@@ -173,7 +173,7 @@ Given below is an example usage scenario and how the task adding mechanism behav
 
 The following sequence diagram illustrates how the task adding operation works:
 
-*work in progress*
+![AddTaskSequenceDiagram](sequenceDiagrams/AddSequenceDiagram.png)
 
 ### Delete task feature
 The deleting task mechanism is facilitated by `LogicManager`.
@@ -258,7 +258,7 @@ Given below is an example usage scenario and how the editing task mechanism beha
 
 The following sequence diagram illustrates how the editing task operation works:
 
-*work in progress*
+![EditTaskSequenceDiagram](sequenceDiagrams/EditSequenceDiagram.png)
 
 ### View task feature
 The viewing task mechanism is facilitated by `LogicManager`.
