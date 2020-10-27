@@ -38,7 +38,7 @@ public class Timetable {
     private Forecast forecast;
 
     private int wakeUpHour = 8;
-    private int sleepHour = 22;
+    private int sleepHour = 24;
 
     /**
      * Creates a timetable object from a TaskList object.
@@ -46,7 +46,7 @@ public class Timetable {
      * @param taskList Task list
      */
     public Timetable(TaskList taskList) {
-        this(taskList, 8, 22);
+        this(taskList, 8, 24);
     }
 
     /**

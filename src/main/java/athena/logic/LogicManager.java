@@ -1,5 +1,6 @@
 package athena.logic;
 
+import athena.TimeAllocator;
 import athena.Storage;
 import athena.TaskList;
 import athena.ui.AthenaUi;
@@ -31,6 +32,10 @@ public class LogicManager implements Logic {
         taskList = storage.loadTaskListData();
         userCommand = parser.parse(inputString, taskList);
         userCommand.execute(taskList, athenaUi);
+
+        TimeAllocator timeAllocator = new TimeAllocator(taskList);
+        timeAllocator.runAllocate();
+
         storage.saveTaskListData(taskList);
         return userCommand.getIsExit();
     }

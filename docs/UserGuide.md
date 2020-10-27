@@ -128,7 +128,6 @@ Shows your tasks organized in a timetable. Each task will be printed with a numb
 * `ld`
 * `list f/WEEK i/medium`
 * `l2 f/WEEK`
-* `lm i/medium`
 
 #### Expected output
 
