@@ -30,31 +30,28 @@
 
 ## Introduction
 
-ATHENA aims to help students to automate the process of organising their schedule. After the user inputs pre-allocated time slots for work and relaxation, ATHENA figures out the best timetable based on the user’s needs.
+Welcome to ATHENA's Developer Guide! ATHENA (which stands for Automated Timetable Helper Encourager n' Assistant), is a desktop daily life planner that aims to help students automate the process of organising their schedule. It is a Command Line Interface (CLI) based application that helps users figure out the best timetable after the user has input their pre-allocated time slots for work and relaxation.
 
-This document describes the software architecture and design for the implementation
-of ATHENA. The intended audience of this document is the developers, designers, and
-software testers of ATHENA.
+This document describes the software architecture and design of ATHENA that should hopefully help you - a developer, designer, or software tester - understand  the inner workings of ATHENA. 
 
 
 ## Setting up and getting started
 
 ### Prerequisites
-1. Ensure you have `JDK 11` installed in your computer.
-2. Install IntelliJ IDEA.
+1. Ensure you have `JDK 11` installed on your computer.
+2. Install IntelliJ IDEA (referred to as IntelliJ in the rest of this document).
 
-### Setting up the project in your computer
-1. Fork this repository, and clone the fork to your computer.
-2. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first).
+### Setting up the project on your computer
+1. Fork [this](https://https://github.com/AY2021S1-CS2113T-W12-2/tp) repository, and clone the fork onto your computer.
+2. Open IntelliJ (If you do not see the welcome screen, click `File` > `Close Project` to close the existing project dialog first).
 3. Set up the correct JDK version for Gradle  
    1. Click `Configure` > `Project Defaults` > `Project Structure`.
-   2. Click `New…` and select the directory where you installed `JDK 11`.
+   2. Click `New…` and select the directory where you have installed `JDK 11`.
    3. Click `OK`.
-4. IntelliJ IDEA by default has the Gradle plugin installed. If you have disabled it, go to `File` > `Settings` > `Plugins` to re-enable them.
-   If your project involves GUI programming, similarly ensure the JavaFX plugin has not been disabled.
-5. Click `Import Project`(or `Open or Import` in newer version of Intellij).
-6. Locate the `build.gradle` file and select it. Click `OK`. If asked, choose to `Open as Project` (not `Open as File`).
-7. Click `OK` to accept the default settings if prompted. 
+4. By default, IntelliJ has the Gradle plugin installed. If you have disabled it, go to `File` > `Settings` > `Plugins` to re-enable it.
+5. Click `Import Project`(or `Open or Import` in newer versions of IntelliJ).
+6. Locate the `build.gradle` file and select it. Click `OK`. If prompted, choose to `Open as Project` (not `Open as File`).
+7. Click `OK` to accept the default settings, if prompted. 
 8. Wait for the importing process to finish, and you are good to go!
 9. Verify the setup:
     1. Run `Athena` and try a few commands such as `list` or `help`.
@@ -66,26 +63,25 @@ software testers of ATHENA.
 
 ![Architecture Diagram](structures/ArchitectureDiagram.png)
 
-The ***Architecture Diagram*** given above explains the high-level design of the ATHENA. Given below is a quick overview of each component.
+The ***Architecture Diagram*** given above explains the high-level design of ATHENA. A quick overview of each component is shown below.
 
-**`Main`** has one class called [`Athena`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Athena.java). It is responsible for,
-* At app launch: Initializes the components and connects them up with each other.
-* At app shut down: Shuts down the components.
+**`Main`** has one class called [`Athena`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Athena.java). It is responsible for:
+* At application launch: Initializes the components and connects them up with each other.
+* At application shut down: Shuts down the components.
 
-The rest of the App consists of these components.
+The rest of the application consists of these components:
 
-* [**`Ui`**](#athenaUi-component): The UI of ATHENA.
-* [**`Logic`**](#logic-component): Parses user input and command executor.
+* [**`Ui`**](#athenaUi-component): The user interface of ATHENA.
+* [**`Logic`**](#logic-component): Parses user input and executes commands.
 * [**`TaskList`**](#tasklist-component): The list that stores the user's tasks.
 * [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
 
-**How the architecture components interact with each other**
 
-The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+The *Sequence Diagram* below shows how these components interact with each other for the scenario where the user issues a command.
 
 *work in progress*
 
-The sections below give more details of each component.
+The sections below give more details for each component.
 
 ### UI component
 
@@ -94,9 +90,11 @@ The sections below give more details of each component.
 **API** :
 [`Ui.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Ui.java)
 
-The User Interface (UI) seen by the user consists of two main parts: `AthenaUi` and `ColorText`. `AthenaUi` implements the interface `Ui`. `AthenaUi` outputs all the output messages that the user sees after launching the application while `ColorText` applies relevant colours to certain output strings.
-
-As UI outputs the front end viewed by the user, it also prints out error messages tied to exceptions that get thrown to the main `Athena` class. Additionally, since `LogicManager` executes user commands, it requires `AthenaUi`.
+1. `Ui` consists of `AthenaUi` and `ColorText`
+2. `AthenaUi` implements `Ui` interface and outputs messages that the user sees
+3. `ColorText` applies relevant colors to certain output messages
+4. `AthenaUi` also prints out error messages tied to `Command Exception` that get thrown by `Athena`
+5. `LogicManager` requires `AthenaUi` to execute user commands
 
 ### Logic component
 
@@ -106,19 +104,15 @@ As UI outputs the front end viewed by the user, it also prints out error message
 [`Logic.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/logic/Logic.java)
 
 1. `Logic` uses the `Parser` class to parse the user command.
-1. This results in a `Command` object which is executed by the `LogicManager`.
-1. The command execution can affect the `TaskList` (e.g. adding a task).
-1. The result of the command execution will also call the `Ui` to print the respective messages for each command.
+2. This results in a `Command` object which is executed by the `LogicManager`.
+3. The command execution can affect the `TaskList` (e.g. adding a task).
+4. The result of the command execution will also call the `Ui` to print the respective messages for each command.
 
-Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
-
-*work in progress* 
 
 ### TaskList component
 
 ![TaskListStructure](https://raw.githubusercontent.com/wish2023/tp/DG-tasklist/docs/structures/TaskListStructure.png)
 
-**API** :
 [`TaskList.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/TaskList.java)
 
 1. The `TaskList` stores task data in `Task` type objects.
@@ -127,7 +121,6 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 
 ### Storage component
 
-**API** : 
 [`Storage.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Storage.java)
 
 --------------------------------------------------------------------------------------------------------------------
@@ -164,16 +157,17 @@ Given below is an example usage scenario and how the task adding mechanism behav
 
 **Step 1.** The user adds a task to the application, by inputting `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`. 
 
-**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where the `Parser` will parse the user input to get the command type and details which creates an `AddCommand` object.
+**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where `Parser#parse` will parse the user input to get the command type and details then call`Parse#parseAddCommand`to create a `AddCommand` object. The `AddCommand` object is returned to the `LogicManager`.
 
-**Step 3.** The `TaskList` now contains 1 task (Assignment1). The message to show if the task is added successfully is subsequently outputted by the `Ui` class to the user.
- After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
+**Step 3.** The `LogicManager` calls `AddCommand#execute`. The `TaskList` now contains 1 task (Assignment1). The message to show if the task is added successfully is subsequently outputted by the `AthenaUi` class to the user.
 
-**Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
+**Step 4.** After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
 
-The following sequence diagram illustrates how the task adding operation works:
+**Step 5.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
 
-![AddTaskSequenceDiagram](sequenceDiagrams/AddSequenceDiagram.png)
+The following sequence diagram illustrates how Step 3 of the task adding operation works:
+
+![AddTaskSequenceDiagram](https://ay2021s1-cs2113t-w12-2.github.io/tp/sequenceDiagrams/AddSequenceDiagram.png)
 
 ### Delete task feature
 The deleting task mechanism is facilitated by `LogicManager`.
@@ -192,14 +186,15 @@ Given below is an example usage scenario and how the deleting task mechanism beh
 
 **Step 1.** The user deletes a task from the application, by inputting `delete 1`. 
 
-**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where the `Parser` will parse the user input to get the command type and details which creates an `DeleteCommand` object.
+**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where `Parser#parse` will parse the user input to get the command type and details then call`Parse#parseDeleteCommand`to create a `DeleteCommand` object.The `DeleteCommand` object is returned to the `LogicManager`.
 
-**Step 3.** The `TaskList` now removed task with index 1. The message to show if the task is deleted successfully is subsequently outputted by the `Ui` class to the user.
- After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
+**Step 3.** The `LogicManager` calls `DeleteCommand#execute`. The `TaskList` now removed task with index 1. The message to show if the task is deleted successfully is subsequently outputted by the `AthenaUi` class to the user.
+
+**Step 4.** After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
 
 **Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
 
-The following sequence diagram illustrates how the task deleting operation works:
+The following sequence diagram illustrates how Step 3 of the task deleting operation works:
 
 *work in progress*
 
@@ -213,26 +208,27 @@ The `DoneCommand` class will then be executed and the task will be marked as don
 
 * `Parser#parse` - Parse user input to retrieve the command type and index of task.
 * `Parser#parseDoneCommand` - Parse user input to retrieve the index of task to be marked as done and creates an `DoneCommand` object.
-* `DoneCommand#execute` - Marks task as done into `TaskList` and calls `Ui` to print message output.
+* `DoneCommand#execute` - Marks task as done into `TaskList` and calls `AthenaUi` to print message output.
 * `Storage#saveTaskListData` - Writes the current task list into the save file.
 
 Given below is an example usage scenario and how the marking task as done mechanism behaves at each step.
 
 **Step 1.** The user marks a task as done in the application, by inputting `done 1`. 
 
-**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where the `Parser` will parse the user input to get the command type and details which creates an `DoneCommand` object.
+**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where `Parser#parse` will parse the user input to get the command type and details then call`Parse#parseDoneCommand`to create a `DoneCommand` object. The `DoneCommand` object is returned to the `LogicManager`.
 
-**Step 3.** The `TaskList` now has task with index 1 marked as done. The message to show if the task is marked as done successfully is subsequently outputted by the `Ui` class to the user.
- After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
+**Step 3.** The `LogicManager` calls `DoneCommand#execute`. The `TaskList` now has task with index 1 marked as done. The message to show if the task is marked as done successfully is subsequently outputted by the `AthenaUi` class to the user.
+ 
+**Step 4.** After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
 
-**Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
+**Step 5.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
 
-The following sequence diagram illustrates how the marking task as done operation works:
+The following sequence diagram illustrates how Step 3 of the marking task as done operation works:
 
 *work in progress*
 
 ### Edit task feature
-The adding of task mechanism is facilitated by `LogicManager`.
+The editing of task mechanism is facilitated by `LogicManager`.
 
 The retrieving of task details is done by `Parser`. It splits the user input based on the command type and the various parameters' description.
 The user can input the parameters in any order.
@@ -249,14 +245,15 @@ Given below is an example usage scenario and how the editing task mechanism beha
 
 **Step 1.** The user edits a task to the application, by inputting `edit 1 n/Assignment2 t/1100 D/16-09-2020`. 
 
-**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where the `Parser` will parse the user input to get the command type and details which creates an `EditCommand` object.
+**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where `Parser#parse` will parse the user input to get the command type and details then call`Parse#parseEditCommand`to create a `EditCommand` object. The `EditCommand` object is returned to the `LogicManager`.
 
-**Step 3.** The `TaskList` now has task with index 1 name changed from "Assignment1" to "Assignment2". The message to show if the task is edited successfully is subsequently outputted by the `Ui` class to the user.
- After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the edited task details in the `TaskList` into the save file.
+**Step 3.** The `LogicManager` calls `EditCommand#execute`. The `TaskList` now has task with index 1 name changed from "Assignment1" to "Assignment2". The message to show if the task is edited successfully is subsequently outputted by the `AthenaUi` class to the user.
+ 
+**Step 4.** After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the edited task details in the `TaskList` into the save file.
 
-**Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
+**Step 5.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
 
-The following sequence diagram illustrates how the editing task operation works:
+The following sequence diagram illustrates how Step 3 of the editing task operation works:
 
 ![EditTaskSequenceDiagram](sequenceDiagrams/EditSequenceDiagram.png)
 
@@ -276,13 +273,13 @@ Given below is an example usage scenario and how the viewing task mechanism beha
 
 **Step 1.** The user views a task from the application, by inputting `view 1`. 
 
-**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where the `Parser` will parse the user input to get the command type and details which creates an `ViewCommand` object.
+**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where `Parser#parse` will parse the user input to get the command type and details then call`Parse#parseViewCommand`to create a `ViewCommand` object. The `ViewCommand` object is returned to the `LogicManager`.
 
-**Step 3.** The `TaskList` now retrieve details of 1 task (Assignment 1). The message to show if the task details is subsequently outputted by the `Ui` class to the user.
+**Step 3.** The `LogicManager` calls `ViewCommand#execute`. The `TaskList` now retrieve details of 1 task (Assignment 1). The message to show if the task details is subsequently outputted by the `AthenaUi` class to the user.
 
 **Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
 
-The following sequence diagram illustrates how the viewing task operation works:
+The following sequence diagram illustrates how Step 3 of the viewing task operation works:
 
 *work in progress*
 
