@@ -51,6 +51,7 @@ public class TimeAllocator {
                     dayLog.set(timeInfo.getStartTime().getHour() + i, tag);
                 }
             }
+            ArrayList<Task> carryOverTasks = new ArrayList<Task>();
 
             int start = 8;
             int sleep = 24;
@@ -60,7 +61,7 @@ public class TimeAllocator {
                 pos = nextVacantSlotStart(dayLog, pos, sleep);
                 int end = pos;
                 end = nextVacantSlotEnd(dayLog, end, sleep);
-                ArrayList<Task> carryOverTasks = new ArrayList<Task>();
+                carryOverTasks = new ArrayList<Task>();
                 ArrayList<Integer> bestLog = getBestLog(pos, end, undefinedTimeTasks, carryOverTasks);
                 populateDayLog(pos, dayLog, bestLog);
                 try {
@@ -72,6 +73,13 @@ public class TimeAllocator {
                 start = end;
                 if (end == sleep) {
                     done = true;
+                }
+            }
+            for (Task currTask : carryOverTasks) {
+                try {
+                    taskList.getTaskFromNumber(currTask.getNumber()).getTimeInfo().setStartTime(null);
+                } catch (TaskNotFoundException e) {
+                    //do nothing
                 }
             }
         }

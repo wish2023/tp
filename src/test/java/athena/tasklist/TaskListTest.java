@@ -3,8 +3,8 @@ package athena.tasklist;
 import athena.Forecast;
 import athena.Importance;
 import athena.TaskList;
+import athena.exceptions.CommandException;
 import athena.common.utils.DateUtils;
-import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
@@ -27,7 +27,7 @@ class TaskListTest {
      * Creates a new task list before every test.
      */
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws CommandException {
         setupTestTaskList();
     }
 
@@ -35,7 +35,7 @@ class TaskListTest {
      * Tests that the max number is updated when adding a task with a larger task number through a Task object.
      */
     @Test
-    void addTask_givenTaskWithLargerTaskNumber_correctMaxNumber() {
+    void addTask_givenTaskWithLargerTaskNumber_correctMaxNumber() throws CommandException {
         int testMaxNumber = 5;
         testTaskList.addTask(new Task("tres", "1100",
                 "2", "16-09-2020", "13-11-2020", Importance.LOW,
@@ -48,7 +48,7 @@ class TaskListTest {
      * parameters.
      */
     @Test
-    void addTask_givenLargerTaskNumber_correctMaxNumber() throws ClashInTaskException {
+    void addTask_givenLargerTaskNumber_correctMaxNumber() throws CommandException {
         String todayDateString = LocalDate.now().toString();
         int testMaxNumber = 100;
         testTaskList.addTask(testMaxNumber, "big number", "1100",
@@ -61,9 +61,9 @@ class TaskListTest {
      * Tests that the max number is incremented when adding a task without providing a task number.
      */
     @Test
-    void addTask_noGivenTaskNumber_maxNumberIncremented() throws ClashInTaskException {
+    void addTask_noGivenTaskNumber_maxNumberIncremented() throws CommandException {
         String todayDateString = LocalDate.now().toString();
-        testTaskList.addTask("big number", "0200",
+        testTaskList.addTask("big number", "1400",
                 "2", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", false);
         assertEquals(testTaskList.getMaxNumber(), 3);
@@ -75,7 +75,7 @@ class TaskListTest {
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     @Test
-    void deleteTask_validTaskIndex_correctTaskDeleted() throws TaskNotFoundException {
+    void deleteTask_validTaskIndex_correctTaskDeleted() throws CommandException {
         Task expectedTask = new Task("Assignment1", "1100",
                 "2", "16-09-2020", "13-10-2020", Importance.HIGH,
                 "Refer to slides", 12, false);
@@ -90,7 +90,7 @@ class TaskListTest {
      * @throws TaskNotFoundException Exception thrown when the given task number is not in the list
      */
     @Test
-    void editTask_givenAttributes_attributeChanged() throws TaskNotFoundException, ClashInTaskException {
+    void editTask_givenAttributes_attributeChanged() throws CommandException {
         int index = 0;
         Task task = new Task("Assignment1", "1100",
                 "2", "16-09-2020", "13-10-2020", Importance.HIGH,
@@ -109,7 +109,7 @@ class TaskListTest {
     }
 
     @Test
-    void getFilteredList_highImportance_returnTasksWithHighImportance() {
+    void getFilteredList_highImportance_returnTasksWithHighImportance() throws CommandException {
         // Filter list using high, low, medium importance
         // Filter list using today, week, all forecast
         // TODO ^^
@@ -119,41 +119,41 @@ class TaskListTest {
     }
 
     @Test
-    void getFilteredList_mediumImportance_returnTasksWithMediumImportance() {
+    void getFilteredList_mediumImportance_returnTasksWithMediumImportance() throws CommandException {
         TaskList expectedTaskList = getImportanceTestExpectedTasks(Importance.MEDIUM);
         ImportanceFilter mediumFilter = new ImportanceFilter(Importance.MEDIUM);
         assertEquals(testTaskList.getFilteredList(mediumFilter), expectedTaskList);
     }
 
     @Test
-    void getFilteredList_lowImportance_returnTasksWithLowImportance() {
+    void getFilteredList_lowImportance_returnTasksWithLowImportance() throws CommandException {
         TaskList expectedTaskList = getImportanceTestExpectedTasks(Importance.LOW);
         ImportanceFilter lowFilter = new ImportanceFilter(Importance.LOW);
         assertEquals(testTaskList.getFilteredList(lowFilter), expectedTaskList);
     }
 
     @Test
-    void getFilteredList_allForecast_returnAllTasks() {
+    void getFilteredList_allForecast_returnAllTasks() throws CommandException {
         TaskList expectedTaskList = getForecastTestExpectedTasks(Forecast.ALL);
         ForecastFilter allFilter = new ForecastFilter(Forecast.ALL);
         assertEquals(testTaskList.getFilteredList(allFilter), expectedTaskList);
     }
 
     @Test
-    void getFilteredList_weekForecast_returnTasksForWeek() {
+    void getFilteredList_weekForecast_returnTasksForWeek() throws CommandException {
         TaskList expectedTaskList = getForecastTestExpectedTasks(Forecast.WEEK);
         ForecastFilter weekFilter = new ForecastFilter(Forecast.WEEK);
         assertEquals(testTaskList.getFilteredList(weekFilter), expectedTaskList);
     }
 
     @Test
-    void getFilteredList_todayForecast_returnTasksForToday() {
+    void getFilteredList_todayForecast_returnTasksForToday() throws CommandException {
         TaskList expectedTaskList = getForecastTestExpectedTasks(Forecast.DAY);
         ForecastFilter todayFilter = new ForecastFilter(Forecast.DAY);
         assertEquals(testTaskList.getFilteredList(todayFilter), expectedTaskList);
     }
 
-    private TaskList getImportanceTestExpectedTasks(Importance importance) {
+    private TaskList getImportanceTestExpectedTasks(Importance importance) throws CommandException {
         String dateInWeek = DateUtils.formatDate(getDateInWeek());
         String todayDateString = DateUtils.formatDate(LocalDate.now());
         TaskList taskList = new TaskList();
@@ -177,7 +177,7 @@ class TaskListTest {
         return taskList;
     }
 
-    private TaskList getForecastTestExpectedTasks(Forecast forecast) {
+    private TaskList getForecastTestExpectedTasks(Forecast forecast) throws CommandException {
         String dateInWeek = DateUtils.formatDate(getDateInWeek());
         String todayDateString = DateUtils.formatDate(LocalDate.now());
         TaskList taskList = new TaskList();
@@ -205,7 +205,7 @@ class TaskListTest {
     }
 
 
-    private void setupTestTaskList() {
+    private void setupTestTaskList() throws CommandException {
         String dateInWeek = DateUtils.formatDate(getDateInWeek());
         String todayDateString = DateUtils.formatDate(LocalDate.now());
         testTaskList = new TaskList();

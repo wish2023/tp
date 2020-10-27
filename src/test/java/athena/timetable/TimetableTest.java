@@ -5,6 +5,7 @@ import athena.Importance;
 import athena.TaskList;
 import athena.TestSetup;
 import athena.exceptions.ClashInTaskException;
+import athena.exceptions.CommandException;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
@@ -30,7 +31,7 @@ class TimetableTest {
      * Tests that the timetable from 8am to 12pm is drawn correctly.
      */
     @Test
-    void drawTimetable_start8End12_returnsCorrectlyDrawnTimetable() throws ClashInTaskException {
+    void drawTimetable_start8End12_returnsCorrectlyDrawnTimetable() throws CommandException {
         TaskList taskList = new TaskList();
         taskList.addTask("Assignment 1", "0800", "2", "6pm", "19-10-2020",
                 Importance.HIGH, "Tough assignment", false);
@@ -81,7 +82,7 @@ class TimetableTest {
      * Checks if the timetable returns all tasks with no filter.
      */
     @Test
-    void getTimetable_noFilter_returnsAllTasks() throws ClashInTaskException {
+    void getTimetable_noFilter_returnsAllTasks() throws CommandException {
         final ArrayList<TimetableDay> days = new ArrayList<TimetableDay>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate date;
@@ -122,7 +123,7 @@ class TimetableTest {
 
         date = LocalDate.parse("16-12-2020", formatter);
         day = new TimetableDay(date);
-        day.addTask(new Task("Assignment 9", "0600", "2", "6pm",
+        day.addTask(new Task("Assignment 9", "1600", "2", "6pm",
                 "16-12-2020", Importance.LOW, "Tough assignment", 8, false));
         day.addTask(new Task("Assignment 10", "1300", "2", "6pm",
                 "16-12-2020", Importance.MEDIUM, "Tough assignment", 9, false));
@@ -138,7 +139,7 @@ class TimetableTest {
      * Checks if the timetable returns only high importance tasks with the high importance filter.
      */
     @Test
-    void getTimetable_highImportanceFilter_returnsHighImportanceTasks() throws ClashInTaskException {
+    void getTimetable_highImportanceFilter_returnsHighImportanceTasks() throws CommandException {
         final ArrayList<TimetableDay> days = new ArrayList<TimetableDay>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate date;

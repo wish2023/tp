@@ -2,6 +2,7 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
+import athena.exceptions.TaskDuringSleepTimeException;
 import athena.ui.AthenaUi;
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
@@ -54,7 +55,8 @@ public class EditCommand extends Command {
      *                               does not exist
      */
     @Override
-    public void execute(TaskList taskList, AthenaUi athenaUi) throws TaskNotFoundException, ClashInTaskException {
+    public void execute(TaskList taskList, AthenaUi athenaUi)
+            throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException {
         taskList.editTask(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
         athenaUi.printTaskEdited(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,

@@ -37,7 +37,8 @@ public class ListCommand extends Command {
      * @throws EmptyTaskListException Exception thrown when the task list is empty
      */
     @Override
-    public void execute(TaskList taskList, AthenaUi athenaUi) throws EmptyTaskListException {
+    public void execute(TaskList taskList, AthenaUi athenaUi)
+            throws EmptyTaskListException {
         if (taskList.getTasks().isEmpty()) {
             throw new EmptyTaskListException();
         }

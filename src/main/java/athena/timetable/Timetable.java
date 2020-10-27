@@ -209,9 +209,13 @@ public class Timetable {
      */
     private Task findTaskAtHour(TaskList taskList, int hour) {
         for (Task task : taskList.getTasks()) {
-            int taskHour = task.getTimeInfo().getStartTime().getHour();
-            if (taskHour == hour) {
-                return task;
+            try {
+                int taskHour = task.getTimeInfo().getStartTime().getHour();
+                if (taskHour == hour) {
+                    return task;
+                }
+            } catch (NullPointerException e) {
+                //do nothing
             }
         }
         return null;

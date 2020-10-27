@@ -2,6 +2,7 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
+import athena.exceptions.CommandException;
 import athena.ui.AthenaUi;
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
@@ -24,7 +25,7 @@ class DeleteCommandTest {
      *
      * @return TaskList for testing
      */
-    private TaskList getTaskList() throws ClashInTaskException {
+    private TaskList getTaskList() throws CommandException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
@@ -40,7 +41,7 @@ class DeleteCommandTest {
      *
      * @return TaskList for testing without task number 2
      */
-    private TaskList getTaskListWithoutTask() throws ClashInTaskException {
+    private TaskList getTaskListWithoutTask() throws CommandException {
         TaskList taskList = new TaskList();
         taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
@@ -53,7 +54,7 @@ class DeleteCommandTest {
      * Creates the components needed for testing.
      */
     @BeforeEach
-    public void setup() throws ClashInTaskException {
+    public void setup() throws CommandException {
         athenaUi = new AthenaUi();
         taskList = getTaskList();
         taskListWithoutTask = getTaskListWithoutTask();
