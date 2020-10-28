@@ -42,31 +42,28 @@
 
 ## Introduction
 
-ATHENA aims to help students to automate the process of organising their schedule. After the user inputs pre-allocated time slots for work and relaxation, ATHENA figures out the best timetable based on the user’s needs.
+Welcome to ATHENA's Developer Guide! ATHENA (which stands for Automated Timetable Helper Encourager n' Assistant), is a desktop daily life planner that aims to help students automate the process of organising their schedule. It is a Command Line Interface (CLI) based application that helps users figure out the best timetable after the user has input their pre-allocated time slots for work and relaxation.
 
-This document describes the software architecture and design for the implementation
-of ATHENA. The intended audience of this document is the developers, designers, and
-software testers of ATHENA.
+This document describes the software architecture and design of ATHENA that should hopefully help you - a developer, designer, or software tester - understand  the inner workings of ATHENA. 
 
 
 ## Setting up and getting started
 
 ### Prerequisites
-1. Ensure you have `JDK 11` installed in your computer.
-2. Install IntelliJ IDEA.
+1. Ensure you have `JDK 11` installed on your computer.
+2. Install IntelliJ IDEA (referred to as IntelliJ in the rest of this document).
 
 ### Setting up the project in your computer
-1. Fork this repository, and clone the fork to your computer.
-2. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first).
+1. Fork [this](https://https://github.com/AY2021S1-CS2113T-W12-2/tp) repository, and clone the fork onto your computer.
+2. Open IntelliJ (If you do not see the welcome screen, click `File` > `Close Project` to close the existing project dialog first).
 3. Set up the correct JDK version for Gradle  
    1. Click `Configure` > `Project Defaults` > `Project Structure`.
-   2. Click `New…` and select the directory where you installed `JDK 11`.
+   2. Click `New…` and select the directory where you have installed `JDK 11`.
    3. Click `OK`.
-4. IntelliJ IDEA by default has the Gradle plugin installed. If you have disabled it, go to `File` > `Settings` > `Plugins` to re-enable them.
-   If your project involves GUI programming, similarly ensure the JavaFX plugin has not been disabled.
-5. Click `Import Project`(or `Open or Import` in newer version of Intellij).
-6. Locate the `build.gradle` file and select it. Click `OK`. If asked, choose to `Open as Project` (not `Open as File`).
-7. Click `OK` to accept the default settings if prompted. 
+4. By default, IntelliJ has the Gradle plugin installed. If you have disabled it, go to `File` > `Settings` > `Plugins` to re-enable it.
+5. Click `Import Project`(or `Open or Import` in newer versions of IntelliJ).
+6. Locate the `build.gradle` file and select it. Click `OK`. If prompted, choose to `Open as Project` (not `Open as File`).
+7. Click `OK` to accept the default settings, if prompted. 
 8. Wait for the importing process to finish, and you are good to go!
 9. Verify the setup:
     1. Run `Athena` and try a few commands such as `list` or `help`.
@@ -78,16 +75,16 @@ software testers of ATHENA.
 
 ![Architecture Diagram](structures/ArchitectureDiagram.png)
 
-The ***Architecture Diagram*** given above explains the high-level design of the ATHENA. Given below is a quick overview of each component.
+The ***Architecture Diagram*** given above explains the high-level design of ATHENA. A quick overview of each component is shown below.
 
-**`Main`** has one class called [`Athena`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Athena.java). It is responsible for,
-* At app launch: Initializes the components and connects them up with each other.
-* At app shut down: Shuts down the components.
+**`Main`** has one class called [`Athena`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Athena.java). It is responsible for:
+* At application launch: Initializes the components and connects them up with each other.
+* At application shut down: Shuts down the components.
 
-The rest of the App consists of these components.
+The rest of the application consists of these components:
 
-* [**`Ui`**](#athenaUi-component): The UI of ATHENA.
-* [**`Logic`**](#logic-component): Parses user input and command executor.
+* [**`Ui`**](#athenaUi-component): The user interface of ATHENA.
+* [**`Logic`**](#logic-component): Parses user input and executes commands.
 * [**`TaskList`**](#tasklist-component): The list that stores the user's tasks.
 * [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
 
@@ -104,9 +101,11 @@ The sections below give more details for each component.
 **API** :
 [`Ui.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Ui.java)
 
-The User Interface (UI) seen by the user consists of two main parts: `AthenaUi` and `ColorText`. `AthenaUi` implements the interface `Ui`. `AthenaUi` outputs all the output messages that the user sees after launching the application while `ColorText` applies relevant colours to certain output strings.
-
-As UI outputs the front end viewed by the user, it also prints out error messages tied to exceptions that get thrown to the main `Athena` class. Additionally, since `LogicManager` executes user commands, it requires `AthenaUi`.
+1. `Ui` consists of `AthenaUi` and `ColorText`
+2. `AthenaUi` implements `Ui` interface and outputs messages that the user sees
+3. `ColorText` applies relevant colors to certain output messages
+4. `AthenaUi` also prints out error messages tied to `Command Exception` that get thrown by `Athena`
+5. `LogicManager` requires `AthenaUi` to execute user commands
 
 ### Logic component
 
