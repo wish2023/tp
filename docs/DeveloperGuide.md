@@ -4,7 +4,7 @@
   - [Introduction](#introduction)
   - [Setting up and getting started](#setting-up-and-getting-started)
     - [Prerequisites](#prerequisites)
-    - [Setting up the project in your computer](#setting-up-the-project-on-your-computer)
+    - [Setting up the project in your computer](#setting-up-the-project-in-your-computer)
   - [**Design & implementation**](#design--implementation)
     - [Architecture](#architecture)
     - [UI component](#ui-component)
@@ -178,6 +178,7 @@ The `AddCommand` class will then be executed and the task will be added to the `
 * `Parser#parse` - Parse user input to retrieve the command type and task details.
 * `Parser#parseAddCommand` - Parse user input to retrieve the respective parameters' details and creates an `AddCommand` object.
 * `AddCommand#execute` - Add task into `TaskList` and calls `Ui` to print message output.
+* `TaskList#addTask` - Create a task based on the given parameters and add it into the list.
 * `Storage#saveTaskListData` - Writes the current task list into the save file.
 
 Given below is an example usage scenario and how the task adding mechanism behaves at each step.
@@ -188,7 +189,7 @@ Given below is an example usage scenario and how the task adding mechanism behav
 
 **Step 2.** The user adds a task to the application, by entering `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`. The input will be read in by the `Athena` class. The input is passed into `LogicManager` which calls `Parser#parse` to parse the user input through `Parser#parseAddCommand`, to create an `AddCommand` object. The `AddCommand` object is returned to the `LogicManager`.
 
-**Step 3.** The `LogicManager` calls `AddCommand#execute`. The `TaskList` now contains 1 task (Assignment1). The message to show if the task is added successfully is subsequently outputted by the `AthenaUi` class to the user.
+**Step 3.** The `LogicManager` calls `AddCommand#execute`, which calls `TaskList#addTask` to create a task based on the given parameters, and adds the task to the list. The `TaskList` now contains 1 task (Assignment1). The message to show if the task is added successfully is subsequently outputted by the `AthenaUi` class to the user.
 
 ![AddTaskEmptyListObjectDiagram](objectDiagrams/addTask/onetask.png)
 
@@ -334,9 +335,9 @@ Given below is an example usage scenario and how the *list* command behaves at e
 
 **Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to indicate that the user has not requested to exit the application. 
 
-The following sequence diagram illustrates how the *list* command works:
+The following sequence diagram illustrates how Step 3 of the viewing task operation works:
 
-*work in progress*
+![ViewTaskSequenceDiagram](sequenceDiagrams/ListCommand%20diagram.png)
 
 ### Time allocation to task in timetable
 The time allocation mechanism is facilitated by `TimeAllocator`. It allocates time slots to `Task`s in a `TaskList` that are not assigned a fixed time slot by the user. It implements the following operations:
