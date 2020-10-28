@@ -30,28 +30,31 @@
 
 ## Introduction
 
-Welcome to ATHENA's Developer Guide! ATHENA (which stands for Automated Timetable Helper Encourager n' Assistant), is a desktop daily life planner that aims to help students automate the process of organising their schedule. It is a Command Line Interface (CLI) based application that helps users figure out the best timetable after the user has input their pre-allocated time slots for work and relaxation.
+ATHENA aims to help students to automate the process of organising their schedule. After the user inputs pre-allocated time slots for work and relaxation, ATHENA figures out the best timetable based on the user’s needs.
 
-This document describes the software architecture and design of ATHENA that should hopefully help you - a developer, designer, or software tester - understand  the inner workings of ATHENA. 
+This document describes the software architecture and design for the implementation
+of ATHENA. The intended audience of this document is the developers, designers, and
+software testers of ATHENA.
 
 
 ## Setting up and getting started
 
 ### Prerequisites
-1. Ensure you have `JDK 11` installed on your computer.
-2. Install IntelliJ IDEA (referred to as IntelliJ in the rest of this document).
+1. Ensure you have `JDK 11` installed in your computer.
+2. Install IntelliJ IDEA.
 
-### Setting up the project on your computer
-1. Fork [this](https://https://github.com/AY2021S1-CS2113T-W12-2/tp) repository, and clone the fork onto your computer.
-2. Open IntelliJ (If you do not see the welcome screen, click `File` > `Close Project` to close the existing project dialog first).
+### Setting up the project in your computer
+1. Fork this repository, and clone the fork to your computer.
+2. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first).
 3. Set up the correct JDK version for Gradle  
    1. Click `Configure` > `Project Defaults` > `Project Structure`.
-   2. Click `New…` and select the directory where you have installed `JDK 11`.
+   2. Click `New…` and select the directory where you installed `JDK 11`.
    3. Click `OK`.
-4. By default, IntelliJ has the Gradle plugin installed. If you have disabled it, go to `File` > `Settings` > `Plugins` to re-enable it.
-5. Click `Import Project`(or `Open or Import` in newer versions of IntelliJ).
-6. Locate the `build.gradle` file and select it. Click `OK`. If prompted, choose to `Open as Project` (not `Open as File`).
-7. Click `OK` to accept the default settings, if prompted. 
+4. IntelliJ IDEA by default has the Gradle plugin installed. If you have disabled it, go to `File` > `Settings` > `Plugins` to re-enable them.
+   If your project involves GUI programming, similarly ensure the JavaFX plugin has not been disabled.
+5. Click `Import Project`(or `Open or Import` in newer version of Intellij).
+6. Locate the `build.gradle` file and select it. Click `OK`. If asked, choose to `Open as Project` (not `Open as File`).
+7. Click `OK` to accept the default settings if prompted. 
 8. Wait for the importing process to finish, and you are good to go!
 9. Verify the setup:
     1. Run `Athena` and try a few commands such as `list` or `help`.
