@@ -66,19 +66,18 @@ software testers of ATHENA.
 
 ![Architecture Diagram](structures/ArchitectureDiagram.png)
 
-The ***Architecture Diagram*** given above explains the high-level design of ATHENA. A quick overview of each component is shown below.
+The ***Architecture Diagram*** given above explains the high-level design of the ATHENA. Given below is a quick overview of each component.
 
-**`Main`** has one class called [`Athena`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Athena.java). It is responsible for:
-* At application launch: Initializes the components and connects them up with each other.
-* At application shut down: Shuts down the components.
+**`Main`** has one class called [`Athena`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Athena.java). It is responsible for,
+* At app launch: Initializes the components and connects them up with each other.
+* At app shut down: Shuts down the components.
 
-The rest of the application consists of these components:
+The rest of the App consists of these components.
 
-* [**`Ui`**](#athenaUi-component): The user interface of ATHENA.
-* [**`Logic`**](#logic-component): Parses user input and executes commands.
+* [**`Ui`**](#athenaUi-component): The UI of ATHENA.
+* [**`Logic`**](#logic-component): Parses user input and command executor.
 * [**`TaskList`**](#tasklist-component): The list that stores the user's tasks.
 * [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
-
 
 The *Sequence Diagram* below shows how these components interact with each other for the scenario where the user issues a command.
 
