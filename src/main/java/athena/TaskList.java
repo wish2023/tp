@@ -175,11 +175,11 @@ public class TaskList {
     private boolean isIndividualTimeClash(LocalTime taskStartTime, LocalTime taskEndTime,
                                           LocalTime existingTaskStartTime, LocalTime existingTaskEndTime) {
         boolean isTimeClash = !(taskEndTime.compareTo(existingTaskStartTime) <= 0
-                || taskStartTime.compareTo(existingTaskEndTime) >= 0);
-//        boolean isMidnightClash = taskEndTime.compareTo(taskStartTime) < 0
-//                && existingTaskEndTime.compareTo(existingTaskStartTime) < 0;
-        return isTimeClash;// || isMidnightClash;
-        // Add endTime and endDate in Time.java
+                || (taskStartTime.compareTo(existingTaskEndTime) >= 0
+                && existingTaskEndTime.compareTo(existingTaskStartTime) > 0));
+        boolean isMidnightClash = taskEndTime.compareTo(taskStartTime) < 0
+                && existingTaskEndTime.compareTo(existingTaskStartTime) < 0;
+        return isTimeClash || isMidnightClash;
     }
 
     private void updateMaxNumber(int number) {
