@@ -60,6 +60,7 @@ public class Time implements Comparable<Time> {
                 throw new TaskDuringSleepTimeException();
             }
         }
+        this.endTime = this.startTime.plusHours(this.duration);
 
     }
 
