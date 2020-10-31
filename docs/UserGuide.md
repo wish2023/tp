@@ -10,7 +10,6 @@
     - [Edit task](#edit-task-edit-or-e)  
     - [Delete task](#delete-task-delete-or-dl)
     - [View task](#view-task-view-or-v)
-    - [Delete task](#delete-task-delete-or-dl)
     - [Exit](#exit-program-exit-or-ex)
     - [Saving the data](#saving-the-data)
 - [FAQ](#faq)    
@@ -45,6 +44,9 @@ Notes about the command format:
 e.g. in `add n/NAME`, NAME is a parameter which can be used as: `add n/Assignment1`.
 * Parameters can be in any order.
 e.g. if the command specifies `n/NAME t/TIME`, `t/TIME n/NAME` is also acceptable.
+* Parameters cannot contain any `/`.
+* If user types in 2 or more parameter description for each parameter type, only the first description will be taken.
+e.g. if user types `n/NAME1 n/NAME2`, only `NAME1` will be recorded as the task's name.
 * Items in square brackets are optional. e.g `n/NAME  [d/DURATION]` can be used as `n/Task1 d/1` or as `n/Task1`.
 * For some commands, if no parameters are specified, the command will execute using the default values for each parameter.
 * For dates, the program follows the **DD-MM-YYYY** format.
@@ -65,9 +67,10 @@ Adds a task to the planner.
 
 #### Format
 `add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
+`a n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
 
 #### Parameters
-* `NAME` is the name of the task.
+* `NAME` is the name of the task. It is a compulsory parameter the user has to input.
 * `TIME` is the time to start doing this task (**HHMM**). For example, 1100.
 
    Default: Allocated by Athena (only available for non recurring tasks)
@@ -97,6 +100,7 @@ Adds a task to the planner.
 
 #### Expected output 
 
+For first example usage `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`:
 ![add command screenshot](screenshots/athena%20add.jpg)
 
 
@@ -163,9 +167,11 @@ Edits the specified task from the planner.
 
 #### Format
 `edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
+`e INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
+* At least one parameter have to be edited.
 
 #### Parameters
-* `INDEX` refers to the index number shown in the displayed task list. It must be a positive integer.
+* `INDEX` refers to the index number shown in the displayed task list. It cannot be a negative integer.
 * `NAME` is the name of the task.
 * `TIME` is the time to start doing this task (**HHMM**). For example, 1100.
 * `DURATION` is the expected time taken to complete task (in hours).
@@ -176,12 +182,14 @@ Edits the specified task from the planner.
    
 #### Example usage
 
-* `edit 1 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
+Use [list feature](#list-tasks-list-or-l) first to get the `INDEX` of the task to be edited.
+* `edit 1 n/Assignment2 t/1800 D/17-09-2020 d/1 r/today i/high a/Refer to lecture notes`
 * `edit 1 t/1800`
-* `e 1 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes`
+* `e 1 n/Assignment2 t/1800 D/17-09-2020 d/1 r/today i/high a/Refer to lecture notes`
 
 #### Expected output
 
+For first example usage `edit 1 n/Assignment2 t/1800 D/17-09-2020 d/1 r/today i/high a/Refer to lecture notes`:
 ![edit command screenshot](screenshots/athena%20edit.jpg)
 
 
