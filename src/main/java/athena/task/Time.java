@@ -23,6 +23,7 @@ public class Time implements Comparable<Time> {
     private boolean isFlexible;
     private LocalTime startTime;
     private int duration;
+    private LocalTime endTime;
     private String deadline;
 
     private String recurrence;
@@ -40,6 +41,7 @@ public class Time implements Comparable<Time> {
         this.duration = duration;
         this.deadline = deadline;
         this.recurrence = recurrence;
+        this.endTime = startTime.plusHours(duration);
         setRecurrence(recurrence);
     }
 
@@ -58,6 +60,7 @@ public class Time implements Comparable<Time> {
                 throw new TaskDuringSleepTimeException();
             }
         }
+        this.endTime = this.startTime.plusHours(this.duration);
 
     }
 
@@ -181,6 +184,10 @@ public class Time implements Comparable<Time> {
 
     public LocalTime getStartTime() {
         return startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
     }
 
     public void setStartTime(LocalTime startTime) {

@@ -158,14 +158,13 @@ public class TaskList {
         if (taskStartTime == null) {
             return false;
         }
-        int taskDuration = taskToCompare.getTimeInfo().getDuration();
-        LocalTime taskEndTime = taskStartTime.plusHours(taskDuration);
+        LocalTime taskEndTime = taskToCompare.getTimeInfo().getEndTime();
 
         LocalTime existingTaskStartTime = task.getTimeInfo().getStartTime();
         if (existingTaskStartTime == null) {
             return false;
         }
-        LocalTime existingTaskEndTime = existingTaskStartTime.plusHours(task.getTimeInfo().getDuration());
+        LocalTime existingTaskEndTime = task.getTimeInfo().getEndTime();
         if (isIndividualTimeClash(taskStartTime, taskEndTime, existingTaskStartTime, existingTaskEndTime)) {
             return true;
         }
@@ -175,8 +174,12 @@ public class TaskList {
 
     private boolean isIndividualTimeClash(LocalTime taskStartTime, LocalTime taskEndTime,
                                           LocalTime existingTaskStartTime, LocalTime existingTaskEndTime) {
-        return !(taskEndTime.compareTo(existingTaskStartTime) <= 0
-                || taskStartTime.compareTo(existingTaskEndTime) >= 0);
+        boolean isTimeClash = !(taskEndTime.compareTo(existingTaskStartTime) <= 0
+                || (taskStartTime.compareTo(existingTaskEndTime) >= 0
+                && existingTaskEndTime.compareTo(existingTaskStartTime) > 0));
+        boolean isMidnightClash = taskEndTime.compareTo(taskStartTime) < 0
+                && existingTaskEndTime.compareTo(existingTaskStartTime) < 0;
+        return isTimeClash || isMidnightClash;
     }
 
     private void updateMaxNumber(int number) {
