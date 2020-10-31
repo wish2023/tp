@@ -105,7 +105,7 @@ Adds a task to the planner.
 This command shows your tasks organized nicely in a timetable.
 Each task will be printed with a number that is used as an identifier for other commands (e.g. `edit`, `done`, `delete`).
 
-TODO: *Insert screenshot*
+*TODO: Insert screenshot*
 
 | :warning:  Make sure to set your terminal/command prompt to use a smaller font size, as the timetable can be too big to fit in the screen. |
 |----------------------------------------------------------------------------------------------------------------------------------------------|
@@ -137,7 +137,7 @@ You can tell the command to filter your tasks based on
 The following shows the output from ATHENA after entering `list f/Week i/High`.
 You should expect to see all **high importance tasks** occuring **within one week from now**.
 
-TODO: *Insert screenshot*
+*TODO: Insert screenshot*
 
 #### Intermediate Usage
 
@@ -166,12 +166,12 @@ These parameters are optional. If they are left empty, ATHENA will use the defau
 The following shows the output from ATHENA after entering `list f/Week i/High`.
 You should expect to see all **high importance tasks** occuring **within one week from now**.
 
-TODO: *Insert screenshot*
+*TODO: Insert screenshot*
 
 Alternatively, you can leave ATHENA to use the default values as specified above.
 For example, entering `list i/Low` will show all **low importance** tasks occuring **within one week from now**.
 
-TODO: *Insert screenshot*
+*TODO: Insert screenshot*
 
 #### Advanced Usage
 
