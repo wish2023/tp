@@ -9,6 +9,7 @@ import athena.exceptions.EditNoIndexException;
 import athena.exceptions.InvalidCommandException;
 import athena.exceptions.InvalidForecastException;
 import athena.exceptions.InvalidImportanceException;
+import athena.exceptions.InvalidParameterException;
 import athena.exceptions.TaskNotFoundException;
 import athena.exceptions.ViewNoIndexException;
 import athena.logic.commands.AddCommand;
@@ -49,8 +50,9 @@ public class Parser {
      * @return Description of parameter
      */
     public static String getParameterDesc(String taskInformation, String delimiter, int paramPosition,
-                                          String defaultValue) throws InvalidCommandException {
-        String param;
+                                          String defaultValue)
+            throws InvalidCommandException, InvalidParameterException {
+        String param = "";
         if (paramPosition == -1) {
             param = defaultValue;
         } else {
@@ -61,7 +63,11 @@ public class Parser {
                 param = retrievedParamInfo;
             } else {
                 try {
-                    param = retrievedParamInfo.substring(0, (paramNextSlash - 2));
+                    if (retrievedParamInfo.substring(paramNextSlash - 2, paramNextSlash - 1).equals(" ")) {
+                        param = retrievedParamInfo.substring(0, (paramNextSlash - 2));
+                    } else {
+                        throw new InvalidParameterException();
+                    }
                 } catch (StringIndexOutOfBoundsException e) {
                     throw new InvalidCommandException();
                 }
@@ -85,7 +91,7 @@ public class Parser {
      */
     public static Command parseAddCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
                                           int recurrencePos, int importancePos, int addNotesPos)
-            throws InvalidCommandException {
+            throws InvalidCommandException, InvalidParameterException {
         String nullDefault = "";
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullDefault);
         //TODO: allow for empty string, assign flexible attribute, true if string is null, false if filled
@@ -125,8 +131,8 @@ public class Parser {
      */
     public static Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
                                            int recurrencePos, int importancePos, int addNotesPos,
-                                           TaskList taskList) throws TaskNotFoundException, EditNoIndexException,
-            InvalidCommandException {
+                                           TaskList taskList) throws TaskNotFoundException,
+            EditNoIndexException, InvalidCommandException, InvalidParameterException {
         int number = getNumber(taskInfo);
 
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
@@ -177,7 +183,8 @@ public class Parser {
      * @return command object
      */
     public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos)
-            throws InvalidCommandException, InvalidForecastException, InvalidImportanceException {
+            throws InvalidCommandException, InvalidForecastException,
+            InvalidImportanceException, InvalidParameterException {
         String importanceDefault = "ALL";
         String forecastDefault = "WEEK";
         String importanceString = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
