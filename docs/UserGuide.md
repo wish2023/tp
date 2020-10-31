@@ -181,7 +181,7 @@ The `list` command supports shortcuts for advanced users.
 
 ##### Supported Shortcuts
 
-The following commands on the left will be expanded to the corresponding command on the right.
+The following commands on the left will be expanded to the corresponding commands on the right.
 
 | Shortcut | Expanded command |
 |----------|------------------|
