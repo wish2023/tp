@@ -9,7 +9,6 @@ import athena.exceptions.EditNoIndexException;
 import athena.exceptions.InvalidCommandException;
 import athena.exceptions.InvalidForecastException;
 import athena.exceptions.InvalidImportanceException;
-import athena.exceptions.InvalidParameterException;
 import athena.exceptions.TaskNotFoundException;
 import athena.exceptions.ViewNoIndexException;
 import athena.logic.commands.AddCommand;
@@ -24,6 +23,8 @@ import athena.logic.commands.ViewCommand;
 import athena.task.taskfilter.FilterCalculator;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Handles parsing of user input.
@@ -50,27 +51,26 @@ public class Parser {
      * @return Description of parameter
      */
     public static String getParameterDesc(String taskInformation, String delimiter, int paramPosition,
-                                          String defaultValue)
-            throws InvalidCommandException, InvalidParameterException {
+                                          String defaultValue) throws InvalidCommandException {
         String param = "";
         if (paramPosition == -1) {
             param = defaultValue;
         } else {
             String[] retrieveParamInfo = taskInformation.split(delimiter, 2);
-            String retrievedParamInfo = retrieveParamInfo[1];
-            int paramNextSlash = retrievedParamInfo.indexOf("/");
-            if (paramNextSlash == -1) {
-                param = retrievedParamInfo;
-            } else {
+            CharSequence retrievedParamInfo = retrieveParamInfo[1];
+
+            String patternStr = "\\s[a-zA-Z]\\/";
+            Pattern pattern = Pattern.compile(patternStr);
+            Matcher matcher = pattern.matcher(retrievedParamInfo);
+            if (matcher.find()) {
+                int nextParam = matcher.start();//this will give index of next parameter
                 try {
-                    if (retrievedParamInfo.substring(paramNextSlash - 2, paramNextSlash - 1).equals(" ")) {
-                        param = retrievedParamInfo.substring(0, (paramNextSlash - 2));
-                    } else {
-                        throw new InvalidParameterException();
-                    }
+                    param = retrievedParamInfo.subSequence(0, (nextParam)).toString();
                 } catch (StringIndexOutOfBoundsException e) {
                     throw new InvalidCommandException();
                 }
+            } else {
+                param = retrievedParamInfo.toString();
             }
         }
         return param;
@@ -91,7 +91,7 @@ public class Parser {
      */
     public static Command parseAddCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
                                           int recurrencePos, int importancePos, int addNotesPos)
-            throws InvalidCommandException, InvalidParameterException {
+            throws InvalidCommandException {
         String nullDefault = "";
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullDefault);
         //TODO: allow for empty string, assign flexible attribute, true if string is null, false if filled
@@ -132,7 +132,7 @@ public class Parser {
     public static Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
                                            int recurrencePos, int importancePos, int addNotesPos,
                                            TaskList taskList) throws TaskNotFoundException,
-            EditNoIndexException, InvalidCommandException, InvalidParameterException {
+            EditNoIndexException, InvalidCommandException {
         int number = getNumber(taskInfo);
 
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
@@ -183,8 +183,7 @@ public class Parser {
      * @return command object
      */
     public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos)
-            throws InvalidCommandException, InvalidForecastException,
-            InvalidImportanceException, InvalidParameterException {
+            throws InvalidCommandException, InvalidForecastException, InvalidImportanceException {
         String importanceDefault = "ALL";
         String forecastDefault = "WEEK";
         String importanceString = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);

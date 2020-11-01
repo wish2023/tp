@@ -299,7 +299,7 @@ public class AthenaUi implements Ui {
      * Prints a message telling user '/' is not allowed in parameter's description.
      */
     public void printInvalidParameterException() {
-        System.out.println(colorText.toRed("\nThere should not be any '/' in the parameters description.\n"));
+        System.out.println(colorText.toRed("\nThere should not be any '/' in a parameter's description.\n"));
     }
 
     /**
