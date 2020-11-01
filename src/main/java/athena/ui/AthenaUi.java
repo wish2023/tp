@@ -296,13 +296,6 @@ public class AthenaUi implements Ui {
     }
 
     /**
-     * Prints a message telling user '/' is not allowed in parameter's description.
-     */
-    public void printInvalidParameterException() {
-        System.out.println(colorText.toRed("\nThere should not be any '/' in a parameter's description.\n"));
-    }
-
-    /**
      * Prints a message telling user their task list is empty.
      */
     public void printEmptyTaskListException() {
