@@ -77,7 +77,7 @@ class TaskListTest {
     @Test
     void deleteTask_validTaskIndex_correctTaskDeleted() throws CommandException {
         Task expectedTask = new Task("Assignment1", "1100",
-                "2", "16-09-2020", "13-10-2020", Importance.HIGH,
+                "2", "16-09-2020", "13-10-2021", Importance.HIGH,
                 "Refer to slides", 12, false);
         testTaskList.addTask(expectedTask);
         Task actualTask = testTaskList.deleteTask(12);
@@ -93,16 +93,16 @@ class TaskListTest {
     void editTask_givenAttributes_attributeChanged() throws CommandException {
         int index = 0;
         Task task = new Task("Assignment1", "1100",
-                "2", "16-09-2020", "13-10-2020", Importance.HIGH,
+                "2", "16-09-2020", "13-10-2021", Importance.HIGH,
                 "Refer to slides", index, false);
         testTaskList.addTask(task);
 
         Task expectedTask = new Task("Assignment2", "1200",
-                "4", "16-11-2020", "13-10-2020", Importance.LOW,
+                "4", "16-11-2020", "13-10-2021", Importance.LOW,
                 "I have changed", index, false);
 
         testTaskList.editTask(index, "Assignment2", "1200",
-                "4", "16-11-2020", "13-10-2020", Importance.LOW,
+                "4", "16-11-2020", "13-10-2021", Importance.LOW,
                 "I have changed");
 
         assertEquals(testTaskList.getTaskFromNumber(index), expectedTask);
@@ -143,7 +143,8 @@ class TaskListTest {
     void getFilteredList_weekForecast_returnTasksForWeek() throws CommandException {
         TaskList expectedTaskList = getForecastTestExpectedTasks(Forecast.WEEK);
         ForecastFilter weekFilter = new ForecastFilter(Forecast.WEEK);
-        assertEquals(testTaskList.getFilteredList(weekFilter), expectedTaskList);
+        TaskList actualTaskList = testTaskList.getFilteredList(weekFilter);
+        assertEquals(actualTaskList, expectedTaskList);
     }
 
     @Test
@@ -164,7 +165,7 @@ class TaskListTest {
                 "2", "16-09-2020", dateInWeek, Importance.MEDIUM,
                 "Refer to slides", 1, false);
         Task task3 = new Task("tres", "1100",
-                "2", "16-09-2020", "13-11-2019", Importance.LOW,
+                "2", "16-09-2020", "13-11-2021", Importance.LOW,
                 "Refer to slides", 2, false);
 
         if (importance == Importance.HIGH) {
@@ -188,7 +189,7 @@ class TaskListTest {
                 "2", "16-09-2020", dateInWeek, Importance.MEDIUM,
                 "Refer to slides", 1, false);
         Task task3 = new Task("tres", "1100",
-                "2", "16-09-2020", "13-11-2019", Importance.LOW,
+                "2", "16-09-2020", "13-11-2021", Importance.LOW,
                 "Refer to slides", 2, false);
 
         if (forecast == Forecast.ALL) {
@@ -217,7 +218,7 @@ class TaskListTest {
                 "2", "16-09-2020", dateInWeek, Importance.MEDIUM,
                 "Refer to slides", index++, false));
         testTaskList.addTask(new Task("tres", "1100",
-                "2", "16-09-2020", "13-11-2019", Importance.LOW,
+                "2", "16-09-2020", "13-11-2021", Importance.LOW,
                 "Refer to slides", index++, false));
     }
 

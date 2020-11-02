@@ -2,6 +2,7 @@ package athena.task.taskfilter;
 
 import athena.Forecast;
 import athena.Importance;
+import athena.common.utils.DateUtils;
 import athena.exceptions.CommandException;
 import athena.task.Task;
 import org.junit.jupiter.api.Test;
@@ -89,8 +90,10 @@ class ForecastFilterTest {
     @Test
     void testIsTaskIncluded_day_returnsFalse() throws CommandException {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.DAY);
+        LocalDate date = LocalDate.now().plusDays(1);
+        String dateInString = DateUtils.formatDate(date);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
-                "14-10-2020", Importance.LOW, "testNotes", 0, false); // Tested on 13-10-2020
+                dateInString, Importance.LOW, "testNotes", 0, false); // Tested on 13-10-2020
         boolean isTaskIncluded = forecastFilter.isTaskIncluded(inputTask);
         assertEquals(isTaskIncluded, false);
     }
