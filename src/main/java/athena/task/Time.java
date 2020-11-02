@@ -1,6 +1,7 @@
 package athena.task;
 
 import athena.common.utils.DateUtils;
+import athena.exceptions.DateHasPassedException;
 import athena.exceptions.TaskDuringSleepTimeException;
 
 import java.time.DayOfWeek;
@@ -31,7 +32,7 @@ public class Time implements Comparable<Time> {
     private ArrayList<LocalDate> recurrenceDates = new ArrayList<>();
 
     public Time(boolean isFlexible, LocalTime startTime, int duration, String deadline, String recurrence)
-            throws TaskDuringSleepTimeException {
+            throws TaskDuringSleepTimeException, DateHasPassedException {
         if (startTime != null) {
             if (startTime.getHour() < 8) {
                 throw new TaskDuringSleepTimeException();
@@ -47,7 +48,7 @@ public class Time implements Comparable<Time> {
     }
 
     public Time(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence)
-            throws TaskDuringSleepTimeException {
+            throws TaskDuringSleepTimeException, DateHasPassedException {
         this.isFlexible = isFlexible;
 
         this.duration = Integer.parseInt(duration);
@@ -65,11 +66,11 @@ public class Time implements Comparable<Time> {
 
     }
 
-    public Time getClone() throws TaskDuringSleepTimeException {
+    public Time getClone() throws TaskDuringSleepTimeException, DateHasPassedException {
         return new Time(isFlexible, startTime, duration, deadline, recurrence);
     }
 
-    public void setRecurrence(String recurrence) {
+    public void setRecurrence(String recurrence) throws DateHasPassedException {
         switch (recurrence.toUpperCase()) {
         case "TODAY":
             recurrenceDates.add(LocalDate.now());
@@ -260,7 +261,8 @@ public class Time implements Comparable<Time> {
         return 0;
     }
 
-    public void edit(String startTime, String duration, String deadline, String recurrence) {
+    public void edit(String startTime, String duration, String deadline, String recurrence)
+            throws DateHasPassedException {
         this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
         this.duration = Integer.parseInt(duration);
         this.deadline = deadline;

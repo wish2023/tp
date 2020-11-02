@@ -1,6 +1,7 @@
 package athena.task;
 
 import athena.Importance;
+import athena.exceptions.DateHasPassedException;
 import athena.exceptions.TaskDuringSleepTimeException;
 
 import java.time.LocalDate;
@@ -54,7 +55,7 @@ public class Task {
      */
     public Task(String name, String startTime, String duration, String deadline,
                 String recurrence, Importance importance, String notes, int number, Boolean isFlexible)
-            throws TaskDuringSleepTimeException {
+            throws TaskDuringSleepTimeException, DateHasPassedException {
         this.name = name;
         assert !this.name.equals("");
         this.importance = importance;
@@ -71,7 +72,7 @@ public class Task {
     }
 
     public Task(String name, boolean isFlexible, boolean isDone, Importance importance,
-                String notes, int number, Time timeInfo) throws TaskDuringSleepTimeException {
+                String notes, int number, Time timeInfo) throws TaskDuringSleepTimeException, DateHasPassedException {
         this.name = name;
         this.isFlexible = isFlexible;
         this.isDone = isDone;
@@ -87,6 +88,8 @@ public class Task {
             copy = new Task(name, isFlexible, isDone, importance, notes, number, timeInfo);
         } catch (TaskDuringSleepTimeException e) {
             assert false;   // a task that can be cloned should have been blocked from being assigned the sleep time
+        } catch (DateHasPassedException e) {
+            assert false;
         }
 
         return copy;
@@ -104,8 +107,8 @@ public class Task {
      * @param importance New task importance
      * @param notes      New task notes
      */
-    public void edit(String name, String startTime, String duration,
-                     String deadline, String recurrence, Importance importance, String notes) {
+    public void edit(String name, String startTime, String duration, String deadline,
+                     String recurrence, Importance importance, String notes) throws DateHasPassedException {
         this.name = name;
         assert !this.name.equals("");
         assert !startTime.equals("");
