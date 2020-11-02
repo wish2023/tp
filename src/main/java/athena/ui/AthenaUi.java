@@ -215,6 +215,14 @@ public class AthenaUi implements Ui {
     }
 
     /**
+     * Prints a message telling user that their proposed date has passed.
+     */
+    public void printDateHasPassedException() {
+        System.out.println(colorText.toRed("\nYour date has already passed. "
+                + "I can't help you here unless I'm a time traveller\n"));
+    }
+
+    /**
      * Prints a message telling user they did not provide an index for the delete command.
      */
     public void printDeleteNoIndexException() {
