@@ -44,8 +44,8 @@ Notes about the command format:
 e.g. in `add n/NAME`, NAME is a parameter which can be used as: `add n/Assignment1`.
 * Parameters can be in any order.
 e.g. if the command specifies `n/NAME t/TIME`, `t/TIME n/NAME` is also acceptable.
-* Any unknown parameter type input by the user that does not fit the parameters accepted in a respective feature will be ignored.
-e.g `add n/NAME p/PARAMETER`, since `p/` is an unknown parameter type for `add` feature, `p/PARAMETER` is ignored.
+* Any unknown parameter type entered by the user that does not fit the parameters accepted in a respective feature will be ignored.
+e.g `add n/NAME p/PARAMETER`, since `p/` is an unknown parameter type for `add` command, `p/PARAMETER` is ignored.
 * If user types in 2 or more parameter description for each parameter type, only the first description will be taken.
 e.g. if user types `n/NAME1 n/NAME2`, only `NAME1` will be recorded as the task's name.
 * Items in square brackets are optional. e.g `n/NAME  [d/DURATION]` can be used as `n/Task1 d/1` or as `n/Task1`.
@@ -74,36 +74,29 @@ The guide for this command is split into three sections:
 
 #### Basic Usage
 
+##### Command Format
+
+`add n/NAME t/TIME d/DURATION D/DEADLINE r/RECURRENCE i/IMPORTANCE a/ADDITIONAL-NOTES`
+
+##### Parameters
 The `add` command accepts 7 parameters.
 
-* `NAME` is the name of the task. It is a compulsory parameter the user has to input.
+* `NAME` is the name of the task.
 
-The following parameters are optional. If they are left empty, ATHENA will use the default value assigned.
 * `TIME` is the time to start doing this task (**HHMM**). For example, 1100.
 
-   Default: Allocated by Athena (only available for non-recurring tasks)
 * `DURATION` is the expected time taken to complete task (in hours)
 
-   Default: 1 hour.
 * `DEADLINE` is the date to do task by (**DD-MM-YYYY**). For example, 16-09-2020.
 
-   Default: No deadline.
 * `RECURRENCE` is one of **TODAY**, **MONDAY**, **TUESDAY**, **WEDNESDAY**, **THURSDAY**, **FRIDAY**, **SATURDAY**, **SUNDAY** or a specific date (**DD-MM-YYYY**).
 
    This is where the user can input a specific date to do the task on.
    If it is not **TODAY** or a specific date, it will be treated as occuring every week. For example, **MONDAY** means happening every Monday.
    
-   Default: **TODAY**.
 * `IMPORTANCE` is one of **HIGH**, **MEDIUM**, **LOW**.
 
-   Default: **MEDIUM**.
 * `ADDITIONAL-NOTES` is the additional notes of the task.
-
-   Default: No notes.
-
-##### Command Format
-
-`add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
 
 ##### Example Usage
 
@@ -114,14 +107,21 @@ You should expect to see a message to confirm that the task is added.
 
 #### Intermediate Usage
 
+##### Command Format
+
+`add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
+
+##### Parameters
 The `add` command accepts 7 parameters.
 
 * `NAME` is the name of the task. It is a compulsory parameter the user has to input.
 
-The following parameters are optional. If they are left empty, ATHENA will use the default value assigned.
+This parameter `TIME` is optional only if the task is non-recurring. ELse, the user must input a start time for the task.
 * `TIME` is the time to start doing this task (**HHMM**). For example, 1100.
 
-   Default: Allocated by Athena (only available for non recurring tasks)
+   Default: Allocated by Athena (only available for non-recurring tasks)
+
+The following parameters are optional. If they are left empty, ATHENA will use the default value assigned.
 * `DURATION` is the expected time taken to complete task (in hours).
 
    Default: 1 hour.
@@ -141,10 +141,6 @@ The following parameters are optional. If they are left empty, ATHENA will use t
 
    Default: No notes.
 
-##### Command Format
-
-`add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
-
 ##### Example Usage
 
 The following shows the output from ATHENA after entering `add n/Assignment2 t/1400 i/high`.
@@ -154,7 +150,7 @@ You should expect to see a message to confirm that the task is added with some o
 
 #### Advanced Usage
 
-This section is an extension to the [Intermediate Usage](intermediate-usage) section.
+This section is an extension to the [Intermediate Usage](#intermediate-usage) section.
 
 The `add` command supports shortcuts for advanced users.
 
@@ -168,6 +164,7 @@ The following commands on the left will be expanded to the corresponding command
 
 ##### Example usage
 
+The user can just type `a` instead of `add`.
 The following shows the output from ATHENA after entering `a n/Assignment3 t/1900 D/16-09-2020 d/2 a/Refer to notes`.
 You should expect to see a message to confirm that the task is added with some of the parameter's default value assigned.
 
@@ -243,6 +240,11 @@ The guide for this command is split into three sections:
 
 #### Basic Usage
 
+##### Command Format
+
+`edit TASK-ID [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
+
+##### Parameters
 The `edit` command accepts 8 parameters.
 
 * `TASK-ID` refers to the number shown beside the task that the user wants to edit in the displayed task list. It must be a non-negative integer.
@@ -262,13 +264,9 @@ At least one parameter shown below have to be edited:
 
 * `ADDITIONAL-NOTES` is the additional notes of the task.
 
-##### Command Format
-
-`edit TASK-ID [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
-
 ##### Example Usage
 
-Firstly, use [list feature](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be edited.
+Firstly, use [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be edited.
 
 The following shows the output from ATHENA after entering `edit 1 n/Assignment2 t/1800 D/17-09-2020 d/1 r/16-09-2020 i/low a/Refer to notes`.
 You should expect to see a message to confirm that the task with index 1 is edited.
@@ -277,6 +275,11 @@ You should expect to see a message to confirm that the task with index 1 is edit
 
 #### Intermediate Usage
 
+##### Command Format
+
+`edit TASK-ID [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
+
+##### Parameters
 The `edit` command accepts 8 parameters.
 
 * `TASK-ID` refers to the number shown beside the task that the user wants to edit in the displayed task list. It must be a non-negative integer.
@@ -296,13 +299,9 @@ At least one parameter shown below have to be edited:
 
 * `ADDITIONAL-NOTES` is the additional notes of the task.
 
-##### Command Format
-
-`edit TASK-ID [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
-
 ##### Example Usage
 
-Firstly, use [list feature](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be edited.
+Firstly, use [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be edited.
 
 The following shows the output from ATHENA after entering `edit 1 t/1800`.
 You should expect to see a message to confirm that the time of task with `TASK-ID` '1' is edited.
@@ -311,7 +310,7 @@ You should expect to see a message to confirm that the time of task with `TASK-I
 
 #### Advanced Usage
 
-This section is an extension to the [Intermediate Usage](intermediate-usage) section.
+This section is an extension to the [Intermediate Usage](#intermediate-usage) section.
 
 The `edit` command supports shortcuts for advanced users.
 
@@ -325,8 +324,9 @@ The following commands on the left will be expanded to the corresponding command
 
 ##### Example usage
 
-Firstly, use [list feature](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be edited.
+Firstly, use [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be edited.
 
+The user can just type `e` instead of `edit`.
 The following shows the output from ATHENA after entering `e 1 n/Assignment2 t/1800 D/17-09-2020 d/1 r/today i/high a/Refer to lecture notes`.
 You should expect to see a message to confirm that the time of task with `TASK-ID` '1' is edited.
 
@@ -395,7 +395,7 @@ Your tasks are automatically saved in *data.csv* which is located next to the pr
 | Add task          | `add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`            |
 | List tasks        | `list [f/FORECAST] [i/IMPORTANCE]`                                                                          |
 | Mark task as done | `done INDEX`                                                                                                |
-| Edit task         | `edit TASKID [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]` |
+| Edit task         | `edit TASK-ID [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]` |
 | Delete task       | `delete INDEX`                                                                                              |
 | View task         | `view INDEX`                                                                                                |
 | Exit program      | `exit`                                                                                                      |
