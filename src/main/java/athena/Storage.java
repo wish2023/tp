@@ -116,6 +116,7 @@ public class Storage {
             } catch (TaskDuringSleepTimeException e) {
                 throw new StorageCorruptedException(data);
             } catch (TaskIsDoneException e) {
+                assert false;
                 throw new StorageCorruptedException(data);
             }
         }
