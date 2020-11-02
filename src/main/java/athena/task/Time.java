@@ -132,15 +132,24 @@ public class Time implements Comparable<Time> {
         return startDate;
     }
 
-    private void setRecurrenceDate(String recurrence) {
+    private void setRecurrenceDate(String recurrence) throws DateHasPassedException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         if (recurrence.length() == "dd-MM".length()) {
             int year = getYear(recurrence);
             this.recurrence = recurrence + "-" + year;
-            recurrenceDates.add(LocalDate.parse(recurrence + "-"
-                    + Integer.toString(year), formatter));
+            LocalDate date = LocalDate.parse(recurrence + "-"
+                    + year, formatter);
+            recurrenceDates.add(date);
         } else {
-            recurrenceDates.add(LocalDate.parse(recurrence, formatter));
+            LocalDate date = LocalDate.parse(recurrence, formatter);
+            checkDatePassed(date);
+            recurrenceDates.add(date);
+        }
+    }
+
+    private void checkDatePassed(LocalDate date) throws DateHasPassedException {
+        if (date.compareTo(LocalDate.now()) < 0) {
+            throw new DateHasPassedException();
         }
     }
 
