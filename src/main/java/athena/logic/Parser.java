@@ -40,6 +40,7 @@ public class Parser {
     public static final String IMPORTANCE_DELIMITER = "i/";
     public static final String ADDITIONAL_NOTES_DELIMITER = "a/";
     public static final String FORECAST_DELIMITER = "f/";
+    public static final String EMPTY_STRING = "";
 
     /**
      * Get parameters description.
@@ -92,10 +93,9 @@ public class Parser {
     public static Command parseAddCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
                                           int recurrencePos, int importancePos, int addNotesPos)
             throws InvalidCommandException {
-        String nullDefault = "";
-        String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullDefault);
-        String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullDefault);
-        boolean isFlexible = (time.equals(nullDefault));
+        String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, EMPTY_STRING);
+        String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, EMPTY_STRING);
+        boolean isFlexible = (time.equals(EMPTY_STRING));
         String durationDefault = "1";
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, durationDefault);
         String deadlineDefault = "No deadline";
