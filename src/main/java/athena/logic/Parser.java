@@ -60,9 +60,10 @@ public class Parser {
             String[] retrieveParamInfo = taskInformation.split(delimiter, 2);
             CharSequence retrievedParamInfo = retrieveParamInfo[1];
 
-            String patternStr = "\\s[a-zA-Z]\\/";
+            String patternStr = "\\s\\w+\\/";
             Pattern pattern = Pattern.compile(patternStr);
             Matcher matcher = pattern.matcher(retrievedParamInfo);
+
             if (matcher.find()) {
                 int nextParam = matcher.start();//this will give index of next parameter
                 try {
