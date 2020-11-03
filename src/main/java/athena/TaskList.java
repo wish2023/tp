@@ -3,6 +3,7 @@ package athena;
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.InvalidTimeFormatException;
 import athena.exceptions.TaskDuringSleepTimeException;
+import athena.exceptions.TaskIsDoneException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
@@ -258,8 +259,10 @@ public class TaskList {
      * @return Task marked as done.
      * @throws TaskNotFoundException thrown when the program is unable to find a task at the index
      *                               specified by the user
+     * @throws TaskIsDoneException Exception thrown when user tries to mark a task as done which is done.
      */
-    public Task markTaskAsDone(int taskNumber) throws TaskNotFoundException {
+    public Task markTaskAsDone(int taskNumber)
+            throws TaskNotFoundException, TaskIsDoneException {
         Task task = getTaskFromNumber(taskNumber);
         task.setDone();
         return task;

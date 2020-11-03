@@ -43,17 +43,14 @@ public class DateUtils {
      */
     public static ArrayList<LocalDate> getDatesBasedOnForecast(Forecast forecast) {
         ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
-        LocalDate startDate;
+        LocalDate startDate = LocalDate.now();
         LocalDate endDate;
 
         if (forecast == Forecast.WEEK) {
-            startDate = getFirstDayOfWeek();
             endDate = startDate.plusWeeks(1);
         } else if (forecast == Forecast.DAY) {
-            startDate = LocalDate.now();
             endDate = startDate.plusDays(1);
         } else {
-            startDate = getFirstDayOfMonth();
             endDate = startDate.plusMonths(1);
         }
 

@@ -23,6 +23,8 @@ import athena.logic.commands.ViewCommand;
 import athena.task.taskfilter.FilterCalculator;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Handles parsing of user input.
@@ -38,6 +40,7 @@ public class Parser {
     public static final String IMPORTANCE_DELIMITER = "i/";
     public static final String ADDITIONAL_NOTES_DELIMITER = "a/";
     public static final String FORECAST_DELIMITER = "f/";
+    public static final String EMPTY_STRING = "";
 
     /**
      * Get parameters description.
@@ -55,16 +58,21 @@ public class Parser {
             param = defaultValue;
         } else {
             String[] retrieveParamInfo = taskInformation.split(delimiter, 2);
-            String retrievedParamInfo = retrieveParamInfo[1];
-            int paramNextSlash = retrievedParamInfo.indexOf("/");
-            if (paramNextSlash == -1) {
-                param = retrievedParamInfo;
-            } else {
+            CharSequence retrievedParamInfo = retrieveParamInfo[1];
+
+            String patternStr = "\\s\\w+\\/";
+            Pattern pattern = Pattern.compile(patternStr);
+            Matcher matcher = pattern.matcher(retrievedParamInfo);
+
+            if (matcher.find()) {
+                int nextParam = matcher.start();//this will give index of next parameter
                 try {
-                    param = retrievedParamInfo.substring(0, (paramNextSlash - 2));
+                    param = retrievedParamInfo.subSequence(0, (nextParam)).toString();
                 } catch (StringIndexOutOfBoundsException e) {
                     throw new InvalidCommandException();
                 }
+            } else {
+                param = retrievedParamInfo.toString();
             }
         }
         return param;
@@ -86,11 +94,9 @@ public class Parser {
     public static Command parseAddCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
                                           int recurrencePos, int importancePos, int addNotesPos)
             throws InvalidCommandException {
-        String nullDefault = "";
-        String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, nullDefault);
-        //TODO: allow for empty string, assign flexible attribute, true if string is null, false if filled
-        String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, nullDefault);
-        boolean isFlexible = (time == nullDefault);
+        String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, EMPTY_STRING);
+        String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, EMPTY_STRING);
+        boolean isFlexible = (time.equals(EMPTY_STRING));
         String durationDefault = "1";
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos, durationDefault);
         String deadlineDefault = "No deadline";
@@ -101,9 +107,8 @@ public class Parser {
         String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
         String notesDefault = "No notes";
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos, notesDefault);
-        Command command = new AddCommand(name, time, duration, deadline, recurrence, importance, notes, isFlexible);
 
-        return command;
+        return new AddCommand(name, time, duration, deadline, recurrence, importance, notes, isFlexible);
     }
 
     /**
@@ -125,8 +130,8 @@ public class Parser {
      */
     public static Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
                                            int recurrencePos, int importancePos, int addNotesPos,
-                                           TaskList taskList) throws TaskNotFoundException, EditNoIndexException,
-            InvalidCommandException {
+                                           TaskList taskList) throws TaskNotFoundException,
+            EditNoIndexException, InvalidCommandException {
         int number = getNumber(taskInfo);
 
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
@@ -144,10 +149,8 @@ public class Parser {
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos,
                 taskList.getTaskFromNumber(number).getNotes());
 
-        Command command = new EditCommand(number, name, time, duration, deadline, recurrence,
+        return new EditCommand(number, name, time, duration, deadline, recurrence,
                 Importance.valueOf(importance.toUpperCase()), notes);
-
-        return command;
     }
 
     /**
@@ -183,9 +186,8 @@ public class Parser {
         String importanceString = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
         String forecastString = getParameterDesc(taskInfo, FORECAST_DELIMITER, forecastPos, forecastDefault);
         FilterCalculator filterCalculator = new FilterCalculator(importanceString, forecastString);
-        Command command = new ListCommand(filterCalculator.getImportance(),
-                filterCalculator.getForecast());
-        return command;
+
+        return new ListCommand(filterCalculator.getImportance(), filterCalculator.getForecast());
     }
 
     /**
@@ -240,7 +242,7 @@ public class Parser {
      * @return actual input meaning string
      */
     public static String parseShortcutCommands(String userInput) {
-        HashMap<String, String> shortcutCommandsWithDetails = new HashMap<String, String>();
+        HashMap<String, String> shortcutCommandsWithDetails = new HashMap<>();
         shortcutCommandsWithDetails.put("a", "add");
         shortcutCommandsWithDetails.put("e", "edit");
         shortcutCommandsWithDetails.put("l", "list");
@@ -308,7 +310,6 @@ public class Parser {
         int forecastPos = taskInfo.indexOf(FORECAST_DELIMITER);
 
         switch (commandType) {
-        //TODO: add dep, to make 1 task dependent on another. "dep TaskNumber1 Tasknumber2"
         case "add": {
             return parseAddCommand(taskInfo, namePos, timePos, durationPos, deadlinePos,
                     recurrencePos, importancePos, addNotesPos);
