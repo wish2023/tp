@@ -123,7 +123,6 @@ public class Storage {
                 throw new StorageCorruptedException(data);
             } catch (TaskIsDoneException e) {
                 assert false;
-                throw new StorageCorruptedException(data);
             }
         }
         return loadedTaskList;

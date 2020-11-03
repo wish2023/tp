@@ -4,11 +4,14 @@ import athena.Importance;
 import athena.exceptions.DateHasPassedException;
 import athena.exceptions.TaskDuringSleepTimeException;
 import athena.exceptions.TaskIsDoneException;
+import athena.common.utils.DateUtils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
+
+
 
 /**
  * Handles task objects.
@@ -48,7 +51,7 @@ public class Task {
      * @param startTime  starting time of the task
      * @param duration   how long the task is scheduled to last for
      * @param deadline   when the task is due
-     * @param recurrence when the task repeats
+     * @param recurrence when the task occurs/repeats
      * @param importance importance of the task
      * @param notes      additional notes for the task
      * @param number     task number
@@ -63,6 +66,9 @@ public class Task {
         this.notes = notes;
         this.number = number;
         this.isFlexible = isFlexible;
+        if (recurrence.toUpperCase().equals("TODAY")) {
+            recurrence = DateUtils.formatDate(LocalDate.now());
+        }
         this.timeInfo = new Time(isFlexible, startTime, duration, deadline, recurrence);
     }
 
