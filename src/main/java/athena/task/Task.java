@@ -3,6 +3,7 @@ package athena.task;
 import athena.Importance;
 import athena.exceptions.DateHasPassedException;
 import athena.exceptions.TaskDuringSleepTimeException;
+import athena.exceptions.TaskIsDoneException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -137,8 +138,13 @@ public class Task {
 
     /**
      * Marks the task as done.
+     * 
+     * @throws TaskIsDoneException Exception thrown when user tries to mark a task as done which is done.
      */
-    public void setDone() {
+    public void setDone() throws TaskIsDoneException {
+        if (isDone) {
+            throw new TaskIsDoneException();
+        }
         isDone = true;
         isFlexible = false;
     }
@@ -252,8 +258,8 @@ public class Task {
      */
     @Override
     public String toString() {
-        return getStatus() + " " + name + " at " + timeInfo.getStartTime() + " finish by "
-                + timeInfo.getDeadline() + " [" + number + "]";
+        return "[ID: " + number + "] " + name + " at " + timeInfo.getStartTime() + " finish by "
+                + timeInfo.getDeadline() + ". Done? " + getStatus();
     }
 
     /**

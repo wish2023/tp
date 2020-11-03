@@ -175,6 +175,13 @@ public class AthenaUi implements Ui {
     }
 
     /**
+     * Print a message when user enters time in invalid format.
+     */
+    public void printInvalidTimeFormatException() {
+        System.out.println(colorText.toRed("\nPlease enter your time in the format [HHMM]\n"));
+    }
+
+    /**
      * Prints a message stating the task is not found.
      *
      * @param taskNumber Task number given by the user
@@ -256,6 +263,14 @@ public class AthenaUi implements Ui {
                 + colorText.toYellow("list [f/FORECAST] [i/IMPORTANCE]\n")
                 + "In the rare chance that you've forgotten how to mark a task as done, here is my tip for you:\n"
                 + colorText.toYellow("done INDEX\n"));
+    }
+
+    /**
+     * Prints a message telling the user they've already marked the task as done.
+     */
+    public void printTaskIsDoneException() {
+        System.out.println(colorText.toRed("\nHmmm looks like you've already completed that task. "
+                + "Maybe consider taking a break?"));
     }
 
     /**

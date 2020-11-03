@@ -22,6 +22,8 @@ import java.util.Objects;
 public class Time implements Comparable<Time> {
 
     private static final int DATE_TIME_FORMAT = 5;
+    private static final LocalTime WAKE_TIME = LocalTime.of(8,0);
+    private static final LocalTime SLEEP_TIME = LocalTime.of(0,0);
     private boolean isFlexible;
     private LocalTime startTime;
     private int duration;
@@ -34,21 +36,21 @@ public class Time implements Comparable<Time> {
     public Time(boolean isFlexible, LocalTime startTime, int duration, String deadline, String recurrence)
             throws TaskDuringSleepTimeException, DateHasPassedException {
         if (startTime != null) {
-            if (startTime.getHour() < 8) {
+            this.startTime = startTime;
+            this.endTime = startTime.plusHours(duration);
+            if (isClashWithSleep()) {
                 throw new TaskDuringSleepTimeException();
             }
         }
         this.isFlexible = isFlexible;
-        this.startTime = startTime;
         this.duration = duration;
         this.deadline = deadline;
         this.recurrence = recurrence;
-        this.endTime = startTime.plusHours(duration);
         setRecurrence(recurrence);
     }
 
     public Time(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence)
-            throws TaskDuringSleepTimeException, DateHasPassedException {
+            throws TaskDuringSleepTimeException, DateHasPassedException, DateTimeParseException {
         this.isFlexible = isFlexible;
 
         this.duration = Integer.parseInt(duration);
@@ -58,12 +60,23 @@ public class Time implements Comparable<Time> {
 
         if (startTime.length() > 0) {
             this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
-            if (this.startTime.getHour() < 8) {
+            this.endTime = this.startTime.plusHours(this.duration);
+            if (isClashWithSleep()) {
                 throw new TaskDuringSleepTimeException();
             }
         }
-        this.endTime = this.startTime.plusHours(this.duration);
 
+    }
+
+    private boolean isClashWithSleep() {
+        return !isNoClashWithSleep();
+    }
+
+    private boolean isNoClashWithSleep() {
+        LocalTime twoThreeFiveNine = LocalTime.of(23,59);
+        return startTime.compareTo(WAKE_TIME) >= 0
+                && (endTime.compareTo(twoThreeFiveNine) <= 0 || endTime.compareTo(SLEEP_TIME) <= 0)
+                && duration <= 16;
     }
 
     public Time getClone() throws TaskDuringSleepTimeException, DateHasPassedException {

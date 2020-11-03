@@ -3,10 +3,12 @@ package athena;
 
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.DateHasPassedException;
+import athena.exceptions.InvalidTimeFormatException;
 import athena.exceptions.StorageCorruptedException;
 import athena.exceptions.StorageException;
 import athena.exceptions.StorageLoadFailException;
 import athena.exceptions.TaskDuringSleepTimeException;
+import athena.exceptions.TaskIsDoneException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.Time;
@@ -116,6 +118,11 @@ public class Storage {
             } catch (TaskDuringSleepTimeException e) {
                 throw new StorageCorruptedException(data);
             } catch (DateHasPassedException e) {
+                // Self - destruct task?
+            } catch (InvalidTimeFormatException e) {
+                throw new StorageCorruptedException(data);
+            } catch (TaskIsDoneException e) {
+                assert false;
                 throw new StorageCorruptedException(data);
             }
         }

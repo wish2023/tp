@@ -2,7 +2,9 @@ package athena;
 
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.DateHasPassedException;
+import athena.exceptions.InvalidTimeFormatException;
 import athena.exceptions.TaskDuringSleepTimeException;
+import athena.exceptions.TaskIsDoneException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
@@ -10,6 +12,7 @@ import athena.task.taskfilter.TaskFilter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -105,12 +108,17 @@ public class TaskList {
     public void addTask(int number, String name, String startTime, String duration,
                         String deadline, String recurrence,
                         Importance importance, String notes, boolean isFlexible)
-            throws ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException {
-        Task task = createTask(number, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
-        decrementMaxNumber();
-        checkClash(task);
-        updateMaxNumber(number);
-        tasks.add(task);
+            throws ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException, InvalidTimeFormatException {
+        try {
+            Task task = createTask(number, name, startTime,
+                    duration, deadline, recurrence, importance, notes, isFlexible);
+            decrementMaxNumber();
+            checkClash(task);
+            updateMaxNumber(number);
+            tasks.add(task);
+        } catch (DateTimeParseException e) {
+            throw new InvalidTimeFormatException();
+        }
     }
 
     /**
@@ -127,7 +135,7 @@ public class TaskList {
     public void addTask(String name, String startTime, String duration,
                         String deadline, String recurrence,
                         Importance importance, String notes, Boolean isFlexible)
-            throws ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException {
+            throws ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException, InvalidTimeFormatException {
         maxNumber++;
         addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
     }
@@ -252,8 +260,10 @@ public class TaskList {
      * @return Task marked as done.
      * @throws TaskNotFoundException thrown when the program is unable to find a task at the index
      *                               specified by the user
+     * @throws TaskIsDoneException Exception thrown when user tries to mark a task as done which is done.
      */
-    public Task markTaskAsDone(int taskNumber) throws TaskNotFoundException {
+    public Task markTaskAsDone(int taskNumber)
+            throws TaskNotFoundException, TaskIsDoneException {
         Task task = getTaskFromNumber(taskNumber);
         task.setDone();
         return task;

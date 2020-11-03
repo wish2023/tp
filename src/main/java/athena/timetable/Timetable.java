@@ -338,10 +338,8 @@ public class Timetable {
         for (LocalDate date : dates) {
             if (timetableDayMap.containsKey(date)) {
                 list += timetableDayMap.get(date);
-            } else {
-                list += new TimetableDay(date);
+                list += "\n";
             }
-            list += "\n";
         }
         return list;
     }
