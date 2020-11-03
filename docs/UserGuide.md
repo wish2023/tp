@@ -399,7 +399,7 @@ You should expect to see a message to confirm that the time of task with `TASK-I
 
 
 ### Delete task: `delete` or `dl`
-Deletes the specified task from the planner.
+Deletes the specified task from the planner. ATHENA will ensure to leave the index of other tasks untouched.
 
 #### Format: `delete INDEX`
 
