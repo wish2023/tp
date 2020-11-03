@@ -108,7 +108,8 @@ public class TaskList {
     public void addTask(int number, String name, String startTime, String duration,
                         String deadline, String recurrence,
                         Importance importance, String notes, boolean isFlexible)
-            throws ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException, InvalidTimeFormatException {
+            throws ClashInTaskException, TaskDuringSleepTimeException,
+            DateHasPassedException, InvalidTimeFormatException {
         try {
             Task task = createTask(number, name, startTime,
                     duration, deadline, recurrence, importance, notes, isFlexible);
@@ -135,7 +136,8 @@ public class TaskList {
     public void addTask(String name, String startTime, String duration,
                         String deadline, String recurrence,
                         Importance importance, String notes, Boolean isFlexible)
-            throws ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException, InvalidTimeFormatException {
+            throws ClashInTaskException, TaskDuringSleepTimeException,
+            DateHasPassedException, InvalidTimeFormatException {
         maxNumber++;
         addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
     }
