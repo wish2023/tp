@@ -255,8 +255,8 @@ public class Task {
      */
     @Override
     public String toString() {
-        return getStatus() + " " + name + " at " + timeInfo.getStartTime() + " finish by "
-                + timeInfo.getDeadline() + " [" + number + "]";
+        return "[ID: " + number + "] " + name + " at " + timeInfo.getStartTime() + " finish by "
+                + timeInfo.getDeadline() + ". Done? " + getStatus();
     }
 
     /**
