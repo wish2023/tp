@@ -84,9 +84,6 @@ public class Time implements Comparable<Time> {
 
     public void setRecurrence(String recurrence) {
         switch (recurrence.toUpperCase()) {
-        case "TODAY":
-            recurrenceDates.add(LocalDate.now());
-            break;
         case "MONDAY":
             LocalDate mondayDate = getFirstDateMatchingDay(DayOfWeek.MONDAY);
             addDates(mondayDate);
