@@ -6,11 +6,11 @@ package athena.exceptions;
 
 public abstract class AllocatorException extends InternalException {
 
-        public AllocatorException() {
-        }
+    public AllocatorException() {
+    }
 
-        /**
-         * Abstract method for printing the error message to the user when an exception is thrown.
-         */
-        public abstract void printErrorMessage();
+    /**
+     * Abstract method for printing the error message to the user when an exception is thrown.
+     */
+    public abstract void printErrorMessage();
 }

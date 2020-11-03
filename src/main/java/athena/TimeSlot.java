@@ -1,14 +1,13 @@
 package athena;
 
-import athena.exceptions.AllocationFailedException;
 import athena.exceptions.NoNextSlotException;
 
 public class TimeSlot {
     private Log dayLog;
-    private final int WAKE = 8;
-    private final int SLEEP = 22;
-    private Integer start = WAKE;
-    private Integer end = WAKE;
+    private final Integer wake = 8;
+    private final Integer sleep = 22;
+    private Integer start = wake;
+    private Integer end = wake;
 
 
     public TimeSlot(Log dayLog) {
@@ -16,18 +15,18 @@ public class TimeSlot {
     }
 
     public void findNextSlot() throws NoNextSlotException {
-        if (start == SLEEP){
+        if (start == sleep) {
             throw new NoNextSlotException();
         }
         start = end;
-        for (; start < SLEEP; start++) {
-            if (dayLog.get(start) == -1) {
+        for (; start < sleep; start++) {
+            if (dayLog.getStart(start) == -1) {
                 break;
             }
         }
         end = start;
-        for (; end < SLEEP; end++) {
-            if (dayLog.get(end) != -1) {
+        for (; end < sleep; end++) {
+            if (dayLog.getStart(end) != -1) {
                 break;
             }
         }

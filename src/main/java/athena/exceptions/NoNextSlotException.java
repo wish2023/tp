@@ -1,6 +1,6 @@
 package athena.exceptions;
 
-public class NoNextSlotException extends AllocatorException{
+public class NoNextSlotException extends AllocatorException {
 
 
     @Override
