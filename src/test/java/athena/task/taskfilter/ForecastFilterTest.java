@@ -46,11 +46,12 @@ class ForecastFilterTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.WEEK);
         for (int i = 0; i < 7; i++) {
-            Task testTask = new Task("testName", "0900", "1", "05-11-2020",
-                    testDate.format(formatter), Importance.LOW, "testNotes", 0, false);
-            boolean isTaskIncluded = forecastFilter.isTaskIncluded(testTask);
-            assertTrue(isTaskIncluded);
-
+            if (testDate.compareTo(LocalDate.now()) >= 0) {
+                Task testTask = new Task("testName", "0900", "1", "05-11-2020",
+                        testDate.format(formatter), Importance.LOW, "testNotes", 0, false);
+                boolean isTaskIncluded = forecastFilter.isTaskIncluded(testTask);
+                assertTrue(isTaskIncluded);
+            }
             testDate = testDate.plusDays(1);
         }
     }

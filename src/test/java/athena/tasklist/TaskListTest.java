@@ -38,7 +38,7 @@ class TaskListTest {
     void addTask_givenTaskWithLargerTaskNumber_correctMaxNumber() throws CommandException {
         int testMaxNumber = 5;
         testTaskList.addTask(new Task("tres", "1100",
-                "2", "16-09-2020", "13-11-2020", Importance.LOW,
+                "2", "16-09-2020", "13-11-2021", Importance.LOW,
                 "Refer to slides", testMaxNumber, false));
         assertEquals(testTaskList.getMaxNumber(), testMaxNumber);
     }
@@ -51,8 +51,8 @@ class TaskListTest {
     void addTask_givenLargerTaskNumber_correctMaxNumber() throws CommandException {
         String todayDateString = LocalDate.now().toString();
         int testMaxNumber = 100;
-        testTaskList.addTask(testMaxNumber, "big number", "1100",
-                "2", "16-09-2020", "13-11-2020", Importance.HIGH,
+        testTaskList.addTask(testMaxNumber, "big number", "0900",
+                "2", "16-09-2020", "13-11-2021", Importance.HIGH,
                 "Refer to slides", false);
         assertEquals(testTaskList.getMaxNumber(), testMaxNumber);
     }
@@ -151,7 +151,8 @@ class TaskListTest {
     void getFilteredList_todayForecast_returnTasksForToday() throws CommandException {
         TaskList expectedTaskList = getForecastTestExpectedTasks(Forecast.DAY);
         ForecastFilter todayFilter = new ForecastFilter(Forecast.DAY);
-        assertEquals(testTaskList.getFilteredList(todayFilter), expectedTaskList);
+        TaskList actualTaskList = testTaskList.getFilteredList(todayFilter);
+        assertEquals(actualTaskList, expectedTaskList);
     }
 
     private TaskList getImportanceTestExpectedTasks(Importance importance) throws CommandException {
@@ -224,7 +225,7 @@ class TaskListTest {
 
     private LocalDate getDateInWeek() {
         LocalDate date = DateUtils.getFirstDayOfWeek();
-        if (date.equals(LocalDate.now())) {
+        while (date.compareTo(LocalDate.now()) <= 0) {
             date = date.plusDays(1);
         }
         return date;
