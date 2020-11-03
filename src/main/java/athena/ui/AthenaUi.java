@@ -222,6 +222,14 @@ public class AthenaUi implements Ui {
     }
 
     /**
+     * Prints a message telling user to input date in correct format.
+     */
+    public void printInvalidDateFormatException() {
+        System.out.println(colorText.toRed("\nRemember your date has to be in the format"
+                + " dd-mm(-yyyy) " + "or type a day of the week for repeating tasks\n"));
+    }
+
+    /**
      * Prints a message telling user that their proposed date has passed.
      */
     public void printDateHasPassedException() {
