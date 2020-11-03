@@ -185,6 +185,7 @@ The following commands on the left will be expanded to the corresponding command
 
 | Shortcut | Expanded command |
 |----------|------------------|
+| `l3`     | `list i/HIGH`    |
 | `l2`     | `list i/MEDIUM`  |
 | `l1`     | `list i/LOW`     |
 | `lw`     | `list f/WEEK`    |
