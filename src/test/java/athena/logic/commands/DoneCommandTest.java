@@ -4,6 +4,7 @@ import athena.Importance;
 import athena.TaskList;
 import athena.exceptions.DoneInvalidIndexException;
 import athena.exceptions.CommandException;
+import athena.exceptions.TaskIsDoneException;
 import athena.ui.AthenaUi;
 import athena.exceptions.ClashInTaskException;
 import athena.task.Task;
@@ -71,7 +72,8 @@ class DoneCommandTest {
      * @throws DoneInvalidIndexException Exception thrown when the given task number is not in the list
      */
     @Test
-    public void execute_validNumber_taskIsDone() throws DoneInvalidIndexException {
+    public void execute_validNumber_taskIsDone()
+            throws DoneInvalidIndexException, TaskIsDoneException {
         assertDoneSuccessful(1, taskList, taskListWithDone);
     }
 
@@ -98,8 +100,8 @@ class DoneCommandTest {
      *
      * @throws DoneInvalidIndexException Exception thrown when the given task number is not in the list
      */
-    private void assertCommandBehaviour(DoneCommand doneCommand, TaskList expectedTaskList,
-                                        TaskList actualTaskList) throws DoneInvalidIndexException {
+    private void assertCommandBehaviour(DoneCommand doneCommand, TaskList expectedTaskList, TaskList actualTaskList)
+            throws DoneInvalidIndexException, TaskIsDoneException {
         AthenaUi athenaUi = new AthenaUi();
         doneCommand.execute(taskList, athenaUi);
         assertEquals(expectedTaskList, actualTaskList);
@@ -127,7 +129,7 @@ class DoneCommandTest {
      * @throws DoneInvalidIndexException Exception thrown when the given task number is not in the list
      */
     private void assertDoneSuccessful(int taskNumber, TaskList taskList, TaskList taskListWithoutTask)
-            throws DoneInvalidIndexException {
+            throws DoneInvalidIndexException, TaskIsDoneException {
         TaskList expectedTaskList = taskListWithoutTask;
         TaskList actualTaskList = taskList;
 
