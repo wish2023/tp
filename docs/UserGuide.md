@@ -186,7 +186,7 @@ Edits the specified task from the planner.
 
 
 ### Delete task: `delete` or `dl`
-Deletes the specified task from the planner.
+Deletes the specified task from the planner. ATHENA will ensure to leave the index of other tasks untouched.
 
 #### Format: `delete INDEX`
 
