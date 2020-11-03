@@ -101,44 +101,109 @@ Adds a task to the planner.
 
 
 ### List tasks: `list` or `l`
-Shows your tasks organized in a timetable. Each task will be printed with a number to be used as an identifier for other commands (e.g. `edit`, `done`, `delete`).
 
-#### Format
+This command shows your tasks organized nicely in a timetable.
+Each task will be printed with a number that is used as an identifier for other commands (e.g. `edit`, `done`, `delete`).
+
+*TODO: Insert screenshot*
+
+| :bulb:  If the timetable is too big to fit in the screen, consider using a smaller font size in your terminal/command prompt, or stretch your window to full width. |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+The guide for this command is split into three sections:
+
+* [Basic Usage](#basic-usage) (For users new to command line applications)
+* [Intermediate Usage](#intermediate-usage) (For users comfortable with command line applications)
+* [Advanced Usage](#advanced-usage) (Extension to *Intermediate Usage*)
+
+#### Basic Usage
+
+The `list` command accepts 2 parameters.
+You can tell the command to filter your tasks based on
+
+* the range of days you want to see
+* the importance of the tasks
+
+##### Command Format
+
+`list f/FORECAST i/IMPORTANCE`
+
+* `FORECAST`: **DAY** to show the tasks today, **WEEK** to show the tasks one week from now, **ALL** to show the tasks within one month from now.
+
+* `IMPORTANCE`: One of **HIGH**, **MEDIUM**, **LOW**, **ALL**.
+
+##### Example Usage
+
+The following shows the output from ATHENA after entering `list f/Week i/High`.
+You should expect to see all **high importance tasks** occuring **within one week from now**.
+
+*TODO: Insert screenshot*
+
+#### Intermediate Usage
+
+The `list` command accepts 2 parameters.
+You can tell the command to filter your tasks based on
+
+* the range of days you want to see
+* the importance of the tasks
+
+These parameters are optional. If they are left empty, ATHENA will use the default value assigned.
+
+##### Command Format
+
 `list [f/FORECAST] [i/IMPORTANCE]`
 
-#### Parameters
-* `FORECAST`: **DAY** to show the tasks today, **WEEK** to show the tasks this week, **ALL** to show all tasks. 
+* `FORECAST`: **DAY** to show the tasks today, **WEEK** to show the tasks within one week from now, **ALL** to show the tasks within one month from now.
 
   Default: **WEEK**.
-* `IMPORTANCE`: One of **HIGH**, **MEDIUM**, **LOW**, **ALL**. 
+
+* `IMPORTANCE`: One of **HIGH**, **MEDIUM**, **LOW**, **ALL**.
 
   Default: **ALL**.
 
-#### Shortcut format
-* `l3` = `list i/HIGH`
-* `l2` = `list i/MEDIUM`
-* `l1` = `list i/LOW`
-* `lw` = `list f/WEEK`
-* `ld` = `list f/DAY`
-* `la` = `list f/ALL`
-  
-#### Example usage 
+##### Example Usage
+
+The following shows the output from ATHENA after entering `list f/Week i/High`.
+You should expect to see all **high importance tasks** occuring **within one week from now**.
+
+*TODO: Insert screenshot*
+
+Alternatively, you can leave ATHENA to use the default values as specified above.
+For example, entering `list i/Low` will show all **low importance** tasks occuring **within one week from now**.
+
+*TODO: Insert screenshot*
+
+#### Advanced Usage
+
+This section is an extension to the [Intermediate Usage](intermediate-usage) section.
+
+The `list` command supports shortcuts for advanced users.
+
+##### Supported Shortcuts
+
+The following commands on the left will be expanded to the corresponding commands on the right.
+
+| Shortcut | Expanded command |
+|----------|------------------|
+| `l3`     | `list i/HIGH`    |
+| `l2`     | `list i/MEDIUM`  |
+| `l1`     | `list i/LOW`     |
+| `lw`     | `list f/WEEK`    |
+| `ld`     | `list f/DAY`     |
+| `la`     | `list f/ALL`     |
+
+##### Example usage
+
+The following are all valid commands.
 
 * `l`
 * `ld`
 * `list f/WEEK i/medium`
 * `l2 f/WEEK`
 
-#### Expected output
+You can enter `l2 f/DAY` to list **medium importance** tasks occuring **today**.
 
-When you input `l`:
-
-![l command screenshot](screenshots/athena%20l.jpg)
-
-When you input `ld`:
-
-![ld command screenshot](screenshots/athena%20ld.jpg)
-
+*TODO: Update screenshot*
 
 ### Mark task as done: `done` or `dn`
 Mark the specified task from the planner as done.
