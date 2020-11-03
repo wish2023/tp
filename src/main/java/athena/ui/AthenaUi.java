@@ -251,6 +251,14 @@ public class AthenaUi implements Ui {
     }
 
     /**
+     * Prints a message telling the user they've already marked the task as done.
+     */
+    public void printTaskIsDoneException() {
+        System.out.println(colorText.toRed("\nHmmm looks like you've already completed that task. "
+                + "Maybe consider taking a break?"));
+    }
+
+    /**
      * Prints a message telling user they did not provide a valid index for the view command.
      */
     public void printViewInvalidIndexException() {

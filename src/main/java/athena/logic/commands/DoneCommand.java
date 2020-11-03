@@ -1,6 +1,7 @@
 package athena.logic.commands;
 
 import athena.exceptions.DoneInvalidIndexException;
+import athena.exceptions.TaskIsDoneException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.TaskList;
@@ -31,9 +32,11 @@ public class DoneCommand extends Command {
      * @param athenaUi       Ui
      * @throws TaskNotFoundException Exception thrown when the user tries to enter the index of a task that
      *                               does not exist
+     * @throws TaskIsDoneException Exception thrown when user tries to mark a task as done which is done.
      */
     @Override
-    public void execute(TaskList taskList, AthenaUi athenaUi) throws DoneInvalidIndexException {
+    public void execute(TaskList taskList, AthenaUi athenaUi)
+            throws DoneInvalidIndexException, TaskIsDoneException {
         try {
             Task taskDone = taskList.markTaskAsDone(taskNumber);
             athenaUi.printTaskDone(taskDone);
