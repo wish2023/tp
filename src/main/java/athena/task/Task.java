@@ -59,7 +59,7 @@ public class Task {
      */
     public Task(String name, String startTime, String duration, String deadline,
                 String recurrence, Importance importance, String notes, int number, Boolean isFlexible)
-            throws TaskDuringSleepTimeException, DateHasPassedException {
+            throws TaskDuringSleepTimeException {
         this.name = name;
         assert !this.name.equals("");
         this.importance = importance;

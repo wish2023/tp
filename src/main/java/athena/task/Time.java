@@ -50,7 +50,7 @@ public class Time implements Comparable<Time> {
     }
 
     public Time(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence)
-            throws TaskDuringSleepTimeException, DateHasPassedException, DateTimeParseException {
+            throws TaskDuringSleepTimeException, DateTimeParseException {
         this.isFlexible = isFlexible;
 
         this.duration = Integer.parseInt(duration);
@@ -83,7 +83,7 @@ public class Time implements Comparable<Time> {
         return new Time(isFlexible, startTime, duration, deadline, recurrence);
     }
 
-    public void setRecurrence(String recurrence) throws DateHasPassedException {
+    public void setRecurrence(String recurrence) {
         switch (recurrence.toUpperCase()) {
         case "MONDAY":
             LocalDate mondayDate = getFirstDateMatchingDay(DayOfWeek.MONDAY);
@@ -143,7 +143,7 @@ public class Time implements Comparable<Time> {
         return startDate;
     }
 
-    private void setRecurrenceDate(String recurrence) throws DateHasPassedException {
+    private void setRecurrenceDate(String recurrence) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         if (recurrence.length() == "dd-MM".length()) {
             int year = getYear(recurrence);
@@ -153,14 +153,7 @@ public class Time implements Comparable<Time> {
             recurrenceDates.add(date);
         } else {
             LocalDate date = LocalDate.parse(recurrence, formatter);
-            checkDatePassed(date);
             recurrenceDates.add(date);
-        }
-    }
-
-    private void checkDatePassed(LocalDate date) throws DateHasPassedException {
-        if (date.compareTo(LocalDate.now()) < 0) {
-            throw new DateHasPassedException();
         }
     }
 

@@ -117,8 +117,6 @@ public class Storage {
                 throw new StorageLoadFailException();
             } catch (TaskDuringSleepTimeException e) {
                 throw new StorageCorruptedException(data);
-            } catch (DateHasPassedException e) {
-                // Self - destruct task?
             } catch (InvalidTimeFormatException e) {
                 throw new StorageCorruptedException(data);
             } catch (TaskIsDoneException e) {
