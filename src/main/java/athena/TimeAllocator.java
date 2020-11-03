@@ -1,5 +1,6 @@
 package athena;
 
+import athena.exceptions.NoNextSlotException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.Time;
@@ -39,16 +40,15 @@ public class TimeAllocator {
      */
     public void runAllocate() {
         LocalDate currDay = LocalDate.now();
-        ForecastFilter forecast = new ForecastFilter(Forecast.DAY);
         ArrayList<Task> undefinedTimeTasks = getSortedFlexibleTasks(this.flexibleTaskList);
         for (int day = 0; day < 31; day++) {
-            ArrayList<Integer> dayLog = new ArrayList<Integer>(Collections.nCopies(24, -1));
+            Log dayLog = new Log(0,24);
             ArrayList<Task> predefinedTimeTasks = getSortedFixedTasks(getFixedDayTasks(currDay));
             for (Task currTask : predefinedTimeTasks) {
                 int tag = currTask.getNumber();
                 Time timeInfo = currTask.getTimeInfo();
                 for (int i = 0; i < timeInfo.getDuration(); i++) {
-                    dayLog.set(timeInfo.getStartTime().getHour() + i, tag);
+                    dayLog.setNumber(timeInfo.getStartTime().getHour() + i, tag);
                 }
             }
             ArrayList<Task> carryOverTasks = new ArrayList<Task>();
@@ -56,20 +56,19 @@ public class TimeAllocator {
             int start = 8;
             int sleep = 24;
             boolean done = false;
+            TimeSlot currSlot = new TimeSlot(dayLog);
             while (!done) {
-                int pos = start;
-                pos = nextVacantSlotStart(dayLog, pos, sleep);
-                int end = pos;
-                end = nextVacantSlotEnd(dayLog, end, sleep);
-                carryOverTasks = new ArrayList<Task>();
-                ArrayList<Integer> bestLog = getBestLog(pos, end, undefinedTimeTasks, carryOverTasks);
-                populateDayLog(pos, dayLog, bestLog);
-                assignTime(bestLog, pos, currDay);
-                undefinedTimeTasks = carryOverTasks;
-                start = end;
-                if (end == sleep) {
+                try{
+                    currSlot.findNextSlot();
+                } catch (NoNextSlotException e) {
                     done = true;
+                    break;
                 }
+                carryOverTasks = new ArrayList<Task>();
+                ArrayList<Integer> bestLog = getBestLog(currSlot.getStart(), currSlot.getEnd(), undefinedTimeTasks, carryOverTasks);
+                populateDayLog(currSlot.getStart(), dayLog.getNumberList(), bestLog);
+                assignTime(bestLog, currSlot.getStart(), currDay);
+                undefinedTimeTasks = carryOverTasks;
             }
             for (Task currTask : carryOverTasks) {
                 try {
@@ -184,40 +183,7 @@ public class TimeAllocator {
         return log;
     }
 
-
-    /**
-     * Finds end of vacant time slot.
-     *
-     * @param dayLog log of the day's tasks
-     * @param end    ending position
-     * @param sleep  sleep time
-     * @return valid end value
-     */
-    private int nextVacantSlotEnd(ArrayList<Integer> dayLog, int end, int sleep) {
-        for (; end < sleep; end++) {
-            if (dayLog.get(end) != -1) {
-                break;
-            }
-        }
-        return end;
-    }
-
-    /**
-     * Finds start of vacant time slot.
-     *
-     * @param dayLog log of the day's tasks
-     * @param pos    starting position
-     * @param sleep  sleep time
-     * @return valid pos value
-     */
-    private int nextVacantSlotStart(ArrayList<Integer> dayLog, int pos, int sleep) {
-        for (; pos < sleep; pos++) {
-            if (dayLog.get(pos) == -1) {
-                break;
-            }
-        }
-        return pos;
-    }
+    
 
     private ArrayList<Task> getSortedFixedTasks(TaskList taskList) {
         TaskList fixedDayTasks = taskList;
@@ -251,11 +217,6 @@ public class TimeAllocator {
         return fixedDayTask;
     }
 
-    private TaskList getFlexibleDayTasks(LocalDate date) {
-        ForecastFilter forecast = new ForecastFilter(date);
-        TaskList flexibleDayTask = this.flexibleTaskList.getFilteredList(forecast);
-        return flexibleDayTask;
-    }
 
     // Psuedocode for allocation runs might refactor into a command class
     //    public void runAllocate() {
