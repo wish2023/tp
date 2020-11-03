@@ -116,7 +116,7 @@ The `add` command accepts 7 parameters.
 
 * `NAME` is the name of the task. It is a compulsory parameter the user has to input.
 
-This parameter `TIME` is optional only if the task is non-recurring. ELse, the user must input a start time for the task.
+This parameter `TIME` is optional only if the task is non-recurring. Else, the user must input a start time for the task.
 * `TIME` is the time to start doing this task (**HHMM**). For example, 1100.
 
    Default: Allocated by Athena (only available for non-recurring tasks)
@@ -242,7 +242,7 @@ The guide for this command is split into three sections:
 
 ##### Command Format
 
-`edit TASK-ID [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
+`edit TASK-ID n/NAME t/TIME d/DURATION D/DEADLINE r/RECURRENCE i/IMPORTANCE a/ADDITIONAL-NOTES`
 
 ##### Parameters
 The `edit` command accepts 8 parameters.
