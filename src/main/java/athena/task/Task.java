@@ -1,14 +1,13 @@
 package athena.task;
 
-import athena.Importance;
-import athena.Recurrence;
-import athena.common.utils.DateUtils;
-import athena.exceptions.TaskDuringSleepTimeException;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
+
+import athena.Importance;
+import athena.common.utils.DateUtils;
+import athena.exceptions.TaskDuringSleepTimeException;
 
 /**
  * Handles task objects.
@@ -63,7 +62,7 @@ public class Task {
         this.notes = notes;
         this.number = number;
         this.isFlexible = isFlexible;
-        if (recurrence.equals("TODAY")) {
+        if (recurrence.toUpperCase().equals("TODAY")) {
             recurrence = DateUtils.formatDate(LocalDate.now());
         }
         this.timeInfo = new Time(isFlexible, startTime, duration, deadline, recurrence);
