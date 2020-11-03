@@ -107,8 +107,8 @@ Each task will be printed with a number that is used as an identifier for other 
 
 *TODO: Insert screenshot*
 
-| :warning:  Make sure to set your terminal/command prompt to use a smaller font size, as the timetable can be too big to fit in the screen. |
-|----------------------------------------------------------------------------------------------------------------------------------------------|
+| :bulb:  If the timetable is too big to fit in the screen, consider using a smaller font size in your terminal/command prompt, or stretch your window to full width. |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 
 The guide for this command is split into three sections:
 
