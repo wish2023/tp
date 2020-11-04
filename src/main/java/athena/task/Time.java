@@ -175,7 +175,6 @@ public class Time implements Comparable<Time> {
             year = currentDate.getYear() + 1;
         } else if (currentDate.getMonthValue() == month
                 && currentDate.getDayOfMonth() > day) {
-            System.out.println("Hello!");
             year = currentDate.getYear() + 1;
         } else {
             year = currentDate.getYear();
