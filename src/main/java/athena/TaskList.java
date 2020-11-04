@@ -1,6 +1,7 @@
 package athena;
 
 import athena.exceptions.ClashInTaskException;
+import athena.exceptions.DateHasPassedException;
 import athena.exceptions.InvalidTimeFormatException;
 import athena.exceptions.TaskDuringSleepTimeException;
 import athena.exceptions.TaskIsDoneException;
@@ -243,7 +244,7 @@ public class TaskList {
     public void editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, Importance importance,
                          String notes)
-            throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException {
+            throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException {
         Task task = getTaskFromNumber(taskNumber);
         Task possibleEditedTask = createTask(taskNumber, name, startTime,
                 duration, deadline, recurrence, importance, notes, task.isFlexible());
