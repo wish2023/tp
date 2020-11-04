@@ -68,11 +68,11 @@ This command adds a task to the planner.
 
 The guide for this command is split into three sections:
 
-* [Basic Usage](#basic-usage) (For users new to command line applications)
-* [Intermediate Usage](#intermediate-usage) (For users comfortable with command line applications)
-* [Advanced Usage](#advanced-usage) (Extension to *Intermediate Usage*)
+* [Basic Usage (add)](#basic-usage-add) (For users new to command line applications)
+* [Intermediate Usage (add)](#intermediate-usage-add) (For users comfortable with command line applications)
+* [Advanced Usage (add)](#advanced-usage-add) (Extension to *Intermediate Usage (add)*)
 
-#### Basic Usage
+#### Basic Usage (add)
 
 ##### Command Format
 
@@ -105,7 +105,7 @@ You should expect to see a message to confirm that the task is added.
 
 ![add command screenshot](screenshots/athena%20add.jpg)
 
-#### Intermediate Usage
+#### Intermediate Usage (add)
 
 ##### Command Format
 
@@ -148,9 +148,9 @@ You should expect to see a message to confirm that the task is added with some o
 
 *TODO: Insert screenshot*
 
-#### Advanced Usage
+#### Advanced Usage (add)
 
-This section is an extension to the [Intermediate Usage](#intermediate-usage) section.
+This section is an extension to the [Intermediate Usage (add)](#intermediate-usage-add) section.
 
 The `add` command supports shortcuts for advanced users.
 
@@ -299,11 +299,11 @@ This command edits a specific task in the planner.
 
 The guide for this command is split into three sections:
 
-* [Basic Usage](#basic-usage) (For users new to command line applications)
-* [Intermediate Usage](#intermediate-usage) (For users comfortable with command line applications)
-* [Advanced Usage](#advanced-usage) (Extension to *Intermediate Usage*)
+* [Basic Usage (edit)](#basic-usage-edit) (For users new to command line applications)
+* [Intermediate Usage (edit)](#intermediate-usage-edit) (For users comfortable with command line applications)
+* [Advanced Usage (edit)](#advanced-usage-edit) (Extension to *Intermediate Usage (edit)*)
 
-#### Basic Usage
+#### Basic Usage (edit)
 
 ##### Command Format
 
@@ -338,7 +338,7 @@ You should expect to see a message to confirm that the task with index 1 is edit
 
 ![edit command screenshot](screenshots/athena%20edit.jpg)
 
-#### Intermediate Usage
+#### Intermediate Usage (edit)
 
 ##### Command Format
 
@@ -373,9 +373,9 @@ You should expect to see a message to confirm that the time of task with `TASK-I
 
 *TODO: Insert screenshot*
 
-#### Advanced Usage
+#### Advanced Usage (edit)
 
-This section is an extension to the [Intermediate Usage](#intermediate-usage) section.
+This section is an extension to the [Intermediate Usage (edit)](#intermediate-usage-edit) section.
 
 The `edit` command supports shortcuts for advanced users.
 
