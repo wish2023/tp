@@ -1,6 +1,7 @@
 package athena.task;
 
 import athena.common.utils.DateUtils;
+import athena.exceptions.DateHasPassedException;
 import athena.exceptions.TaskDuringSleepTimeException;
 
 import java.time.DayOfWeek;
@@ -33,7 +34,7 @@ public class Time implements Comparable<Time> {
     private ArrayList<LocalDate> recurrenceDates = new ArrayList<>();
 
     public Time(boolean isFlexible, LocalTime startTime, int duration, String deadline, String recurrence)
-            throws TaskDuringSleepTimeException {
+            throws TaskDuringSleepTimeException, DateHasPassedException {
         if (startTime != null) {
             this.startTime = startTime;
             this.endTime = startTime.plusHours(duration);
@@ -71,14 +72,14 @@ public class Time implements Comparable<Time> {
         return !isNoClashWithSleep();
     }
 
-    private boolean isNoClashWithSleep() { //CHANGE CHANGE CHANGE
+    private boolean isNoClashWithSleep() {
         LocalTime twoThreeFiveNine = LocalTime.of(23,59);
         return startTime.compareTo(WAKE_TIME) >= 0
                 && (endTime.compareTo(twoThreeFiveNine) <= 0 || endTime.compareTo(SLEEP_TIME) <= 0)
                 && duration <= 16;
     }
 
-    public Time getClone() throws TaskDuringSleepTimeException {
+    public Time getClone() throws TaskDuringSleepTimeException, DateHasPassedException {
         return new Time(isFlexible, startTime, duration, deadline, recurrence);
     }
 
@@ -147,10 +148,12 @@ public class Time implements Comparable<Time> {
         if (recurrence.length() == "dd-MM".length()) {
             int year = getYear(recurrence);
             this.recurrence = recurrence + "-" + year;
-            recurrenceDates.add(LocalDate.parse(recurrence + "-"
-                    + Integer.toString(year), formatter));
+            LocalDate date = LocalDate.parse(recurrence + "-"
+                    + year, formatter);
+            recurrenceDates.add(date);
         } else {
-            recurrenceDates.add(LocalDate.parse(recurrence, formatter));
+            LocalDate date = LocalDate.parse(recurrence, formatter);
+            recurrenceDates.add(date);
         }
     }
 
@@ -261,7 +264,8 @@ public class Time implements Comparable<Time> {
         return 0;
     }
 
-    public void edit(String startTime, String duration, String deadline, String recurrence) {
+    public void edit(String startTime, String duration, String deadline, String recurrence)
+            throws DateHasPassedException {
         this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
         this.duration = Integer.parseInt(duration);
         this.deadline = deadline;

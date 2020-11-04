@@ -1,5 +1,6 @@
 package athena.task.taskfilter;
 
+import athena.common.utils.DateUtils;
 import athena.task.Task;
 import athena.Forecast;
 
@@ -55,7 +56,7 @@ public class ForecastFilter extends TaskFilter {
         } else if (forecast == Forecast.WEEK) {
             int currentWeekNumber = getWeekNumber(filterDate);
             int taskWeekNumber = getWeekNumber(taskDate);
-            isDateIncluded = (currentWeekNumber == taskWeekNumber);
+            isDateIncluded = (currentWeekNumber == taskWeekNumber && taskDate.getYear() == LocalDate.now().getYear());
         } else {
             isDateIncluded = taskDate.equals(filterDate);
         }

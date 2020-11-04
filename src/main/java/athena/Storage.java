@@ -2,6 +2,7 @@ package athena;
 
 
 import athena.exceptions.ClashInTaskException;
+import athena.exceptions.DateHasPassedException;
 import athena.exceptions.InvalidTimeFormatException;
 import athena.exceptions.StorageCorruptedException;
 import athena.exceptions.StorageException;

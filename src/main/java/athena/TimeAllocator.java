@@ -1,5 +1,6 @@
 package athena;
 
+import athena.exceptions.DateHasPassedException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.Time;
