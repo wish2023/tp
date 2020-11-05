@@ -2,6 +2,8 @@ package athena.task;
 
 import athena.common.utils.DateUtils;
 import athena.exceptions.DateHasPassedException;
+import athena.exceptions.InvalidDeadlineException;
+import athena.exceptions.InvalidRecurrenceException;
 import athena.exceptions.TaskDuringSleepTimeException;
 
 import java.time.DayOfWeek;
@@ -28,13 +30,15 @@ public class Time implements Comparable<Time> {
     private LocalTime startTime;
     private int duration;
     private LocalTime endTime;
+
     private String deadline;
+    private LocalDate deadlineDate;
 
     private String recurrence;
     private ArrayList<LocalDate> recurrenceDates = new ArrayList<>();
 
     public Time(boolean isFlexible, LocalTime startTime, int duration, String deadline, String recurrence)
-            throws TaskDuringSleepTimeException, DateHasPassedException {
+            throws TaskDuringSleepTimeException, InvalidDeadlineException, InvalidRecurrenceException {
         if (startTime != null) {
             this.startTime = startTime;
             this.endTime = startTime.plusHours(duration);
@@ -44,17 +48,24 @@ public class Time implements Comparable<Time> {
         }
         this.isFlexible = isFlexible;
         this.duration = duration;
+
         this.deadline = deadline;
+        setDeadlineDate(deadline);
+
         this.recurrence = recurrence;
         setRecurrence(recurrence);
     }
 
     public Time(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence)
-            throws TaskDuringSleepTimeException, DateTimeParseException {
+            throws TaskDuringSleepTimeException, DateTimeParseException,
+            InvalidRecurrenceException, InvalidDeadlineException {
         this.isFlexible = isFlexible;
 
         this.duration = Integer.parseInt(duration);
+
         this.deadline = deadline;
+        setDeadlineDate(deadline);
+
         this.recurrence = recurrence;
         setRecurrence(recurrence);
 
@@ -79,11 +90,12 @@ public class Time implements Comparable<Time> {
                 && duration <= 16;
     }
 
-    public Time getClone() throws TaskDuringSleepTimeException, DateHasPassedException {
+    public Time getClone()
+            throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException {
         return new Time(isFlexible, startTime, duration, deadline, recurrence);
     }
 
-    public void setRecurrence(String recurrence) {
+    public void setRecurrence(String recurrence) throws InvalidRecurrenceException {
         switch (recurrence.toUpperCase()) {
         case "MONDAY":
             LocalDate mondayDate = getFirstDateMatchingDay(DayOfWeek.MONDAY);
@@ -114,14 +126,7 @@ public class Time implements Comparable<Time> {
             addDates(sundayDate);
             break;
         default:
-            try {
-                setRecurrenceDate(recurrence);
-            } catch (DateTimeParseException e) {
-                // TODO: Handle this properly
-                System.out.println("I don't understand the date you gave. So I set it to today.");
-                this.recurrence = DateUtils.formatDate(LocalDate.now());
-                recurrenceDates.add(LocalDate.now());
-            }
+            setRecurrenceDate(recurrence);
         }
     }
 
@@ -143,19 +148,43 @@ public class Time implements Comparable<Time> {
         return startDate;
     }
 
-    private void setRecurrenceDate(String recurrence) {
+    private void setRecurrenceDate(String recurrence) throws InvalidRecurrenceException {
+        if (deadline != "No deadline") {
+            try {
+                LocalDate date = getDate(recurrence);
+                recurrenceDates.add(date);
+            } catch (DateTimeParseException e) {
+                throw new InvalidRecurrenceException();
+            }
+        }
+    }
+
+    private void setDeadlineDate(String deadline) throws InvalidDeadlineException {
+        if (!deadline.equals("No deadline")) {
+            try {
+                LocalDate date = getDate(deadline);
+                this.deadlineDate = date;
+            } catch (DateTimeParseException e) {
+                throw new InvalidDeadlineException();
+            }
+        }
+    }
+
+    private LocalDate getDate(String recurrence) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate date;
         if (recurrence.length() == "dd-MM".length()) {
             int year = getYear(recurrence);
             this.recurrence = recurrence + "-" + year;
-            LocalDate date = LocalDate.parse(recurrence + "-"
+            date = LocalDate.parse(recurrence + "-"
                     + year, formatter);
-            recurrenceDates.add(date);
         } else {
-            LocalDate date = LocalDate.parse(recurrence, formatter);
-            recurrenceDates.add(date);
+            date = LocalDate.parse(recurrence, formatter);
         }
+        return date;
     }
+
+
 
     public void resetRecurrence() {
         recurrenceDates.clear();
@@ -265,10 +294,11 @@ public class Time implements Comparable<Time> {
     }
 
     public void edit(String startTime, String duration, String deadline, String recurrence)
-            throws DateHasPassedException {
+            throws InvalidRecurrenceException, InvalidDeadlineException {
         this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
         this.duration = Integer.parseInt(duration);
         this.deadline = deadline;
+        setDeadlineDate(deadline);
 
         this.recurrence = recurrence;
         resetRecurrence();
