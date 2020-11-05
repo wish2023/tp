@@ -1,6 +1,7 @@
 package athena;
 
 import athena.exceptions.DateHasPassedException;
+import athena.exceptions.InvalidRecurrenceException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.Time;
@@ -107,6 +108,8 @@ public class TimeAllocator {
                     this.flexibleTaskList.deleteTask(taskNumber);
                 } catch (TaskNotFoundException e) {
                     //do nothing
+                } catch (InvalidRecurrenceException e) {
+                    //do nothing?
                 }
             }
             count++;
