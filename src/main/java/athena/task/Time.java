@@ -95,6 +95,10 @@ public class Time implements Comparable<Time> {
         return new Time(isFlexible, startTime, duration, deadline, recurrence);
     }
 
+    public LocalDate getDeadlineDate() {
+        return deadlineDate;
+    }
+
     public void setRecurrence(String recurrence) throws InvalidRecurrenceException {
         switch (recurrence.toUpperCase()) {
         case "MONDAY":
@@ -149,13 +153,14 @@ public class Time implements Comparable<Time> {
     }
 
     private void setRecurrenceDate(String recurrence) throws InvalidRecurrenceException {
-        if (deadline != "No deadline") {
-            try {
-                LocalDate date = getDate(recurrence);
-                recurrenceDates.add(date);
-            } catch (DateTimeParseException e) {
-                throw new InvalidRecurrenceException();
+        try {
+            LocalDate date = getDate(recurrence);
+            if (recurrence.length() == "dd-MM".length()) {
+                this.recurrence = recurrence + "-" + date.getYear();
             }
+            recurrenceDates.add(date);
+        } catch (DateTimeParseException e) {
+            throw new InvalidRecurrenceException();
         }
     }
 
@@ -163,23 +168,27 @@ public class Time implements Comparable<Time> {
         if (!deadline.equals("No deadline")) {
             try {
                 LocalDate date = getDate(deadline);
+                if (deadline.length() == "dd-MM".length()) {
+                    this.deadline = deadline + "-" + date.getYear();
+                }
                 this.deadlineDate = date;
             } catch (DateTimeParseException e) {
+                throw new InvalidDeadlineException();
+            } catch (NumberFormatException e) {
                 throw new InvalidDeadlineException();
             }
         }
     }
 
-    private LocalDate getDate(String recurrence) {
+    private LocalDate getDate(String dateString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate date;
-        if (recurrence.length() == "dd-MM".length()) {
-            int year = getYear(recurrence);
-            this.recurrence = recurrence + "-" + year;
-            date = LocalDate.parse(recurrence + "-"
+        if (dateString.length() == "dd-MM".length()) {
+            int year = getYear(dateString);
+            date = LocalDate.parse(dateString + "-"
                     + year, formatter);
         } else {
-            date = LocalDate.parse(recurrence, formatter);
+            date = LocalDate.parse(dateString, formatter);
         }
         return date;
     }
