@@ -2,7 +2,9 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
+import athena.exceptions.CommandException;
 import athena.exceptions.TaskDuringSleepTimeException;
+import athena.logic.DateChecker;
 import athena.ui.AthenaUi;
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
@@ -55,8 +57,10 @@ public class EditCommand extends Command {
      *                               does not exist
      */
     @Override
-    public void execute(TaskList taskList, AthenaUi athenaUi)
-            throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException {
+    public void execute(TaskList taskList, AthenaUi athenaUi) throws CommandException {
+        if (taskRecurrence.contains("-") && (taskRecurrence.length() == "dd-MM-yyyy".length())) {
+            DateChecker dateChecker = new DateChecker(taskRecurrence);
+        }
         taskList.editTask(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
         athenaUi.printTaskEdited(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,

@@ -38,7 +38,7 @@ class TaskListTest {
     void addTask_givenTaskWithLargerTaskNumber_correctMaxNumber() throws CommandException {
         int testMaxNumber = 5;
         testTaskList.addTask(new Task("tres", "1100",
-                "2", "16-09-2020", "13-11-2020", Importance.LOW,
+                "2", "16-09-2020", "13-11-2021", Importance.LOW,
                 "Refer to slides", testMaxNumber, false));
         assertEquals(testTaskList.getMaxNumber(), testMaxNumber);
     }
@@ -51,8 +51,8 @@ class TaskListTest {
     void addTask_givenLargerTaskNumber_correctMaxNumber() throws CommandException {
         String todayDateString = LocalDate.now().toString();
         int testMaxNumber = 100;
-        testTaskList.addTask(testMaxNumber, "big number", "1100",
-                "2", "16-09-2020", "13-11-2020", Importance.HIGH,
+        testTaskList.addTask(testMaxNumber, "big number", "0900",
+                "2", "16-09-2020", "13-11-2021", Importance.HIGH,
                 "Refer to slides", false);
         assertEquals(testTaskList.getMaxNumber(), testMaxNumber);
     }
@@ -77,7 +77,7 @@ class TaskListTest {
     @Test
     void deleteTask_validTaskIndex_correctTaskDeleted() throws CommandException {
         Task expectedTask = new Task("Assignment1", "1100",
-                "2", "16-09-2020", "13-10-2020", Importance.HIGH,
+                "2", "16-09-2020", "13-10-2021", Importance.HIGH,
                 "Refer to slides", 12, false);
         testTaskList.addTask(expectedTask);
         Task actualTask = testTaskList.deleteTask(12);
@@ -93,16 +93,16 @@ class TaskListTest {
     void editTask_givenAttributes_attributeChanged() throws CommandException {
         int index = 0;
         Task task = new Task("Assignment1", "1100",
-                "2", "16-09-2020", "13-10-2020", Importance.HIGH,
+                "2", "16-09-2020", "13-10-2021", Importance.HIGH,
                 "Refer to slides", index, false);
         testTaskList.addTask(task);
 
         Task expectedTask = new Task("Assignment2", "1200",
-                "4", "16-11-2020", "13-10-2020", Importance.LOW,
+                "4", "16-11-2020", "13-10-2021", Importance.LOW,
                 "I have changed", index, false);
 
         testTaskList.editTask(index, "Assignment2", "1200",
-                "4", "16-11-2020", "13-10-2020", Importance.LOW,
+                "4", "16-11-2020", "13-10-2021", Importance.LOW,
                 "I have changed");
 
         assertEquals(testTaskList.getTaskFromNumber(index), expectedTask);
@@ -143,14 +143,16 @@ class TaskListTest {
     void getFilteredList_weekForecast_returnTasksForWeek() throws CommandException {
         TaskList expectedTaskList = getForecastTestExpectedTasks(Forecast.WEEK);
         ForecastFilter weekFilter = new ForecastFilter(Forecast.WEEK);
-        assertEquals(testTaskList.getFilteredList(weekFilter), expectedTaskList);
+        TaskList actualTaskList = testTaskList.getFilteredList(weekFilter);
+        assertEquals(actualTaskList, expectedTaskList);
     }
 
     @Test
     void getFilteredList_todayForecast_returnTasksForToday() throws CommandException {
         TaskList expectedTaskList = getForecastTestExpectedTasks(Forecast.DAY);
         ForecastFilter todayFilter = new ForecastFilter(Forecast.DAY);
-        assertEquals(testTaskList.getFilteredList(todayFilter), expectedTaskList);
+        TaskList actualTaskList = testTaskList.getFilteredList(todayFilter);
+        assertEquals(actualTaskList, expectedTaskList);
     }
 
     private TaskList getImportanceTestExpectedTasks(Importance importance) throws CommandException {
@@ -164,7 +166,7 @@ class TaskListTest {
                 "2", "16-09-2020", dateInWeek, Importance.MEDIUM,
                 "Refer to slides", 1, false);
         Task task3 = new Task("tres", "1100",
-                "2", "16-09-2020", "13-11-2019", Importance.LOW,
+                "2", "16-09-2020", "13-11-2021", Importance.LOW,
                 "Refer to slides", 2, false);
 
         if (importance == Importance.HIGH) {
@@ -188,7 +190,7 @@ class TaskListTest {
                 "2", "16-09-2020", dateInWeek, Importance.MEDIUM,
                 "Refer to slides", 1, false);
         Task task3 = new Task("tres", "1100",
-                "2", "16-09-2020", "13-11-2019", Importance.LOW,
+                "2", "16-09-2020", "13-11-2021", Importance.LOW,
                 "Refer to slides", 2, false);
 
         if (forecast == Forecast.ALL) {
@@ -217,13 +219,13 @@ class TaskListTest {
                 "2", "16-09-2020", dateInWeek, Importance.MEDIUM,
                 "Refer to slides", index++, false));
         testTaskList.addTask(new Task("tres", "1100",
-                "2", "16-09-2020", "13-11-2019", Importance.LOW,
+                "2", "16-09-2020", "13-11-2021", Importance.LOW,
                 "Refer to slides", index++, false));
     }
 
     private LocalDate getDateInWeek() {
         LocalDate date = DateUtils.getFirstDayOfWeek();
-        if (date.equals(LocalDate.now())) {
+        while (date.compareTo(LocalDate.now()) <= 0) {
             date = date.plusDays(1);
         }
         return date;
