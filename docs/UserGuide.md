@@ -48,7 +48,6 @@ e.g. if the command specifies `n/NAME t/TIME`, `t/TIME n/NAME` is also acceptabl
 e.g `add n/NAME p/PARAMETER`, since `p/` is an unknown parameter type for `add` command, `p/PARAMETER` is ignored.
 * If user types in 2 or more parameter description for each parameter type, only the first description will be taken.
 e.g. if user types `n/NAME1 n/NAME2`, only `NAME1` will be recorded as the task's name.
-* Items in square brackets are optional. e.g `n/NAME  [d/DURATION]` can be used as `n/Task1 d/1` or as `n/Task1`.
 * For some commands, if no parameters are specified, the command will execute using the default values for each parameter.
 * For dates, the program follows the **DD-MM-YYYY** format.
 * For time, the program follows the **HHMM** format.
@@ -73,6 +72,9 @@ The guide for this command is split into three sections:
 * [Advanced Usage (add)](#advanced-usage-add) (Extension to *Intermediate Usage (add)*)
 
 #### Basic Usage (add)
+
+In this section, for easier understanding, the `add` command will make use of all parameters.
+Users new to command line applications can find it easy to use as long as they follow the description below.
 
 ##### Command Format
 
@@ -106,6 +108,9 @@ You should expect to see a message to confirm that the task is added.
 ![add command screenshot](screenshots/athena%20add.jpg)
 
 #### Intermediate Usage (add)
+
+In this section, parameters in square brackets are optional. e.g `n/NAME  [d/DURATION]` can be used as `n/Task1 d/1` or as `n/Task1`.
+Users comfortable with command line applications have a choice now and can find it easy to use as long as they follow the description below.
 
 ##### Command Format
 
@@ -305,6 +310,9 @@ The guide for this command is split into three sections:
 
 #### Basic Usage (edit)
 
+In this section, for easier understanding, the `edit` command will make use of all parameters.
+Users new to command line applications can find it easy to use as long as they follow the description below.
+
 ##### Command Format
 
 `edit TASK-ID n/NAME t/TIME d/DURATION D/DEADLINE r/RECURRENCE i/IMPORTANCE a/ADDITIONAL-NOTES`
@@ -339,6 +347,9 @@ You should expect to see a message to confirm that the task with index 1 is edit
 ![edit command screenshot](screenshots/athena%20edit.jpg)
 
 #### Intermediate Usage (edit)
+
+In this section, parameters in square brackets are optional. e.g `TASK-ID [n/NAME] [d/DURATION]` can be used as `1 n/Task1 d/1` or as `1 n/Task1`.
+Users comfortable with command line applications have a choice now and can find it easy to use as long as they follow the description below.
 
 ##### Command Format
 
