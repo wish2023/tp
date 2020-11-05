@@ -84,9 +84,11 @@ public class Time implements Comparable<Time> {
     }
 
     private boolean isNoClashWithSleep() {
-        LocalTime twoThreeFiveNine = LocalTime.of(23,59);
+        // Needed only if we make sleep time customizable (Causing bugs) - Low priority
+        // LocalTime twoThreeFiveNine = LocalTime.of(23,59);
+        // System.out.println(endTime.compareTo(SLEEP_TIME) <= 0);
         return startTime.compareTo(WAKE_TIME) >= 0
-                && (endTime.compareTo(twoThreeFiveNine) <= 0 || endTime.compareTo(SLEEP_TIME) <= 0)
+                && !(endTime.compareTo(WAKE_TIME) < 0 && endTime.compareTo(SLEEP_TIME) > 0)
                 && duration <= 16;
     }
 
