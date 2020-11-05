@@ -225,7 +225,7 @@ public class AthenaUi implements Ui {
      * Prints a message telling user to input recurrence in correct format.
      */
     public void printInvalidRecurrenceException() {
-        System.out.println(colorText.toRed("\nRemember your date has to be in the format"
+        System.out.println(colorText.toRed("\nRemember your date has to be valid in the format"
                 + " dd-mm(-yyyy) " + "or type a day of the week for repeating tasks\n"));
     }
 
@@ -241,7 +241,7 @@ public class AthenaUi implements Ui {
      * Print message telling user they have mistyped the deadline date.
      */
     public void printInvalidDeadlineException() {
-        System.out.println(colorText.toRed("\nRemember your deadline has to be in the format"
+        System.out.println(colorText.toRed("\nRemember your deadline has to valid be in the format"
                 + " dd-mm(-yyyy)\n"));
     }
 
