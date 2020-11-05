@@ -46,7 +46,7 @@ public class TestSetup {
                 Importance.MEDIUM, "Tough assignment,", false);
         taskList.addTask(2, "Assignment 3", "1000", "2", "01-01-2021", "14-12-2020",
                 Importance.LOW, "Tough ,,,assignment", false);
-        taskList.addTask(3, "Assignment 4", "1300", "2", "01-01-2021,", "14-12-2020",
+        taskList.addTask(3, "Assignment 4", "1300", "2", "01-01-2021", "14-12-2020",
                 Importance.MEDIUM, "Tough assignment", false);
         taskList.addTask(4, "Assignment 5", "1600", "2", "01-01-2021", "14-12-2020",
                 Importance.HIGH, "Tough assignment", false);
