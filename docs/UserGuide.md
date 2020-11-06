@@ -417,7 +417,7 @@ It must be a non-negative integer.
 
 The following shows the output from ATHENA after entering `delete 1`.
 You should expect to see a message to confirm that the task is deleted. 
-ATHENA also prints a message for the user to type in case the task has been deleted accidently.
+ATHENA also prints the command required to restore the deleted task.
 
 
 ![delete command screenshot](screenshots/athena%20delete.jpg)
@@ -439,11 +439,11 @@ The guide for this command is split into three sections:
 ##### Parameters
 The `view` command requires 1 parameter only.
 
-* `TASK_ID` refers to the number shown beside the task that the user wants to delete in the displayed task list. It must be a non-negative integer.
+* `TASK_ID` refers to the number shown beside the task that the user wants to view in the displayed task list. It must be a non-negative integer.
 
 ##### Example Usage
 
-Firstly, use [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be edited.
+Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be viewed.
 The following shows the output from ATHENA after entering `view 0`.
 You should expect to see the details of your task with `TASK_ID` of `0`.
 
