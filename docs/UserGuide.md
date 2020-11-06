@@ -410,7 +410,7 @@ Deletes the specified task from the planner. ATHENA will ensure to leave the ind
 ##### Parameters
 The `delete` command requires 1 parameter only.
 
-* `TASK_ID` refers to the number shown beside the task that the user wants to delete in the displayed task list. 
+* `TASK-ID` refers to the number shown beside the task that the user wants to delete in the displayed task list. 
 It must be a non-negative integer.
 
 ##### Example Usage
@@ -439,13 +439,13 @@ The guide for this command is split into three sections:
 ##### Parameters
 The `view` command requires 1 parameter only.
 
-* `TASK_ID` refers to the number shown beside the task that the user wants to view in the displayed task list. It must be a non-negative integer.
+* `TASK-ID` refers to the number shown beside the task that the user wants to view in the displayed task list. It must be a non-negative integer.
 
 ##### Example Usage
 
 Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be viewed.
 The following shows the output from ATHENA after entering `view 0`.
-You should expect to see the details of your task with `TASK_ID` of `0`.
+You should expect to see the details of your task with `TASK-ID` of `0`.
 
 *SCREENSHOT*
 
