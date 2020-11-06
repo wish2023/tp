@@ -1,9 +1,9 @@
-package athena;
+package athena.exceptions;
 
 import athena.exceptions.InternalException;
 import athena.ui.AthenaUi;
 
-public class AllocationFailedException extends InternalException {
+public class AllocationFailedException extends AllocatorException {
     @Override
     public void printErrorMessage() {
         AthenaUi ui = new AthenaUi();
