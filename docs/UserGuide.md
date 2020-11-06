@@ -401,34 +401,71 @@ You should expect to see a message to confirm that the time of task with `TASK-I
 ### Delete task: `delete` or `dl`
 Deletes the specified task from the planner. ATHENA will ensure to leave the index of other tasks untouched.
 
-#### Format: `delete INDEX`
+#### Usage
 
-* `INDEX` refers to the index number shown in the displayed task list. It must be a positive integer.
- 
-#### Example usage
+##### Command Format
 
-* `delete 1`
-* `dl 1`
+`delete TASK-ID`
 
-#### Expected output
+##### Parameters
+The `delete` command requires 1 parameter only.
+
+* `TASK_ID` refers to the number shown beside the task that the user wants to delete in the displayed task list. 
+It must be a non-negative integer.
+
+##### Example Usage
+
+The following shows the output from ATHENA after entering `delete 1`.
+You should expect to see a message to confirm that the task is deleted. 
+ATHENA also prints a message for the user to type in case the task has been deleted accidently.
+
 
 ![delete command screenshot](screenshots/athena%20delete.jpg)
 
 
 ### View task: `view` or `v`
 Views the specified task details from the planner.
+The guide for this command is split into three sections:
 
-#### Format
-`view INDEX`
+* [Basic Usage](#basic-usage) (For users new to command line applications)
+* [Intermediate Usage](#intermediate-usage) (For users comfortable with command line applications)
 
-* `INDEX` refers to the index number shown in the displayed task list. It must be a positive integer.
- 
-#### Example of usage 
+#### Basic Usage
 
-* `view 0`
-* `v 0`
+##### Command Format
 
-#### Expected output
+`view TASK-ID`
+
+##### Parameters
+The `view` command requires 1 parameter only.
+
+* `TASK_ID` refers to the number shown beside the task that the user wants to delete in the displayed task list. It must be a non-negative integer.
+
+##### Example Usage
+
+Firstly, use [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be edited.
+The following shows the output from ATHENA after entering `view 0`.
+You should expect to see the details of your task with `TASK_ID` of `0`.
+
+*SCREENSHOT*
+
+#### Intermediate Usage
+The `view` command supports shortcuts for intermediate users.
+
+##### Supported Shortcuts
+
+The following commands on the left will be expanded to the corresponding commands on the right.
+
+| Shortcut | Expanded command |
+|----------|------------------|
+| `v`     | `view`  |
+
+##### Example usage
+
+Firstly, use [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be edited.
+
+The user can just type `v` instead of `view`.
+The following shows the output from ATHENA after entering `v 0`.
 
 ![view command screenshot](screenshots/athena%20view.jpg)
 
