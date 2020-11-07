@@ -5,6 +5,7 @@ import athena.TaskList;
 import athena.exceptions.CommandException;
 import athena.exceptions.TaskDuringSleepTimeException;
 import athena.logic.DateChecker;
+import athena.task.Task;
 import athena.ui.AthenaUi;
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
@@ -61,10 +62,9 @@ public class EditCommand extends Command {
         if (taskRecurrence.contains("-") && (taskRecurrence.length() == "dd-MM-yyyy".length())) {
             DateChecker dateChecker = new DateChecker(taskRecurrence);
         }
-        taskList.editTask(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
+        Task task = taskList.editTask(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
-        athenaUi.printTaskEdited(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
-                taskRecurrence, taskImportance, taskNotes);
+        athenaUi.printTaskEdited(task);
     }
 
     /**
