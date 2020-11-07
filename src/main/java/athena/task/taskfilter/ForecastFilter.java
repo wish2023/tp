@@ -1,18 +1,14 @@
 package athena.task.taskfilter;
 
-import athena.common.utils.DateUtils;
-import athena.task.Task;
 import athena.Forecast;
+import athena.task.Task;
 
 import java.time.LocalDate;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class ForecastFilter extends TaskFilter {
 
-    private Forecast forecast;
+    private final Forecast forecast;
     private LocalDate filterDate = LocalDate.now();
 
     public ForecastFilter(Forecast forecast) {
@@ -44,23 +40,15 @@ public class ForecastFilter extends TaskFilter {
         return false;
     }
 
-    private static int getWeekNumber(LocalDate taskDate) {
-        TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
-        return taskDate.get(woy);
-    }
-
     private boolean isDateIncluded(LocalDate taskDate) {
-        boolean isDateIncluded;
         if (forecast == Forecast.ALL) {
-            isDateIncluded = true;
+            return true;
         } else if (forecast == Forecast.WEEK) {
-            int currentWeekNumber = getWeekNumber(filterDate);
-            int taskWeekNumber = getWeekNumber(taskDate);
-            isDateIncluded = (currentWeekNumber == taskWeekNumber && taskDate.getYear() == LocalDate.now().getYear());
+            LocalDate oneWeekLater = LocalDate.now().plusWeeks(1);
+            return oneWeekLater.compareTo(taskDate) > 0 && LocalDate.now().compareTo(taskDate) <= 0;
         } else {
-            isDateIncluded = taskDate.equals(filterDate);
+            return taskDate.equals(filterDate);
         }
-        return isDateIncluded;
     }
 
     public Task removeExcludedDates(Task task) {
@@ -76,6 +64,4 @@ public class ForecastFilter extends TaskFilter {
         }
         return taskCopy;
     }
-
-
 }
