@@ -5,6 +5,7 @@ import athena.exceptions.CommandException;
 import athena.ui.AthenaUi;
 import athena.exceptions.StorageException;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -59,6 +60,8 @@ public class Athena {
                 e.printErrorMessage();
             } catch (StorageException e) {
                 e.printStackTrace();
+            } catch (NoSuchElementException e) {
+                isExit = true;
             }
             continue;
         }
