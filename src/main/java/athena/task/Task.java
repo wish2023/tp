@@ -264,13 +264,14 @@ public class Task {
      */
     @Override
     public String toString() {
+        String deadlinePreText;
         if (timeInfo.getDeadline().toLowerCase().equals("no deadline")) {
-            return "[ID: " + number + "] " + name + " at " + timeInfo.getStartTime() + " and has "
-                    + timeInfo.getDeadline().toLowerCase() + ". Done? " + getStatus();
+            deadlinePreText = " and has ";
         } else {
-            return "[ID: " + number + "] " + name + " at " + timeInfo.getStartTime() + " finish by "
-                    + timeInfo.getDeadline() + ". Done? " + getStatus();
+            deadlinePreText = " which should be finished by ";
         }
+        return "[ID: " + number + "] " + name + " at " + timeInfo.getStartTime() + deadlinePreText
+                    + timeInfo.getDeadline().toLowerCase() + ". Done? " + getStatus();
     }
 
     /**
