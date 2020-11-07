@@ -148,7 +148,8 @@ public class Parser {
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos,
                 task.getTimeInfo().getDurationString());
         String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos, task.getTimeInfo().getDeadline());
-        String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, task.getTimeInfo().getRecurrence());
+        String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos,
+                task.getTimeInfo().getRecurrence());
         String importanceString = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos,
                 task.getImportance().toString());
         Importance importance;
