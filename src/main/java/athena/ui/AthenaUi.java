@@ -386,7 +386,7 @@ public class AthenaUi implements Ui {
 
     /**
      * Prints an error message when there is an error with the stored data.
-     * @param corruptedLine
+     * @param corruptedLine Line in the save file that has an error and has to be removed
      */
     public void printCorruptedLine(String corruptedLine) {
         System.out.println(colorText.toRed("\nThis task is invalid: " + corruptedLine + ".\n"
