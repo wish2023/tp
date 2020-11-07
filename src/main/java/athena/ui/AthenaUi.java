@@ -241,7 +241,7 @@ public class AthenaUi implements Ui {
      * Print message telling user they have mistyped the deadline date.
      */
     public void printInvalidDeadlineException() {
-        System.out.println(colorText.toRed("\nRemember your deadline has to valid be in the format"
+        System.out.println(colorText.toRed("\nRemember your deadline has to be valid in the format"
                 + " dd-mm(-yyyy)\n"));
     }
 
