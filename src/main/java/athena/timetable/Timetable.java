@@ -83,6 +83,9 @@ public class Timetable {
             ArrayList<LocalDate> dates = task.getDates();
             for (LocalDate date : dates) {
                 assert date != null;
+                if (!DateUtils.isDateIncluded(date, forecast)) {
+                    continue;
+                }
 
                 TimetableDay timetableDay;
                 if (timetableDayMap.containsKey(date)) {

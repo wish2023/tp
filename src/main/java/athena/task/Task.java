@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
-
 /**
  * Handles task objects.
  */
@@ -144,7 +143,7 @@ public class Task {
 
     /**
      * Marks the task as done.
-     * 
+     *
      * @throws TaskIsDoneException Exception thrown when user tries to mark a task as done which is done.
      */
     public void setDone() throws TaskIsDoneException {
