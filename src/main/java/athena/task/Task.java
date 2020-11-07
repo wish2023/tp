@@ -275,7 +275,8 @@ public class Task {
             deadlinePreText = " which should be finished by ";
         }
         return "[ID: " + number + "] " + name + " at " + timeInfo.getStartTime() + deadlinePreText
-                    + timeInfo.getDeadline().toLowerCase() + ". Done? " + getStatus();
+                + timeInfo.getDeadline().toLowerCase() + ". Done? " + getStatus()
+                + " Importance: " + importance.toString();
     }
 
     /**
