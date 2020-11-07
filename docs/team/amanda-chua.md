@@ -16,7 +16,7 @@ Given below are my contributions to the project.
     * In-charge of the code that deals with parsing of user input and executing the various commands.
         * `Logic`, `LogicManager`, `Parser`, `Command` and all its subclasses.
     * In-charge of the documentation of the project, ensure coherence and accuracy.
-    * Add issues when necessary in the issue tracker on GitHub, .
+    * Add issues when necessary in the issue tracker on GitHub.
     * Reviewed teammates PRs and wrote appropriate comments about code quality: [#11](https://github.com/AY2021S1-CS2113T-W12-2/tp/pull/11), [#34](https://github.com/AY2021S1-CS2113T-W12-2/tp/pull/34), 
     [#61](https://github.com/AY2021S1-CS2113T-W12-2/tp/pull/61), [#235](https://github.com/AY2021S1-CS2113T-W12-2/tp/pull/235)
 
@@ -26,12 +26,18 @@ Given below are my contributions to the project.
   * User Guide:
     * Created the first draft and provided a template for the team to follow. 
     * In-charge of the overall formatting.
-    * Added documentation for the features `add` and `edit` 
+    * Documentation for the features `add` and `edit` 
   * Developer Guide:
     * Created the first draft and provided a template for the team to follow. 
     * In-charge of the overall formatting.
     * The following are sections I contributed to:
-      1. 
+      1. Overall architecture diagram
+      2. Logic Component  
+      3. Implementation for `Add task feature` and `Edit task feature`
+      4. Product Scope
+      5. User Stories
+      6. Non-Functional Requirements
+      7. Instructions for manual testing (except Data Storage)
       
 * **Community**:
   * Reported several bugs to the team which was assigned to me during the dry run Practical Exam. [#1](https://github.com/amanda-chua/ped/issues/1),
