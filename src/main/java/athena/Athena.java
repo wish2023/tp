@@ -63,7 +63,6 @@ public class Athena {
             } catch (NoSuchElementException e) {
                 isExit = true;
             }
-            continue;
         }
 
         input.close();
