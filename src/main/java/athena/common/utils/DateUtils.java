@@ -66,4 +66,23 @@ public class DateUtils {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         return date.format(formatter);
     }
+
+    private static int getWeekNumber(LocalDate taskDate) {
+        TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+        return taskDate.get(woy);
+    }
+
+    public static boolean isDateIncluded(LocalDate taskDate, Forecast forecast) {
+        boolean isDateIncluded;
+        if (forecast == Forecast.ALL) {
+            isDateIncluded = true;
+        } else if (forecast == Forecast.WEEK) {
+            int currentWeekNumber = getWeekNumber(LocalDate.now());
+            int taskWeekNumber = getWeekNumber(taskDate);
+            isDateIncluded = (currentWeekNumber == taskWeekNumber && taskDate.getYear() == LocalDate.now().getYear());
+        } else {
+            isDateIncluded = taskDate.equals(LocalDate.now());
+        }
+        return isDateIncluded;
+    }
 }
