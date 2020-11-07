@@ -5,6 +5,7 @@ import athena.exceptions.CommandException;
 import athena.ui.AthenaUi;
 import athena.exceptions.StorageException;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -51,16 +52,15 @@ public class Athena {
 
         while (!isExit) {
             try {
-                allocator = new TimeAllocator(taskList);
-                allocator.runAllocate();
                 inputString = input.nextLine();
                 isExit = logicManager.execute(inputString);
             } catch (CommandException e) {
                 e.printErrorMessage();
             } catch (StorageException e) {
                 e.printStackTrace();
+            } catch (NoSuchElementException e) {
+                isExit = true;
             }
-            continue;
         }
 
         input.close();
