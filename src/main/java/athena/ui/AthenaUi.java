@@ -44,37 +44,31 @@ public class AthenaUi implements Ui {
     /**
      * Prints out a message verifying which task the user has added to their list.
      *
-     * @param taskName       The name of the task
-     * @param taskStartTime  When the task is scheduled to start
-     * @param taskDuration   How long the task will last for
-     * @param taskDeadline   When the task is due
-     * @param taskRecurrence When will the task repeat
-     * @param taskImportance What is the importance of the task
-     * @param taskNotes      Any additional notes the user has added to the task
+     * @param task       The task of whose details are going to be printed.
      */
-    public void printTaskAdded(String taskName, String taskStartTime, String taskDuration, String taskDeadline,
-                               String taskRecurrence, String taskImportance, String taskNotes) {
-        System.out.print("\nYou've successfully added " + colorText.toBlue(taskName) + " to your list!\n"
-                + "It will start at " + colorText.toBlue(taskStartTime));
+    public void printTaskAdded(Task task) {
+        System.out.print("\nYou've successfully added " + colorText.toBlue(task.getName()) + " to your list!\n"
+                + "It will start at " + colorText.toBlue(task.getTimeInfo().getStartTimeString()));
 
-        if (taskDeadline.toLowerCase().equals("no deadline")) {
+        if (task.getTimeInfo().getDeadline().toLowerCase().equals("no deadline")) {
             System.out.println(" and has no deadline.\n");
         } else {
-            System.out.println(" and finish on " + colorText.toBlue(taskDeadline) + ".\n");
+            System.out.println(" and finish on " + colorText.toBlue(task.getTimeInfo().getDeadline()) + ".\n");
         }
 
-        System.out.println("You should spend a total of " + colorText.toBlue(taskDuration) + " hour(s) on it.");
+        System.out.println("You should spend a total of " + colorText.toBlue(task.getTimeInfo().getDurationString())
+                + " hour(s) on it.");
 
-        if (taskRecurrence.toLowerCase().equals("today")) {
-            System.out.print("It is set to happen " + colorText.toBlue(taskRecurrence));
-        } else if (taskRecurrence.contains("-")) {
-            System.out.print("It is set to happen on " + colorText.toBlue(taskRecurrence));
+        if (task.getTimeInfo().getRecurrence().toLowerCase().equals("today")) {
+            System.out.print("It is set to happen " + colorText.toBlue(task.getTimeInfo().getRecurrence()));
+        } else if (task.getTimeInfo().getRecurrence().contains("-")) {
+            System.out.print("It is set to happen on " + colorText.toBlue(task.getTimeInfo().getRecurrence()));
         } else {
-            System.out.print("It is set to happen every " + colorText.toBlue(taskRecurrence));
+            System.out.print("It is set to happen every " + colorText.toBlue(task.getTimeInfo().getRecurrence()));
         }
 
-        System.out.println(" and has an importance of " + colorText.toBlue(taskImportance) + ".\n"
-                + "Additionally, you've also added these notes!\n" + colorText.toBlue(taskNotes) + ".\n"
+        System.out.println(" and has an importance of " + colorText.toBlue(task.getImportance().toString()) + ".\n"
+                + "Additionally, you've also added these notes!\n" + colorText.toBlue(task.getNotes()) + ".\n"
                 + "Looks like another mission to complete! Let's do it!\n");
     }
 
@@ -92,27 +86,19 @@ public class AthenaUi implements Ui {
      * Prints out a message verifying that the task the user specified has been edited, and shows the user the
      * new task details.
      *
-     * @param taskIndex      The index of the task on the task list
-     * @param taskName       The name of the task
-     * @param taskStartTime  When the task is scheduled to start
-     * @param taskDuration   How long the task will last for
-     * @param taskDeadline   When the task is due
-     * @param taskRecurrence When will the task repeat
-     * @param taskImportance What is the importance of the task
-     * @param taskNotes      Any additional notes the user has added to the task
+     * @param task Updated task
      */
-    public void printTaskEdited(int taskIndex, String taskName, String taskStartTime, String taskDuration,
-                                String taskDeadline, String taskRecurrence, Importance taskImportance,
-                                String taskNotes) {
+    public void printTaskEdited(Task task) {
         System.out.println("\nYou've changed the details of task number "
-                + colorText.toBlue(Integer.toString(taskIndex)) + ": " + colorText.toBlue(taskName) + "!\n"
+                + colorText.toBlue(Integer.toString(task.getNumber())) + ": "
+                + colorText.toBlue(task.getName()) + "!\n"
                 + "Here are the new details of your task!\n"
-                + "Start Time: " + colorText.toBlue(taskStartTime) + "\n"
-                + "Duration: " + colorText.toBlue(taskDuration) + "\n"
-                + "Due Date: " + colorText.toBlue(taskDeadline) + "\n"
-                + "Recurrence: " + colorText.toBlue(taskRecurrence) + "\n"
-                + "Importance: " + colorText.toBlue(taskImportance.name()) + "\n"
-                + "Additional Notes: " + colorText.toBlue(taskNotes) + "\n"
+                + "Start Time: " + colorText.toBlue(task.getTimeInfo().getStartTimeString()) + "\n"
+                + "Duration: " + colorText.toBlue(task.getTimeInfo().getDurationString()) + "\n"
+                + "Due Date: " + colorText.toBlue(task.getTimeInfo().getDeadline()) + "\n"
+                + "Recurrence: " + colorText.toBlue(task.getTimeInfo().getRecurrence()) + "\n"
+                + "Importance: " + colorText.toBlue(task.getImportance().toString()) + "\n"
+                + "Additional Notes: " + colorText.toBlue(task.getNotes()) + "\n"
                 + "The mistakes of the past have been vanquished!\n");
     }
 
