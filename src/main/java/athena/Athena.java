@@ -53,6 +53,7 @@ public class Athena {
             try {
                 allocator = new TimeAllocator(taskList);
                 allocator.runAllocate();
+                athenaUi.printUserInputIndicator();
                 inputString = input.nextLine();
                 isExit = logicManager.execute(inputString);
             } catch (CommandException e) {
