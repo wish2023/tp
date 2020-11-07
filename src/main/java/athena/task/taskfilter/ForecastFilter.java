@@ -1,18 +1,16 @@
 package athena.task.taskfilter;
 
-import athena.common.utils.DateUtils;
-import athena.task.Task;
 import athena.Forecast;
+import athena.task.Task;
 
 import java.time.LocalDate;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
-import java.util.ArrayList;
 import java.util.Locale;
 
 public class ForecastFilter extends TaskFilter {
 
-    private Forecast forecast;
+    private final Forecast forecast;
     private LocalDate filterDate = LocalDate.now();
 
     public ForecastFilter(Forecast forecast) {
@@ -62,20 +60,4 @@ public class ForecastFilter extends TaskFilter {
         }
         return isDateIncluded;
     }
-
-    public Task removeExcludedDates(Task task) {
-        Task taskCopy = task.getClone();
-        ArrayList<LocalDate> datesToDelete = new ArrayList<>();
-        for (LocalDate date : taskCopy.getDates()) {
-            if (!isDateIncluded(date)) {
-                datesToDelete.add(date);
-            }
-        }
-        for (LocalDate date : datesToDelete) {
-            taskCopy.removeDate(date);
-        }
-        return taskCopy;
-    }
-
-
 }

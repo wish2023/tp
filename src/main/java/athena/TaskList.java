@@ -7,7 +7,6 @@ import athena.exceptions.TaskDuringSleepTimeException;
 import athena.exceptions.TaskIsDoneException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
-import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.TaskFilter;
 
 import java.time.LocalDate;
@@ -296,26 +295,10 @@ public class TaskList {
         ArrayList<Task> filteredTasks = new ArrayList<>();
         for (Task task : tasks) {
             if (taskFilter.isTaskIncluded(task)) {
-                if (taskFilter instanceof ForecastFilter) {
-                    assert taskFilter instanceof ForecastFilter;
-                    Task filteredTask = ((ForecastFilter) taskFilter).removeExcludedDates(task);
-                    filteredTasks.add(filteredTask);
-                } else {
-                    filteredTasks.add(task);
-
-                }
+                filteredTasks.add(task);
             }
         }
         return new TaskList(filteredTasks);
-    }
-
-
-    public ArrayList<Task> makeDeepCopyTasks(ArrayList<Task> oldTasks) {
-        ArrayList<Task> tasksCopy = new ArrayList<Task>();
-        for (Task task : oldTasks) {
-            tasksCopy.add(task.getClone());
-        }
-        return tasksCopy;
     }
 
     /**

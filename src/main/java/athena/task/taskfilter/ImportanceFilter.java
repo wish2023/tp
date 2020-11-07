@@ -6,7 +6,7 @@ import athena.task.Task;
 
 public class ImportanceFilter extends TaskFilter {
 
-    private Importance importance;
+    private final Importance importance;
 
     public ImportanceFilter(Importance importance) {
         this.importance = importance;
@@ -20,12 +20,9 @@ public class ImportanceFilter extends TaskFilter {
      */
     @Override
     public boolean isTaskIncluded(Task task) {
-        boolean isTaskIncluded;
         if (importance == Importance.ALL) {
-            isTaskIncluded = true;
-        } else {
-            isTaskIncluded = (task.getImportance() == importance);
+            return true;
         }
-        return isTaskIncluded;
+        return task.getImportance() == importance;
     }
 }
