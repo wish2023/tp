@@ -327,20 +327,4 @@ public class Timetable {
 
         return output.trim() + "\n";
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Timetable timetable = (Timetable) o;
-        return Objects.equals(taskList, timetable.taskList) &&
-                Objects.equals(timetableDays, timetable.timetableDays) &&
-                Objects.equals(timetableDayMap, timetable.timetableDayMap) &&
-                forecast == timetable.forecast;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(taskList, timetableDays, timetableDayMap, forecast);
-    }
 }

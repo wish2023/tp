@@ -75,11 +75,15 @@ public class TimetableDay {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         TimetableDay that = (TimetableDay) o;
-        return Objects.equals(date, that.date) &&
-                Objects.equals(taskList, that.taskList);
+        return Objects.equals(date, that.date)
+                && Objects.equals(taskList, that.taskList);
     }
 
     @Override
