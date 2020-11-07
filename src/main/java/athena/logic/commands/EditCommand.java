@@ -2,12 +2,10 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.exceptions.CommandException;
-import athena.exceptions.TaskDuringSleepTimeException;
+import athena.exceptions.command.CommandException;
 import athena.logic.DateChecker;
 import athena.ui.AthenaUi;
-import athena.exceptions.ClashInTaskException;
-import athena.exceptions.TaskNotFoundException;
+import athena.exceptions.command.TaskNotFoundException;
 import java.util.Objects;
 
 /**

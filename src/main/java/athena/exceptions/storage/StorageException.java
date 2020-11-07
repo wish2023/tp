@@ -1,7 +1,7 @@
-package athena.exceptions;
+package athena.exceptions.storage;
 
-public abstract class InternalException extends Exception {
-    public InternalException() {
+public abstract class StorageException extends Exception {
+    public StorageException() {
 
     }
 

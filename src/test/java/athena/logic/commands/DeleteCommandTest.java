@@ -2,10 +2,9 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.exceptions.DeleteInvalidIndexException;
-import athena.exceptions.CommandException;
+import athena.exceptions.command.DeleteInvalidIndexException;
+import athena.exceptions.command.CommandException;
 import athena.ui.AthenaUi;
-import athena.exceptions.ClashInTaskException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 

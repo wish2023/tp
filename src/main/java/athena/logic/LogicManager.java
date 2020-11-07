@@ -4,9 +4,9 @@ import athena.TimeAllocator;
 import athena.Storage;
 import athena.TaskList;
 import athena.ui.AthenaUi;
-import athena.exceptions.CommandException;
-import athena.exceptions.StorageCorruptedException;
-import athena.exceptions.StorageException;
+import athena.exceptions.command.CommandException;
+import athena.exceptions.storage.StorageCorruptedException;
+import athena.exceptions.storage.StorageException;
 import athena.logic.commands.Command;
 
 /**

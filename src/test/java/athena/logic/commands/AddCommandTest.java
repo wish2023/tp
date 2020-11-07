@@ -2,10 +2,9 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.exceptions.CommandException;
+import athena.exceptions.command.CommandException;
 import athena.ui.AthenaUi;
-import athena.exceptions.AddMissingRequiredParametersException;
-import athena.exceptions.ClashInTaskException;
+import athena.exceptions.command.AddMissingRequiredParametersException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

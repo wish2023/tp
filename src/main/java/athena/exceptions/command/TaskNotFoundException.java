@@ -1,5 +1,6 @@
-package athena.exceptions;
+package athena.exceptions.command;
 
+import athena.exceptions.command.CommandException;
 import athena.ui.AthenaUi;
 
 /**

@@ -1,8 +1,8 @@
 package athena.logic;
 
 
-import athena.exceptions.DateHasPassedException;
-import athena.exceptions.InvalidRecurrenceException;
+import athena.exceptions.command.DateHasPassedException;
+import athena.exceptions.command.InvalidRecurrenceException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

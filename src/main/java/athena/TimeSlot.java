@@ -1,6 +1,6 @@
 package athena;
 
-import athena.exceptions.NoNextSlotException;
+import athena.exceptions.allocator.NoNextSlotException;
 
 public class TimeSlot {
     private Log dayLog;

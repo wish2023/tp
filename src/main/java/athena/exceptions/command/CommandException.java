@@ -1,4 +1,4 @@
-package athena.exceptions;
+package athena.exceptions.command;
 
 /**
  * Abstract class for all the command exceptions that are thrown.

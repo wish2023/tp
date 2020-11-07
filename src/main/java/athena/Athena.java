@@ -1,9 +1,9 @@
 package athena;
 
 import athena.logic.LogicManager;
-import athena.exceptions.CommandException;
+import athena.exceptions.command.CommandException;
 import athena.ui.AthenaUi;
-import athena.exceptions.StorageException;
+import athena.exceptions.storage.StorageException;
 
 import java.util.Scanner;
 

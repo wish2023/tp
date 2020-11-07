@@ -1,4 +1,6 @@
-package athena.exceptions;
+package athena.exceptions.allocator;
+
+import athena.exceptions.allocator.AllocatorException;
 
 public class NoNextSlotException extends AllocatorException {
 

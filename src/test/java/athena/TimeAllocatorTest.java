@@ -1,6 +1,6 @@
 package athena;
 
-import athena.exceptions.CommandException;
+import athena.exceptions.command.CommandException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
