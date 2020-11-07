@@ -196,6 +196,11 @@ class TimetableTest {
         return taskList;
     }
 
+    /**
+     * Generates a list of LocalDates starting from today and ending 6 days later (total 7 days).
+     *
+     * @return List of dates for one week starting today.
+     */
     private static ArrayList<LocalDate> getThisWeekDates() {
         ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
         LocalDate date = LocalDate.now();
