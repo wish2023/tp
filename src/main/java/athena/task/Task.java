@@ -5,6 +5,7 @@ import athena.exceptions.DateHasPassedException;
 import athena.exceptions.TaskDuringSleepTimeException;
 import athena.exceptions.TaskIsDoneException;
 import athena.common.utils.DateUtils;
+import athena.exceptions.TaskTooLongException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -59,7 +60,7 @@ public class Task {
      */
     public Task(String name, String startTime, String duration, String deadline,
                 String recurrence, Importance importance, String notes, int number, Boolean isFlexible)
-            throws TaskDuringSleepTimeException {
+            throws TaskDuringSleepTimeException, TaskTooLongException {
         this.name = name;
         assert !this.name.equals("");
         this.importance = importance;
@@ -264,6 +265,9 @@ public class Task {
      */
     @Override
     public String toString() {
+        if (timeInfo.getStartTimeString()==""){
+            return "[ID: " + number + "] " + name + " has not been assigned a time";
+        }
         return "[ID: " + number + "] " + name + " at " + timeInfo.getStartTime() + " finish by "
                 + timeInfo.getDeadline() + ". Done? " + getStatus();
     }

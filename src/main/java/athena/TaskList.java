@@ -6,6 +6,7 @@ import athena.exceptions.InvalidTimeFormatException;
 import athena.exceptions.TaskDuringSleepTimeException;
 import athena.exceptions.TaskIsDoneException;
 import athena.exceptions.TaskNotFoundException;
+import athena.exceptions.TaskTooLongException;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.TaskFilter;
@@ -68,7 +69,7 @@ public class TaskList {
      */
     private Task createTask(int number, String name, String startTime, String duration, String deadline,
                             String recurrence, Importance importance, String notes, Boolean isFlexible)
-            throws TaskDuringSleepTimeException {
+            throws TaskDuringSleepTimeException, TaskTooLongException {
         Task task = new Task(name, startTime, duration, deadline, recurrence, importance, notes, number, isFlexible);
         return task;
     }
@@ -108,7 +109,8 @@ public class TaskList {
     public void addTask(int number, String name, String startTime, String duration,
                         String deadline, String recurrence,
                         Importance importance, String notes, boolean isFlexible)
-            throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException {
+            throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException,
+            TaskTooLongException {
         try {
             Task task = createTask(number, name, startTime,
                     duration, deadline, recurrence, importance, notes, isFlexible);
@@ -135,7 +137,7 @@ public class TaskList {
     public void addTask(String name, String startTime, String duration,
                         String deadline, String recurrence,
                         Importance importance, String notes, Boolean isFlexible)
-            throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException {
+            throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException, TaskTooLongException {
         maxNumber++;
         addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
     }
@@ -244,7 +246,7 @@ public class TaskList {
     public void editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, Importance importance,
                          String notes)
-            throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException {
+            throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException, TaskTooLongException {
         Task task = getTaskFromNumber(taskNumber);
         Task possibleEditedTask = createTask(taskNumber, name, startTime,
                 duration, deadline, recurrence, importance, notes, task.isFlexible());

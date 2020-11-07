@@ -2,11 +2,7 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.exceptions.CommandException;
-import athena.exceptions.TaskDuringSleepTimeException;
-import athena.exceptions.AddMissingRequiredParametersException;
-import athena.exceptions.ClashInTaskException;
-import athena.exceptions.AddDateWrongFormatException;
+import athena.exceptions.*;
 import athena.logic.DateChecker;
 import athena.ui.AthenaUi;
 
@@ -35,7 +31,7 @@ public class AddCommand extends Command {
      * @param recurrence String representing recurrence of task.
      * @param importance String representing importance of task.
      * @param notes      String representing additional notes of task.
-     * @param isFlexible  Boolean representing if task time is flexible
+     * @param isFlexible Boolean representing if task time is flexible
      */
     public AddCommand(String name, String startTime, String duration, String deadline,
                       String recurrence, String importance, String notes, boolean isFlexible) {
@@ -56,7 +52,7 @@ public class AddCommand extends Command {
      * calls Ui to print out the task added.
      *
      * @param taskList Tasks list
-     * @param athenaUi       Ui
+     * @param athenaUi Ui
      * @throws AddMissingRequiredParametersException Exception thrown when required parameters are not provided for
      *                                               add command
      */

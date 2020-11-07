@@ -1,15 +1,7 @@
 package athena;
 
 
-import athena.exceptions.ClashInTaskException;
-import athena.exceptions.DateHasPassedException;
-import athena.exceptions.InvalidTimeFormatException;
-import athena.exceptions.StorageCorruptedException;
-import athena.exceptions.StorageException;
-import athena.exceptions.StorageLoadFailException;
-import athena.exceptions.TaskDuringSleepTimeException;
-import athena.exceptions.TaskIsDoneException;
-import athena.exceptions.TaskNotFoundException;
+import athena.exceptions.*;
 import athena.task.Task;
 import athena.task.Time;
 
@@ -120,6 +112,8 @@ public class Storage {
                 throw new StorageCorruptedException(data);
             } catch (TaskIsDoneException e) {
                 assert false;
+            } catch (TaskTooLongException e) {
+                throw new StorageCorruptedException(data);
             }
         }
         return loadedTaskList;

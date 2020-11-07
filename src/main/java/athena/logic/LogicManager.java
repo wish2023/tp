@@ -25,8 +25,7 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public boolean execute(String inputString) throws CommandException, StorageException,
-            StorageCorruptedException {
+    public boolean execute(String inputString) throws CommandException, StorageException {
         Command userCommand;
 
         taskList = storage.loadTaskListData();

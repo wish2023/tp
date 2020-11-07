@@ -41,7 +41,7 @@ public class TimeAllocator {
     public void runAllocate() {
         LocalDate currDay = LocalDate.now();
         ArrayList<Task> undefinedTimeTasks = getSortedFlexibleTasks(this.flexibleTaskList);
-        for (int day = 0; day < 31; day++) {
+        for (int day = 0; day < 366; day++) {
             Log dayLog = new Log(0, 24);
             ArrayList<Task> predefinedTimeTasks = getSortedFixedTasks(getFixedDayTasks(currDay));
             dayLog.setFixedTasks(predefinedTimeTasks);
