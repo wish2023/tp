@@ -25,6 +25,11 @@ public class AthenaUi implements Ui {
                 + "/__/     \\__\\  |__|     |__|  |__| |_______| |__| \\__| /__/     \\__\\ \n"));
     }
 
+    public void printUserInputIndicator() {
+        System.out.print(colorText.toPurple("-> "));
+        System.out.flush();
+    }
+
     /**
      * Prints the first message that the user sees upon launching the application.
      */

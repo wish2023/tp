@@ -4,7 +4,7 @@ package athena.exceptions.allocator;
  * Abstract class for all the command exceptions that are thrown.
  */
 
-public abstract class AllocatorException {
+public abstract class AllocatorException extends Exception {
 
     public AllocatorException() {
     }
