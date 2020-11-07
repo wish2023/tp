@@ -7,6 +7,7 @@ import athena.exceptions.TaskDuringSleepTimeException;
 import athena.exceptions.AddMissingRequiredParametersException;
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.AddDateWrongFormatException;
+import athena.logic.DateChecker;
 import athena.ui.AthenaUi;
 
 import java.util.Objects;
@@ -64,6 +65,9 @@ public class AddCommand extends Command {
             throws CommandException {
         if (taskName.equals("")) {
             throw new AddMissingRequiredParametersException();
+        }
+        if (taskRecurrence.contains("-") && (taskRecurrence.length() == "dd-MM-yyyy".length())) {
+            DateChecker dateChecker = new DateChecker(taskRecurrence);
         }
         try {
             taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
