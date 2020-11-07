@@ -79,7 +79,6 @@ class ForecastFilterTest {
     void testIsTaskIncluded_filterByToday_returnsTrue() throws CommandException {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.DAY);
         String todayDateString = DateUtils.formatDate(LocalDate.now());
-        System.out.println(todayDateString);
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 todayDateString, Importance.LOW, "testNotes", 0, false); // Tested on 13-10-2020
         boolean isTaskIncluded = forecastFilter.isTaskIncluded(inputTask);

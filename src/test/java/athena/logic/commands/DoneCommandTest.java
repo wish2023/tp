@@ -62,7 +62,7 @@ class DoneCommandTest {
     @BeforeEach
     public void setup() throws CommandException {
         athenaUi = new AthenaUi();
-        taskList =  getTaskList();
+        taskList = getTaskList();
         taskListWithDone = getTaskListWithDone();
     }
 
