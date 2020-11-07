@@ -380,6 +380,9 @@ public class AthenaUi implements Ui {
         System.out.println(timetable);
     }
 
+    /**
+     * Generic error handling that prints out when an unexpected storage loading error has occurred.
+     */
     public void printStorageLoadFail() {
         System.out.println(colorText.toRed("\nStorage loading has failed.\n"));
     }
@@ -393,6 +396,9 @@ public class AthenaUi implements Ui {
                 + "\nPlease remove externally to continue.\n"));
     }
 
+    /**
+     * Generic error handling that prints out when an unexpected allocation error has occurred.
+     */
     public void printAllocationFailed() {
         System.out.println(colorText.toRed("\nAllocation Failed.\n"));
     }
