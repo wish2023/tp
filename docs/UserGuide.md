@@ -49,6 +49,7 @@ e.g `add n/NAME p/PARAMETER`, since `p/` is an unknown parameter type for `add` 
 * If user types in 2 or more parameter description for each parameter type, only the first description will be taken.
 e.g. if user types `n/NAME1 n/NAME2`, only `NAME1` will be recorded as the task's name.
 * Items in square brackets are optional. e.g `n/NAME  [d/DURATION]` can be used as `n/Task1 d/1` or as `n/Task1`.
+(Refer to the Intermediate Usage section of each guide for more information)
 * For some commands, if no parameters are specified, the command will execute using the default values for each parameter.
 * For dates, the program follows the **DD-MM-YYYY** format.
 * For time, the program follows the **HHMM** format.
@@ -68,11 +69,14 @@ This command adds a task to the planner.
 
 The guide for this command is split into three sections:
 
-* [Basic Usage](#basic-usage) (For users new to command line applications)
-* [Intermediate Usage](#intermediate-usage) (For users comfortable with command line applications)
-* [Advanced Usage](#advanced-usage) (Extension to *Intermediate Usage*)
+* [Basic Usage (add)](#basic-usage-add) (For users new to command line applications)
+* [Intermediate Usage (add)](#intermediate-usage-add) (For users comfortable with command line applications)
+* [Advanced Usage (add)](#advanced-usage-add) (Extension to *Intermediate Usage (add)*)
 
-#### Basic Usage
+#### Basic Usage (add)
+
+In this section, for easier understanding, the `add` command will make use of all parameters.
+Users new to command line applications can find it easy to use as long as they follow the description below.
 
 ##### Command Format
 
@@ -105,7 +109,10 @@ You should expect to see a message to confirm that the task is added.
 
 ![add command screenshot](screenshots/athena%20add.jpg)
 
-#### Intermediate Usage
+#### Intermediate Usage (add)
+
+In this section, parameters in square brackets are optional. e.g `n/NAME  [d/DURATION]` can be used as `n/Task1 d/1` or as `n/Task1`.
+Users comfortable with command line applications have a choice now and can find it easy to use as long as they follow the description below.
 
 ##### Command Format
 
@@ -148,9 +155,9 @@ You should expect to see a message to confirm that the task is added with some o
 
 *TODO: Insert screenshot*
 
-#### Advanced Usage
+#### Advanced Usage (add)
 
-This section is an extension to the [Intermediate Usage](#intermediate-usage) section.
+This section is an extension to the [Intermediate Usage (add)](#intermediate-usage-add) section.
 
 The `add` command supports shortcuts for advanced users.
 
@@ -299,11 +306,14 @@ This command edits a specific task in the planner.
 
 The guide for this command is split into three sections:
 
-* [Basic Usage](#basic-usage) (For users new to command line applications)
-* [Intermediate Usage](#intermediate-usage) (For users comfortable with command line applications)
-* [Advanced Usage](#advanced-usage) (Extension to *Intermediate Usage*)
+* [Basic Usage (edit)](#basic-usage-edit) (For users new to command line applications)
+* [Intermediate Usage (edit)](#intermediate-usage-edit) (For users comfortable with command line applications)
+* [Advanced Usage (edit)](#advanced-usage-edit) (Extension to *Intermediate Usage (edit)*)
 
-#### Basic Usage
+#### Basic Usage (edit)
+
+In this section, for easier understanding, the `edit` command will make use of all parameters.
+Users new to command line applications can find it easy to use as long as they follow the description below.
 
 ##### Command Format
 
@@ -338,7 +348,10 @@ You should expect to see a message to confirm that the task with index 1 is edit
 
 ![edit command screenshot](screenshots/athena%20edit.jpg)
 
-#### Intermediate Usage
+#### Intermediate Usage (edit)
+
+In this section, parameters in square brackets are optional. e.g `TASK-ID [n/NAME] [d/DURATION]` can be used as `1 n/Task1 d/1` or as `1 n/Task1`.
+Users comfortable with command line applications have a choice now and can find it easy to use as long as they follow the description below.
 
 ##### Command Format
 
@@ -373,9 +386,9 @@ You should expect to see a message to confirm that the time of task with `TASK-I
 
 *TODO: Insert screenshot*
 
-#### Advanced Usage
+#### Advanced Usage (edit)
 
-This section is an extension to the [Intermediate Usage](#intermediate-usage) section.
+This section is an extension to the [Intermediate Usage (edit)](#intermediate-usage-edit) section.
 
 The `edit` command supports shortcuts for advanced users.
 
@@ -401,34 +414,71 @@ You should expect to see a message to confirm that the time of task with `TASK-I
 ### Delete task: `delete` or `dl`
 Deletes the specified task from the planner. ATHENA will ensure to leave the index of other tasks untouched.
 
-#### Format: `delete INDEX`
+#### Usage
 
-* `INDEX` refers to the index number shown in the displayed task list. It must be a positive integer.
- 
-#### Example usage
+##### Command Format
 
-* `delete 1`
-* `dl 1`
+`delete TASK-ID`
 
-#### Expected output
+##### Parameters
+The `delete` command requires 1 parameter only.
+
+* `TASK-ID` refers to the number shown beside the task that the user wants to delete in the displayed task list. 
+It must be a non-negative integer.
+
+##### Example Usage
+
+The following shows the output from ATHENA after entering `delete 1`.
+You should expect to see a message to confirm that the task is deleted. 
+ATHENA also prints the command required to restore the deleted task.
+
 
 ![delete command screenshot](screenshots/athena%20delete.jpg)
 
 
 ### View task: `view` or `v`
 Views the specified task details from the planner.
+The guide for this command is split into three sections:
 
-#### Format
-`view INDEX`
+* [Basic Usage](#basic-usage) (For users new to command line applications)
+* [Intermediate Usage](#intermediate-usage) (For users comfortable with command line applications)
 
-* `INDEX` refers to the index number shown in the displayed task list. It must be a positive integer.
- 
-#### Example of usage 
+#### Basic Usage
 
-* `view 0`
-* `v 0`
+##### Command Format
 
-#### Expected output
+`view TASK-ID`
+
+##### Parameters
+The `view` command requires 1 parameter only.
+
+* `TASK-ID` refers to the number shown beside the task that the user wants to view in the displayed task list. It must be a non-negative integer.
+
+##### Example Usage
+
+Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be viewed.
+The following shows the output from ATHENA after entering `view 0`.
+You should expect to see the details of your task with `TASK-ID` of `0`.
+
+*SCREENSHOT*
+
+#### Intermediate Usage
+The `view` command supports shortcuts for intermediate users.
+
+##### Supported Shortcuts
+
+The following commands on the left will be expanded to the corresponding commands on the right.
+
+| Shortcut | Expanded command |
+|----------|------------------|
+| `v`     | `view`  |
+
+##### Example usage
+
+Firstly, use [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be edited.
+
+The user can just type `v` instead of `view`.
+The following shows the output from ATHENA after entering `v 0`.
 
 ![view command screenshot](screenshots/athena%20view.jpg)
 
@@ -452,6 +502,31 @@ Your tasks are automatically saved in *data.csv* which is located next to the pr
 
 **A**: You can copy the *data.csv* file created next to ATHENA.jar to the other computer and place it next to ATHENA.jar there.
 
+
+**Q**: Can I make flexible tasks into fixed tasks and vice versa? 
+
+**A**: No. Once a task is set without a time, ATHENA is given control over its time allocation permanently. One workaround is deleting the task and making a new one
+
+**Q**: What happens if I do not mark tasks as done? 
+
+**A**: For fixed tasks, it will just record that you did not do that task. But for flexible tasks, ATHENA will allocate it again at a later date so that you can have another opportunity to work on it.
+
+**Q**: ATHENA is allocating tasks on time that has already passed? 
+
+**A**: ATHENA is best used in the morning before you start doing your tasks. The program is best suited for weekly planning. If you have tasks that need immediate attention, it is reccomended that you start on those things immediately. Alternatitively, putting dummy rest tasks can also aid ATHENA in understanding which time slots can be used.
+
+
+**Q**: ATHENA is not allocating some of my tasks? 
+
+**A**: ATHENA works on a best effort basis. If there is no possible configuration for the tasks, it will not assign those tasks. Try to split up bigger tasks into smaller ones or reduce the amount of work you do in a sitting.
+
+**Q**: The timetable is showing up weirdly? 
+
+**A**: Try using a higher resolution screen, that should make the timetable easier to see.
+
+**Q**: Is it possible to freeze flexible tasks? 
+
+**A**: As mentioned previously, it is not possible to convert flexible tasks. However, marking the task as done will prevent ATHENA from making further changes to its timing.
 ## Command Summary
 
 | Action            | Format                                                                                                      |
