@@ -3,10 +3,8 @@ package athena.logic.commands;
 import athena.Importance;
 import athena.TaskList;
 import athena.exceptions.CommandException;
-import athena.exceptions.TaskDuringSleepTimeException;
 import athena.logic.DateChecker;
 import athena.ui.AthenaUi;
-import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
 import java.util.Objects;
 
@@ -53,8 +51,7 @@ public class EditCommand extends Command {
      *
      * @param taskList Tasks list
      * @param athenaUi       Ui
-     * @throws TaskNotFoundException Exception thrown when the user tries to enter the index of a task that
-     *                               does not exist
+     * @throws CommandException Exception thrown when there is an error when the user inputs a command
      */
     @Override
     public void execute(TaskList taskList, AthenaUi athenaUi) throws CommandException {
