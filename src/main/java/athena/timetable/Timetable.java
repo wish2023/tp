@@ -13,6 +13,7 @@ import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TreeMap;
 import java.util.function.Function;
 
@@ -30,40 +31,19 @@ public class Timetable {
     public static final String EMPTY_TASK_BOX = "          |";
     public static final String TASK_BOX = " %s|";
 
-    private TaskList taskList;
+    private final TaskList taskList;
     private ArrayList<TimetableDay> timetableDays;
     private TreeMap<LocalDate, TimetableDay> timetableDayMap;
 
-    private Forecast forecast;
-
-    private int wakeUpHour = 8;
-    private int sleepHour = 24;
-
-    /**
-     * Creates a timetable object from a TaskList object.
-     *
-     * @param taskList Task list
-     */
-    public Timetable(TaskList taskList) {
-        this(taskList, 8, 24);
-    }
+    private final Forecast forecast;
 
     /**
      * Creates a timetable object from a TaskList object.
      *
      * @param taskList   Task list
-     * @param sleepHour  Hour to sleep
-     * @param wakeUpHour Hour to wake up
      */
-    public Timetable(TaskList taskList, int wakeUpHour, int sleepHour) {
-        assert taskList != null;
-        this.taskList = taskList;
-        populateTimetable();
-
-        this.wakeUpHour = wakeUpHour;
-        this.sleepHour = sleepHour;
-
-        this.forecast = Forecast.WEEK;
+    public Timetable(TaskList taskList) {
+        this(taskList, Importance.ALL, Forecast.WEEK);
     }
 
     /**
@@ -81,22 +61,6 @@ public class Timetable {
         populateTimetable();
     }
 
-    public int getWakeUpHour() {
-        return wakeUpHour;
-    }
-
-    public void setWakeUpHour(int wakeUpHour) {
-        this.wakeUpHour = wakeUpHour;
-    }
-
-    public int getSleepHour() {
-        return sleepHour;
-    }
-
-    public void setSleepHour(int sleepHour) {
-        this.sleepHour = sleepHour;
-    }
-
     /**
      * Getter for timetableDays.
      *
@@ -107,20 +71,13 @@ public class Timetable {
     }
 
     /**
-     * Setter for timetableDays.
-     */
-    public void setTimetableDays(ArrayList<TimetableDay> timetableDays) {
-        this.timetableDays = timetableDays;
-    }
-
-    /**
      * Populates the timetable, represented by a list of TimetableDays with the information from the task list.
      * For this version, we only populate the timetable with the tasks for this week (starting from Monday).
      */
     private void populateTimetable() {
-        this.timetableDays = new ArrayList<TimetableDay>();
+        this.timetableDays = new ArrayList<>();
 
-        timetableDayMap = new TreeMap<LocalDate, TimetableDay>();
+        timetableDayMap = new TreeMap<>();
 
         for (Task task : taskList.getTasks()) {
             ArrayList<LocalDate> dates = task.getDates();
@@ -347,7 +304,7 @@ public class Timetable {
         return list;
     }
 
-    String drawTimetable(ArrayList<LocalDate> datesInWeek) {
+    String drawTimetable(ArrayList<LocalDate> datesInWeek, int wakeUpHour, int sleepHour) {
         String result = drawTimetableTimeHeader(wakeUpHour, sleepHour);
         for (LocalDate date : datesInWeek) {
             if (timetableDayMap.containsKey(date)) {
@@ -367,7 +324,7 @@ public class Timetable {
     @Override
     public String toString() {
         ArrayList<LocalDate> dates = DateUtils.getDatesBasedOnForecast(forecast);
-        String output = drawTimetable(dates);
+        String output = drawTimetable(dates, 8, 24);
         output += "\n";
         output += getTaskListString(dates);
 

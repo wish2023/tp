@@ -5,6 +5,7 @@ import athena.task.Task;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Represents a day in the timetable.
@@ -70,5 +71,23 @@ public class TimetableDay {
             }
         }
         return message;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TimetableDay that = (TimetableDay) o;
+        return Objects.equals(date, that.date)
+                && Objects.equals(taskList, that.taskList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, taskList);
     }
 }
