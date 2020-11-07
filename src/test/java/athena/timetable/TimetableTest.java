@@ -29,7 +29,6 @@ class TimetableTest {
         ArrayList<LocalDate> dates = getThisWeekDates();
 
         TaskList taskList = new TaskList();
-
         taskList.addTask("Assignment 1", "0800", "2", "01-01-2021", formatDate(dates.get(1)),
                 Importance.HIGH, "Tough assignment", false);
 
@@ -88,7 +87,6 @@ class TimetableTest {
         ArrayList<LocalDate> dates = getThisWeekDates();
         TimetableDay day;
 
-
         day = new TimetableDay(dates.get(0));
         day.addTask(new Task("Assignment 1", "1600", "2", "01-01-2021",
                 formatDate(dates.get(0)), Importance.HIGH, "Tough assignment", 0, false));
@@ -140,7 +138,6 @@ class TimetableTest {
         ArrayList<LocalDate> dates = getThisWeekDates();
         TimetableDay day;
 
-
         day = new TimetableDay(dates.get(0));
         day.addTask(new Task("Assignment 1", "1600", "2", "01-01-2021",
                 formatDate(dates.get(0)), Importance.HIGH, "Tough assignment", 0, false));
@@ -171,7 +168,6 @@ class TimetableTest {
         ArrayList<LocalDate> dates = getThisWeekDates();
 
         TaskList taskList = new TaskList();
-
         taskList.addTask(0, "Assignment 1", "1600", "2", "01-01-2021", formatDate(dates.get(0)),
                 Importance.HIGH, "Tough assignment", false);
 
