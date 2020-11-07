@@ -452,6 +452,31 @@ Your tasks are automatically saved in *data.csv* which is located next to the pr
 
 **A**: You can copy the *data.csv* file created next to ATHENA.jar to the other computer and place it next to ATHENA.jar there.
 
+
+**Q**: Can I make flexible tasks into fixed tasks and vice versa? 
+
+**A**: No. Once a task is set without a time, ATHENA is given control over its time allocation permanently. One workaround is deleting the task and making a new one
+
+**Q**: What happens if I do not mark tasks as done? 
+
+**A**: For fixed tasks, it will just record that you did not do that task. But for flexible tasks, ATHENA will allocate it again at a later date so that you can have another opportunity to work on it.
+
+**Q**: ATHENA is allocating tasks on time that has already passed? 
+
+**A**: ATHENA is best used in the morning before you start doing your tasks. The program is best suited for weekly planning. If you have tasks that need immediate attention, it is reccomended that you start on those things immediately. Alternatitively, putting dummy rest tasks can also aid ATHENA in understanding which time slots can be used.
+
+
+**Q**: ATHENA is not allocating some of my tasks? 
+
+**A**: ATHENA works on a best effort basis. If there is no possible configuration for the tasks, it will not assign those tasks. Try to split up bigger tasks into smaller ones or reduce the amount of work you do in a sitting.
+
+**Q**: The timetable is showing up weirdly? 
+
+**A**: Try using a higher resolution screen, that should make the timetable easier to see.
+
+**Q**: Is it possible to freeze flexible tasks? 
+
+**A**: As mentioned previously, it is not possible to convert flexible tasks. However, marking the task as done will prevent ATHENA from making further changes to its timing.
 ## Command Summary
 
 | Action            | Format                                                                                                      |
