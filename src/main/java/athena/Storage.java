@@ -28,7 +28,6 @@ public class Storage {
     private String filePath;
     private TaskList tasks;
 
-    private int size;
 
     /**
      * Initialises Storage object.
