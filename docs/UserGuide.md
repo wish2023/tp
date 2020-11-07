@@ -49,6 +49,7 @@ e.g `add n/NAME p/PARAMETER`, since `p/` is an unknown parameter type for `add` 
 * If user types in 2 or more parameter description for each parameter type, only the first description will be taken.
 e.g. if user types `n/NAME1 n/NAME2`, only `NAME1` will be recorded as the task's name.
 * Items in square brackets are optional. e.g `n/NAME  [d/DURATION]` can be used as `n/Task1 d/1` or as `n/Task1`.
+(Refer to the Intermediate Usage section of each guide for more information)
 * For some commands, if no parameters are specified, the command will execute using the default values for each parameter.
 * For dates, the program follows the **DD-MM-YYYY** format.
 * For time, the program follows the **HHMM** format.
@@ -68,11 +69,14 @@ This command adds a task to the planner.
 
 The guide for this command is split into three sections:
 
-* [Basic Usage](#basic-usage) (For users new to command line applications)
-* [Intermediate Usage](#intermediate-usage) (For users comfortable with command line applications)
-* [Advanced Usage](#advanced-usage) (Extension to *Intermediate Usage*)
+* [Basic Usage (add)](#basic-usage-add) (For users new to command line applications)
+* [Intermediate Usage (add)](#intermediate-usage-add) (For users comfortable with command line applications)
+* [Advanced Usage (add)](#advanced-usage-add) (Extension to *Intermediate Usage (add)*)
 
-#### Basic Usage
+#### Basic Usage (add)
+
+In this section, for easier understanding, the `add` command will make use of all parameters.
+Users new to command line applications can find it easy to use as long as they follow the description below.
 
 ##### Command Format
 
@@ -105,7 +109,10 @@ You should expect to see a message to confirm that the task is added.
 
 ![add command screenshot](screenshots/athena%20add.jpg)
 
-#### Intermediate Usage
+#### Intermediate Usage (add)
+
+In this section, parameters in square brackets are optional. e.g `n/NAME  [d/DURATION]` can be used as `n/Task1 d/1` or as `n/Task1`.
+Users comfortable with command line applications have a choice now and can find it easy to use as long as they follow the description below.
 
 ##### Command Format
 
@@ -148,9 +155,9 @@ You should expect to see a message to confirm that the task is added with some o
 
 *TODO: Insert screenshot*
 
-#### Advanced Usage
+#### Advanced Usage (add)
 
-This section is an extension to the [Intermediate Usage](#intermediate-usage) section.
+This section is an extension to the [Intermediate Usage (add)](#intermediate-usage-add) section.
 
 The `add` command supports shortcuts for advanced users.
 
@@ -299,11 +306,14 @@ This command edits a specific task in the planner.
 
 The guide for this command is split into three sections:
 
-* [Basic Usage](#basic-usage) (For users new to command line applications)
-* [Intermediate Usage](#intermediate-usage) (For users comfortable with command line applications)
-* [Advanced Usage](#advanced-usage) (Extension to *Intermediate Usage*)
+* [Basic Usage (edit)](#basic-usage-edit) (For users new to command line applications)
+* [Intermediate Usage (edit)](#intermediate-usage-edit) (For users comfortable with command line applications)
+* [Advanced Usage (edit)](#advanced-usage-edit) (Extension to *Intermediate Usage (edit)*)
 
-#### Basic Usage
+#### Basic Usage (edit)
+
+In this section, for easier understanding, the `edit` command will make use of all parameters.
+Users new to command line applications can find it easy to use as long as they follow the description below.
 
 ##### Command Format
 
@@ -338,7 +348,10 @@ You should expect to see a message to confirm that the task with index 1 is edit
 
 ![edit command screenshot](screenshots/athena%20edit.jpg)
 
-#### Intermediate Usage
+#### Intermediate Usage (edit)
+
+In this section, parameters in square brackets are optional. e.g `TASK-ID [n/NAME] [d/DURATION]` can be used as `1 n/Task1 d/1` or as `1 n/Task1`.
+Users comfortable with command line applications have a choice now and can find it easy to use as long as they follow the description below.
 
 ##### Command Format
 
@@ -373,9 +386,9 @@ You should expect to see a message to confirm that the time of task with `TASK-I
 
 *TODO: Insert screenshot*
 
-#### Advanced Usage
+#### Advanced Usage (edit)
 
-This section is an extension to the [Intermediate Usage](#intermediate-usage) section.
+This section is an extension to the [Intermediate Usage (edit)](#intermediate-usage-edit) section.
 
 The `edit` command supports shortcuts for advanced users.
 
