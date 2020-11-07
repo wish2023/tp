@@ -146,12 +146,13 @@ public class AthenaUi implements Ui {
                 + "To " + colorText.toPurple("list your current tasks:\n")
                 + " (parameters in square brackets are optional fields):\n"
                 + colorText.toYellow("list [f/FORECAST] [i/IMPORTANCE]\n")
-                + "e.g. list f/WEEK i/medium\n\n"
+                + "e.g. list [f/WEEK] [i/medium]\n\n"
                 + "To " + colorText.toPurple("mark a task as done:\n")
                 + colorText.toYellow("done INDEX\n")
                 + "e.g. done 2\n\n"
                 + "To " + colorText.toPurple("edit a task")
-                + " (parameters in square brackets are optional fields):\n"
+                + " (parameters in square brackets are optional fields, "
+                + "but at least one parameter needs to be included):\n"
                 + colorText.toYellow("edit INDEX [n/NAME] [t/TIME] [D/DEADLINE] [d/DURATION] "
                 + "[r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]\n")
                 + "e.g.  edit 1 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes\n\n"
@@ -178,7 +179,7 @@ public class AthenaUi implements Ui {
      * Print a message when user enters time in invalid format.
      */
     public void printInvalidTimeFormatException() {
-        System.out.println(colorText.toRed("\nPlease enter your time in the format [HHMM]\n"));
+        System.out.println(colorText.toRed("\nPlease enter your time in the format [HHMM].\n"));
     }
 
     /**
@@ -202,6 +203,9 @@ public class AthenaUi implements Ui {
                 + "[i/IMPORTANCE] [a/ADDITIONAL-NOTES]\n"));
     }
 
+    /**
+     * Prints an error when the date is not formatted correctly.
+     */
     public void printAddDateWrongFormatException() {
         System.out.println(colorText.toRed("\nYou didn't format something in the right way!\n")
                 + "In case you've forgotten, this is how you add a task:\n"
@@ -222,10 +226,10 @@ public class AthenaUi implements Ui {
     }
 
     /**
-     * Prints a message telling user to input date in correct format.
+     * Prints a message telling user to input recurrence in correct format.
      */
-    public void printInvalidDateFormatException() {
-        System.out.println(colorText.toRed("\nRemember your date has to be in the format"
+    public void printInvalidRecurrenceException() {
+        System.out.println(colorText.toRed("\nRemember your date has to be valid in the format"
                 + " dd-mm(-yyyy) " + "or type a day of the week for repeating tasks\n"));
     }
 
@@ -235,6 +239,14 @@ public class AthenaUi implements Ui {
     public void printDateHasPassedException() {
         System.out.println(colorText.toRed("\nYour date has already passed. "
                 + "I can't help you here unless I'm a time traveller\n"));
+    }
+
+    /**
+     * Print message telling user they have mistyped the deadline date.
+     */
+    public void printInvalidDeadlineException() {
+        System.out.println(colorText.toRed("\nRemember your deadline has to be valid in the format"
+                + " dd-mm(-yyyy)\n"));
     }
 
     /**
@@ -376,19 +388,32 @@ public class AthenaUi implements Ui {
         System.out.println(timetable);
     }
 
+    /**
+     * Generic error handling that prints out when an unexpected storage loading error has occurred.
+     */
     public void printStorageLoadFail() {
         System.out.println(colorText.toRed("\nStorage loading has failed.\n"));
     }
 
+    /**
+     * Prints an error message when there is an error with the stored data.
+     * @param corruptedLine Line in the save file that has an error and has to be removed
+     */
     public void printCorruptedLine(String corruptedLine) {
         System.out.println(colorText.toRed("\nThis task is invalid: " + corruptedLine + ".\n"
                 + "\nPlease remove externally to continue.\n"));
     }
 
+    /**
+     * Generic error handling that prints out when an unexpected allocation error has occurred.
+     */
     public void printAllocationFailed() {
         System.out.println(colorText.toRed("\nAllocation Failed.\n"));
     }
 
+    /**
+     * Prints a message telling the user they cannot add a task before 8am and after 12 midnight.
+     */
     public void printSleepTimeNotAllowed() {
         System.out.println(colorText.toRed(
                 "You are not allowed to add a task from 12am to 8am. It is time to sleep! \n"));

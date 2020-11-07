@@ -2,7 +2,8 @@ package athena;
 
 
 import athena.exceptions.ClashInTaskException;
-import athena.exceptions.DateHasPassedException;
+import athena.exceptions.InvalidDeadlineException;
+import athena.exceptions.InvalidRecurrenceException;
 import athena.exceptions.InvalidTimeFormatException;
 import athena.exceptions.StorageCorruptedException;
 import athena.exceptions.StorageException;
@@ -28,7 +29,6 @@ public class Storage {
     private String filePath;
     private TaskList tasks;
 
-    private int size;
 
     /**
      * Initialises Storage object.
@@ -121,6 +121,10 @@ public class Storage {
                 throw new StorageCorruptedException(data);
             } catch (TaskIsDoneException e) {
                 assert false;
+            } catch (InvalidDeadlineException e) {
+                throw new StorageCorruptedException(data);
+            } catch (InvalidRecurrenceException e) {
+                throw new StorageCorruptedException(data);
             }
         }
         return loadedTaskList;

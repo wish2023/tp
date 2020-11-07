@@ -27,11 +27,11 @@ class EditCommandTest {
      */
     public static TaskList getTaskList() throws CommandException {
         TaskList taskList = new TaskList();
-        taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
+        taskList.addTask(0, "Assignment 1", "1600", "2", "01-01-2021", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
-        taskList.addTask(1, "Assignment 2", "1600", "2", "6pm", "13-12-2020",
+        taskList.addTask(1, "Assignment 2", "1600", "2", "01-01-2021", "13-12-2020",
                 Importance.MEDIUM, "Tough assignment", false);
-        taskList.addTask(2, "Assignment 3", "1600", "2", "6pm", "14-12-2020",
+        taskList.addTask(2, "Assignment 3", "1600", "2", "01-01-2021", "14-12-2020",
                 Importance.MEDIUM, "Tough assignment", false);
         return taskList;
     }
@@ -43,11 +43,11 @@ class EditCommandTest {
      */
     public static TaskList getEditedTaskList() throws CommandException {
         TaskList taskList = new TaskList();
-        taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
+        taskList.addTask(0, "Assignment 1", "1600", "2", "01-01-2021", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
-        taskList.addTask(1,"Homework 2", "0800", "4", "8pm", "10-12-2020",
+        taskList.addTask(1,"Homework 2", "0800", "4", "02-01-2021", "10-12-2020",
                 Importance.HIGH, "Very easy homework", false);
-        taskList.addTask(2,"Assignment 3", "1600", "2", "6pm", "14-12-2020",
+        taskList.addTask(2,"Assignment 3", "1600", "2", "01-01-2021", "14-12-2020",
                 Importance.MEDIUM, "Tough assignment", false);
         return taskList;
     }
@@ -86,7 +86,7 @@ class EditCommandTest {
      * @param taskNumber Task number of the task that we want to edit
      */
     private EditCommand createEditCommand(int taskNumber) {
-        EditCommand command = new EditCommand(taskNumber, "Homework 2", "0800", "4", "8pm", "10-12-2020",
+        EditCommand command = new EditCommand(taskNumber, "Homework 2", "0800", "4", "02-01-2021", "10-12-2020",
                 Importance.HIGH, "Very easy homework");
         return command;
     }
