@@ -52,8 +52,6 @@ public class Athena {
 
         while (!isExit) {
             try {
-                allocator = new TimeAllocator(taskList);
-                allocator.runAllocate();
                 inputString = input.nextLine();
                 isExit = logicManager.execute(inputString);
             } catch (CommandException e) {
