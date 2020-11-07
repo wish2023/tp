@@ -20,6 +20,7 @@ import athena.logic.commands.ExitCommand;
 import athena.logic.commands.HelpCommand;
 import athena.logic.commands.ListCommand;
 import athena.logic.commands.ViewCommand;
+import athena.task.Task;
 import athena.task.taskfilter.FilterCalculator;
 
 import java.util.HashMap;
@@ -93,7 +94,7 @@ public class Parser {
      */
     public static Command parseAddCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
                                           int recurrencePos, int importancePos, int addNotesPos)
-            throws InvalidCommandException {
+            throws InvalidCommandException, InvalidImportanceException {
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, EMPTY_STRING);
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, EMPTY_STRING);
         boolean isFlexible = (time.equals(EMPTY_STRING));
@@ -104,7 +105,13 @@ public class Parser {
         String recurrenceDefault = "today";
         String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, recurrenceDefault);
         String importanceDefault = "medium";
-        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
+        String importanceString = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
+        Importance importance;
+        try {
+            importance = Importance.valueOf(importanceString.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new InvalidImportanceException();
+        }
         String notesDefault = "No notes";
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos, notesDefault);
 
@@ -131,26 +138,29 @@ public class Parser {
     public static Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
                                            int recurrencePos, int importancePos, int addNotesPos,
                                            TaskList taskList) throws TaskNotFoundException,
-            EditNoIndexException, InvalidCommandException {
+            EditNoIndexException, InvalidCommandException, InvalidImportanceException {
         int number = getNumber(taskInfo);
 
-        String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
-                taskList.getTaskFromNumber(number).getName());
-        String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos,
-                taskList.getTaskFromNumber(number).getTimeInfo().getStartTimeString());
+        Task task = taskList.getTaskFromNumber(number);
+
+        String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, task.getName());
+        String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, task.getTimeInfo().getStartTimeString());
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos,
-                taskList.getTaskFromNumber(number).getTimeInfo().getDurationString());
-        String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos,
-                taskList.getTaskFromNumber(number).getTimeInfo().getDeadline());
-        String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos,
-                taskList.getTaskFromNumber(number).getTimeInfo().getRecurrence());
-        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos,
-                taskList.getTaskFromNumber(number).getImportance().toString()).toUpperCase();
+                task.getTimeInfo().getDurationString());
+        String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos, task.getTimeInfo().getDeadline());
+        String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, task.getTimeInfo().getRecurrence());
+        String importanceString = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos,
+                task.getImportance().toString());
+        Importance importance;
+        try {
+            importance = Importance.valueOf(importanceString.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new InvalidImportanceException();
+        }
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos,
                 taskList.getTaskFromNumber(number).getNotes());
 
-        return new EditCommand(number, name, time, duration, deadline, recurrence,
-                Importance.valueOf(importance.toUpperCase()), notes);
+        return new EditCommand(number, name, time, duration, deadline, recurrence, importance, notes);
     }
 
     /**
@@ -193,7 +203,7 @@ public class Parser {
     /**
      * Parses user input when command is done.
      *
-     * @param taskInfo      String representing task information
+     * @param taskInfo String representing task information
      * @return command object
      */
     public static Command parseDoneCommand(String taskInfo) throws CommandException {
@@ -208,7 +218,7 @@ public class Parser {
     /**
      * Parses user input when command is delete.
      *
-     * @param taskInfo      String representing task information
+     * @param taskInfo String representing task information
      * @return command object
      */
     public static Command parseDeleteCommand(String taskInfo) throws CommandException {

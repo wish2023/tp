@@ -181,13 +181,14 @@ class ParserTest {
         final String input = "add n/Assignment1 t/1100 D/16-09-2020 d/2 hours r/Monday i/high a/Refer to slides";
         final AddCommand parsedCommand = parseAndAssertCommandType(input, AddCommand.class);
         final AddCommand expectedCommand = new AddCommand("Assignment1", "1100",
-                "2 hours", "16-09-2020", "Monday", "high",
+                "2 hours", "16-09-2020", "Monday", Importance.HIGH,
                 "Refer to slides", false);
         assertEquals(parsedCommand, expectedCommand);
     }
 
     /**
      * Checks if the program adds a task correctly.
+     *
      * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     @Test
@@ -195,7 +196,7 @@ class ParserTest {
         final String input = "a n/Assignment1 t/1100 D/16-09-2020 d/2 hours r/Monday i/high a/Refer to slides";
         final AddCommand parsedCommand = parseAndAssertCommandType(input, AddCommand.class);
         final AddCommand expectedCommand = new AddCommand("Assignment1", "1100",
-                "2 hours", "16-09-2020", "Monday","high",
+                "2 hours", "16-09-2020", "Monday", Importance.HIGH,
                 "Refer to slides", false);
         assertEquals(parsedCommand, expectedCommand);
     }
@@ -248,7 +249,7 @@ class ParserTest {
         final String input = "edit 0 n/I have changed a/I am not filling any other arguments";
         final EditCommand parsedCommand = parseAndAssertCommandType(input, EditCommand.class);
         final EditCommand expectedCommand = new EditCommand(testNumber, "I have changed", "1600",
-                "2", "No deadline", "12-10-2021", Importance.valueOf("low".toUpperCase()),
+                "2", "No deadline", "12-10-2021", Importance.LOW,
                 "I am not filling any other arguments");
         assertEquals(parsedCommand, expectedCommand);
     }

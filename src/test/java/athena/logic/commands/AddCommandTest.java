@@ -71,7 +71,7 @@ class AddCommandTest {
      */
     private AddCommand createAddCommand() {
         AddCommand command = new AddCommand("Homework 2", "0800", "4", "01-01-2021", "10-12-2020",
-                "high", "Very easy homework", false);
+                Importance.HIGH, "Very easy homework", false);
         return command;
     }
 
