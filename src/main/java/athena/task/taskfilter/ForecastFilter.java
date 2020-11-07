@@ -5,9 +5,7 @@ import athena.common.utils.DateUtils;
 import athena.task.Task;
 
 import java.time.LocalDate;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
-import java.util.Locale;
+import java.util.ArrayList;
 
 public class ForecastFilter extends TaskFilter {
 
