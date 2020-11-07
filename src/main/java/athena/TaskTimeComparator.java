@@ -4,6 +4,9 @@ import athena.task.Task;
 
 import java.util.Comparator;
 
+/**
+ *  Sorts the tasks descending order according to time.
+ */
 public class TaskTimeComparator implements Comparator<Task> {
 
     public int compare(Task o1, Task o2) {

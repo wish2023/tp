@@ -14,6 +14,12 @@ public class Log {
     private ArrayList<Task> carryOverTasks = new ArrayList<>();
 
 
+    /**
+     * Makes a record of the task allocation.
+     *
+     * @param start start time of log
+     * @param end end time of log
+     */
     public Log(Integer start, Integer end) {
         this.size = end - start;
         this.numberList = new ArrayList<Integer>((Collections.nCopies(size, -1)));
@@ -21,6 +27,12 @@ public class Log {
         this.end = end;
     }
 
+    /**
+     * Places the taskNumber in the log.
+     *
+     * @param pos position of the number in the record
+     * @param number taskNumber of the associated task
+     */
     public void setNumber(int pos, int number) {
         numberList.set(pos, number);
     }
@@ -34,16 +46,20 @@ public class Log {
         for (Task currTask : taskList) {
             int span = currTask.getTimeInfo().getDuration();
             if (span <= space) {
-                int taskNumber = currTask.getNumber();
-                for (int i = 0; i < span; i++) {
-                    int relativePos = end - space - start;
-                    numberList.set(i + relativePos, taskNumber);
-                }
+                placeTask(space, currTask, span);
                 space -= span;
             }
             if (space == 0) {
                 break;
             }
+        }
+    }
+
+    private void placeTask(Integer space, Task currTask, int span) {
+        int taskNumber = currTask.getNumber();
+        for (int i = 0; i < span; i++) {
+            int relativePos = end - space - start;
+            numberList.set(i + relativePos, taskNumber);
         }
     }
 
@@ -97,6 +113,9 @@ public class Log {
         this.numberList = bestLog.getNumberList();
     }
 
+    /**
+     * Removes the assigned tasks from the remaining tasks.
+     */
     public void removeAssignedTasks() {
         for (int taskNumber : this.numberList) {
             try {
@@ -107,6 +126,11 @@ public class Log {
         }
     }
 
+    /**
+     * Assigns the times to the tasks.
+     * @param start beginning position
+     * @param bestLog log containing the order of the taskNumbers
+     */
     public void populateLog(Integer start, Log bestLog) {
         int count = 0;
         for (int taskNumber : bestLog.getNumberList()) {
