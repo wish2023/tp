@@ -1,8 +1,12 @@
 package athena;
 
-import athena.exceptions.*;
+import athena.exceptions.ClashInTaskException;
+import athena.exceptions.DateHasPassedException;
+import athena.exceptions.InvalidTimeFormatException;
+import athena.exceptions.TaskDuringSleepTimeException;
+import athena.exceptions.TaskIsDoneException;
+import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
-import athena.task.Time;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.TaskFilter;
 
@@ -240,13 +244,8 @@ public class TaskList {
     public void editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, Importance importance,
                          String notes)
-            throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException,
-            IllegalTimeModificationException {
+            throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException {
         Task task = getTaskFromNumber(taskNumber);
-        Time time = task.getTimeInfo();
-        if (time.getFlexible() && ((startTime != time.getStartTimeString()) || (recurrence != time.getRecurrence()))) {
-            throw new IllegalTimeModificationException();
-        }
         Task possibleEditedTask = createTask(taskNumber, name, startTime,
                 duration, deadline, recurrence, importance, notes, task.isFlexible());
         checkClash(possibleEditedTask);
@@ -261,7 +260,7 @@ public class TaskList {
      * @return Task marked as done.
      * @throws TaskNotFoundException thrown when the program is unable to find a task at the index
      *                               specified by the user
-     * @throws TaskIsDoneException   Exception thrown when user tries to mark a task as done which is done.
+     * @throws TaskIsDoneException Exception thrown when user tries to mark a task as done which is done.
      */
     public Task markTaskAsDone(int taskNumber)
             throws TaskNotFoundException, TaskIsDoneException {
