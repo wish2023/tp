@@ -4,6 +4,9 @@ import athena.task.Task;
 
 import java.util.Comparator;
 
+/**
+ * Sorts the tasks in descending order of importance.
+ */
 public class TaskImportanceComparator implements Comparator<Task> {
 
 
