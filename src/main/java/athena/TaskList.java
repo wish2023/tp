@@ -110,8 +110,8 @@ public class TaskList {
                         Importance importance, String notes, boolean isFlexible)
             throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException {
         try {
-            if (number <= maxNumber) {
-                number = maxNumber + 1;
+            if (number < maxNumber) {
+                number = maxNumber;
             }
             Task task = createTask(number, name, startTime,
                     duration, deadline, recurrence, importance, notes, isFlexible);
