@@ -132,24 +132,25 @@ public class Task {
      * @param recurrence New task recurrence
      * @param importance New task importance
      * @param notes      New task notes
+     * @throws InvalidRecurrenceException   Exception thrown when user mistypes recurrence
+     * @throws InvalidDeadlineException     Exception thrown when user mistypes deadline
      */
     public void edit(String name, String startTime, String duration, String deadline,
                      String recurrence, Importance importance, String notes)
             throws InvalidRecurrenceException, InvalidDeadlineException {
-        this.name = name;
+        setAttributes(name, importance, notes, number, isFlexible);
+        assertAll(startTime, duration, deadline);
+
+        recurrence = getDefaultDate(recurrence);
+        timeInfo.edit(startTime, duration, deadline, recurrence);
+    }
+
+    private void assertAll(String startTime, String duration, String deadline) {
         assert !this.name.equals("");
         assert !startTime.equals("");
         assert !duration.equals("");
         assert !deadline.equals("");
-
-        this.timeInfo.edit(startTime, duration, deadline, recurrence);
-
-        this.importance = importance;
         assert this.importance != null;
-
-        if (!notes.equals(null)) {
-            this.notes = notes;
-        }
     }
 
 
