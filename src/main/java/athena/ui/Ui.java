@@ -21,16 +21,9 @@ public interface Ui {
     /**
      * Prints out a message verifying which task the user has added to their list.
      *
-     * @param taskName       The name of the task
-     * @param taskStartTime  When the task is scheduled to start
-     * @param taskDuration   How long the task will last for
-     * @param taskDeadline   When the task is due
-     * @param taskRecurrence When will the task repeat
-     * @param taskImportance What is the importance of the task
-     * @param taskNotes      Any additional notes the user has added to the task
+     * @param task Task that is added
      */
-    void printTaskAdded(String taskName, String taskStartTime, String taskDuration, String taskDeadline,
-                        String taskRecurrence, String taskImportance, String taskNotes);
+    void printTaskAdded(Task task);
 
     /**
      * Prints out a message verifying that the task the user specified has been marked as done.
@@ -43,17 +36,9 @@ public interface Ui {
      * Prints out a message verifying that the task the user specified has been edited, and shows the user the
      * new task details.
      *
-     * @param taskIndex      The index of the task on the task list
-     * @param taskName       The name of the task
-     * @param taskStartTime  When the task is scheduled to start
-     * @param taskDuration   How long the task will last for
-     * @param taskDeadline   When the task is due
-     * @param taskRecurrence When will the task repeat
-     * @param taskImportance What is the importance of the task
-     * @param taskNotes      Any additional notes the user has added to the task
+     * @param task The updated task
      */
-    void printTaskEdited(int taskIndex, String taskName, String taskStartTime, String taskDuration,
-                         String taskDeadline, String taskRecurrence, Importance taskImportance, String taskNotes);
+    void printTaskEdited(Task task);
 
     /**
      * Prints out a message verifying that the task the user specified has been deleted.
