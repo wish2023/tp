@@ -88,7 +88,7 @@ public class Time implements Comparable<Time> {
     }
 
     /**
-     * Edits attributes of time information of task
+     * Edits attributes of time information of task.
      *
      * @param startTime     starting time of task
      * @param duration      how long the task is scheduled to last for
@@ -319,7 +319,7 @@ public class Time implements Comparable<Time> {
      * Adds task date to recurrenceDates.
      *
      * @param recurrence Date task occurs
-     * @throws InvalidRecurrenceException
+     * @throws InvalidRecurrenceException Exception thrown when user mistypes recurrence
      */
     private void setRecurrenceDate(String recurrence) throws InvalidRecurrenceException {
         try {
