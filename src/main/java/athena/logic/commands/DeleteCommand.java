@@ -16,7 +16,7 @@ public class DeleteCommand extends Command {
     /**
      * Initializes the object with the index of task to be deleted.
      *
-     * @param index Integer representing the index of task.
+     * @param index int representing the index of task.
      */
     public DeleteCommand(int index) {
         deleteIndex = index;
