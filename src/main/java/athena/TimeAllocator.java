@@ -56,14 +56,14 @@ public class TimeAllocator {
                     break;
                 }
                 Log bestLog = new Log(currSlot, undefinedTimeTasks);
-                bestLog.removeAssignedTasks();
+                bestLog.removeAssignedTasks(this.taskList);
                 dayLog.populateLog(currSlot.getStart(), bestLog);
                 assignTime(bestLog.getNumberList(), currSlot.getStart(), currDay);
-                carryOverTasks = bestLog.getCarryOverTasks();
+                undefinedTimeTasks = bestLog.getCarryOverTasks();
             }
-            for (Task currTask : carryOverTasks) {
+            for (Task currTask : undefinedTimeTasks) {
                 try {
-                    Time timeInfo = taskList.getTaskFromNumber(currTask.getNumber()).getTimeInfo();
+                    Time timeInfo = this.taskList.getTaskFromNumber(currTask.getNumber()).getTimeInfo();
                     timeInfo.setStartTime(null);
                 } catch (TaskNotFoundException e) {
                     //do nothing
