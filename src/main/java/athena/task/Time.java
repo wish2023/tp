@@ -26,7 +26,7 @@ public class Time implements Comparable<Time> {
     private static final LocalTime WAKE_TIME = LocalTime.of(8, 0);
     private static final LocalTime SLEEP_TIME = LocalTime.of(0, 0);
     private boolean isFlexible;
-    private LocalTime startTime;
+    private LocalTime startTime = null;
     private int duration;
     private LocalTime endTime;
     private String deadline;

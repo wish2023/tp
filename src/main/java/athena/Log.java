@@ -88,7 +88,7 @@ public class Log {
     }
 
     public ArrayList<Task> getCarryOverTasks() {
-        return carryOverTasks;
+        return this.carryOverTasks;
     }
 
     public Log(TimeSlot currSlot, ArrayList<Task> undefinedTimeTasks) {
@@ -104,7 +104,7 @@ public class Log {
                 bestLog = currentLog;
             }
             if (!undefinedTimeTasks.isEmpty()) {
-                carryOverTasks.add(undefinedTimeTasks.get(0));
+                this.carryOverTasks.add(undefinedTimeTasks.get(0));
                 undefinedTimeTasks.remove(0);
             } else {
                 break;

@@ -45,7 +45,6 @@ public class TimeAllocator {
             Log dayLog = new Log(0, 24);
             ArrayList<Task> predefinedTimeTasks = getSortedFixedTasks(getFixedDayTasks(currDay));
             dayLog.setFixedTasks(predefinedTimeTasks);
-            ArrayList<Task> carryOverTasks = null;
             TimeSlot currSlot = new TimeSlot(dayLog);
             while (true) {
                 try {
@@ -57,11 +56,11 @@ public class TimeAllocator {
                 bestLog.removeAssignedTasks();
                 dayLog.populateLog(currSlot.getStart(), bestLog);
                 assignTime(bestLog.getNumberList(), currSlot.getStart(), currDay);
-                carryOverTasks = bestLog.getCarryOverTasks();
+                undefinedTimeTasks = bestLog.getCarryOverTasks();
             }
-            for (Task currTask : carryOverTasks) {
+            for (Task currTask : undefinedTimeTasks) {
                 try {
-                    Time timeInfo = taskList.getTaskFromNumber(currTask.getNumber()).getTimeInfo();
+                    Time timeInfo = this.taskList.getTaskFromNumber(currTask.getNumber()).getTimeInfo();
                     timeInfo.setStartTime(null);
                 } catch (TaskNotFoundException e) {
                     //do nothing
