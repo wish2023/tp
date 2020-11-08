@@ -16,7 +16,6 @@
 - [Command Summary](#command-summary)  
 
 ## Introduction
-
 Welcome and thank you for choosing ATHENA! ATHENA is your Automated Timetable Helper Encourager n' Assistant and is a desktop daily life planner optimized for use via a Command Line Interface (CLI).
 
 ATHENA uses algorithmic optimisation to give you the best timetable that allows you to make the most of your time. With ATHENA, you can save time on planning your timetable and be more efficient with your time.
@@ -26,7 +25,6 @@ You can take a look at the table of contents above if you are looking for a spec
 We hope you enjoy using ATHENA and start being more productive today!
 
 ## Quick Start
-
 1. Ensure that you have **Java 11** or above installed.
 2. Download the latest version of **ATHENA** [here](https://github.com/AY2021S1-CS2113T-W12-2/tp/releases).
 3. Copy the downloaded Athena.jar into your **Desktop**.
@@ -63,8 +61,8 @@ Prints out a message on how to use ATHENA.
 #### Format: `help`
 
 #### Expected output
-
 ![help-command](screenshots/help.jpeg)
+
 
 ### Add a task: `add` or `a`
 This command adds a task to the timetable.
@@ -76,13 +74,11 @@ The guide for this command is split into three sections:
 * [Advanced Usage (add)](#advanced-usage-add) (Extension of *Intermediate Usage (add)*)
 
 #### Basic Usage (add)
-
 In this section, for easier understanding, the `add` command will make use of all parameters.
 Users new to command line applications should find it easy to use as long as they follow the descriptions in the sections below. 
 Users who are comfortable with the basic usage may move on to the [Intermediate](#intermediate-usage-add) and [Advanced](#advanced-usage-add) stages to experience how ATHENA was intended to be used.
 
 ##### Command Format
-
 `add n/NAME t/TIME d/DURATION D/DEADLINE r/RECURRENCE i/IMPORTANCE a/ADDITIONAL-NOTES`
 
 ##### Parameters
@@ -106,19 +102,17 @@ The `add` command accepts 7 parameters.
 * `ADDITIONAL-NOTES` are the additional notes of the task.
 
 ##### Example Usage
-
 The following shows the output from ATHENA after entering `add n/Assignment1 t/1100 D/16-11-2020 d/2 r/Today i/high a/Refer to lecture notes`.
 You should expect to see a message which confirms that the task has been added.
 
 ![add-command-basic](screenshots/add-basic.jpg)
 
-#### Intermediate Usage (add)
 
+#### Intermediate Usage (add)
 In this section, square brackets around parameters indicate that they optional. e.g `n/NAME  [d/DURATION]` can be used as `n/Task1 d/1` or as `n/Task1`.
 Users comfortable with command line applications can proceed with the Intermediate usage as detailed in the sections below and can operate ATHENA as it was intended to be used.
 
 ##### Command Format
-
 `add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
 
 ##### Parameters
@@ -156,20 +150,18 @@ The following parameters are optional. If they are left empty, ATHENA will use t
    Default: No notes.
 
 ##### Example Usage
-
 The screenshot below shows the output from ATHENA after entering `add n/Assignment2 t/1400 i/high`.
 You should expect to see a message to confirm that the task has been added, with some of the parameters having their default value assigned.
 
 ![add-command-intermediate](screenshots/add-intermediate.jpg)
 
-#### Advanced Usage (add)
 
+#### Advanced Usage (add)
 This section is an extension of the [Intermediate Usage (add)](#intermediate-usage-add) section.
 
 The `add` command supports shortcuts catered for advanced users.
 
 ##### Supported Shortcuts
-
 The command on the left in the table below is the shortcut of the corresponding command on the right.
 
 | Shortcut | Expanded command |
@@ -177,15 +169,14 @@ The command on the left in the table below is the shortcut of the corresponding 
 | `a`     | `add`  |
 
 ##### Example usage
-
 You can just type `a` instead of `add`.
 The screenshot below shows the output from ATHENA after entering `a n/Assignment3 t/1900 D/16-11-2020 d/2 a/Refer to notes`.
 You should expect to see a message to confirm that the task is added with some of the parameter's default value assigned.
 
 ![add-command-advanced](screenshots/add-advanced.jpg)
 
-### List tasks: `list` or `l`
 
+### List tasks: `list` or `l`
 This command shows your tasks organized nicely in a timetable.
 Each task will be printed with a number (the task ID) that is used as an identifier for other commands (e.g. `edit`, `done`, `delete`), as shown in the screenshot below.
 
@@ -201,7 +192,6 @@ The guide for this command is split into three sections:
 * [Advanced Usage (list)](#advanced-usage-list) (Extension of *Intermediate Usage*)
 
 #### Basic Usage (list)
-
 In this section, for easier understanding, the `list` command will make use of all parameters.
 Users new to command line applications should find it easy to use as long as they follow the descriptions in the sections below. 
 Users who are comfortable with the basic usage may move on to the [Intermediate](#intermediate-usage-list) and [Advanced](#advanced-usage-list) stages to experience how ATHENA was intended to be used.
@@ -213,7 +203,6 @@ You can indicate in your command to filter your tasks based on
 * the importance of the tasks
 
 ##### Command Format
-
 `list f/FORECAST i/IMPORTANCE`
 
 * `FORECAST`: **DAY** to show the tasks occurring today, **WEEK** to show the tasks occurring in the week ahead, and **ALL** to show all your upcoming tasks.
@@ -221,14 +210,13 @@ You can indicate in your command to filter your tasks based on
 * `IMPORTANCE`: One of **HIGH**, **MEDIUM**, **LOW**, or  **ALL**.
 
 ##### Example Usage
-
 The following shows the output from ATHENA after entering `list f/Week i/High`.
 You should expect to see all **high importance tasks** occuring **in the week ahead**, as shown in the screenshot below.
 
 ![list-week-high](screenshots/list-week-high.jpg)
 
-#### Intermediate Usage (list)
 
+#### Intermediate Usage (list)
 The `list` command accepts 2 parameters.
 You can tell the command to filter your tasks based on
 
@@ -238,7 +226,6 @@ You can tell the command to filter your tasks based on
 In this section, the two parameters listed above are optional. If they are left empty, ATHENA will use the default value assigned.
 
 ##### Command Format
-
 `list [f/FORECAST] [i/IMPORTANCE]`
 
 * `FORECAST`: **DAY** to show the tasks occurring today, **WEEK** to show the tasks occurring in the week ahead, and **ALL** to show all your upcoming tasks.
@@ -250,7 +237,6 @@ In this section, the two parameters listed above are optional. If they are left 
   Default: **ALL**.
 
 ##### Example Usage
-
 The following shows the output from ATHENA after entering `list f/Week i/High`.
 You should expect to see all **high importance tasks** occuring **in the week ahead**.
 
@@ -261,15 +247,13 @@ For example, entering `list i/Low` will show all **low importance** tasks occuri
 
 ![list-low](screenshots/list-low.jpg)
 
-#### Advanced Usage (list)
 
+#### Advanced Usage (list)
 This section is an extension to the [Intermediate Usage (list)](#intermediate-usage-list) section.
 
 The `list` command supports shortcuts catered for advanced users.
 
-
 ##### Supported Shortcuts
-
 The commands on the left in the table below are the shortcuts of the corresponding commands on the right.
 
 | Shortcut | Expanded command |
@@ -282,7 +266,6 @@ The commands on the left in the table below are the shortcuts of the correspondi
 | `la`     | `list f/ALL`     |
 
 ##### Example usage
-
 The following are all valid commands.
 
 * `l`
@@ -293,6 +276,7 @@ The following are all valid commands.
 You can enter `l2 f/DAY` to list **medium importance** tasks occuring **today**, as shown in the screenshot below.
 
 ![l2-day](screenshots/l2-day.jpg)
+
 
 ### Edit task: `edit` or `e`
 This command edits a specific task in the timetable.
@@ -305,14 +289,11 @@ The guide for this command is split into two sections:
 | :exclamation:  Keep in mind that you cannot edit the details of a task if the date of the task has passed. For example, if a task has occured yesterday, you cannot edit the details of that task.|
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 
-
 #### Basic Usage (edit)
-
 In this section, users new to command line applications should find it easy to use as long as they follow the descriptions in the sections below.
 Square brackets around parameters indicate that they are optional. e.g `TASK-ID [n/NAME] [d/DURATION]` can be used as `1 n/Task1 d/1` or as `1 n/Task1`.
 
 ##### Command Format
-
 `edit TASK-ID [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`
 
 ##### Parameters
@@ -339,7 +320,6 @@ At least one parameter shown below has to be included in the command execution:
 * `ADDITIONAL-NOTES` are the additional notes of the task.
 
 ##### Example Usage
-
 Firstly, use the [list command](#list-tasks-list-or-l) to view the `TASK-ID` of the task to be edited.
 
 The screenshot below shows the output from ATHENA after entering `edit 1 t/1800`.
@@ -347,12 +327,11 @@ You should expect to see a message to confirm that the time of task with `TASK-I
 
 ![edit-command-basic](screenshots/edit-basic.jpg)
 
-#### Intermediate Usage (edit)
 
-The `edit` command supports shortcuts for advanced users.
+#### Intermediate Usage (edit)
+The `edit` command supports shortcuts for intermediate users.
 
 ##### Supported Shortcuts
-
 The command on the left in the table below is the shortcut of the corresponding command on the right.
 
 | Shortcut | Expanded command |
@@ -360,7 +339,6 @@ The command on the left in the table below is the shortcut of the corresponding 
 | `e`     | `edit`  |
 
 ##### Example usage
-
 Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be edited.
 
 The user can just type `e` instead of `edit`.
@@ -368,6 +346,7 @@ The screenshot below shows the output from ATHENA after entering `e 1 n/Assignme
 You should expect to see a message to confirm that the time of task with `TASK-ID` '1' is edited.
 
 ![edit-command-intermediate](screenshots/edit-intermediate.jpg)
+
 
 ### Mark task as done: `done` or `dn`
 This command marks the specified task from the timetable as done.
@@ -381,7 +360,6 @@ In this section, users new to command line applications should find it easy to u
 Users who are comfortable with the basic usage may move on to the [Intermediate](#intermediate-usage-done) stage to experience how ATHENA was intended to be used.
 
 ##### Command Format
-
 `done TASK-ID`
 
 ##### Parameters
@@ -390,18 +368,17 @@ The `done` command requires 1 parameter only.
 * `TASK-ID` refers to the number shown beside the task that the user wants to mark as done in the displayed task list. It must be a non-negative integer.
 
 ##### Example Usage
-
 Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task that you want to mark as done.
 The screenshot below shows the output from ATHENA after entering `done 0`.
 You should expect to see a message to confirm that the task with `TASK-ID` of `0` is marked as done. 
 
 ![done](screenshots/done.jpg)
 
+
 #### Intermediate Usage (done)
 The `done` command supports shortcuts for intermediate users.
 
 ##### Supported Shortcuts
-
 The command on the left in the table below is the shortcut of the corresponding command on the right.
 
 | Shortcut | Expanded command |
@@ -409,7 +386,6 @@ The command on the left in the table below is the shortcut of the corresponding 
 | `dn`     | `done`  |
 
 ##### Example usage
-
 Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be marked as done.
 
 The user can just type `dn` instead of `done`.
@@ -426,12 +402,10 @@ The guide for this command is split into two sections:
 * [Intermediate Usage (delete)](#intermediate-usage-delete) (For users comfortable with command line applications)
 
 #### Basic Usage (delete)
-
 In this section, users new to command line applications should find it easy to use as long as they follow the descriptions in the sections below. 
 Users who are comfortable with the basic usage may move on to the [Intermediate](#intermediate-usage-delete) stage to experience how ATHENA was intended to be used.
 
 ##### Command Format
-
 `delete TASK-ID`
 
 ##### Parameters
@@ -440,13 +414,13 @@ The `delete` command requires 1 parameter only.
 * `TASK-ID` refers to the number shown beside the task that the user wants to delete in the displayed task list. It must be a non-negative integer.
 
 ##### Example Usage
-
 Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be deleted.
 The following shows the output from ATHENA after entering `delete 0`.
 You should expect to see a message to confirm that the task with `TASK-ID` of `0` is deleted. 
 ATHENA also prints the command required to restore the deleted task.
 
-![](screenshots/delete-basic.jpeg)
+![delete](screenshots/delete-basic.jpeg)
+
 
 #### Intermediate Usage (delete)
 The `delete` command supports shortcuts for intermediate users.
@@ -456,13 +430,12 @@ The `delete` command supports shortcuts for intermediate users.
 | `dl`     | `delete`  |
 
 ##### Example usage
-
 Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be deleted.
 
 The user can just type `dl` instead of `delete`.
 The screenshot below shows the output from ATHENA after entering `dl 0`.
 
-![](screenshots/delete-intermediate.jpeg)
+![dl](screenshots/delete-intermediate.jpeg)
 
 
 ### View task: `view` or `v`
@@ -473,12 +446,10 @@ The guide for this command is split into two sections:
 * [Intermediate Usage (view)](#intermediate-usage-view) (For users comfortable with command line applications)
 
 #### Basic Usage (view)
-
 In this section, users new to command line applications should find it easy to use as long as they follow the descriptions in the sections below. 
 Users who are comfortable with the basic usage may move on to the [Intermediate](#intermediate-usage-view) stage to experience how ATHENA was intended to be used.
 
 ##### Command Format
-
 `view TASK-ID`
 
 ##### Parameters
@@ -487,12 +458,12 @@ The `view` command requires 1 parameter only.
 * `TASK-ID` refers to the number shown beside the task that the user wants to view in the displayed task list. It must be a non-negative integer.
 
 ##### Example Usage
-
 Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be viewed.
 The following shows the output from ATHENA after entering `view 0`.
 You should expect to see the details of your task with `TASK-ID` of `0`.
 
-![](screenshots/view-basic.jpeg)
+![view](screenshots/view-basic.jpeg)
+
 
 #### Intermediate Usage (view)
 The `view` command supports shortcuts for intermediate users.
@@ -501,11 +472,10 @@ The `view` command supports shortcuts for intermediate users.
 |----------|------------------|
 | `v`     | `view`  |
 
-
 The user can just type `v` instead of `view`.
 The screenshot below shows the output from ATHENA after entering `v 0`.
 
-![](screenshots/view-intermediate.jpeg)
+![v](screenshots/view-intermediate.jpeg)
 
 
 ### Exit program: `exit` or `ex`
@@ -516,14 +486,16 @@ This command exits the program.
 #### Expected output:
 The screenshot below shows the output from ATHENA after entering `exit`.
 
-![](screenshots/exit-basic.jpeg)
-![](screenshots/exit-intermediate.jpeg)
+![exit](screenshots/exit-basic.jpeg)
+![ex](screenshots/exit-intermediate.jpeg)
+
 
 ### Saving the data
 Your tasks are automatically saved in *data.csv* which is located next to the program JAR file. There is no need to save manually.  
-![](screenshots/save-file-location.JPG)
-## FAQ
+![saving data](screenshots/save-file-location.JPG)
 
+
+## FAQ
 In this section, we use the terms *fixed tasks* and *flexible tasks*.
 
 * *Fixed tasks* refer to tasks that were specified with a start time when added.
