@@ -2,6 +2,7 @@ package athena.logic;
 
 
 import athena.exceptions.command.DateHasPassedException;
+import athena.exceptions.command.InvalidDeadlineException;
 import athena.exceptions.command.InvalidRecurrenceException;
 
 import java.time.LocalDate;
@@ -9,18 +10,27 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class DateChecker {
-    String dateString;
-    LocalDate date;
+    String recurrenceString;
+    String deadlineString;
+    LocalDate recurrence;
+    LocalDate deadline;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-    public DateChecker(String dateString) throws DateHasPassedException, InvalidRecurrenceException {
-        this.dateString = dateString;
+    public DateChecker(String recurrenceString, String deadlineString)
+            throws DateHasPassedException, InvalidRecurrenceException, InvalidDeadlineException {
+        this.recurrenceString = recurrenceString;
+        this.deadlineString = deadlineString;
         try {
-            this.date = LocalDate.parse(dateString, formatter);
+            this.recurrence = LocalDate.parse(recurrenceString, formatter);
         } catch (DateTimeParseException e) {
             throw new InvalidRecurrenceException();
         }
-        checkDatePassed(date);
+        try {
+            this.deadline = LocalDate.parse(recurrenceString, formatter);
+        } catch (DateTimeParseException e) {
+            throw new InvalidDeadlineException();
+        }
+        checkDatePassed(recurrence);
     }
 
     private void checkDatePassed(LocalDate date) throws DateHasPassedException {
