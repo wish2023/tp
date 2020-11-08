@@ -25,7 +25,6 @@ class TimetableTest {
 
     /**
      * Checks if the timetable returns today's task when forecast is DAY.
-     * <p>
      * Integration test between TaskList, TaskFilter and Timetable.
      */
     @Test
