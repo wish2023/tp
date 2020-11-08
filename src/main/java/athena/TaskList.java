@@ -42,7 +42,6 @@ public class TaskList {
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = new ArrayList<>();
         this.tasks.addAll(tasks);
-
         for (Task task : tasks) {
             maxNumber = Math.max(maxNumber, task.getNumber());
         }
@@ -77,7 +76,6 @@ public class TaskList {
                             String recurrence, Importance importance, String notes, Boolean isFlexible)
             throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException,
             TaskTooLongException {
-
         Task task = new Task(name, startTime, duration, deadline, recurrence, importance, notes, number, isFlexible);
         return task;
     }
@@ -151,7 +149,6 @@ public class TaskList {
     public Task addTask(String name, String startTime, String duration,
                         String deadline, String recurrence,
                         Importance importance, String notes, Boolean isFlexible)
-
             throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException, TaskTooLongException,
             InvalidRecurrenceException, InvalidDeadlineException {
         maxNumber++;

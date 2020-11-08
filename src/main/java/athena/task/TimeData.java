@@ -79,9 +79,9 @@ public class TimeData implements Comparable<TimeData> {
     public TimeData(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence)
             throws TaskDuringSleepTimeException, DateTimeParseException, TaskTooLongException,
             InvalidRecurrenceException, InvalidDeadlineException {
-        this.duration = Integer.parseInt(duration);
-        this.isFlexible = isFlexible;
-        this.deadline = deadline;
+        setIsFlexible(isFlexible);
+        setDuration(duration);
+        setDeadline(deadline);
         setDeadlineDate(deadline);
         this.recurrence = recurrence;
         setRecurrence(recurrence);
