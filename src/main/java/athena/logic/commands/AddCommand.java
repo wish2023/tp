@@ -2,10 +2,11 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.exceptions.AddDateWrongFormatException;
-import athena.exceptions.AddMissingRequiredParametersException;
-import athena.exceptions.CommandException;
+import athena.exceptions.command.CommandException;
+import athena.exceptions.command.AddMissingRequiredParametersException;
+import athena.exceptions.command.AddDateWrongFormatException;
 import athena.logic.DateChecker;
+import athena.task.Task;
 import athena.ui.AthenaUi;
 
 import java.util.Objects;
@@ -40,7 +41,6 @@ public class AddCommand extends Command {
         taskName = name;
         assert !taskName.equals("");
         taskStartTime = startTime;
-        //assert !taskStartTime.equals("");
         taskDuration = duration;
         taskDeadline = deadline;
         taskRecurrence = recurrence;
@@ -54,9 +54,8 @@ public class AddCommand extends Command {
      * calls Ui to print out the task added.
      *
      * @param taskList Tasks list
-     * @param athenaUi Ui
-     * @throws AddMissingRequiredParametersException Exception thrown when required parameters are not provided for
-     *                                               add command
+     * @param athenaUi       Ui
+     * @throws CommandException Exception thrown when there is an error when the user inputs a command
      */
     @Override
     public void execute(TaskList taskList, AthenaUi athenaUi)
@@ -68,10 +67,9 @@ public class AddCommand extends Command {
             DateChecker dateChecker = new DateChecker(taskRecurrence);
         }
         try {
-            taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
+            Task task = taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
                     taskRecurrence, taskImportance, taskNotes, isTaskFlexible);
-            athenaUi.printTaskAdded(taskName, taskStartTime, taskDuration, taskDeadline,
-                    taskRecurrence, taskImportance.toString(), taskNotes);
+            athenaUi.printTaskAdded(task);
         } catch (NumberFormatException e) {
             throw new AddDateWrongFormatException();
         }

@@ -1,7 +1,7 @@
 package athena.logic.commands;
 
-import athena.exceptions.DeleteInvalidIndexException;
-import athena.exceptions.TaskNotFoundException;
+import athena.exceptions.command.DeleteInvalidIndexException;
+import athena.exceptions.command.TaskNotFoundException;
 import athena.task.Task;
 import athena.TaskList;
 import athena.ui.AthenaUi;
@@ -28,7 +28,7 @@ public class DeleteCommand extends Command {
      *
      * @param taskList Tasks list
      * @param athenaUi       Ui
-     * @throws TaskNotFoundException Exception thrown when the user tries to enter the index of a task that
+     * @throws DeleteInvalidIndexException Exception thrown when the user tries to enter the index of a task that
      *                               does not exist
      */
     @Override

@@ -1,8 +1,8 @@
 package athena;
 
-import athena.exceptions.NoNextSlotException;
-import athena.exceptions.InvalidRecurrenceException;
-import athena.exceptions.TaskNotFoundException;
+import athena.exceptions.allocator.NoNextSlotException;
+import athena.exceptions.command.InvalidRecurrenceException;
+import athena.exceptions.command.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.TimeData;
 import athena.task.taskfilter.DayFilter;

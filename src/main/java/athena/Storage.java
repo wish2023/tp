@@ -1,17 +1,16 @@
 package athena;
 
-
-import athena.exceptions.ClashInTaskException;
-import athena.exceptions.InvalidDeadlineException;
-import athena.exceptions.InvalidRecurrenceException;
-import athena.exceptions.InvalidTimeFormatException;
-import athena.exceptions.StorageCorruptedException;
-import athena.exceptions.StorageException;
-import athena.exceptions.StorageLoadFailException;
-import athena.exceptions.TaskDuringSleepTimeException;
-import athena.exceptions.TaskIsDoneException;
-import athena.exceptions.TaskNotFoundException;
-import athena.exceptions.TaskTooLongException;
+import athena.exceptions.command.TaskTooLongException;
+import athena.exceptions.command.ClashInTaskException;
+import athena.exceptions.command.InvalidDeadlineException;
+import athena.exceptions.command.InvalidRecurrenceException;
+import athena.exceptions.command.InvalidTimeFormatException;
+import athena.exceptions.storage.StorageCorruptedException;
+import athena.exceptions.storage.StorageException;
+import athena.exceptions.storage.StorageLoadFailException;
+import athena.exceptions.command.TaskDuringSleepTimeException;
+import athena.exceptions.command.TaskIsDoneException;
+import athena.exceptions.command.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.TimeData;
 
