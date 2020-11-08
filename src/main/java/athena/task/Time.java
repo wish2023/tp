@@ -1,5 +1,7 @@
 package athena.task;
 
+import athena.common.utils.DateUtils;
+import athena.exceptions.DateHasPassedException;
 import athena.exceptions.InvalidDeadlineException;
 import athena.exceptions.InvalidRecurrenceException;
 import athena.exceptions.TaskDuringSleepTimeException;
@@ -20,7 +22,7 @@ import java.util.Objects;
  * setters and getter are needed
  * new things to add ifFlexibleTime to let the TimeAllocate change the time values
  */
-public class TimeData implements Comparable<TimeData> {
+public class Time implements Comparable<Time> {
 
     private static final int DATE_TIME_FORMAT = 5;
     private static final LocalTime WAKE_TIME = LocalTime.of(8, 0);
@@ -29,12 +31,14 @@ public class TimeData implements Comparable<TimeData> {
     private LocalTime startTime = null;
     private int duration;
     private LocalTime endTime;
+
     private String deadline;
     private LocalDate deadlineDate;
+
     private String recurrence;
     private ArrayList<LocalDate> recurrenceDates = new ArrayList<>();
 
-    public TimeData(boolean isFlexible, LocalTime startTime, int duration, String deadline, String recurrence)
+    public Time(boolean isFlexible, LocalTime startTime, int duration, String deadline, String recurrence)
             throws TaskDuringSleepTimeException, InvalidDeadlineException, InvalidRecurrenceException {
         if (startTime != null) {
             this.startTime = startTime;
@@ -45,30 +49,37 @@ public class TimeData implements Comparable<TimeData> {
         }
         this.isFlexible = isFlexible;
         this.duration = duration;
+
         this.deadline = deadline;
         setDeadlineDate(deadline);
+
         this.recurrence = recurrence;
         setRecurrence(recurrence);
     }
 
-    public TimeData(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence)
+    public Time(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence)
             throws TaskDuringSleepTimeException, DateTimeParseException, TaskTooLongException,
-            InvalidRecurrenceException, InvalidDeadlineException {
+        InvalidRecurrenceException, InvalidDeadlineException  {
         this.duration = Integer.parseInt(duration);
         this.isFlexible = isFlexible;
         this.deadline = deadline;
         setDeadlineDate(deadline);
         this.recurrence = recurrence;
         setRecurrence(recurrence);
+
         if (startTime.length() > 0) {
             this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
             this.endTime = this.startTime.plusHours(this.duration);
             if (isClashWithSleep()) {
                 throw new TaskDuringSleepTimeException();
-            } else if (this.duration > 16) {
-                throw new TaskTooLongException(this.duration);
             }
         }
+        if (this.duration > 16) {
+            throw new TaskTooLongException(this.duration);
+        }
+
+
+
     }
 
     private boolean isClashWithSleep() {
@@ -76,14 +87,15 @@ public class TimeData implements Comparable<TimeData> {
     }
 
     private boolean isNoClashWithSleep() {
+        LocalTime twoThreeFiveNine = LocalTime.of(23, 59);
         return startTime.compareTo(WAKE_TIME) >= 0
                 && !(endTime.compareTo(WAKE_TIME) < 0 && endTime.compareTo(SLEEP_TIME) > 0)
                 && duration <= 16;
     }
 
-    public TimeData getClone()
+    public Time getClone()
             throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException {
-        return new TimeData(isFlexible, startTime, duration, deadline, recurrence);
+        return new Time(isFlexible, startTime, duration, deadline, recurrence);
     }
 
     public LocalDate getDeadlineDate() {
@@ -183,6 +195,7 @@ public class TimeData implements Comparable<TimeData> {
         }
         return date;
     }
+
 
 
     public void resetRecurrence() {
@@ -287,7 +300,7 @@ public class TimeData implements Comparable<TimeData> {
     }
 
     @Override
-    public int compareTo(TimeData o) {
+    public int compareTo(Time o) {
         return 0;
     }
 
@@ -322,7 +335,7 @@ public class TimeData implements Comparable<TimeData> {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        TimeData time = (TimeData) o;
+        Time time = (Time) o;
 
         return isFlexible == time.isFlexible
                 && Objects.equals(startTime, time.startTime)

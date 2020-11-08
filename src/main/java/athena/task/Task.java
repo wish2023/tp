@@ -6,6 +6,7 @@ import athena.exceptions.InvalidDeadlineException;
 import athena.exceptions.InvalidRecurrenceException;
 import athena.exceptions.TaskDuringSleepTimeException;
 import athena.exceptions.TaskIsDoneException;
+import athena.common.utils.DateUtils;
 import athena.exceptions.TaskTooLongException;
 
 import java.time.LocalDate;
@@ -31,7 +32,7 @@ public class Task {
     private String notes;
     private int number;
 
-    private TimeData timeInfo;
+    private Time timeInfo;
 
 
     //TODO: add dependencies between Tasks
@@ -71,7 +72,7 @@ public class Task {
         if (recurrence.toUpperCase().equals("TODAY")) {
             recurrence = DateUtils.formatDate(LocalDate.now());
         }
-        this.timeInfo = new TimeData(isFlexible, startTime, duration, deadline, recurrence);
+        this.timeInfo = new Time(isFlexible, startTime, duration, deadline, recurrence);
     }
 
 
@@ -81,7 +82,7 @@ public class Task {
     }
 
     public Task(String name, boolean isFlexible, boolean isDone, Importance importance,
-                String notes, int number, TimeData timeInfo)
+                String notes, int number, Time timeInfo)
             throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException {
         this.name = name;
         this.isFlexible = isFlexible;
@@ -249,7 +250,7 @@ public class Task {
         return taskRestore;
     }
 
-    public TimeData getTimeInfo() {
+    public Time getTimeInfo() {
         return timeInfo;
     }
 
