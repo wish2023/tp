@@ -1,9 +1,9 @@
-package athena.logic.commands;
+package athena.commands;
 
+import athena.TaskList;
 import athena.exceptions.command.DeleteInvalidIndexException;
 import athena.exceptions.command.TaskNotFoundException;
 import athena.task.Task;
-import athena.TaskList;
 import athena.ui.AthenaUi;
 import java.util.Objects;
 
