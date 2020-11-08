@@ -9,7 +9,6 @@ public class TimeSlot {
     private int start = wake;
     private int end = wake;
 
-
     public TimeSlot(Log dayLog) {
         this.dayLog = dayLog;
     }

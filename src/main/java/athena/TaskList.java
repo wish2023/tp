@@ -65,6 +65,9 @@ public class TaskList {
      * @param importance Importance of the task
      * @param notes      Additional notes
      * @return Task as Task object
+     * @throws TaskDuringSleepTimeException Exception thrown when task clashes with sleep time
+     * @throws InvalidRecurrenceException   Exception thrown when user mistypes recurrence
+     * @throws InvalidDeadlineException     Exception thrown when user mistypes deadline
      */
     private Task createTask(int number, String name, String startTime, String duration, String deadline,
                             String recurrence, Importance importance, String notes, Boolean isFlexible)

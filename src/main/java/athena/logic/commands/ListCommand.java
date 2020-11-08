@@ -13,8 +13,8 @@ import java.util.Objects;
  * Handles the list command.
  */
 public class ListCommand extends Command {
-    private Importance taskImportance;
-    private Forecast taskForecast;
+    private final Importance taskImportance;
+    private final Forecast taskForecast;
 
     /**
      * Initializes the object with the parameters.

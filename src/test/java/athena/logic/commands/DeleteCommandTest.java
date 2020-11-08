@@ -23,6 +23,7 @@ class DeleteCommandTest {
      * Creates a task list for testing.
      *
      * @return TaskList for testing
+     * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     private TaskList getTaskList() throws CommandException {
         TaskList taskList = new TaskList();
@@ -39,6 +40,7 @@ class DeleteCommandTest {
      * Creates a task list that is same as getTaskList() but without task number 2.
      *
      * @return TaskList for testing without task number 2
+     * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     private TaskList getTaskListWithoutTask() throws CommandException {
         TaskList taskList = new TaskList();
@@ -51,6 +53,8 @@ class DeleteCommandTest {
 
     /**
      * Creates the components needed for testing.
+     *
+     * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     @BeforeEach
     public void setup() throws CommandException {
@@ -125,10 +129,8 @@ class DeleteCommandTest {
      */
     private void assertDeletionSuccessful(int taskNumber, TaskList taskList, TaskList taskListWithoutTask)
             throws DeleteInvalidIndexException {
-        TaskList expectedTaskList = taskListWithoutTask;
-        TaskList actualTaskList = taskList;
 
         DeleteCommand command = createDeleteCommand(taskNumber);
-        assertCommandBehaviour(command, expectedTaskList, actualTaskList);
+        assertCommandBehaviour(command, taskListWithoutTask, taskList);
     }
 }

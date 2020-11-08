@@ -28,7 +28,7 @@ public class ViewCommand extends Command {
      *
      * @param taskList Tasks list
      * @param athenaUi       Ui
-     * @throws TaskNotFoundException Exception thrown when the user tries to enter the index of a task that
+     * @throws ViewInvalidIndexException Exception thrown when the user tries to enter the index of a task that
      *                               does not exist
      */
     @Override
