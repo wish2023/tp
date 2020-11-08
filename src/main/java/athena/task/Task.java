@@ -56,20 +56,36 @@ public class Task {
      * @param notes      additional notes for the task
      * @param number     task number
      * @param isFlexible time flexibility
+     * @throws TaskDuringSleepTimeException Exception thrown when task clashes with sleep time
+     * @throws InvalidRecurrenceException   Exception thrown when user mistypes recurrence
+     * @throws InvalidDeadlineException     Exception thrown when user mistypes deadline
      */
     public Task(String name, String startTime, String duration, String deadline,
                 String recurrence, Importance importance, String notes, int number, Boolean isFlexible)
             throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException {
+        setAttributes(name, importance, notes, number, isFlexible);
+        recurrence = getDefaultDate(recurrence);
+        setTime(startTime, duration, deadline, recurrence, isFlexible);
+    }
+
+    private void setTime(String startTime, String duration, String deadline, String recurrence, Boolean isFlexible) throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException {
+        this.timeInfo = new Time(isFlexible, startTime, duration, deadline, recurrence);
+    }
+
+    private String getDefaultDate(String recurrence) {
+        if (recurrence.toUpperCase().equals("TODAY")) {
+            recurrence = DateUtils.formatDate(LocalDate.now());
+        }
+        return recurrence;
+    }
+
+    private void setAttributes(String name, Importance importance, String notes, int number, Boolean isFlexible) {
         this.name = name;
         assert !this.name.equals("");
         this.importance = importance;
         this.notes = notes;
         this.number = number;
         this.isFlexible = isFlexible;
-        if (recurrence.toUpperCase().equals("TODAY")) {
-            recurrence = DateUtils.formatDate(LocalDate.now());
-        }
-        this.timeInfo = new Time(isFlexible, startTime, duration, deadline, recurrence);
     }
 
 
