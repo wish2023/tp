@@ -270,7 +270,7 @@ public class TaskList {
             IllegalTimeModificationException {
         Task task = getTaskFromNumber(taskNumber);
         Time time = task.getTimeInfo();
-        if (time.getFlexible() && ((startTime != time.getStartTimeString()) || (recurrence != time.getRecurrence()))) {
+        if (isFlexibleTaskEdit(startTime, recurrence, time)) {
             throw new IllegalTimeModificationException();
         }
         Task possibleEditedTask = createTask(taskNumber, name, startTime,
@@ -279,6 +279,10 @@ public class TaskList {
         task.edit(name, startTime, duration, deadline, recurrence, importance, notes);
         return possibleEditedTask;
 
+    }
+
+    private boolean isFlexibleTaskEdit(String startTime, String recurrence, Time time) {
+        return time.getFlexible() && ((startTime != time.getStartTimeString()) || (recurrence != time.getRecurrence()));
     }
 
     /**
