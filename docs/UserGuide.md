@@ -125,8 +125,8 @@ The `add` command accepts 7 parameters:
 
    Default: Allocated by Athena (only available for non-recurring tasks)
    
-   > ❗️ This parameter is optional only if the task is non-recurring. Otherwise, the user must specify a start time
-    for the task.
+   > ❗️ **This parameter is optional only if the task is non-recurring. Otherwise, the user must specify a start time
+    for the task.**
 
 The following parameters are optional. If they are left empty, ATHENA will use the default value assigned.
 * `DURATION` is the expected time taken to complete task (in hours). For example, 2.
@@ -181,7 +181,7 @@ Each task will be printed with a number (the task ID) that is used as an identif
 
 ![list](screenshots/list.jpg)
 
-> 💡 If the timetable is too big to fit in the screen, consider using a smaller font size in your terminal/command prompt, or stretch your window to full width. If you're unsure how to adjust font size, check out [this link](https://www.isunshare.com/windows-10/change-font-and-font-size-in-windows-10-command-prompt.html) for Windows users and [this link](https://osxdaily.com/2015/01/11/increase-text-size-terminal-app-mac-keystrokes/) for Mac users. 
+> 💡 **If the timetable is too big to fit in the screen, consider using a smaller font size in your terminal/command prompt, or stretch your window to full width. If you're unsure how to adjust font size, check out [this link](https://www.isunshare.com/windows-10/change-font-and-font-size-in-windows-10-command-prompt.html) for Windows users and [this link](https://osxdaily.com/2015/01/11/increase-text-size-terminal-app-mac-keystrokes/) for Mac users.** 
 
 The guide for this command is split into three sections:
 
@@ -284,8 +284,8 @@ The guide for this command is split into two sections:
 * [Basic Usage (edit)](#basic-usage-edit) (For users new to command line applications)
 * [Intermediate Usage (edit)](#intermediate-usage-edit) (For users comfortable with command line applications)
 
-> ❗️ Keep in mind that you cannot edit the details of a task if the date of the task has passed. For example, if a
- task has occurred yesterday, you cannot edit the details of that task.
+> ❗️ **Keep in mind that you cannot edit the details of a task if the date of the task has passed. For example, if a
+ task has occurred yesterday, you cannot edit the details of that task.**
 
 #### Basic Usage (edit)
 In this section, users new to command line applications should find it easy to use as long as they follow the descriptions in the sections below.
@@ -304,7 +304,7 @@ At least one parameter shown below has to be included in the command execution:
 
 * `TIME` is the time to start doing this task (**HHMM**). For example, 1100.
 
-> ❗️ Keep in mind that you cannot edit the time of a task if the task was initially added without a specified time.
+> ❗️ **Keep in mind that you cannot edit the time of a task if the task was initially added without a specified time.**
 
 * `DURATION` is the expected time taken to complete task (in hours). For example, 2.
 
