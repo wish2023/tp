@@ -2,7 +2,7 @@ package athena.logic;
 
 
 import athena.exceptions.DateHasPassedException;
-import athena.exceptions.InvalidDateFormatException;
+import athena.exceptions.InvalidRecurrenceException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -13,12 +13,12 @@ public class DateChecker {
     LocalDate date;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-    public DateChecker(String dateString) throws DateHasPassedException, InvalidDateFormatException {
+    public DateChecker(String dateString) throws DateHasPassedException, InvalidRecurrenceException {
         this.dateString = dateString;
         try {
             this.date = LocalDate.parse(dateString, formatter);
         } catch (DateTimeParseException e) {
-            throw new InvalidDateFormatException();
+            throw new InvalidRecurrenceException();
         }
         checkDatePassed(date);
     }

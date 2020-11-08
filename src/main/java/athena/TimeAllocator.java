@@ -2,9 +2,11 @@ package athena;
 
 import athena.exceptions.NoNextSlotException;
 import athena.exceptions.DateHasPassedException;
+import athena.exceptions.InvalidRecurrenceException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.Time;
+import athena.task.taskfilter.DayFilter;
 import athena.task.taskfilter.FlexibleTimeFilter;
 import athena.task.taskfilter.ForecastFilter;
 
@@ -53,7 +55,7 @@ public class TimeAllocator {
                     break;
                 }
                 Log bestLog = new Log(currSlot, undefinedTimeTasks);
-                bestLog.removeAssignedTasks();
+                bestLog.removeAssignedTasks(this.taskList);
                 dayLog.populateLog(currSlot.getStart(), bestLog);
                 assignTime(bestLog.getNumberList(), currSlot.getStart(), currDay);
                 undefinedTimeTasks = bestLog.getCarryOverTasks();
@@ -93,6 +95,8 @@ public class TimeAllocator {
                     this.flexibleTaskList.deleteTask(taskNumber);
                 } catch (TaskNotFoundException e) {
                     //do nothing
+                } catch (InvalidRecurrenceException e) {
+                    //do nothing?
                 }
             }
             count++;
@@ -123,8 +127,8 @@ public class TimeAllocator {
 
 
     private TaskList getFixedDayTasks(LocalDate date) {
-        ForecastFilter forecast = new ForecastFilter(date);
-        TaskList fixedDayTask = this.fixedTaskList.getFilteredList(forecast);
+        DayFilter filter = new DayFilter(date);
+        TaskList fixedDayTask = this.fixedTaskList.getFilteredList(filter);
         return fixedDayTask;
     }
 

@@ -2,13 +2,14 @@ package athena;
 
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.DateHasPassedException;
+import athena.exceptions.InvalidDeadlineException;
+import athena.exceptions.InvalidRecurrenceException;
 import athena.exceptions.InvalidTimeFormatException;
 import athena.exceptions.TaskDuringSleepTimeException;
 import athena.exceptions.TaskIsDoneException;
 import athena.exceptions.TaskNotFoundException;
 import athena.exceptions.TaskTooLongException;
 import athena.task.Task;
-import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.TaskFilter;
 
 import java.time.LocalDate;
@@ -69,7 +70,9 @@ public class TaskList {
      */
     private Task createTask(int number, String name, String startTime, String duration, String deadline,
                             String recurrence, Importance importance, String notes, Boolean isFlexible)
-            throws TaskDuringSleepTimeException, TaskTooLongException {
+            throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException,
+            TaskTooLongException {
+
         Task task = new Task(name, startTime, duration, deadline, recurrence, importance, notes, number, isFlexible);
         return task;
     }
@@ -110,8 +113,11 @@ public class TaskList {
                         String deadline, String recurrence,
                         Importance importance, String notes, boolean isFlexible)
             throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException,
-            TaskTooLongException {
+            InvalidRecurrenceException, InvalidDeadlineException, TaskTooLongException {
         try {
+            if (number < maxNumber) {
+                number = maxNumber;
+            }
             Task task = createTask(number, name, startTime,
                     duration, deadline, recurrence, importance, notes, isFlexible);
             decrementMaxNumber();
@@ -137,7 +143,9 @@ public class TaskList {
     public void addTask(String name, String startTime, String duration,
                         String deadline, String recurrence,
                         Importance importance, String notes, Boolean isFlexible)
-            throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException, TaskTooLongException {
+
+            throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException, TaskTooLongException,
+            InvalidRecurrenceException, InvalidDeadlineException {
         maxNumber++;
         addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
     }
@@ -246,7 +254,10 @@ public class TaskList {
     public void editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, Importance importance,
                          String notes)
-            throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException, TaskTooLongException {
+            throws
+            TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException,
+
+            TaskTooLongException, InvalidRecurrenceException, InvalidDeadlineException {
         Task task = getTaskFromNumber(taskNumber);
         Task possibleEditedTask = createTask(taskNumber, name, startTime,
                 duration, deadline, recurrence, importance, notes, task.isFlexible());
@@ -262,7 +273,7 @@ public class TaskList {
      * @return Task marked as done.
      * @throws TaskNotFoundException thrown when the program is unable to find a task at the index
      *                               specified by the user
-     * @throws TaskIsDoneException Exception thrown when user tries to mark a task as done which is done.
+     * @throws TaskIsDoneException   Exception thrown when user tries to mark a task as done which is done.
      */
     public Task markTaskAsDone(int taskNumber)
             throws TaskNotFoundException, TaskIsDoneException {
@@ -298,26 +309,10 @@ public class TaskList {
         ArrayList<Task> filteredTasks = new ArrayList<>();
         for (Task task : tasks) {
             if (taskFilter.isTaskIncluded(task)) {
-                if (taskFilter instanceof ForecastFilter) {
-                    assert taskFilter instanceof ForecastFilter;
-                    Task filteredTask = ((ForecastFilter) taskFilter).removeExcludedDates(task);
-                    filteredTasks.add(filteredTask);
-                } else {
-                    filteredTasks.add(task);
-
-                }
+                filteredTasks.add(task);
             }
         }
         return new TaskList(filteredTasks);
-    }
-
-
-    public ArrayList<Task> makeDeepCopyTasks(ArrayList<Task> oldTasks) {
-        ArrayList<Task> tasksCopy = new ArrayList<Task>();
-        for (Task task : oldTasks) {
-            tasksCopy.add(task.getClone());
-        }
-        return tasksCopy;
     }
 
     /**

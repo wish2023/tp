@@ -2,6 +2,8 @@ package athena;
 
 
 import athena.exceptions.ClashInTaskException;
+import athena.exceptions.InvalidDeadlineException;
+import athena.exceptions.InvalidRecurrenceException;
 import athena.exceptions.InvalidTimeFormatException;
 import athena.exceptions.StorageCorruptedException;
 import athena.exceptions.StorageException;
@@ -106,22 +108,14 @@ public class Storage {
                     }
                 }
                 csvReader.close();
-            } catch (IOException e) {
+            } catch (IOException | TaskNotFoundException e) {
                 throw new StorageLoadFailException();
-            } catch (ArrayIndexOutOfBoundsException e) {
-                throw new StorageCorruptedException(data);
-            } catch (ClashInTaskException e) {
-                throw new StorageCorruptedException(data);
-            } catch (TaskNotFoundException e) {
-                throw new StorageLoadFailException();
-            } catch (TaskDuringSleepTimeException e) {
-                throw new StorageCorruptedException(data);
-            } catch (InvalidTimeFormatException e) {
+            } catch (ArrayIndexOutOfBoundsException | ClashInTaskException | TaskDuringSleepTimeException
+                    | InvalidTimeFormatException | TaskTooLongException | InvalidDeadlineException
+                    | InvalidRecurrenceException e) {
                 throw new StorageCorruptedException(data);
             } catch (TaskIsDoneException e) {
                 assert false;
-            } catch (TaskTooLongException e) {
-                throw new StorageCorruptedException(data);
             }
         }
         return loadedTaskList;

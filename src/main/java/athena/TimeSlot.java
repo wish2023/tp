@@ -15,7 +15,7 @@ public class TimeSlot {
     }
 
     public void findNextSlot() throws NoNextSlotException {
-        if (start == sleep) {
+        if (start.equals(sleep)) {
             throw new NoNextSlotException();
         }
         start = end;

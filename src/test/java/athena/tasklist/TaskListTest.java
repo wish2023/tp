@@ -62,7 +62,7 @@ class TaskListTest {
      */
     @Test
     void addTask_noGivenTaskNumber_maxNumberIncremented() throws CommandException {
-        String todayDateString = LocalDate.now().toString();
+        String todayDateString = DateUtils.formatDate(LocalDate.now());
         testTaskList.addTask("big number", "1400",
                 "2", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", false);

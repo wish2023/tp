@@ -66,4 +66,15 @@ public class DateUtils {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         return date.format(formatter);
     }
+
+    public static boolean isDateIncluded(LocalDate taskDate, Forecast forecast) {
+        if (forecast == Forecast.ALL) {
+            return true;
+        } else if (forecast == Forecast.WEEK) {
+            LocalDate oneWeekLater = LocalDate.now().plusWeeks(1);
+            return oneWeekLater.compareTo(taskDate) > 0 && LocalDate.now().compareTo(taskDate) <= 0;
+        } else {
+            return taskDate.equals(LocalDate.now());
+        }
+    }
 }

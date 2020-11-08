@@ -1,7 +1,9 @@
 package athena.task;
 
 import athena.Importance;
-import athena.exceptions.DateHasPassedException;
+import athena.common.utils.DateUtils;
+import athena.exceptions.InvalidDeadlineException;
+import athena.exceptions.InvalidRecurrenceException;
 import athena.exceptions.TaskDuringSleepTimeException;
 import athena.exceptions.TaskIsDoneException;
 import athena.common.utils.DateUtils;
@@ -11,7 +13,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
-
 
 
 /**
@@ -60,7 +61,8 @@ public class Task {
      */
     public Task(String name, String startTime, String duration, String deadline,
                 String recurrence, Importance importance, String notes, int number, Boolean isFlexible)
-            throws TaskDuringSleepTimeException, TaskTooLongException {
+            throws TaskDuringSleepTimeException, TaskTooLongException, InvalidRecurrenceException,
+                InvalidDeadlineException {
         this.name = name;
         assert !this.name.equals("");
         this.importance = importance;
@@ -80,7 +82,8 @@ public class Task {
     }
 
     public Task(String name, boolean isFlexible, boolean isDone, Importance importance,
-                String notes, int number, Time timeInfo) throws TaskDuringSleepTimeException, DateHasPassedException {
+                String notes, int number, Time timeInfo)
+            throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException {
         this.name = name;
         this.isFlexible = isFlexible;
         this.isDone = isDone;
@@ -96,7 +99,9 @@ public class Task {
             copy = new Task(name, isFlexible, isDone, importance, notes, number, timeInfo);
         } catch (TaskDuringSleepTimeException e) {
             assert false;   // a task that can be cloned should have been blocked from being assigned the sleep time
-        } catch (DateHasPassedException e) {
+        } catch (InvalidRecurrenceException e) {
+            assert false;
+        } catch (InvalidDeadlineException e) {
             assert false;
         }
 
@@ -116,7 +121,8 @@ public class Task {
      * @param notes      New task notes
      */
     public void edit(String name, String startTime, String duration, String deadline,
-                     String recurrence, Importance importance, String notes) throws DateHasPassedException {
+                     String recurrence, Importance importance, String notes)
+            throws InvalidRecurrenceException, InvalidDeadlineException {
         this.name = name;
         assert !this.name.equals("");
         assert !startTime.equals("");
@@ -145,7 +151,7 @@ public class Task {
 
     /**
      * Marks the task as done.
-     * 
+     *
      * @throws TaskIsDoneException Exception thrown when user tries to mark a task as done which is done.
      */
     public void setDone() throws TaskIsDoneException {
@@ -265,11 +271,18 @@ public class Task {
      */
     @Override
     public String toString() {
-        if (timeInfo.getStartTimeString().equals("")){
+        String deadlinePreText;
+        if (timeInfo.getDeadline().toLowerCase().equals("no deadline")) {
+            deadlinePreText = " and has ";
+        } else {
+            deadlinePreText = " which should be finished by ";
+        }
+        if (timeInfo.getStartTimeString().equals("")) {
             return "[ID: " + number + "] " + name + " has not been assigned a time";
         }
-        return "[ID: " + number + "] " + name + " at " + timeInfo.getStartTime() + " finish by "
-                + timeInfo.getDeadline() + ". Done? " + getStatus();
+        return "[ID: " + number + "] " + name + " at " + timeInfo.getStartTime() + deadlinePreText
+                + timeInfo.getDeadline().toLowerCase() + ". Done? " + getStatus()
+                + " Importance: " + importance.toString();
     }
 
     /**
