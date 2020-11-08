@@ -2,9 +2,9 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.exceptions.AddDateWrongFormatException;
-import athena.exceptions.AddMissingRequiredParametersException;
-import athena.exceptions.CommandException;
+import athena.exceptions.command.CommandException;
+import athena.exceptions.command.AddMissingRequiredParametersException;
+import athena.exceptions.command.AddDateWrongFormatException;
 import athena.logic.DateChecker;
 import athena.ui.AthenaUi;
 

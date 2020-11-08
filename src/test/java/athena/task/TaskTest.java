@@ -1,7 +1,7 @@
 package athena.task;
 
 import athena.Importance;
-import athena.exceptions.CommandException;
+import athena.exceptions.command.CommandException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

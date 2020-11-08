@@ -1,14 +1,12 @@
 package athena;
 
-import athena.exceptions.NoNextSlotException;
-import athena.exceptions.DateHasPassedException;
-import athena.exceptions.InvalidRecurrenceException;
-import athena.exceptions.TaskNotFoundException;
+import athena.exceptions.allocator.NoNextSlotException;
+import athena.exceptions.command.InvalidRecurrenceException;
+import athena.exceptions.command.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.Time;
 import athena.task.taskfilter.DayFilter;
 import athena.task.taskfilter.FlexibleTimeFilter;
-import athena.task.taskfilter.ForecastFilter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

@@ -1,4 +1,4 @@
-package athena.exceptions;
+package athena.exceptions.storage;
 
 import athena.ui.AthenaUi;
 

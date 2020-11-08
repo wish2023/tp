@@ -13,7 +13,7 @@ import athena.Forecast;
 import athena.Importance;
 import athena.TaskList;
 import athena.common.utils.DateUtils;
-import athena.exceptions.CommandException;
+import athena.exceptions.command.CommandException;
 import athena.task.Task;
 
 /**
