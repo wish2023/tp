@@ -1,6 +1,6 @@
 package athena;
 
-import athena.exceptions.command.DateHasPassedException;
+import athena.exceptions.command.IllegalTimeModificationException;
 import athena.exceptions.command.ClashInTaskException;
 import athena.exceptions.command.InvalidDeadlineException;
 import athena.exceptions.command.InvalidRecurrenceException;
@@ -266,7 +266,7 @@ public class TaskList {
                          String notes)
             throws TaskNotFoundException, ClashInTaskException,
             TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException,
-                        IllegalTimeModificationException {
+            IllegalTimeModificationException {
         Task task = getTaskFromNumber(taskNumber);
         Time time = task.getTimeInfo();
         if (time.getFlexible() && ((startTime != time.getStartTimeString()) || (recurrence != time.getRecurrence()))) {
