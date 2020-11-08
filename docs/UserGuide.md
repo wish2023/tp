@@ -26,7 +26,7 @@ The following shows the output from ATHENA after entering `delete 0`.
 You should expect to see a message to confirm that the task with `TASK-ID` of `0` is deleted. 
 ATHENA also prints the command required to restore the deleted task.
 
-*SCREENSHOT*
+![](screenshots/delete-basic.jpeg)
 
 #### Intermediate Usage (delete)
 The `delete` command supports shortcuts for intermediate users.
@@ -46,7 +46,7 @@ Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of t
 The user can just type `dl` instead of `delete`.
 The screenshot below shows the output from ATHENA after entering `dl 0`.
 
-*insert screenshot*
+![](screenshots/delete-intermediate.jpeg)
 
 
 ### View task: `view` or `v`
@@ -76,7 +76,7 @@ Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of t
 The following shows the output from ATHENA after entering `view 0`.
 You should expect to see the details of your task with `TASK-ID` of `0`.
 
-*SCREENSHOT*
+![](screenshots/view-basic.jpeg)
 
 #### Intermediate Usage (view)
 The `view` command supports shortcuts for intermediate users.
@@ -96,7 +96,7 @@ Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of t
 The user can just type `v` instead of `view`.
 The screenshot below shows the output from ATHENA after entering `v 0`.
 
-*insert screenshot*
+![](screenshots/view-intermediate.jpeg)
 
 
 ### Exit program: `exit` or `ex`
@@ -107,4 +107,5 @@ This command exits the program.
 #### Expected output:
 The screenshot below shows the output from ATHENA after entering `exit`.
 
-*insert screenshot*
+![](screenshots/exit-basic.jpeg)
+![](screenshots/exit-intermediate.jpeg)
