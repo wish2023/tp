@@ -1,0 +1,27 @@
+@startuml
+hide footbox
+
+participant "command:DeleteCommand" as DeleteCommand
+participant "tasklist:TaskList" as TaskList
+participant "task:Task" as Task
+participant "athenaUi:ATHENAUI" as AthenaUI
+
+->DeleteCommand: execute()
+activate DeleteCommand
+DeleteCommand->TaskList: deleteTask()
+activate TaskList
+TaskList->TaskList++: getTaskFromNumber()
+TaskList->Task++:getNumber()
+Task-->TaskList--: taskNumber
+TaskList-->TaskList--:taskNumber
+DeleteCommand->Task++:getTaskRestore()
+Task-->TaskList--: String
+TaskList-->DeleteCommand: String
+DeleteCommand->AthenaUI++: printTaskDeleted()
+AthenaUI->Task++:getName()
+Task-->AthenaUI--:
+AthenaUI-->DeleteCommand--:
+<--DeleteCommand:
+
+
+@enduml

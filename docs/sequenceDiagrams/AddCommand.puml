@@ -1,13 +1,11 @@
 @startuml
 hide footbox
-
-actor "ATHENA" as Athena
-participant ":AddCommand" as AddCommand
-participant ":TaskList" as TaskList
-participant ":Task" as Task
+participant "command:AddCommand" as AddCommand
+participant "tasklist:TaskList" as TaskList
+participant "task:Task" as Task
 
 
-Athena->AddCommand: execute()
+->AddCommand: execute()
 activate AddCommand
 AddCommand->TaskList: addTask()
 activate TaskList
@@ -31,8 +29,8 @@ activate TaskList
 return
 TaskList-->AddCommand:
 deactivate TaskList
-AddCommand-->Athena
-deactivate
-destroy AddCommand
+<--AddCommand--
+
+
 
 @enduml
