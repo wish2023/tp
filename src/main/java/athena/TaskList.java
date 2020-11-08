@@ -3,13 +3,14 @@ package athena;
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.DateHasPassedException;
 import athena.exceptions.IllegalTimeModificationException;
+import athena.exceptions.InvalidDeadlineException;
+import athena.exceptions.InvalidRecurrenceException;
 import athena.exceptions.InvalidTimeFormatException;
 import athena.exceptions.TaskDuringSleepTimeException;
 import athena.exceptions.TaskIsDoneException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.Time;
-import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.TaskFilter;
 
 import java.time.LocalDate;
@@ -70,7 +71,7 @@ public class TaskList {
      */
     private Task createTask(int number, String name, String startTime, String duration, String deadline,
                             String recurrence, Importance importance, String notes, Boolean isFlexible)
-            throws TaskDuringSleepTimeException {
+            throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException {
         Task task = new Task(name, startTime, duration, deadline, recurrence, importance, notes, number, isFlexible);
         return task;
     }
@@ -110,7 +111,8 @@ public class TaskList {
     public void addTask(int number, String name, String startTime, String duration,
                         String deadline, String recurrence,
                         Importance importance, String notes, boolean isFlexible)
-            throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException {
+            throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException,
+            InvalidRecurrenceException, InvalidDeadlineException {
         try {
             Task task = createTask(number, name, startTime,
                     duration, deadline, recurrence, importance, notes, isFlexible);
@@ -137,7 +139,8 @@ public class TaskList {
     public void addTask(String name, String startTime, String duration,
                         String deadline, String recurrence,
                         Importance importance, String notes, Boolean isFlexible)
-            throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException {
+            throws ClashInTaskException, TaskDuringSleepTimeException,
+            InvalidTimeFormatException, InvalidRecurrenceException, InvalidDeadlineException {
         maxNumber++;
         addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
     }
@@ -246,8 +249,9 @@ public class TaskList {
     public void editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, Importance importance,
                          String notes)
-            throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException,
-            IllegalTimeModificationException {
+            throws TaskNotFoundException, ClashInTaskException,
+            TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException,
+                        IllegalTimeModificationException {
         Task task = getTaskFromNumber(taskNumber);
         Time time = task.getTimeInfo();
         if (time.getFlexible() && ((startTime != time.getStartTimeString()) || (recurrence != time.getRecurrence()))) {
@@ -303,26 +307,10 @@ public class TaskList {
         ArrayList<Task> filteredTasks = new ArrayList<>();
         for (Task task : tasks) {
             if (taskFilter.isTaskIncluded(task)) {
-                if (taskFilter instanceof ForecastFilter) {
-                    assert taskFilter instanceof ForecastFilter;
-                    Task filteredTask = ((ForecastFilter) taskFilter).removeExcludedDates(task);
-                    filteredTasks.add(filteredTask);
-                } else {
-                    filteredTasks.add(task);
-
-                }
+                filteredTasks.add(task);
             }
         }
         return new TaskList(filteredTasks);
-    }
-
-
-    public ArrayList<Task> makeDeepCopyTasks(ArrayList<Task> oldTasks) {
-        ArrayList<Task> tasksCopy = new ArrayList<Task>();
-        for (Task task : oldTasks) {
-            tasksCopy.add(task.getClone());
-        }
-        return tasksCopy;
     }
 
     /**

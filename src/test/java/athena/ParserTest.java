@@ -181,13 +181,14 @@ class ParserTest {
         final String input = "add n/Assignment1 t/1100 D/16-09-2020 d/2 hours r/Monday i/high a/Refer to slides";
         final AddCommand parsedCommand = parseAndAssertCommandType(input, AddCommand.class);
         final AddCommand expectedCommand = new AddCommand("Assignment1", "1100",
-                "2 hours", "16-09-2020", "Monday", "high",
+                "2 hours", "16-09-2020", "Monday", Importance.HIGH,
                 "Refer to slides", false);
         assertEquals(parsedCommand, expectedCommand);
     }
 
     /**
      * Checks if the program adds a task correctly.
+     *
      * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     @Test
@@ -195,7 +196,7 @@ class ParserTest {
         final String input = "a n/Assignment1 t/1100 D/16-09-2020 d/2 hours r/Monday i/high a/Refer to slides";
         final AddCommand parsedCommand = parseAndAssertCommandType(input, AddCommand.class);
         final AddCommand expectedCommand = new AddCommand("Assignment1", "1100",
-                "2 hours", "16-09-2020", "Monday","high",
+                "2 hours", "16-09-2020", "Monday", Importance.HIGH,
                 "Refer to slides", false);
         assertEquals(parsedCommand, expectedCommand);
     }
@@ -207,7 +208,7 @@ class ParserTest {
      */
     @Test
     public void parse_editCommandAllArg_parsedCorrectly() throws CommandException {
-        taskList.addTask("name", "1600", "1", "deadline",
+        taskList.addTask("name", "1600", "1", "No deadline",
                 "12-10-2021", Importance.LOW, "dummyNote", false);
         final int testNumber = 0;
         final String input = "edit 0 n/Assignment1 t/1100 D/16-09-2021 d/2 r/13-10-2021 i/high a/Refer to slides";
@@ -224,7 +225,7 @@ class ParserTest {
      */
     @Test
     public void parse_editShortcutCommandAllArg_parsedCorrectly() throws CommandException {
-        taskList.addTask("name", "1600", "2", "deadline",
+        taskList.addTask("name", "1600", "2", "No deadline",
                 "12-10-2021", Importance.LOW, "dummyNote", false);
         final int testNumber = 0;
         final String input = "e 0 n/Assignment1 t/1100 D/16-09-2021 d/2 hours r/13-10-2021 i/high a/Refer to slides";
@@ -242,13 +243,13 @@ class ParserTest {
      */
     @Test
     public void parse_editCommandSomeArg_parsedCorrectly() throws CommandException {
-        taskList.addTask("name", "1600", "2", "deadline",
+        taskList.addTask("name", "1600", "2", "No deadline",
                 "12-10-2021", Importance.LOW, "dummyNote", false);
         final int testNumber = 0;
         final String input = "edit 0 n/I have changed a/I am not filling any other arguments";
         final EditCommand parsedCommand = parseAndAssertCommandType(input, EditCommand.class);
         final EditCommand expectedCommand = new EditCommand(testNumber, "I have changed", "1600",
-                "2", "deadline", "12-10-2021", Importance.valueOf("low".toUpperCase()),
+                "2", "No deadline", "12-10-2021", Importance.LOW,
                 "I am not filling any other arguments");
         assertEquals(parsedCommand, expectedCommand);
     }
