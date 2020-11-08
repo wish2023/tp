@@ -1,6 +1,5 @@
 package athena;
 
-import athena.logic.LogicManager;
 import athena.exceptions.command.CommandException;
 import athena.ui.AthenaUi;
 import athena.exceptions.storage.StorageException;
@@ -16,14 +15,14 @@ public class Athena {
     private Storage storage;
     private TaskList taskList;
     private TimeAllocator allocator;
-    private LogicManager logicManager;
+    private Parser parser;
 
     /**
      * Creates an ATHENA object.
      */
     public Athena() {
         athenaUi = new AthenaUi();
-        logicManager = new LogicManager();
+        parser = new Parser();
         storage = new Storage("data.csv");
     }
 
@@ -56,7 +55,15 @@ public class Athena {
                 allocator.runAllocate();
                 athenaUi.printUserInputIndicator();
                 inputString = input.nextLine();
-                isExit = logicManager.execute(inputString);
+                TaskList taskList = storage.loadTaskListData();
+                Command userCommand = parser.parse(inputString, taskList);
+                userCommand.execute(taskList, athenaUi);
+
+                TimeAllocator timeAllocator = new TimeAllocator(taskList);
+                timeAllocator.runAllocate();
+
+                storage.saveTaskListData(taskList);
+                isExit = userCommand.getIsExit();
             } catch (CommandException e) {
                 e.printErrorMessage();
             } catch (StorageException e) {

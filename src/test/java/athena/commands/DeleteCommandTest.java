@@ -1,5 +1,6 @@
-package athena.logic.commands;
+package athena.commands;
 
+import athena.DeleteCommand;
 import athena.Importance;
 import athena.TaskList;
 import athena.exceptions.command.DeleteInvalidIndexException;

@@ -1,4 +1,4 @@
-package athena.logic;
+package athena;
 
 
 import athena.exceptions.command.DateHasPassedException;

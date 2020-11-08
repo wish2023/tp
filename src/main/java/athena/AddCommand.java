@@ -1,19 +1,17 @@
-package athena.logic.commands;
+package athena;
 
-import athena.Importance;
-import athena.TaskList;
-import athena.logic.DateChecker;
+import athena.exceptions.command.CommandException;
+import athena.exceptions.command.AddMissingRequiredParametersException;
+import athena.exceptions.command.AddDateWrongFormatException;
 import athena.task.Task;
 import athena.ui.AthenaUi;
-import athena.exceptions.command.CommandException;
-import athena.exceptions.command.TaskNotFoundException;
+
 import java.util.Objects;
 
 /**
- * Handles the edit command.
+ * Handles adding tasks to the Tasks list.
  */
-public class EditCommand extends Command {
-    private int taskNumber;
+public class AddCommand extends Command {
     private String taskName;
     private String taskStartTime;
     private String taskDuration;
@@ -21,11 +19,11 @@ public class EditCommand extends Command {
     private String taskRecurrence;
     private Importance taskImportance;
     private String taskNotes;
+    private Boolean isTaskFlexible;
 
     /**
      * Initializes the object with the parameters.
      *
-     * @param number     Integer representing index of task.
      * @param name       String representing name of task.
      * @param startTime  String representing start time of task.
      * @param duration   String representing duration of task.
@@ -33,39 +31,51 @@ public class EditCommand extends Command {
      * @param recurrence String representing recurrence of task.
      * @param importance String representing importance of task.
      * @param notes      String representing additional notes of task.
+     * @param isFlexible Boolean representing if task time is flexible
      */
-    public EditCommand(int number, String name, String startTime, String duration, String deadline,
-                       String recurrence, Importance importance, String notes) {
-        taskNumber = number;
+    public AddCommand(String name, String startTime, String duration, String deadline,
+                      String recurrence, Importance importance, String notes, boolean isFlexible) {
         taskName = name;
+        assert !taskName.equals("");
         taskStartTime = startTime;
         taskDuration = duration;
         taskDeadline = deadline;
         taskRecurrence = recurrence;
         taskImportance = importance;
         taskNotes = notes;
+        isTaskFlexible = isFlexible;
     }
 
     /**
-     * Edits a task from the Tasks list and
-     * calls Ui to print task edited.
+     * Adds a task to the Tasks list and
+     * calls Ui to print out the task added.
      *
      * @param taskList Tasks list
      * @param athenaUi       Ui
      * @throws CommandException Exception thrown when there is an error when the user inputs a command
      */
     @Override
-    public void execute(TaskList taskList, AthenaUi athenaUi) throws CommandException {
+    public void execute(TaskList taskList, AthenaUi athenaUi)
+            throws CommandException {
+        if (taskName.equals("")) {
+            throw new AddMissingRequiredParametersException();
+        }
         if (taskRecurrence.contains("-") && (taskRecurrence.length() == "dd-MM-yyyy".length())) {
             DateChecker dateChecker = new DateChecker(taskRecurrence);
         }
-        Task task = taskList.editTask(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
-                taskRecurrence, taskImportance, taskNotes);
-        athenaUi.printTaskEdited(task);
+        try {
+            Task task = taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
+                    taskRecurrence, taskImportance, taskNotes, isTaskFlexible);
+            athenaUi.printTaskAdded(task);
+        } catch (NumberFormatException e) {
+            throw new AddDateWrongFormatException();
+        }
+
     }
 
     /**
      * Determines if two objects have the same attributes.
+     *
      * @param o object
      * @return true if the two objects have the same attributes
      */
@@ -74,12 +84,11 @@ public class EditCommand extends Command {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof EditCommand)) {
+        if (!(o instanceof AddCommand)) {
             return false;
         }
-        EditCommand that = (EditCommand) o;
-        return taskNumber == that.taskNumber
-                && Objects.equals(taskName, that.taskName)
+        AddCommand that = (AddCommand) o;
+        return Objects.equals(taskName, that.taskName)
                 && Objects.equals(taskStartTime, that.taskStartTime)
                 && Objects.equals(taskDuration, that.taskDuration)
                 && Objects.equals(taskDeadline, that.taskDeadline)
@@ -90,7 +99,8 @@ public class EditCommand extends Command {
 
     @Override
     public int hashCode() {
-        return Objects.hash(taskNumber, taskName, taskStartTime, taskDuration,
+        return Objects.hash(taskName, taskStartTime, taskDuration,
                 taskDeadline, taskRecurrence, taskImportance, taskNotes);
     }
+
 }

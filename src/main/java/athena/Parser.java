@@ -1,7 +1,5 @@
-package athena.logic;
+package athena;
 
-import athena.Importance;
-import athena.TaskList;
 import athena.exceptions.command.CommandException;
 import athena.exceptions.command.DeleteNoIndexException;
 import athena.exceptions.command.DoneNoIndexException;
@@ -11,15 +9,6 @@ import athena.exceptions.command.InvalidForecastException;
 import athena.exceptions.command.InvalidImportanceException;
 import athena.exceptions.command.TaskNotFoundException;
 import athena.exceptions.command.ViewNoIndexException;
-import athena.logic.commands.AddCommand;
-import athena.logic.commands.Command;
-import athena.logic.commands.DeleteCommand;
-import athena.logic.commands.DoneCommand;
-import athena.logic.commands.EditCommand;
-import athena.logic.commands.ExitCommand;
-import athena.logic.commands.HelpCommand;
-import athena.logic.commands.ListCommand;
-import athena.logic.commands.ViewCommand;
 import athena.task.Task;
 import athena.task.taskfilter.FilterCalculator;
 

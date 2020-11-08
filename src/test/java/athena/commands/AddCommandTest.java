@@ -1,5 +1,6 @@
-package athena.logic.commands;
+package athena.commands;
 
+import athena.AddCommand;
 import athena.Importance;
 import athena.TaskList;
 import athena.exceptions.command.CommandException;
