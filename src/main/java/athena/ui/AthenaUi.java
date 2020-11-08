@@ -206,7 +206,8 @@ public class AthenaUi implements Ui {
         printNormalNextLine("(parameters in square brackets are optional fields):");
         printHighlight("add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] "
                         + "[i/IMPORTANCE] [a/ADDITIONAL-NOTES]");
-        printNormalNextLine("e.g.  add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes\n");
+        printNormalNextLine("e.g. add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today "
+                + "i/high a/Refer to lecture notes\n");
 
         printAthenaVoice("To list your current tasks ");
         printNormalNextLine("(parameters in square brackets are optional fields):");
@@ -222,7 +223,8 @@ public class AthenaUi implements Ui {
                 + "but at least one parameter needs to be included):");
         printHighlight("edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] "
                 + "[r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]");
-        printNormalNextLine("e.g.  edit 1 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes\n");
+        printNormalNextLine("e.g.  edit 1 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today "
+                + "i/high a/Refer to lecture notes\n");
 
         printAthenaVoice("To delete a task:");
         printHighlight("delete INDEX");
