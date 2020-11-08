@@ -15,7 +15,6 @@ The code contributed by me can be found in this [link](https://nus-cs2113-ay2021
 
 ### Project management:
 * In-charge of the code that deals with parsing of user input and executing the various commands.
-    * `Logic` and `LogicManager`
     * `Parser`
     * `Command` and all its subclasses.
 * In-charge of the documentation of the project, ensure coherence and accuracy.
@@ -37,7 +36,7 @@ The code contributed by me can be found in this [link](https://nus-cs2113-ay2021
     * In-charge of the overall formatting.
     * The following are sections I contributed to:
       1. Architecture
-      2. Logic Component  
+      2. Parser Component  
       3. Implementation for `Add task feature` and `Edit task feature`
       4. Instructions for manual testing (except Data Storage)
 
