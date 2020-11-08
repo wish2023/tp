@@ -6,6 +6,7 @@ import athena.exceptions.command.CommandException;
 import athena.exceptions.command.AddMissingRequiredParametersException;
 import athena.exceptions.command.AddDateWrongFormatException;
 import athena.logic.DateChecker;
+import athena.task.Task;
 import athena.ui.AthenaUi;
 
 import java.util.Objects;
@@ -68,10 +69,9 @@ public class AddCommand extends Command {
             DateChecker dateChecker = new DateChecker(taskRecurrence);
         }
         try {
-            taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
+            Task task = taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
                     taskRecurrence, taskImportance, taskNotes, isTaskFlexible);
-            athenaUi.printTaskAdded(taskName, taskStartTime, taskDuration, taskDeadline,
-                    taskRecurrence, taskImportance.toString(), taskNotes);
+            athenaUi.printTaskAdded(task);
         } catch (NumberFormatException e) {
             throw new AddDateWrongFormatException();
         }

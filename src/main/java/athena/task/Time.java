@@ -161,6 +161,8 @@ public class Time implements Comparable<Time> {
             recurrenceDates.add(date);
         } catch (DateTimeParseException e) {
             throw new InvalidRecurrenceException();
+        } catch (NumberFormatException e) {
+            throw new InvalidRecurrenceException();
         }
     }
 
