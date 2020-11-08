@@ -1,8 +1,8 @@
 package athena.logic.commands;
 
-import athena.exceptions.DoneInvalidIndexException;
-import athena.exceptions.TaskIsDoneException;
-import athena.exceptions.TaskNotFoundException;
+import athena.exceptions.command.DoneInvalidIndexException;
+import athena.exceptions.command.TaskIsDoneException;
+import athena.exceptions.command.TaskNotFoundException;
 import athena.task.Task;
 import athena.TaskList;
 import athena.ui.AthenaUi;

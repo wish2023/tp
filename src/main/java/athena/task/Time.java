@@ -1,10 +1,8 @@
 package athena.task;
 
-import athena.common.utils.DateUtils;
-import athena.exceptions.DateHasPassedException;
-import athena.exceptions.InvalidDeadlineException;
-import athena.exceptions.InvalidRecurrenceException;
-import athena.exceptions.TaskDuringSleepTimeException;
+import athena.exceptions.command.InvalidDeadlineException;
+import athena.exceptions.command.InvalidRecurrenceException;
+import athena.exceptions.command.TaskDuringSleepTimeException;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -162,6 +160,8 @@ public class Time implements Comparable<Time> {
             }
             recurrenceDates.add(date);
         } catch (DateTimeParseException e) {
+            throw new InvalidRecurrenceException();
+        } catch (NumberFormatException e) {
             throw new InvalidRecurrenceException();
         }
     }

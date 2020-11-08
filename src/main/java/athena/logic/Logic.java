@@ -1,7 +1,7 @@
 package athena.logic;
 
-import athena.exceptions.CommandException;
-import athena.exceptions.StorageException;
+import athena.exceptions.command.CommandException;
+import athena.exceptions.storage.StorageException;
 
 /**
  * API of the Logic component.

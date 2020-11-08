@@ -1,10 +1,10 @@
-package athena.exceptions;
+package athena.exceptions.allocator;
 
 /**
  * Abstract class for all the command exceptions that are thrown.
  */
 
-public abstract class AllocatorException extends InternalException {
+public abstract class AllocatorException extends Exception {
 
     public AllocatorException() {
     }

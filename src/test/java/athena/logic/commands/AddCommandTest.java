@@ -2,7 +2,7 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.exceptions.CommandException;
+import athena.exceptions.command.CommandException;
 import athena.ui.AthenaUi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

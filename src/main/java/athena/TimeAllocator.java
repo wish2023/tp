@@ -1,14 +1,12 @@
 package athena;
 
-import athena.exceptions.NoNextSlotException;
-import athena.exceptions.DateHasPassedException;
-import athena.exceptions.InvalidRecurrenceException;
-import athena.exceptions.TaskNotFoundException;
+import athena.exceptions.allocator.NoNextSlotException;
+import athena.exceptions.command.InvalidRecurrenceException;
+import athena.exceptions.command.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.Time;
 import athena.task.taskfilter.DayFilter;
 import athena.task.taskfilter.FlexibleTimeFilter;
-import athena.task.taskfilter.ForecastFilter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -56,14 +54,14 @@ public class TimeAllocator {
                     break;
                 }
                 Log bestLog = new Log(currSlot, undefinedTimeTasks);
-                bestLog.removeAssignedTasks();
+                bestLog.removeAssignedTasks(this.taskList);
                 dayLog.populateLog(currSlot.getStart(), bestLog);
                 assignTime(bestLog.getNumberList(), currSlot.getStart(), currDay);
-                carryOverTasks = bestLog.getCarryOverTasks();
+                undefinedTimeTasks = bestLog.getCarryOverTasks();
             }
-            for (Task currTask : carryOverTasks) {
+            for (Task currTask : undefinedTimeTasks) {
                 try {
-                    Time timeInfo = taskList.getTaskFromNumber(currTask.getNumber()).getTimeInfo();
+                    Time timeInfo = this.taskList.getTaskFromNumber(currTask.getNumber()).getTimeInfo();
                     timeInfo.setStartTime(null);
                 } catch (TaskNotFoundException e) {
                     //do nothing
