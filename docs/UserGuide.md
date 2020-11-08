@@ -573,7 +573,7 @@ In this section, we use the terms *fixed tasks* and *flexible tasks*.
 | Add task          | `add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`            |
 | List tasks        | `list [f/FORECAST] [i/IMPORTANCE]`                                                                          |
 | Edit task         | `edit TASK-ID [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]` |
-| Mark task as done | `done INDEX`                                                                                                |
-| Delete task       | `delete INDEX`                                                                                              |
-| View task         | `view INDEX`                                                                                                |
+| Mark task as done | `done TASK-ID`                                                                                                |
+| Delete task       | `delete TASK-ID`                                                                                              |
+| View task         | `view TASK-ID`                                                                                                |
 | Exit program      | `exit`    
