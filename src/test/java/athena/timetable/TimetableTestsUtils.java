@@ -1,7 +1,5 @@
 package athena.timetable;
 
-import athena.common.utils.DateUtils;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -12,7 +10,7 @@ public class TimetableTestsUtils {
      * @return List of dates for one week starting today.
      */
     static ArrayList<LocalDate> getThisWeekDates() {
-        ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
+        ArrayList<LocalDate> dates = new ArrayList<>();
         LocalDate date = LocalDate.now();
         for (int i = 0; i < 7; i++) {
             dates.add(date);

@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class TimetableTest {
 
-
     /**
      * Checks if the timetable returns today's task when forecast is DAY.
      */
@@ -153,22 +152,6 @@ class TimetableTest {
                 Importance.LOW, "Tough assignment", false);
         taskList.addTask(9, "Assignment 10", "1300", "2", "01-01-2021", formatDate(dates.get(4)),
                 Importance.MEDIUM, "Tough assignment", false);
-
-        return taskList;
-    }
-
-    private TaskList getOutputTestTaskList() throws CommandException {
-        ArrayList<LocalDate> dates = getThisWeekDates();
-
-        TaskList taskList = new TaskList();
-        taskList.addTask("Assignment 1", "0800", "2", "01-01-2021", formatDate(dates.get(1)),
-                Importance.HIGH, "Tough assignment", false);
-        taskList.addTask("Tutorial 2", "0900", "2", "01-01-2021", formatDate(dates.get(2)),
-                Importance.HIGH, "Tough assignment", false);
-        taskList.addTask("OP 3", "1000", "2", "01-01-2021", formatDate(dates.get(3)),
-                Importance.HIGH, "Tough assignment", false);
-        taskList.addTask("TP 4", "1100", "2", "01-01-2021", formatDate(dates.get(4)),
-                Importance.HIGH, "Tough assignment", false);
 
         return taskList;
     }

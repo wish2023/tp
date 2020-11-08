@@ -104,14 +104,14 @@ public class Timetable {
      * @return A list of tasks separated by date.
      */
     private String getTaskListString(ArrayList<LocalDate> dates) {
-        String list = "Your task list: \n";
+        StringBuilder list = new StringBuilder("Your task list: \n");
         for (LocalDate date : dates) {
             if (timetableDayMap.containsKey(date)) {
-                list += timetableDayMap.get(date);
-                list += "\n";
+                list.append(timetableDayMap.get(date));
+                list.append("\n");
             }
         }
-        return list.trim();
+        return list.toString().trim();
     }
 
     /**

@@ -35,16 +35,16 @@ public class TimetableDrawer {
      * @return A string containing the timetable header with hour marks.
      */
     private String drawTimetableTimeHeader(int startHour, int endHour) {
-        String header = "";
+        StringBuilder header = new StringBuilder();
 
-        header += BOX_CORNER + DAY_BOX_HORIZONTAL_BORDER;
+        header.append(BOX_CORNER + DAY_BOX_HORIZONTAL_BORDER);
         for (int hour = startHour; hour < endHour; hour++) {
             String paddedHourString = String.format("%02d", hour);
-            header += paddedHourString + TIME_HEADER_HORIZONTAL_BORDER;
+            header.append(paddedHourString).append(TIME_HEADER_HORIZONTAL_BORDER);
         }
-        header += BOX_CORNER + "\n";
+        header.append(BOX_CORNER + "\n");
 
-        return header;
+        return header.toString();
     }
 
     /**
@@ -55,13 +55,13 @@ public class TimetableDrawer {
      * @return A string that represents the bottom border for a day in the timetable.
      */
     private String drawBottomBorder(int startHour, int endHour) {
-        String row = "";
-        row += BOX_CORNER + DAY_BOX_HORIZONTAL_BORDER + BOX_CORNER;
+        StringBuilder row = new StringBuilder();
+        row.append(BOX_CORNER + DAY_BOX_HORIZONTAL_BORDER + BOX_CORNER);
         for (int i = startHour; i < endHour; i++) {
-            row += TASK_BOX_HORIZONTAL_BORDER + BOX_CORNER;
+            row.append(TASK_BOX_HORIZONTAL_BORDER + BOX_CORNER);
         }
-        row += "\n";
-        return row;
+        row.append("\n");
+        return row.toString();
     }
 
     /**
@@ -114,12 +114,12 @@ public class TimetableDrawer {
      */
     private String drawTimetableDayRow(TimetableDay day, int startHour, int endHour,
                                        Function<Task, String> taskInfoWriter) {
-        String row = "";
+        StringBuilder row = new StringBuilder();
 
         for (int hour = startHour; hour < endHour; hour++) {
             Task task = findTaskAtHour(day.getTaskList(), hour);
             if (task == null) {
-                row += EMPTY_TASK_BOX;
+                row.append(EMPTY_TASK_BOX);
                 continue;
             }
 
@@ -128,10 +128,10 @@ public class TimetableDrawer {
             duration = Math.min(duration, endHour - hour);
             hour += duration - 1;
             int boxWidth = duration * (TASK_BOX_HORIZONTAL_BORDER + BOX_CORNER).length() - 2;
-            row += String.format(TASK_BOX, shortenOrPadString(taskInfoWriter.apply(task), boxWidth));
+            row.append(String.format(TASK_BOX, shortenOrPadString(taskInfoWriter.apply(task), boxWidth)));
         }
 
-        return row;
+        return row.toString();
     }
 
     /**
@@ -145,7 +145,7 @@ public class TimetableDrawer {
     private String drawTimetableDayFirstRow(TimetableDay day, int startHour, int endHour) {
         String dayShortName = day.getDate().getDayOfWeek().toString().substring(0, 3).toUpperCase();
         String row = String.format(DAY_BOX, dayShortName);
-        row += drawTimetableDayRow(day, startHour, endHour, task -> task.getName());
+        row += drawTimetableDayRow(day, startHour, endHour, Task::getName);
         row += "\n";
         return row;
     }
@@ -193,14 +193,14 @@ public class TimetableDrawer {
      * @return String representation of the timetable.
      */
     public String drawTimetable(ArrayList<LocalDate> dates, int wakeUpHour, int sleepHour) {
-        String result = drawTimetableTimeHeader(wakeUpHour, sleepHour);
+        StringBuilder result = new StringBuilder(drawTimetableTimeHeader(wakeUpHour, sleepHour));
         for (LocalDate date : dates) {
             if (timetableDayMap.containsKey(date)) {
-                result += drawTimetableDay(timetableDayMap.get(date), wakeUpHour, sleepHour);
+                result.append(drawTimetableDay(timetableDayMap.get(date), wakeUpHour, sleepHour));
             } else {
-                result += drawTimetableDay(new TimetableDay(date), wakeUpHour, sleepHour);
+                result.append(drawTimetableDay(new TimetableDay(date), wakeUpHour, sleepHour));
             }
         }
-        return result;
+        return result.toString();
     }
 }
