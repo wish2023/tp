@@ -122,12 +122,9 @@ public class Timetable {
     @Override
     public String toString() {
         ArrayList<LocalDate> dates = DateUtils.getDatesBasedOnForecast(forecast);
-
         TimetableDrawer timetableDrawer = new TimetableDrawer(this);
         String timetableString = timetableDrawer.drawTimetable(dates, ATHENA_WAKE_UP_HOUR, ATHENA_SLEEP_HOUR);
-
         String taskListString = getTaskListString(dates);
-
         String output = timetableString + taskListString;
         return output + "\n";
     }
