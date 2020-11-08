@@ -164,7 +164,7 @@ public class AthenaUi implements Ui {
                 + "Well here's a list just for you!\n\n"
                 + "To " + colorText.toPurple("add a task")
                 + " (parameters in square brackets are optional fields):\n"
-                + colorText.toYellow("add n/NAME [t/TIME] [D/DEADLINE] [d/DURATION] [r/RECURRENCE] "
+                + colorText.toYellow("add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] "
                 + "[i/IMPORTANCE] [a/ADDITIONAL-NOTES]\n")
                 + "e.g.  add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes\n\n"
                 + "To " + colorText.toPurple("list your current tasks:\n")
@@ -177,7 +177,7 @@ public class AthenaUi implements Ui {
                 + "To " + colorText.toPurple("edit a task")
                 + " (parameters in square brackets are optional fields, "
                 + "but at least one parameter needs to be included):\n"
-                + colorText.toYellow("edit INDEX [n/NAME] [t/TIME] [D/DEADLINE] [d/DURATION] "
+                + colorText.toYellow("edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] "
                 + "[r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]\n")
                 + "e.g.  edit 1 n/Assignment1 t/1100 D/16-09-2020 d/2 r/today i/high a/Refer to lecture notes\n\n"
                 + "To " + colorText.toPurple("delete a task:\n")
