@@ -68,7 +68,8 @@ public class Task {
         setTime(startTime, duration, deadline, recurrence, isFlexible);
     }
 
-    private void setTime(String startTime, String duration, String deadline, String recurrence, Boolean isFlexible) throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException {
+    private void setTime(String startTime, String duration, String deadline, String recurrence, Boolean isFlexible)
+            throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException {
         this.timeInfo = new Time(isFlexible, startTime, duration, deadline, recurrence);
     }
 
