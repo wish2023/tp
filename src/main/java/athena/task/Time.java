@@ -309,10 +309,20 @@ public class Time implements Comparable<Time> {
         return startTime;
     }
 
+    /**
+     * Returns the time a task is expected to finish.
+     *
+     * @return ending time of a task
+     */
     public LocalTime getEndTime() {
         return endTime;
     }
 
+    /**
+     * Set the start time of the task.
+     *
+     * @param startTime Start time of task
+     */
     public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
@@ -331,6 +341,11 @@ public class Time implements Comparable<Time> {
         return startTime.format(timeFormatter);
     }
 
+    /**
+     * Returns the date or occurrence of task.
+     *
+     * @return when the task occurs/repeats
+     */
     public String getRecurrence() {
         return recurrence;
     }
@@ -344,6 +359,7 @@ public class Time implements Comparable<Time> {
         return duration;
     }
 
+
     /**
      * Converts the duration to a string.
      *
@@ -352,6 +368,7 @@ public class Time implements Comparable<Time> {
     public String getDurationString() {
         return Integer.toString(duration);
     }
+
 
     /**
      * Returns due date of the task.
@@ -362,10 +379,6 @@ public class Time implements Comparable<Time> {
         return deadline;
     }
 
-
-    public Boolean getFlexible() {
-        return isFlexible;
-    }
 
     @Override
     public int compareTo(Time o) {
@@ -412,11 +425,4 @@ public class Time implements Comparable<Time> {
                 && Objects.equals(recurrenceDates, time.recurrenceDates);
     }
 
-    //    @Override
-    //    public int compareTo(Time o) {
-    //        if(this.startTime>o.startTime){
-    //            return 1;
-    //        }
-    //        return 0;
-    //    }
 }
