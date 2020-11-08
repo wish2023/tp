@@ -90,7 +90,7 @@ The `add` command accepts 7 parameters.
 
 * `DURATION` is the expected time taken to complete task (in hours). For example, 2.
 
-* `DEADLINE` is the date to complete the task by (**DD-MM-YYYY**). For example, 16-11-2020.
+* `DEADLINE`  is the date that the user wishes to complete the task by. It is not taken into consideration by ATHENA when allocating tasks. Format: **DD-MM-YYYY**. For example, 16-11-2020.
 
 * `RECURRENCE` is one of **TODAY**, **MONDAY**, **TUESDAY**, **WEDNESDAY**, **THURSDAY**, **FRIDAY**, **SATURDAY**, **SUNDAY** or a specific date (**DD-MM-YYYY**).
 
@@ -132,7 +132,7 @@ The following parameters are optional. If they are left empty, ATHENA will use t
 * `DURATION` is the expected time taken to complete task (in hours). For example, 2.
 
    Default: 1 hour.
-* `DEADLINE` is the date to complete the task by (**DD-MM-YYYY**). For example, 16-11-2020.
+* `DEADLINE` is the date that the user wishes to complete the task by. It is not taken into consideration by ATHENA when allocating tasks. Format: **DD-MM-YYYY**. For example, 16-11-2020.
 
    Default: No deadline.
 * `RECURRENCE` is one of **TODAY**, **MONDAY**, **TUESDAY**, **WEDNESDAY**, **THURSDAY**, **FRIDAY**, **SATURDAY**, **SUNDAY** or a specific date (**DD-MM-YYYY**).
@@ -308,7 +308,7 @@ At least one parameter shown below has to be included in the command execution:
 
 * `DURATION` is the expected time taken to complete task (in hours). For example, 2.
 
-* `DEADLINE` is the date to do task by (**DD-MM-YYYY**). For example, 16-11-2020.
+* `DEADLINE` is the date that the user wishes to complete the task by. It is not taken into consideration by ATHENA when allocating tasks. Format: **DD-MM-YYYY**. For example, 16-11-2020.
 
 * `RECURRENCE` is one of **TODAY**, **MONDAY**, **TUESDAY**, **WEDNESDAY**, **THURSDAY**, **FRIDAY**, **SATURDAY**, **SUNDAY** or a specific date (**DD-MM-YYYY**).
 
