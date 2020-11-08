@@ -2,15 +2,15 @@ package athena.logic;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.exceptions.CommandException;
-import athena.exceptions.DeleteNoIndexException;
-import athena.exceptions.DoneNoIndexException;
-import athena.exceptions.EditNoIndexException;
-import athena.exceptions.InvalidCommandException;
-import athena.exceptions.InvalidForecastException;
-import athena.exceptions.InvalidImportanceException;
-import athena.exceptions.TaskNotFoundException;
-import athena.exceptions.ViewNoIndexException;
+import athena.exceptions.command.CommandException;
+import athena.exceptions.command.DeleteNoIndexException;
+import athena.exceptions.command.DoneNoIndexException;
+import athena.exceptions.command.EditNoIndexException;
+import athena.exceptions.command.InvalidCommandException;
+import athena.exceptions.command.InvalidForecastException;
+import athena.exceptions.command.InvalidImportanceException;
+import athena.exceptions.command.TaskNotFoundException;
+import athena.exceptions.command.ViewNoIndexException;
 import athena.logic.commands.AddCommand;
 import athena.logic.commands.Command;
 import athena.logic.commands.DeleteCommand;
@@ -20,6 +20,7 @@ import athena.logic.commands.ExitCommand;
 import athena.logic.commands.HelpCommand;
 import athena.logic.commands.ListCommand;
 import athena.logic.commands.ViewCommand;
+import athena.task.Task;
 import athena.task.taskfilter.FilterCalculator;
 
 import java.util.HashMap;
@@ -50,8 +51,9 @@ public class Parser {
      * @param paramPosition   Integer representing position of parameter
      * @param defaultValue    String representing default value
      * @return Description of parameter
+     * @throws InvalidCommandException Exception thrown when the the user does not specify a valid command
      */
-    public static String getParameterDesc(String taskInformation, String delimiter, int paramPosition,
+    public String getParameterDesc(String taskInformation, String delimiter, int paramPosition,
                                           String defaultValue) throws InvalidCommandException {
         String param;
         if (paramPosition == -1) {
@@ -65,7 +67,7 @@ public class Parser {
             Matcher matcher = pattern.matcher(retrievedParamInfo);
 
             if (matcher.find()) {
-                int nextParam = matcher.start();//this will give index of next parameter
+                int nextParam = matcher.start();
                 try {
                     param = retrievedParamInfo.subSequence(0, (nextParam)).toString();
                 } catch (StringIndexOutOfBoundsException e) {
@@ -90,10 +92,12 @@ public class Parser {
      * @param importancePos Integer representing position of importance parameter
      * @param addNotesPos   Integer representing position of additional notes parameter
      * @return command object
+     * @throws InvalidCommandException Exception thrown when the the user does not specify a valid command
+     * @throws InvalidImportanceException Exception thrown when the user does not specify a valid importance
      */
-    public static Command parseAddCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
+    public Command parseAddCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
                                           int recurrencePos, int importancePos, int addNotesPos)
-            throws InvalidCommandException {
+            throws InvalidCommandException, InvalidImportanceException {
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, EMPTY_STRING);
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, EMPTY_STRING);
         boolean isFlexible = (time.equals(EMPTY_STRING));
@@ -104,7 +108,13 @@ public class Parser {
         String recurrenceDefault = "today";
         String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos, recurrenceDefault);
         String importanceDefault = "medium";
-        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
+        String importanceString = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
+        Importance importance;
+        try {
+            importance = Importance.valueOf(importanceString.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new InvalidImportanceException();
+        }
         String notesDefault = "No notes";
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos, notesDefault);
 
@@ -127,30 +137,36 @@ public class Parser {
      *                               specified by the user
      * @throws EditNoIndexException  Exception thrown when the user does not specify an index of the task they
      *                               want to edit
+     * @throws InvalidCommandException Exception thrown when the the user does not specify a valid command
+     * @throws InvalidImportanceException Exception thrown when the user does not specify a valid importance
      */
-    public static Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
-                                           int recurrencePos, int importancePos, int addNotesPos,
-                                           TaskList taskList) throws TaskNotFoundException,
-            EditNoIndexException, InvalidCommandException {
+    public Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
+                                           int recurrencePos, int importancePos, int addNotesPos, TaskList taskList)
+            throws TaskNotFoundException, EditNoIndexException, InvalidCommandException, InvalidImportanceException {
         int number = getNumber(taskInfo);
 
-        String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos,
-                taskList.getTaskFromNumber(number).getName());
-        String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos,
-                taskList.getTaskFromNumber(number).getTimeInfo().getStartTimeString());
+        Task task = taskList.getTaskFromNumber(number);
+
+        String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, task.getName());
+        String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, task.getTimeInfo().getStartTimeString());
         String duration = getParameterDesc(taskInfo, DURATION_DELIMITER, durationPos,
-                taskList.getTaskFromNumber(number).getTimeInfo().getDurationString());
-        String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos,
-                taskList.getTaskFromNumber(number).getTimeInfo().getDeadline());
+                task.getTimeInfo().getDurationString());
+        String deadline = getParameterDesc(taskInfo, DEADLINE_DELIMITER, deadlinePos, task.getTimeInfo().getDeadline());
         String recurrence = getParameterDesc(taskInfo, RECURRENCE_DELIMITER, recurrencePos,
-                taskList.getTaskFromNumber(number).getTimeInfo().getRecurrence());
-        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos,
-                taskList.getTaskFromNumber(number).getImportance().toString()).toUpperCase();
+                task.getTimeInfo().getRecurrence());
+        String importanceString = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos,
+                task.getImportance().toString());
+
+        Importance importance;
+        try {
+            importance = Importance.valueOf(importanceString.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new InvalidImportanceException();
+        }
         String notes = getParameterDesc(taskInfo, ADDITIONAL_NOTES_DELIMITER, addNotesPos,
                 taskList.getTaskFromNumber(number).getNotes());
 
-        return new EditCommand(number, name, time, duration, deadline, recurrence,
-                Importance.valueOf(importance.toUpperCase()), notes);
+        return new EditCommand(number, name, time, duration, deadline, recurrence, importance, notes);
     }
 
     /**
@@ -161,7 +177,7 @@ public class Parser {
      * @throws EditNoIndexException Exception thrown when the user does not specify an index of the task they
      *                              want to edit
      */
-    private static int getNumber(String taskInfo) throws EditNoIndexException {
+    private int getNumber(String taskInfo) throws EditNoIndexException {
         try {
             int numberNextSlash = taskInfo.indexOf("/");
             int number = Integer.parseInt(taskInfo.substring(0, (numberNextSlash - 2)));
@@ -178,8 +194,11 @@ public class Parser {
      * @param importancePos Integer representing position of importance parameter
      * @param forecastPos   Integer representing position of forecast parameter
      * @return command object
+     * @throws InvalidCommandException Exception thrown when the the user does not specify a valid command
+     * @throws InvalidForecastException Exception thrown when the user does not specify a valid forecast
+     * @throws InvalidImportanceException Exception thrown when the user does not specify a valid importance
      */
-    public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos)
+    public Command parseListCommand(String taskInfo, int importancePos, int forecastPos)
             throws InvalidCommandException, InvalidForecastException, InvalidImportanceException {
         String importanceDefault = "ALL";
         String forecastDefault = "WEEK";
@@ -193,10 +212,12 @@ public class Parser {
     /**
      * Parses user input when command is done.
      *
-     * @param taskInfo      String representing task information
+     * @param taskInfo String representing task information
      * @return command object
+     * @throws DoneNoIndexException Exception thrown when the user does not specify an index of the task they
+     *                              want to mark as done
      */
-    public static Command parseDoneCommand(String taskInfo) throws CommandException {
+    public Command parseDoneCommand(String taskInfo) throws DoneNoIndexException {
         try {
             int taskIndex = Integer.parseInt(taskInfo);
             return new DoneCommand(taskIndex);
@@ -208,10 +229,12 @@ public class Parser {
     /**
      * Parses user input when command is delete.
      *
-     * @param taskInfo      String representing task information
+     * @param taskInfo String representing task information
      * @return command object
+     * @throws DeleteNoIndexException Exception thrown when the user does not specify an index of the task they
+     *                              want to delete
      */
-    public static Command parseDeleteCommand(String taskInfo) throws CommandException {
+    public Command parseDeleteCommand(String taskInfo) throws DeleteNoIndexException {
         try {
             int taskIndex = Integer.parseInt(taskInfo);
             return new DeleteCommand(taskIndex);
@@ -225,8 +248,10 @@ public class Parser {
      *
      * @param taskInfo      String representing task information
      * @return command object
+     * @throws ViewNoIndexException Exception thrown when the user does not specify an index of the task they
+     *                              want to view
      */
-    public static Command parseViewCommand(String taskInfo) throws CommandException {
+    public Command parseViewCommand(String taskInfo) throws ViewNoIndexException {
         try {
             int taskIndex = Integer.parseInt(taskInfo);
             return new ViewCommand(taskIndex);
@@ -239,9 +264,9 @@ public class Parser {
      * Parses user input for shortcut commands.
      *
      * @param userInput String representing command and information of task
-     * @return actual input meaning string
+     * @return String representing what the shortcut commands meant
      */
-    public static String parseShortcutCommands(String userInput) {
+    public String parseShortcutCommands(String userInput) {
         HashMap<String, String> shortcutCommandsWithDetails = new HashMap<>();
         shortcutCommandsWithDetails.put("a", "add");
         shortcutCommandsWithDetails.put("e", "edit");
@@ -268,9 +293,9 @@ public class Parser {
      * Parses user input to split shortcut command and task information.
      *
      * @param userInput String representing task information
-     * @return task information string
+     * @return String representing full input meaning
      */
-    public static String parseShortcutCommandAndDetails(String userInput) {
+    public String parseShortcutCommandAndDetails(String userInput) {
         String[] commandAndDetails = userInput.split(COMMAND_WORD_DELIMITER, 2);
         String shortcutInput = parseShortcutCommands(commandAndDetails[0]);
         String remainingTaskInfo = "";
@@ -291,7 +316,7 @@ public class Parser {
      * @return new Command object based on what the user input is
      * @throws CommandException Exception thrown when there is an error when the user inputs a command
      */
-    public static Command parse(String userInput, TaskList taskList) throws CommandException {
+    public Command parse(String userInput, TaskList taskList) throws CommandException {
         String fullInput = parseShortcutCommandAndDetails(userInput);
         String[] commandAndDetails = fullInput.split(COMMAND_WORD_DELIMITER, 2);
         String commandType = commandAndDetails[0];

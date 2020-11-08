@@ -2,10 +2,8 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.exceptions.CommandException;
+import athena.exceptions.command.CommandException;
 import athena.ui.AthenaUi;
-import athena.exceptions.AddMissingRequiredParametersException;
-import athena.exceptions.ClashInTaskException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +16,6 @@ class AddCommandTest {
 
     private TaskList taskList;
     private TaskList taskListWithAddedTask;
-    private AthenaUi athenaUi;
 
     /**
      * Creates a task list for testing.
@@ -51,7 +48,6 @@ class AddCommandTest {
      */
     @BeforeEach
     public void setup() throws CommandException {
-        athenaUi = new AthenaUi();
         taskList = getTaskList();
         taskListWithAddedTask = getTaskListWithAddedTask();
     }
@@ -59,7 +55,7 @@ class AddCommandTest {
     /**
      * Tests that the task is added into the Tasks list.
      *
-     * @throws AddMissingRequiredParametersException Exception thrown when the compulsory parameters are not given
+     * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     @Test
     public void execute_taskIsAdded() throws CommandException {
@@ -71,7 +67,7 @@ class AddCommandTest {
      */
     private AddCommand createAddCommand() {
         AddCommand command = new AddCommand("Homework 2", "0800", "4", "01-01-2021", "10-12-2020",
-                "high", "Very easy homework", false);
+                Importance.HIGH, "Very easy homework", false);
         return command;
     }
 
@@ -81,7 +77,7 @@ class AddCommandTest {
      * @param addCommand       add command
      * @param expectedTaskList expected task list
      * @param actualTaskList   actual task list
-     * @throws AddMissingRequiredParametersException Exception thrown when the compulsory parameters are not given
+     * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     private void assertCommandBehaviour(AddCommand addCommand, TaskList expectedTaskList, TaskList actualTaskList)
             throws CommandException {
@@ -95,7 +91,7 @@ class AddCommandTest {
      *
      * @param taskList              TaskList
      * @param taskListWithAddedTask Reference taskList to compare with after adding the task
-     * @throws AddMissingRequiredParametersException Exception thrown when the compulsory parameters are not given
+     * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     private void assertAddSuccessful(TaskList taskList, TaskList taskListWithAddedTask)
             throws CommandException {

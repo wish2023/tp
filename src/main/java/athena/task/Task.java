@@ -2,10 +2,10 @@ package athena.task;
 
 import athena.Importance;
 import athena.common.utils.DateUtils;
-import athena.exceptions.InvalidDeadlineException;
-import athena.exceptions.InvalidRecurrenceException;
-import athena.exceptions.TaskDuringSleepTimeException;
-import athena.exceptions.TaskIsDoneException;
+import athena.exceptions.command.InvalidDeadlineException;
+import athena.exceptions.command.InvalidRecurrenceException;
+import athena.exceptions.command.TaskDuringSleepTimeException;
+import athena.exceptions.command.TaskIsDoneException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -56,20 +56,37 @@ public class Task {
      * @param notes      additional notes for the task
      * @param number     task number
      * @param isFlexible time flexibility
+     * @throws TaskDuringSleepTimeException Exception thrown when task clashes with sleep time
+     * @throws InvalidRecurrenceException   Exception thrown when user mistypes recurrence
+     * @throws InvalidDeadlineException     Exception thrown when user mistypes deadline
      */
     public Task(String name, String startTime, String duration, String deadline,
                 String recurrence, Importance importance, String notes, int number, Boolean isFlexible)
             throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException {
+        setAttributes(name, importance, notes, number, isFlexible);
+        recurrence = getDefaultDate(recurrence);
+        setTime(startTime, duration, deadline, recurrence, isFlexible);
+    }
+
+    private void setTime(String startTime, String duration, String deadline, String recurrence, Boolean isFlexible)
+            throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException {
+        this.timeInfo = new Time(isFlexible, startTime, duration, deadline, recurrence);
+    }
+
+    private String getDefaultDate(String recurrence) {
+        if (recurrence.toUpperCase().equals("TODAY")) {
+            recurrence = DateUtils.formatDate(LocalDate.now());
+        }
+        return recurrence;
+    }
+
+    private void setAttributes(String name, Importance importance, String notes, int number, Boolean isFlexible) {
         this.name = name;
         assert !this.name.equals("");
         this.importance = importance;
         this.notes = notes;
         this.number = number;
         this.isFlexible = isFlexible;
-        if (recurrence.toUpperCase().equals("TODAY")) {
-            recurrence = DateUtils.formatDate(LocalDate.now());
-        }
-        this.timeInfo = new Time(isFlexible, startTime, duration, deadline, recurrence);
     }
 
 
@@ -116,24 +133,25 @@ public class Task {
      * @param recurrence New task recurrence
      * @param importance New task importance
      * @param notes      New task notes
+     * @throws InvalidRecurrenceException   Exception thrown when user mistypes recurrence
+     * @throws InvalidDeadlineException     Exception thrown when user mistypes deadline
      */
     public void edit(String name, String startTime, String duration, String deadline,
                      String recurrence, Importance importance, String notes)
             throws InvalidRecurrenceException, InvalidDeadlineException {
-        this.name = name;
+        setAttributes(name, importance, notes, number, isFlexible);
+        assertAll(startTime, duration, deadline);
+
+        recurrence = getDefaultDate(recurrence);
+        timeInfo.edit(startTime, duration, deadline, recurrence);
+    }
+
+    private void assertAll(String startTime, String duration, String deadline) {
         assert !this.name.equals("");
         assert !startTime.equals("");
         assert !duration.equals("");
         assert !deadline.equals("");
-
-        this.timeInfo.edit(startTime, duration, deadline, recurrence);
-
-        this.importance = importance;
         assert this.importance != null;
-
-        if (!notes.equals(null)) {
-            this.notes = notes;
-        }
     }
 
 
@@ -275,7 +293,8 @@ public class Task {
             deadlinePreText = " which should be finished by ";
         }
         return "[ID: " + number + "] " + name + " at " + timeInfo.getStartTime() + deadlinePreText
-                    + timeInfo.getDeadline().toLowerCase() + ". Done? " + getStatus();
+                + timeInfo.getDeadline().toLowerCase() + ". Done? " + getStatus()
+                + " Importance: " + importance.toString();
     }
 
     /**

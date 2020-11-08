@@ -1,7 +1,6 @@
 package athena;
 
-import athena.exceptions.ClashInTaskException;
-import athena.exceptions.CommandException;
+import athena.exceptions.command.CommandException;
 
 /**
  * Sets up a task list for testing classes.

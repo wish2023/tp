@@ -2,12 +2,11 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.exceptions.CommandException;
-import athena.exceptions.TaskDuringSleepTimeException;
 import athena.logic.DateChecker;
+import athena.task.Task;
 import athena.ui.AthenaUi;
-import athena.exceptions.ClashInTaskException;
-import athena.exceptions.TaskNotFoundException;
+import athena.exceptions.command.CommandException;
+import athena.exceptions.command.TaskNotFoundException;
 import java.util.Objects;
 
 /**
@@ -53,18 +52,16 @@ public class EditCommand extends Command {
      *
      * @param taskList Tasks list
      * @param athenaUi       Ui
-     * @throws TaskNotFoundException Exception thrown when the user tries to enter the index of a task that
-     *                               does not exist
+     * @throws CommandException Exception thrown when there is an error when the user inputs a command
      */
     @Override
     public void execute(TaskList taskList, AthenaUi athenaUi) throws CommandException {
         if (taskRecurrence.contains("-") && (taskRecurrence.length() == "dd-MM-yyyy".length())) {
             DateChecker dateChecker = new DateChecker(taskRecurrence);
         }
-        taskList.editTask(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
+        Task task = taskList.editTask(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
-        athenaUi.printTaskEdited(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
-                taskRecurrence, taskImportance, taskNotes);
+        athenaUi.printTaskEdited(task);
     }
 
     /**
