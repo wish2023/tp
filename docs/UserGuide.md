@@ -518,3 +518,62 @@ The screenshot below shows the output from ATHENA after entering `exit`.
 
 ![](screenshots/exit-basic.jpeg)
 ![](screenshots/exit-intermediate.jpeg)
+
+### Saving the data
+Your tasks are automatically saved in *data.csv* which is located next to the program JAR file. There is no need to save manually.  
+![](screenshots/save-file-location.JPG)
+## FAQ
+
+In this section, we use the terms *fixed tasks* and *flexible tasks*.
+
+* *Fixed tasks* refer to tasks that were specified with a start time when added.
+* *Flexible tasks* refer to tasks that were not specified with a time when added. ATHENA will set the time of such tasks according to free slots available in the timetable. (Refer to [**Intermediate Usage (add)**](#intermediate-usage-add))
+
+**Q: How do I transfer my data to another computer?**
+
+**A**: You can copy the *data.csv* file created next to ATHENA.jar to the other computer and place it next to ATHENA.jar there.
+
+**Q: Can I make *flexible tasks* into *fixed tasks* and vice versa?**
+
+**A**: No. Once a task is set without a time, ATHENA is given control over its time allocation permanently. One workaround is deleting the *flexible task* and adding a new *fixed task*.
+
+**Q: What happens if I do not mark tasks as done?**
+
+**A**: For *fixed tasks*, it will just record that you did not do that task. But for *flexible tasks*, ATHENA will allocate it again at a later date so that you can have another opportunity to work on it.
+
+**Q: Why is ATHENA allocating tasks during periods that have not passed?**
+
+**A**: ATHENA is also best suited for forward planning. ATHENA will not allocate tasks to the current day. If you have tasks that need immediate attention, it is recommended that you start on those tasks immediately.
+
+**Q: Why is ATHENA is not allocating some of my tasks?**
+
+**A**: ATHENA's algorithm tries its best to allocate tasks to best of its ability. In the rare case that there is no possible slot for some tasks, it will not assign those tasks. Try to split up bigger tasks into smaller ones or reduce the amount of work you do in one task.
+
+**Q: Why is the timetable showing up weirdly?**
+
+**A**: Try using a higher resolution screen, that should make the timetable easier to see. Alternatively, you can try using a smaller font size on your terminal/command prompt.
+
+**Q: Is it possible to stop ATHENA from auto-allocating *flexible tasks*?**
+
+**A**: As mentioned previously, it is not possible to convert *flexible tasks* into *fixed tasks*. However, marking the task as done or deleting the task will prevent ATHENA from auto-allocating it.
+
+**Q: How does ATHENA allocate tasks for me?**
+
+**A**: ATHENA tries to reduce the amount of dead space in your timetable, so tasks with a longer duration are allocated first. For tasks with the same duration, ATHENA will allocate them according to their importance.
+
+**Q: I added a task that occurs every week. When I enter `list f/ALL`, I see that the task is only allocated in a few of the upcoming weeks. Is my task not set to occur every week?**
+
+**A**: Currently, for a task set to recur on a weekly basis, ATHENA will show the task for the next 10 weeks.
+
+## Command Summary
+
+| Action            | Format                                                                                                      |
+| :---------------- | :---------------------------------------------------------------------------------------------------------- |
+| Help              | `help`                                                                                                      |
+| Add task          | `add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]`            |
+| List tasks        | `list [f/FORECAST] [i/IMPORTANCE]`                                                                          |
+| Edit task         | `edit TASK-ID [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]` |
+| Mark task as done | `done TASK-ID`                                                                                                |
+| Delete task       | `delete TASK-ID`                                                                                              |
+| View task         | `view TASK-ID`                                                                                                |
+| Exit program      | `exit`    
