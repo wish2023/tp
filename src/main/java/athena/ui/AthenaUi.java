@@ -96,49 +96,42 @@ public class AthenaUi implements Ui {
     /**
      * Prints out a message verifying which task the user has added to their list.
      *
-     * @param taskName       The name of the task
-     * @param taskStartTime  When the task is scheduled to start
-     * @param taskDuration   How long the task will last for
-     * @param taskDeadline   When the task is due
-     * @param taskRecurrence When will the task repeat
-     * @param taskImportance What is the importance of the task
-     * @param taskNotes      Any additional notes the user has added to the task
+     * @param task A task object that represents the task being added
      */
-    public void printTaskAdded(String taskName, String taskStartTime, String taskDuration, String taskDeadline,
-                               String taskRecurrence, String taskImportance, String taskNotes) {
+    public void printTaskAdded(Task task) {
         printNormal("You've successfully added ");
-        printBold(taskName);
+        printBold(task.getName());
         printNormal(" to your list!\n It will start at ");
-        printBold(taskStartTime);
+        printBold(task.getTimeInfo().getStartTimeString());
 
-        if (taskDeadline.toLowerCase().equals("no deadline")) {
+        if (task.getTimeInfo().getDeadline().toLowerCase().equals("no deadline")) {
             printNormalNextLine(" and has no deadline.");
         } else {
             printNormal(" and finish on ");
-            printBold(taskDeadline);
+            printBold(task.getTimeInfo().getDeadline());
             printNormalNextLine(".");
         }
 
         printNormal("You should spend a total of ");
-        printBold(taskDuration);
+        printBold(task.getTimeInfo().getDurationString());
         printNormal(" hour(s) on it. ");
 
-        if (taskRecurrence.toLowerCase().equals("today")) {
+        if (task.getTimeInfo().getRecurrence().toLowerCase().equals("today")) {
             printNormal("It is set to happen ");
-            printBold(taskRecurrence);
-        } else if (taskRecurrence.contains("-")) {
+            printBold(task.getTimeInfo().getRecurrence());
+        } else if (task.getTimeInfo().getRecurrence().contains("-")) {
             printNormal("It is set to happen on ");
-            printBold(taskRecurrence);
+            printBold(task.getTimeInfo().getRecurrence());
         } else {
             printNormal("It is set to happen every ");
-            printBold(taskRecurrence);
+            printBold(task.getTimeInfo().getRecurrence());
         }
 
         printNormal(" and has an importance of ");
-        printBold(taskImportance);
+        printBold(task.getImportance().toString());
         printNormalNextLine(".");
         printNormalNextLine("Additionally, you've also added these notes!");
-        printBold(taskNotes);
+        printBold(task.getNotes());
         printNormalNextLine(".");
         printNormalNextLine("Looks like another mission to complete! Let's do it!");
     }
@@ -157,34 +150,24 @@ public class AthenaUi implements Ui {
     /**
      * Prints out a message verifying that the task the user specified has been edited, and shows the user the
      * new task details.
-     *
-     * @param taskIndex      The index of the task on the task list
-     * @param taskName       The name of the task
-     * @param taskStartTime  When the task is scheduled to start
-     * @param taskDuration   How long the task will last for
-     * @param taskDeadline   When the task is due
-     * @param taskRecurrence When will the task repeat
-     * @param taskImportance What is the importance of the task
-     * @param taskNotes      Any additional notes the user has added to the task
+     * @param task A task object that represents the task being edited
      */
-    public void printTaskEdited(int taskIndex, String taskName, String taskStartTime, String taskDuration,
-                                String taskDeadline, String taskRecurrence, Importance taskImportance,
-                                String taskNotes) {
+    public void printTaskEdited(Task task) {
         printNormal("You've changed the details of task number ");
-        printBoldNextLine(Integer.toString(taskIndex) + ": " + taskName + "!");
+        printBoldNextLine((task.getNumber()) + ": " + task.getName() + "!");
         printNormalNextLine("Here are the new details of your task!");
         printNormal("Start Time: ");
-        printBoldNextLine(taskStartTime);
+        printBoldNextLine(task.getTimeInfo().getStartTimeString());
         printNormal("Duration: ");
-        printBoldNextLine(taskDuration);
+        printBoldNextLine(task.getTimeInfo().getDurationString());
         printNormal("Due Date: ");
-        printBoldNextLine(taskDeadline);
+        printBoldNextLine(task.getTimeInfo().getDeadline());
         printNormal("Recurrence: ");
-        printBoldNextLine(taskRecurrence);
+        printBoldNextLine(task.getTimeInfo().getRecurrence());
         printNormal("Importance: ");
-        printBoldNextLine(taskImportance.name());
+        printBoldNextLine(task.getImportance().toString());
         printNormal("Additional Notes: ");
-        printBoldNextLine(taskNotes);
+        printBoldNextLine(task.getNotes());
         printNormalNextLine("The mistakes of the past have been vanquished!");
     }
 
