@@ -34,7 +34,7 @@ We hope you enjoy using ATHENA and start being more productive today!
 5. Then, enter `java -jar Athena.jar`.
 6. A welcome message as seen below will be shown:
 
-*SCREENSHOT*
+![welcome-message](screenshots/welcome-message.jpeg)
 
 If you are new to the command line and require a guide: 
 * Click [here](https://www.minitool.com/lib/cmd.html) if you use Windows
