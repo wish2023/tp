@@ -5,6 +5,8 @@ import athena.task.Task;
 import athena.timetable.Timetable;
 import org.fusesource.jansi.AnsiConsole;
 
+import java.util.Scanner;
+
 /**
  * Represents all of the text that the user sees on the command line.
  */
@@ -28,6 +30,16 @@ public class AthenaUi implements Ui {
     public void printUserInputIndicator() {
         System.out.print(colorText.toPurple("-> "));
         System.out.flush();
+    }
+
+    /**
+     *
+     * @param userInput User input detected by the Scanner object
+     * @return
+     */
+    public String detectInput(Scanner userInput) {
+        String inputString = userInput.nextLine();
+        return inputString.trim();
     }
 
     /**
