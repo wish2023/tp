@@ -265,7 +265,7 @@ public class Task {
      */
     @Override
     public String toString() {
-        if (timeInfo.getStartTimeString()==""){
+        if (timeInfo.getStartTimeString().equals("")){
             return "[ID: " + number + "] " + name + " has not been assigned a time";
         }
         return "[ID: " + number + "] " + name + " at " + timeInfo.getStartTime() + " finish by "
