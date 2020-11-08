@@ -281,10 +281,9 @@ public class Time implements Comparable<Time> {
         int month = getMonth(recurrence);
         int day = getDay(recurrence);
         int year;
-        if (currentDate.getMonthValue() > month) {
+        if (isCurrentMonthAhead(currentDate, month)) {
             year = currentDate.getYear() + 1;
-        } else if (currentDate.getMonthValue() == month
-                && currentDate.getDayOfMonth() > day) {
+        } else if (isCurrentDayAhead(currentDate, month, day)) {
             year = currentDate.getYear() + 1;
         } else {
             year = currentDate.getYear();
@@ -292,15 +291,18 @@ public class Time implements Comparable<Time> {
         return year;
     }
 
+    private boolean isCurrentDayAhead(LocalDate currentDate, int month, int day) {
+        return currentDate.getMonthValue() == month
+                && currentDate.getDayOfMonth() > day;
+    }
+
+    private boolean isCurrentMonthAhead(LocalDate currentDate, int month) {
+        return currentDate.getMonthValue() > month;
+    }
+
     public ArrayList<LocalDate> getRecurrenceDates() {
         return recurrenceDates;
     }
-
-    /**
-     * Returns start time of the task.
-     *
-     * @return Start time of task
-     */
 
 
     public LocalTime getStartTime() {
