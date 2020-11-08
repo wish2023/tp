@@ -44,7 +44,7 @@ public class AthenaUi implements Ui {
     /**
      * Prints out a message verifying which task the user has added to their list.
      *
-     * @param task       The task of whose details are going to be printed.
+     * @param task The task of whose details are going to be printed.
      */
     public void printTaskAdded(Task task) {
         TimeData timeInfo = task.getTimeInfo();
@@ -390,6 +390,7 @@ public class AthenaUi implements Ui {
 
     /**
      * Prints an error message when there is an error with the stored data.
+     *
      * @param corruptedLine Line in the save file that has an error and has to be removed
      */
     public void printCorruptedLine(String corruptedLine) {
@@ -415,6 +416,10 @@ public class AthenaUi implements Ui {
     public void printTaskTooLong(int taskNumber) {
         System.out.println(colorText.toRed("Task number " + taskNumber
                 + " takes too long to complete, please reduce the time 16 hours and below \n"));
+    }
 
+    public void printIllegalTimeModificationException() {
+        System.out.println(colorText.toRed(
+                "You are not allowed to modify the time of flexible tasks \n"));
     }
 }

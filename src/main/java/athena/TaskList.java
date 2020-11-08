@@ -2,6 +2,7 @@ package athena;
 
 import athena.exceptions.command.ClashInTaskException;
 import athena.exceptions.command.DateHasPassedException;
+import athena.exceptions.command.IllegalTimeModificationException;
 import athena.exceptions.command.InvalidDeadlineException;
 import athena.exceptions.command.InvalidRecurrenceException;
 import athena.exceptions.command.InvalidTimeFormatException;
@@ -10,6 +11,7 @@ import athena.exceptions.command.TaskIsDoneException;
 import athena.exceptions.command.TaskNotFoundException;
 import athena.exceptions.command.TaskTooLongException;
 import athena.task.Task;
+import athena.task.TimeData;
 import athena.task.taskfilter.TaskFilter;
 
 import java.time.LocalDate;
@@ -256,19 +258,24 @@ public class TaskList {
      * @param importance Importance of task
      * @param notes      Additional notes of task
      * @return Edited task.
-     * @throws TaskNotFoundException thrown when the program is unable to find a task at the index
-     *                               specified by the user
-     * @throws ClashInTaskException thrown when there is a clash with another task.
+     * @throws TaskNotFoundException        thrown when the program is unable to find a task at the index
+     *                                      specified by the user
+     * @throws ClashInTaskException         thrown when there is a clash with another task.
      * @throws TaskDuringSleepTimeException thrown when the user wants a task to be done during sleep time.
-     * @throws InvalidRecurrenceException when user mistypes recurrence
-     * @throws InvalidDeadlineException when user mistypes deadline
+     * @throws InvalidRecurrenceException   when user mistypes recurrence
+     * @throws InvalidDeadlineException     when user mistypes deadline
      */
     public Task editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, Importance importance,
                          String notes)
             throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException,
-            TaskTooLongException, InvalidRecurrenceException, InvalidDeadlineException {
+            TaskTooLongException, InvalidRecurrenceException, InvalidDeadlineException,
+            IllegalTimeModificationException {
         Task task = getTaskFromNumber(taskNumber);
+        TimeData time = task.getTimeInfo();
+        if (time.getFlexible() && ((startTime != time.getStartTimeString()) || (recurrence != time.getRecurrence()))) {
+            throw new IllegalTimeModificationException();
+        }
         Task possibleEditedTask = createTask(taskNumber, name, startTime,
                 duration, deadline, recurrence, importance, notes, task.isFlexible());
         checkClash(possibleEditedTask);

@@ -16,7 +16,7 @@ public class ViewCommand extends Command {
     /**
      * Initializes the object with the task number of task to be viewed.
      *
-     * @param taskNumber Integer representing the task number of task.
+     * @param taskNumber int representing the task number of task.
      */
     public ViewCommand(int taskNumber) {
         this.taskNumber = taskNumber;
