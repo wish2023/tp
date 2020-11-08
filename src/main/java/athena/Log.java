@@ -8,9 +8,9 @@ import java.util.Collections;
 
 public class Log {
     private ArrayList<Integer> numberList;
-    private Integer size;
-    private Integer start;
-    private Integer end;
+    private int size;
+    private int start;
+    private int end;
     private ArrayList<Task> carryOverTasks = new ArrayList<>();
 
 
@@ -20,7 +20,7 @@ public class Log {
      * @param start start time of log
      * @param end end time of log
      */
-    public Log(Integer start, Integer end) {
+    public Log(int start, int end) {
         this.size = end - start;
         this.numberList = new ArrayList<Integer>((Collections.nCopies(size, -1)));
         this.start = start;
@@ -42,7 +42,7 @@ public class Log {
     }
 
     public void setNumberList(ArrayList<Task> taskList) {
-        Integer space = end - start;
+        int space = end - start;
         for (Task currTask : taskList) {
             int span = currTask.getTimeInfo().getDuration();
             if (span <= space) {
@@ -55,7 +55,7 @@ public class Log {
         }
     }
 
-    private void placeTask(Integer space, Task currTask, int span) {
+    private void placeTask(int space, Task currTask, int span) {
         int taskNumber = currTask.getNumber();
         for (int i = 0; i < span; i++) {
             int relativePos = end - space - start;
@@ -78,12 +78,12 @@ public class Log {
         return numberList.contains(-1);
     }
 
-    public Integer getSpaceNumber() {
+    public int getSpaceNumber() {
         return numberList.indexOf(-1);
     }
 
 
-    public int getStart(Integer start) {
+    public int getStart(int start) {
         return numberList.get(start);
     }
 
@@ -131,7 +131,7 @@ public class Log {
      * @param start beginning position
      * @param bestLog log containing the order of the taskNumbers
      */
-    public void populateLog(Integer start, Log bestLog) {
+    public void populateLog(int start, Log bestLog) {
         int count = 0;
         for (int taskNumber : bestLog.getNumberList()) {
             this.getNumberList().set(count + start, taskNumber);

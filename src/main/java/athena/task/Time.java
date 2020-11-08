@@ -437,4 +437,7 @@ public class Time implements Comparable<Time> {
                 && Objects.equals(recurrenceDates, time.recurrenceDates);
     }
 
+    public boolean getFlexible() {
+        return isFlexible;
+    }
 }
