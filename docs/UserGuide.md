@@ -139,7 +139,7 @@ The following parameters are optional. If they are left empty, ATHENA will use t
 * `DURATION` is the expected time taken to complete task (in hours). For example, 2.
 
    Default: 1 hour.
-* `DEADLINE` is the date to complete the task by (**DD-MM-YYYY**). For example, 16-09-2020.
+* `DEADLINE` is the date to complete the task by (**DD-MM-YYYY**). For example, 16-11-2020.
 
    Default: No deadline.
 * `RECURRENCE` is one of **TODAY**, **MONDAY**, **TUESDAY**, **WEDNESDAY**, **THURSDAY**, **FRIDAY**, **SATURDAY**, **SUNDAY** or a specific date (**DD-MM-YYYY**).
