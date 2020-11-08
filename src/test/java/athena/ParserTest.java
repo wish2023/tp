@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class ParserTest {
 
+    private Parser parser;
     private TaskList taskList;
 
     /**
@@ -32,6 +33,7 @@ class ParserTest {
     @BeforeEach
     public void setUp() {
         taskList = new TaskList();
+        parser = new Parser();
     }
 
     /**
@@ -347,7 +349,7 @@ class ParserTest {
      */
     private <T extends Command> T parseAndAssertCommandType(String input, Class<T> expectedCommandClass)
             throws CommandException {
-        final Command result = Parser.parse(input, taskList);
+        final Command result = parser.parse(input, taskList);
         assertTrue(result.getClass().isAssignableFrom(expectedCommandClass));
         return (T) result;
     }

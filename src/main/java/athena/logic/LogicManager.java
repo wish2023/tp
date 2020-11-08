@@ -13,10 +13,12 @@ import athena.logic.commands.Command;
  */
 public class LogicManager implements Logic {
     private static AthenaUi athenaUi;
+    private static Parser parser;
     private static Storage storage;
 
     public LogicManager() {
         athenaUi = new AthenaUi();
+        parser = new Parser();
         storage = new Storage("data.csv");
     }
 
@@ -33,7 +35,7 @@ public class LogicManager implements Logic {
         Command userCommand;
 
         TaskList taskList = storage.loadTaskListData();
-        userCommand = Parser.parse(inputString, taskList);
+        userCommand = parser.parse(inputString, taskList);
         userCommand.execute(taskList, athenaUi);
 
         TimeAllocator timeAllocator = new TimeAllocator(taskList);

@@ -53,7 +53,7 @@ public class Parser {
      * @return Description of parameter
      * @throws InvalidCommandException Exception thrown when the the user does not specify a valid command
      */
-    public static String getParameterDesc(String taskInformation, String delimiter, int paramPosition,
+    public String getParameterDesc(String taskInformation, String delimiter, int paramPosition,
                                           String defaultValue) throws InvalidCommandException {
         String param;
         if (paramPosition == -1) {
@@ -95,7 +95,7 @@ public class Parser {
      * @throws InvalidCommandException Exception thrown when the the user does not specify a valid command
      * @throws InvalidImportanceException Exception thrown when the user does not specify a valid importance
      */
-    public static Command parseAddCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
+    public Command parseAddCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
                                           int recurrencePos, int importancePos, int addNotesPos)
             throws InvalidCommandException, InvalidImportanceException {
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, EMPTY_STRING);
@@ -140,7 +140,7 @@ public class Parser {
      * @throws InvalidCommandException Exception thrown when the the user does not specify a valid command
      * @throws InvalidImportanceException Exception thrown when the user does not specify a valid importance
      */
-    public static Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
+    public Command parseEditCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
                                            int recurrencePos, int importancePos, int addNotesPos, TaskList taskList)
             throws TaskNotFoundException, EditNoIndexException, InvalidCommandException, InvalidImportanceException {
         int number = getNumber(taskInfo);
@@ -177,7 +177,7 @@ public class Parser {
      * @throws EditNoIndexException Exception thrown when the user does not specify an index of the task they
      *                              want to edit
      */
-    private static int getNumber(String taskInfo) throws EditNoIndexException {
+    private int getNumber(String taskInfo) throws EditNoIndexException {
         try {
             int numberNextSlash = taskInfo.indexOf("/");
             int number = Integer.parseInt(taskInfo.substring(0, (numberNextSlash - 2)));
@@ -198,7 +198,7 @@ public class Parser {
      * @throws InvalidForecastException Exception thrown when the user does not specify a valid forecast
      * @throws InvalidImportanceException Exception thrown when the user does not specify a valid importance
      */
-    public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos)
+    public Command parseListCommand(String taskInfo, int importancePos, int forecastPos)
             throws InvalidCommandException, InvalidForecastException, InvalidImportanceException {
         String importanceDefault = "ALL";
         String forecastDefault = "WEEK";
@@ -217,7 +217,7 @@ public class Parser {
      * @throws DoneNoIndexException Exception thrown when the user does not specify an index of the task they
      *                              want to mark as done
      */
-    public static Command parseDoneCommand(String taskInfo) throws DoneNoIndexException {
+    public Command parseDoneCommand(String taskInfo) throws DoneNoIndexException {
         try {
             int taskIndex = Integer.parseInt(taskInfo);
             return new DoneCommand(taskIndex);
@@ -234,7 +234,7 @@ public class Parser {
      * @throws DeleteNoIndexException Exception thrown when the user does not specify an index of the task they
      *                              want to delete
      */
-    public static Command parseDeleteCommand(String taskInfo) throws DeleteNoIndexException {
+    public Command parseDeleteCommand(String taskInfo) throws DeleteNoIndexException {
         try {
             int taskIndex = Integer.parseInt(taskInfo);
             return new DeleteCommand(taskIndex);
@@ -251,7 +251,7 @@ public class Parser {
      * @throws ViewNoIndexException Exception thrown when the user does not specify an index of the task they
      *                              want to view
      */
-    public static Command parseViewCommand(String taskInfo) throws ViewNoIndexException {
+    public Command parseViewCommand(String taskInfo) throws ViewNoIndexException {
         try {
             int taskIndex = Integer.parseInt(taskInfo);
             return new ViewCommand(taskIndex);
@@ -266,7 +266,7 @@ public class Parser {
      * @param userInput String representing command and information of task
      * @return String representing what the shortcut commands meant
      */
-    public static String parseShortcutCommands(String userInput) {
+    public String parseShortcutCommands(String userInput) {
         HashMap<String, String> shortcutCommandsWithDetails = new HashMap<>();
         shortcutCommandsWithDetails.put("a", "add");
         shortcutCommandsWithDetails.put("e", "edit");
@@ -295,7 +295,7 @@ public class Parser {
      * @param userInput String representing task information
      * @return String representing full input meaning
      */
-    public static String parseShortcutCommandAndDetails(String userInput) {
+    public String parseShortcutCommandAndDetails(String userInput) {
         String[] commandAndDetails = userInput.split(COMMAND_WORD_DELIMITER, 2);
         String shortcutInput = parseShortcutCommands(commandAndDetails[0]);
         String remainingTaskInfo = "";
@@ -316,7 +316,7 @@ public class Parser {
      * @return new Command object based on what the user input is
      * @throws CommandException Exception thrown when there is an error when the user inputs a command
      */
-    public static Command parse(String userInput, TaskList taskList) throws CommandException {
+    public Command parse(String userInput, TaskList taskList) throws CommandException {
         String fullInput = parseShortcutCommandAndDetails(userInput);
         String[] commandAndDetails = fullInput.split(COMMAND_WORD_DELIMITER, 2);
         String commandType = commandAndDetails[0];
