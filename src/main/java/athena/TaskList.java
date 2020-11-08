@@ -118,7 +118,8 @@ public class TaskList {
             throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException,
             InvalidRecurrenceException, InvalidDeadlineException {
         try {
-            if (number < maxNumber) {
+            if (containsTaskWithNumber(number)) {
+                maxNumber++;
                 number = maxNumber;
             }
             Task task = createTask(number, name, startTime,
@@ -294,6 +295,21 @@ public class TaskList {
         Task task = getTaskFromNumber(taskNumber);
         task.setDone();
         return task;
+    }
+
+    /**
+     * Checks whether the task list contains a task with the given number.
+     *
+     * @param taskNumber number to search for.
+     * @return True if task with given number is found. False otherwise.
+     */
+    public boolean containsTaskWithNumber(int taskNumber) {
+        for (Task t : tasks) {
+            if (t.getNumber() == taskNumber) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
