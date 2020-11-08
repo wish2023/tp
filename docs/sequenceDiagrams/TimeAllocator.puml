@@ -1,7 +1,30 @@
 @startuml
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+title timeAllocator
+hide footbox
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+participant "allocator:timeAllocator" as timeAllocator
+participant "dayLog:Log" as log
+participant "bestLog:Log" as Log
+participant "currSlot:TimeSlot" as TimeSlot
+
+->timeAllocator++: runAllocate()
+timeAllocator->log**
+activate log
+timeAllocator->log:setFixedTasks()
+return dayLog
+timeAllocator->TimeSlot**
+loop hasNextTimeSlot
+timeAllocator->TimeSlot++:findNextSlot()
+return
+timeAllocator->Log**:
+
+timeAllocator->Log++:removeAssignedTasks()
+return
+
+timeAllocator->log++:populateLog()
+return
+
+end
+
+<--timeAllocator--
 @enduml

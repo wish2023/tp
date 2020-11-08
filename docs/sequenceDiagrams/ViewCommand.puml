@@ -1,7 +1,33 @@
 @startuml
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+hide footbox
+title View
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+
+->ViewCommand++: execute()
+
+ViewCommand->TaskList++: getTaskDescription()
+
+TaskList->TaskList++: getTaskFromNumber()
+
+TaskList->Task++:getNumber()
+return taskNumber
+TaskList->Task++:getDetailsAsString()
+Task->Task++:getStatus()
+
+Task->Time++:getStartTime()
+return string
+Task->Time++:getDeadline()
+return string
+Task->Time++:getDuration()
+return string
+Task->Time++:getRecurrence()
+return string
+return string
+return string
+return string
+return string
+ViewCommand->AthenaUI++: printTaskDetails()
+return
+<--ViewCommand--
+
 @enduml

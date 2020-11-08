@@ -1,7 +1,21 @@
 @startuml
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+hide footbox
+title Edit
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+participant "command:EditCommand" as EditCommand
+participant "tasklist:TaskList" as TaskList
+participant "task:Task" as Task
+
+->EditCommand++: execute()
+EditCommand->TaskList++: editTask()
+TaskList->TaskList++: createTask()
+TaskList->Task**:
+activate Task
+Task-->TaskList--
+TaskList->Task++: edit()
+Task-->TaskList--:
+return task
+TaskList-->EditCommand--:
+<--EditCommand
+
 @enduml

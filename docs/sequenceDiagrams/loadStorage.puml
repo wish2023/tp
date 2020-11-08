@@ -1,7 +1,16 @@
 @startuml
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+title LOAD
+hide footbox
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+
+->Storage++: loadTaskListData()
+Storage->TaskList**:
+activate TaskList
+Storage->File**
+loop csvReader.readLine()
+    Storage->TaskList: addTask()
+    TaskList-->Storage
+end
+return taskList
+return taskList
 @enduml

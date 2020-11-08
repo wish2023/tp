@@ -1,5 +1,7 @@
 @startuml
 hide footbox
+title AddCommand
+
 participant "command:AddCommand" as AddCommand
 participant "tasklist:TaskList" as TaskList
 participant "task:Task" as Task

@@ -1,7 +1,19 @@
 @startuml
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+title List
+hide footbox
+->ListCommand++: execute()
+ListCommand->Timetable**:
+activate Timetable
+Timetable->ImportanceFilter++
+return
+Timetable->ForecastFilter++
+destroy ImportanceFilter
+return
+return Timetable
+destroy ForecastFilter
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+ListCommand->AthenaUI++: printTimetable()
+AthenaUI-->ListCommand--:
+
+<--ListCommand--
 @enduml

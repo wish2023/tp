@@ -1,7 +1,28 @@
 @startuml
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+hide footbox
+title Done
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+participant "command:DoneCommand" as DoneCommand
+participant "tasklist:TaskList" as TaskList
+participant "task:Task" as Task
+participant "athenaUi:ATHENAUI" as AthenaUI
+
+->DoneCommand: execute()
+activate DoneCommand
+DoneCommand->TaskList: markTaskAsDone()
+activate TaskList
+
+TaskList->Task**
+activate Task
+Task->Task++:setDone()
+Task-->Task--:
+return task
+return task
+DoneCommand->AthenaUI: printTaskDone()
+activate AthenaUI
+AthenaUI->Task++: getName()
+return string
+AthenaUI-->DoneCommand:
+<--DoneCommand
+
 @enduml

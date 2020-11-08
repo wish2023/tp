@@ -1,6 +1,6 @@
 @startuml
 hide footbox
-
+title DeleteCommand
 participant "command:DeleteCommand" as DeleteCommand
 participant "tasklist:TaskList" as TaskList
 participant "task:Task" as Task
@@ -10,16 +10,15 @@ participant "athenaUi:ATHENAUI" as AthenaUI
 activate DeleteCommand
 DeleteCommand->TaskList: deleteTask()
 activate TaskList
-TaskList->TaskList++: getTaskFromNumber()
-TaskList->Task++:getNumber()
-Task-->TaskList--: taskNumber
-TaskList-->TaskList--:taskNumber
+TaskList->Task**
+activate Task
+return task
+return task
 DeleteCommand->Task++:getTaskRestore()
-Task-->TaskList--: String
-TaskList-->DeleteCommand: String
+return String
 DeleteCommand->AthenaUI++: printTaskDeleted()
 AthenaUI->Task++:getName()
-Task-->AthenaUI--:
+return String
 AthenaUI-->DeleteCommand--:
 <--DeleteCommand:
 

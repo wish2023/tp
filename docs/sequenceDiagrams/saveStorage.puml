@@ -1,7 +1,35 @@
 @startuml
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+title Save
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+->Storage++: saveTaskListData()
+Storage->TaskList++: getTasks()
+return
+loop nextTask
+Storage->Task++: getTimeInfo()
+Task->Time**
+activate Time
+return Time
+return Time
+Storage->Task++: getName()
+return
+Storage->Time++:getStartTimeString()
+return
+Storage->Time++: getDurationString()
+return
+Storage->Time++:getDeadline()
+return
+Storage->Time++:getRecurrence()
+return
+Storage->Task++: getImportance()
+return
+Storage->Task++: getNotes()
+return
+Storage->Task++: getNumber()
+return
+Storage->Task++: isDone()
+return
+Storage->Task++: isFlexible()
+return
+end
+<--Storage--
 @enduml
