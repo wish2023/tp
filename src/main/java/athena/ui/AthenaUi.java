@@ -152,11 +152,11 @@ public class AthenaUi implements Ui {
      * @param task A task object that represents the task being edited
      */
     public void printTaskEdited(Task task) {
-        TimeData timeInfo = task.getTimeInfo();
         printNormal("You've changed the details of task number ");
         printBoldNextLine((task.getNumber()) + ": " + task.getName() + "!");
         printNormalNextLine("Here are the new details of your task!");
         printNormal("Start Time: ");
+        TimeData timeInfo = task.getTimeInfo();
         printBoldNextLine(timeInfo.getStartTimeString());
         printNormal("Duration: ");
         printBoldNextLine(timeInfo.getDurationString());
