@@ -465,10 +465,6 @@ The screenshot below shows the output from ATHENA after entering `dl 0`.
 ![](screenshots/delete-intermediate.jpeg)
 
 
-
-
-
-
 ### View task: `view` or `v`
 This command views the specified task details from the timetable.
 
