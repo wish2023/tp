@@ -1,6 +1,5 @@
-package athena.exceptions;
+package athena.exceptions.allocator;
 
-import athena.exceptions.InternalException;
 import athena.ui.AthenaUi;
 
 public class AllocationFailedException extends AllocatorException {

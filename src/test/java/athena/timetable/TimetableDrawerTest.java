@@ -3,7 +3,7 @@ package athena.timetable;
 import athena.Forecast;
 import athena.Importance;
 import athena.TaskList;
-import athena.exceptions.CommandException;
+import athena.exceptions.command.CommandException;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

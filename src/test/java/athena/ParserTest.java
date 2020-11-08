@@ -1,7 +1,7 @@
 package athena;
 
-import athena.exceptions.InvalidForecastException;
-import athena.exceptions.InvalidImportanceException;
+import athena.exceptions.command.InvalidForecastException;
+import athena.exceptions.command.InvalidImportanceException;
 import athena.logic.commands.AddCommand;
 import athena.logic.commands.Command;
 import athena.logic.commands.DeleteCommand;
@@ -11,8 +11,8 @@ import athena.logic.commands.ExitCommand;
 import athena.logic.commands.HelpCommand;
 import athena.logic.commands.ListCommand;
 import athena.logic.commands.ViewCommand;
-import athena.exceptions.CommandException;
-import athena.exceptions.InvalidCommandException;
+import athena.exceptions.command.CommandException;
+import athena.exceptions.command.InvalidCommandException;
 import athena.logic.Parser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,8 +34,8 @@ class ParserTest {
      */
     @BeforeEach
     public void setUp() {
-        parser = new Parser();
         taskList = new TaskList();
+        parser = new Parser();
     }
 
     /**
@@ -77,6 +77,7 @@ class ParserTest {
 
     /**
      * Checks if the program exits if the user types "ex".
+     *
      * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     @Test
@@ -105,6 +106,7 @@ class ParserTest {
 
     /**
      * Checks if the program deletes the correct task at index 1.
+     *
      * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     @Test
@@ -132,6 +134,7 @@ class ParserTest {
 
     /**
      * Checks if the program marks the task at index 1 as done.
+     *
      * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     @Test
@@ -145,6 +148,7 @@ class ParserTest {
 
     /**
      * Checks if the program displays the details of task at index 1.
+     *
      * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     @Test
@@ -158,6 +162,7 @@ class ParserTest {
 
     /**
      * Checks if the program displays the details of task at index 1.
+     *
      * @throws CommandException Exception thrown if there is an error with the user entered command
      */
     @Test
@@ -290,34 +295,41 @@ class ParserTest {
     }
 
     /**
-     * Checks if lists out tasks properly with two specified parameters.
-     *
-     * @throws CommandException Exception thrown if there is an error with the user entered command
+     * Checks if an exception is thrown when the user provides invalid parameters for the view command.
      */
     @Test
-    public void parse_viewCommandBadArg_throwsException() throws CommandException {
+    public void parse_viewCommandBadArg_throwsException() {
         final String input = "view abcde";
         assertThrows(CommandException.class, () -> {
             parseAndAssertCommandType(input, ViewCommand.class);
         });
     }
 
+    /**
+     * Checks if an exception is thrown when the user provides invalid parameters for the done command.
+     */
     @Test
-    public void parse_doneCommandBadArg_throwsException() throws CommandException {
+    public void parse_doneCommandBadArg_throwsException() {
         final String input = "done abcde";
         assertThrows(CommandException.class, () -> {
             parseAndAssertCommandType(input, DoneCommand.class);
         });
     }
 
+    /**
+     * Checks if an exception is thrown when the user provides invalid parameters for the delete command.
+     */
     @Test
-    public void parse_deleteCommandBadArg_throwsException() throws CommandException {
+    public void parse_deleteCommandBadArg_throwsException() {
         final String input = "delete abcde";
         assertThrows(CommandException.class, () -> {
             parseAndAssertCommandType(input, DeleteCommand.class);
         });
     }
 
+    /**
+     * Checks if lists out tasks properly with two specified parameters.
+     */
     @Test
     public void parse_listCommandArg_parsedCorrectly() throws CommandException {
         final String input = "list f/WEEK i/medium";

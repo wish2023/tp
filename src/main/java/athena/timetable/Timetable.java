@@ -10,6 +10,7 @@ import athena.task.taskfilter.ImportanceFilter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.TreeMap;
 
 /**
@@ -103,7 +104,7 @@ public class Timetable {
      * @param dates Dates to include in the output.
      * @return A list of tasks separated by date.
      */
-    private String getTaskListString(ArrayList<LocalDate> dates) {
+    private String getTaskListForDates(ArrayList<LocalDate> dates) {
         StringBuilder list = new StringBuilder("Your task list: \n");
         for (LocalDate date : dates) {
             if (timetableDayMap.containsKey(date)) {
@@ -121,11 +122,19 @@ public class Timetable {
      */
     @Override
     public String toString() {
-        ArrayList<LocalDate> dates = DateUtils.getDatesBasedOnForecast(forecast);
-        TimetableDrawer timetableDrawer = new TimetableDrawer(this);
-        String timetableString = timetableDrawer.drawTimetable(dates, ATHENA_WAKE_UP_HOUR, ATHENA_SLEEP_HOUR);
-        String taskListString = getTaskListString(dates);
-        String output = timetableString + taskListString;
-        return output + "\n";
+        String output;
+        if (forecast != Forecast.ALL) {
+            ArrayList<LocalDate> dates = DateUtils.getDatesBasedOnForecast(forecast);
+            TimetableDrawer timetableDrawer = new TimetableDrawer(this);
+            String timetableString = timetableDrawer.drawTimetable(dates, ATHENA_WAKE_UP_HOUR, ATHENA_SLEEP_HOUR);
+            String taskListString = getTaskListForDates(dates);
+            output = timetableString + taskListString;
+        } else {
+            LocalDate[] datesArray = timetableDayMap.keySet().toArray(new LocalDate[0]);
+            ArrayList<LocalDate> datesList = new ArrayList<>(Arrays.asList(datesArray));
+            output = getTaskListForDates(datesList);
+        }
+
+        return output.trim() + "\n";
     }
 }

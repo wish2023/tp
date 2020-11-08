@@ -16,7 +16,7 @@ public class FlexibleTimeFilter extends TaskFilter {
      * currently it only checks for an empty getDate of the task
      *
      * @param task Task to check.
-     * @return
+     * @return boolean
      */
     @Override
     public boolean isTaskIncluded(Task task) {

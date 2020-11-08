@@ -1,0 +1,38 @@
+@startuml
+hide footbox
+
+actor "ATHENA" as Athena
+participant ":AddCommand" as AddCommand
+participant ":TaskList" as TaskList
+participant ":Task" as Task
+
+
+Athena->AddCommand: execute()
+activate AddCommand
+AddCommand->TaskList: addTask()
+activate TaskList
+
+TaskList->TaskList: addTask()
+
+TaskList->TaskList: createTask()
+activate TaskList
+create Task
+TaskList->Task:
+activate Task
+return task
+TaskList-->TaskList: task
+deactivate TaskList
+
+TaskList->TaskList: checkClash()
+activate TaskList
+return boolean
+TaskList->TaskList: updateMaxNumber()
+activate TaskList
+return
+TaskList-->AddCommand:
+deactivate TaskList
+AddCommand-->Athena
+deactivate
+destroy AddCommand
+
+@enduml
