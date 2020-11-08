@@ -1,8 +1,8 @@
 package athena;
 
-import athena.exceptions.ClashInTaskException;
-import athena.exceptions.CommandException;
-import athena.exceptions.StorageException;
+import athena.exceptions.command.ClashInTaskException;
+import athena.exceptions.command.CommandException;
+import athena.exceptions.storage.StorageException;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
