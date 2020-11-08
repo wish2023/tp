@@ -54,6 +54,7 @@ public class Athena {
             try {
                 allocator = new TimeAllocator(taskList);
                 allocator.runAllocate();
+                athenaUi.printNewline();
                 athenaUi.printUserInputIndicator();
                 inputString = athenaUi.detectInput(input);
                 isExit = logicManager.execute(inputString);
@@ -65,7 +66,6 @@ public class Athena {
                 isExit = true;
             }
         }
-
         input.close();
     }
 }
