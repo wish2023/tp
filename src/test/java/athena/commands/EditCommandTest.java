@@ -1,6 +1,5 @@
 package athena.commands;
 
-import athena.EditCommand;
 import athena.Importance;
 import athena.TaskList;
 import athena.exceptions.command.CommandException;

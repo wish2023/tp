@@ -1,5 +1,8 @@
-package athena;
+package athena.commands;
 
+import athena.DateChecker;
+import athena.Importance;
+import athena.TaskList;
 import athena.task.Task;
 import athena.ui.AthenaUi;
 import athena.exceptions.command.CommandException;
@@ -22,7 +25,7 @@ public class EditCommand extends Command {
     /**
      * Initializes the object with the parameters.
      *
-     * @param number     Integer representing index of task.
+     * @param number     int representing index of task.
      * @param name       String representing name of task.
      * @param startTime  String representing start time of task.
      * @param duration   String representing duration of task.

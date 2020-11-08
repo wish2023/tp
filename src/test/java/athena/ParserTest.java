@@ -1,5 +1,6 @@
 package athena;
 
+import athena.commands.*;
 import athena.exceptions.command.InvalidForecastException;
 import athena.exceptions.command.InvalidImportanceException;
 import athena.exceptions.command.CommandException;

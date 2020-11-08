@@ -1,5 +1,6 @@
 package athena;
 
+import athena.exceptions.command.IllegalTimeModificationException;
 import athena.exceptions.command.ClashInTaskException;
 import athena.exceptions.command.InvalidDeadlineException;
 import athena.exceptions.command.InvalidRecurrenceException;
@@ -7,7 +8,9 @@ import athena.exceptions.command.InvalidTimeFormatException;
 import athena.exceptions.command.TaskDuringSleepTimeException;
 import athena.exceptions.command.TaskIsDoneException;
 import athena.exceptions.command.TaskNotFoundException;
+
 import athena.task.Task;
+import athena.task.Time;
 import athena.task.taskfilter.TaskFilter;
 
 import java.time.LocalDate;
@@ -262,8 +265,13 @@ public class TaskList {
                          String deadline, String recurrence, Importance importance,
                          String notes)
             throws TaskNotFoundException, ClashInTaskException,
-            TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException {
+            TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException,
+            IllegalTimeModificationException {
         Task task = getTaskFromNumber(taskNumber);
+        Time time = task.getTimeInfo();
+        if (time.getFlexible() && ((startTime != time.getStartTimeString()) || (recurrence != time.getRecurrence()))) {
+            throw new IllegalTimeModificationException();
+        }
         Task possibleEditedTask = createTask(taskNumber, name, startTime,
                 duration, deadline, recurrence, importance, notes, task.isFlexible());
         checkClash(possibleEditedTask);

@@ -1,5 +1,6 @@
-package athena;
+package athena.commands;
 
+import athena.TaskList;
 import athena.exceptions.command.TaskNotFoundException;
 import athena.exceptions.command.ViewInvalidIndexException;
 import athena.ui.AthenaUi;
@@ -15,7 +16,7 @@ public class ViewCommand extends Command {
     /**
      * Initializes the object with the task number of task to be viewed.
      *
-     * @param taskNumber Integer representing the task number of task.
+     * @param taskNumber int representing the task number of task.
      */
     public ViewCommand(int taskNumber) {
         this.taskNumber = taskNumber;

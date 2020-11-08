@@ -1,5 +1,8 @@
-package athena;
+package athena.commands;
 
+import athena.Forecast;
+import athena.Importance;
+import athena.TaskList;
 import athena.exceptions.command.EmptyTaskListException;
 import athena.timetable.Timetable;
 import athena.ui.AthenaUi;

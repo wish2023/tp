@@ -1,5 +1,6 @@
 package athena;
 
+import athena.commands.Command;
 import athena.exceptions.command.CommandException;
 import athena.ui.AthenaUi;
 import athena.exceptions.storage.StorageException;
@@ -53,8 +54,10 @@ public class Athena {
             try {
                 allocator = new TimeAllocator(taskList);
                 allocator.runAllocate();
+                athenaUi.printNewline();
                 athenaUi.printUserInputIndicator();
-                inputString = input.nextLine();
+
+                inputString = athenaUi.detectInput(input);
                 TaskList taskList = storage.loadTaskListData();
                 Command userCommand = parser.parse(inputString, taskList);
                 userCommand.execute(taskList, athenaUi);
@@ -72,7 +75,6 @@ public class Athena {
                 isExit = true;
             }
         }
-
         input.close();
     }
 }

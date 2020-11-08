@@ -1,5 +1,6 @@
-package athena;
+package athena.commands;
 
+import athena.TaskList;
 import athena.ui.AthenaUi;
 import athena.exceptions.command.CommandException;
 

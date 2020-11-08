@@ -1,5 +1,6 @@
 package athena;
 
+import athena.commands.*;
 import athena.exceptions.command.CommandException;
 import athena.exceptions.command.DeleteNoIndexException;
 import athena.exceptions.command.DoneNoIndexException;
@@ -37,7 +38,7 @@ public class Parser {
      *
      * @param taskInformation String representing task information
      * @param delimiter       String representing parameter delimiter
-     * @param paramPosition   Integer representing position of parameter
+     * @param paramPosition   int representing position of parameter
      * @param defaultValue    String representing default value
      * @return Description of parameter
      * @throws InvalidCommandException Exception thrown when the the user does not specify a valid command
@@ -73,19 +74,19 @@ public class Parser {
      * Parses user input when command is add.
      *
      * @param taskInfo      String representing task information
-     * @param namePos       Integer representing position of name parameter
-     * @param timePos       Integer representing position of time parameter
-     * @param durationPos   Integer representing position of duration parameter
-     * @param deadlinePos   Integer representing position of deadline parameter
-     * @param recurrencePos Integer representing position of recurrence parameter
-     * @param importancePos Integer representing position of importance parameter
-     * @param addNotesPos   Integer representing position of additional notes parameter
+     * @param namePos       int representing position of name parameter
+     * @param timePos       int representing position of time parameter
+     * @param durationPos   int representing position of duration parameter
+     * @param deadlinePos   int representing position of deadline parameter
+     * @param recurrencePos int representing position of recurrence parameter
+     * @param importancePos int representing position of importance parameter
+     * @param addNotesPos   int representing position of additional notes parameter
      * @return command object
      * @throws InvalidCommandException Exception thrown when the the user does not specify a valid command
      * @throws InvalidImportanceException Exception thrown when the user does not specify a valid importance
      */
     public Command parseAddCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
-                                          int recurrencePos, int importancePos, int addNotesPos)
+                                   int recurrencePos, int importancePos, int addNotesPos)
             throws InvalidCommandException, InvalidImportanceException {
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, EMPTY_STRING);
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, EMPTY_STRING);
@@ -114,13 +115,13 @@ public class Parser {
      * Parses user input when command is edit.
      *
      * @param taskInfo      String representing task information
-     * @param namePos       Integer representing position of name parameter
-     * @param timePos       Integer representing position of time parameter
-     * @param durationPos   Integer representing position of duration parameter
-     * @param deadlinePos   Integer representing position of deadline parameter
-     * @param recurrencePos Integer representing position of recurrence parameter
-     * @param importancePos Integer representing position of importance parameter
-     * @param addNotesPos   Integer representing position of additional notes parameter
+     * @param namePos       int representing position of name parameter
+     * @param timePos       int representing position of time parameter
+     * @param durationPos   int representing position of duration parameter
+     * @param deadlinePos   int representing position of deadline parameter
+     * @param recurrencePos int representing position of recurrence parameter
+     * @param importancePos int representing position of importance parameter
+     * @param addNotesPos   int representing position of additional notes parameter
      * @return command object
      * @throws TaskNotFoundException Exception thrown when the program is unable to find a task at the index
      *                               specified by the user
@@ -180,8 +181,8 @@ public class Parser {
      * Parses user input when command is list.
      *
      * @param taskInfo      String representing task information
-     * @param importancePos Integer representing position of importance parameter
-     * @param forecastPos   Integer representing position of forecast parameter
+     * @param importancePos int representing position of importance parameter
+     * @param forecastPos   int representing position of forecast parameter
      * @return command object
      * @throws InvalidCommandException Exception thrown when the the user does not specify a valid command
      * @throws InvalidForecastException Exception thrown when the user does not specify a valid forecast

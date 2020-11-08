@@ -1,5 +1,6 @@
-package athena;
+package athena.commands;
 
+import athena.TaskList;
 import athena.exceptions.command.DeleteInvalidIndexException;
 import athena.exceptions.command.TaskNotFoundException;
 import athena.task.Task;
@@ -15,7 +16,7 @@ public class DeleteCommand extends Command {
     /**
      * Initializes the object with the index of task to be deleted.
      *
-     * @param index Integer representing the index of task.
+     * @param index int representing the index of task.
      */
     public DeleteCommand(int index) {
         deleteIndex = index;

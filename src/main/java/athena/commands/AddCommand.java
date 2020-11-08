@@ -1,5 +1,8 @@
-package athena;
+package athena.commands;
 
+import athena.DateChecker;
+import athena.Importance;
+import athena.TaskList;
 import athena.exceptions.command.CommandException;
 import athena.exceptions.command.AddMissingRequiredParametersException;
 import athena.exceptions.command.AddDateWrongFormatException;
