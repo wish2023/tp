@@ -216,6 +216,8 @@ public class Time implements Comparable<Time> {
             LocalDate date = getDate(recurrence);
             if (recurrence.length() == "dd-MM".length()) {
                 this.recurrence = recurrence + "-" + date.getYear();
+            } else {
+                this.recurrence = recurrence;
             }
             recurrenceDates.add(date);
         } catch (DateTimeParseException e) {
