@@ -25,7 +25,7 @@ public class EditCommand extends Command {
     /**
      * Initializes the object with the parameters.
      *
-     * @param number     Integer representing index of task.
+     * @param number     int representing index of task.
      * @param name       String representing name of task.
      * @param startTime  String representing start time of task.
      * @param duration   String representing duration of task.
