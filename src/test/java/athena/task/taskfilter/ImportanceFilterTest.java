@@ -1,7 +1,7 @@
 package athena.task.taskfilter;
 
 import athena.Importance;
-import athena.exceptions.CommandException;
+import athena.exceptions.command.CommandException;
 import athena.task.Task;
 import org.junit.jupiter.api.Test;
 

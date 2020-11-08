@@ -2,8 +2,8 @@ package athena.task.taskfilter;
 
 import athena.Forecast;
 import athena.Importance;
-import athena.exceptions.InvalidForecastException;
-import athena.exceptions.InvalidImportanceException;
+import athena.exceptions.command.InvalidForecastException;
+import athena.exceptions.command.InvalidImportanceException;
 
 public class FilterCalculator {
     Forecast forecast;

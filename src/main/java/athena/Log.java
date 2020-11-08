@@ -88,7 +88,7 @@ public class Log {
     }
 
     public ArrayList<Task> getCarryOverTasks() {
-        return carryOverTasks;
+        return this.carryOverTasks;
     }
 
     public Log(TimeSlot currSlot, ArrayList<Task> undefinedTimeTasks) {
@@ -116,10 +116,10 @@ public class Log {
     /**
      * Removes the assigned tasks from the remaining tasks.
      */
-    public void removeAssignedTasks() {
+    public void removeAssignedTasks(TaskList taskList) {
         for (int taskNumber : this.numberList) {
             try {
-                this.carryOverTasks.remove(taskNumber);
+                this.carryOverTasks.remove(taskList.getTaskFromNumber(taskNumber));
             } catch (Exception e) {
                 //do nothing
             }
