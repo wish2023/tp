@@ -64,4 +64,4 @@ Prints out a message on how to use ATHENA.
 
 #### Expected output
 
-*insert screenshot*
+![help-command](screenshots/help.jpeg)
