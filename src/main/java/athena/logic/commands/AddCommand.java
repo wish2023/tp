@@ -41,7 +41,6 @@ public class AddCommand extends Command {
         taskName = name;
         assert !taskName.equals("");
         taskStartTime = startTime;
-        //assert !taskStartTime.equals("");
         taskDuration = duration;
         taskDeadline = deadline;
         taskRecurrence = recurrence;
@@ -56,8 +55,7 @@ public class AddCommand extends Command {
      *
      * @param taskList Tasks list
      * @param athenaUi       Ui
-     * @throws AddMissingRequiredParametersException Exception thrown when required parameters are not provided for
-     *                                               add command
+     * @throws CommandException Exception thrown when there is an error when the user inputs a command
      */
     @Override
     public void execute(TaskList taskList, AthenaUi athenaUi)
