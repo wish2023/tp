@@ -12,8 +12,8 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.TreeMap;
 import java.util.function.Function;
 
@@ -40,7 +40,7 @@ public class Timetable {
     /**
      * Creates a timetable object from a TaskList object.
      *
-     * @param taskList   Task list
+     * @param taskList Task list
      */
     public Timetable(TaskList taskList) {
         this(taskList, Importance.ALL, Forecast.WEEK);
@@ -293,7 +293,7 @@ public class Timetable {
         return datesInWeek;
     }
 
-    private String getTaskListString(ArrayList<LocalDate> dates) {
+    private String getTaskListForDates(ArrayList<LocalDate> dates) {
         String list = "Your task list: \n";
         for (LocalDate date : dates) {
             if (timetableDayMap.containsKey(date)) {
@@ -323,10 +323,17 @@ public class Timetable {
      */
     @Override
     public String toString() {
-        ArrayList<LocalDate> dates = DateUtils.getDatesBasedOnForecast(forecast);
-        String output = drawTimetable(dates, 8, 24);
-        output += "\n";
-        output += getTaskListString(dates);
+        String output = "";
+        if (forecast != Forecast.ALL) {
+            ArrayList<LocalDate> dates = DateUtils.getDatesBasedOnForecast(forecast);
+            output = drawTimetable(dates, 8, 24);
+            output += "\n";
+            output += getTaskListForDates(dates);
+        } else {
+            LocalDate[] datesArray = timetableDayMap.keySet().toArray(new LocalDate[0]);
+            ArrayList<LocalDate> datesList = new ArrayList<>(Arrays.asList(datesArray));
+            output = getTaskListForDates(datesList);
+        }
 
         return output.trim() + "\n";
     }
