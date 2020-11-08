@@ -4,37 +4,74 @@ package athena.logic;
 import athena.exceptions.command.DateHasPassedException;
 import athena.exceptions.command.InvalidDeadlineException;
 import athena.exceptions.command.InvalidRecurrenceException;
+import athena.exceptions.command.InvalidTimeFormatException;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class DateChecker {
     String recurrenceString;
     String deadlineString;
+    String startTimeString
     LocalDate recurrence;
     LocalDate deadline;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    LocalTime startTime;
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
 
-    public DateChecker(String recurrenceString, String deadlineString)
-            throws DateHasPassedException, InvalidRecurrenceException, InvalidDeadlineException {
-        this.recurrenceString = recurrenceString;
-        this.deadlineString = deadlineString;
+    public DateChecker(String recurrenceString, String deadlineString, String startTimeString)
+            throws DateHasPassedException, InvalidRecurrenceException, InvalidDeadlineException,
+            InvalidTimeFormatException {
+        setStringAttributes(recurrenceString, deadlineString, startTimeString);
+        setRecurrence(recurrenceString);
+        setDeadline(deadlineString);
+        setStartTime(startTimeString);
+        checkDatePassed();
+    }
+
+    private void setStartTime(String startTimeString) throws InvalidTimeFormatException {
         try {
-            this.recurrence = LocalDate.parse(recurrenceString, formatter);
+            this.startTime = LocalTime.parse(startTimeString, timeFormatter);
         } catch (DateTimeParseException e) {
-            throw new InvalidRecurrenceException();
+            throw new InvalidTimeFormatException();
         }
+    }
+
+    private void setDeadline(String deadlineString) throws InvalidDeadlineException {
         try {
-            this.deadline = LocalDate.parse(recurrenceString, formatter);
+            this.deadline = LocalDate.parse(deadlineString, dateFormatter);
         } catch (DateTimeParseException e) {
             throw new InvalidDeadlineException();
         }
-        checkDatePassed(recurrence);
     }
 
-    private void checkDatePassed(LocalDate date) throws DateHasPassedException {
-        if (date.compareTo(LocalDate.now()) < 0) {
+    private void setRecurrence(String recurrenceString) throws InvalidRecurrenceException {
+        try {
+            this.recurrence = LocalDate.parse(recurrenceString, dateFormatter);
+        } catch (DateTimeParseException e) {
+            throw new InvalidRecurrenceException();
+        }
+    }
+
+    private void setStringAttributes(String recurrenceString, String deadlineString, String startTimeString) {
+        this.recurrenceString = recurrenceString;
+        this.deadlineString = deadlineString;
+        this.startTimeString = startTimeString;
+    }
+
+    private void checkDatePassed() throws DateHasPassedException {
+        if (recurrence.compareTo(LocalDate.now()) < 0) {
+            throw new DateHasPassedException();
+        }
+        else if (recurrence.compareTo(LocalDate.now()) == 0) {
+            checkStartTime();
+        }
+    }
+
+    private void checkStartTime() throws DateHasPassedException {
+        if (startTime.compareTo(LocalTime.now()) < 0) {
             throw new DateHasPassedException();
         }
     }
