@@ -23,8 +23,14 @@ public class DateChecker {
             throws DateHasPassedException, InvalidRecurrenceException, InvalidTimeFormatException {
         setStringAttributes(recurrenceString, startTimeString);
         setRecurrence(recurrenceString);
-        setStartTime(startTimeString);
-        checkDatePassed();
+        if (isNonEmptyTime(startTimeString)) {
+            setStartTime(startTimeString);
+            checkDatePassed();
+        }
+    }
+
+    private boolean isNonEmptyTime(String startTimeString) {
+        return !startTimeString.equals("");
     }
 
     private void setStartTime(String startTimeString) throws InvalidTimeFormatException {
