@@ -10,9 +10,19 @@ public class TimetableTestsUtils {
      * @return List of dates for one week starting today.
      */
     static ArrayList<LocalDate> getThisWeekDates() {
+        return getUpcomingDates(7);
+    }
+
+    /**
+     * Gets the upcoming dates starting from today in a list.
+     *
+     * @param days Number of days to get.
+     * @return List of upcoming dates.
+     */
+    static ArrayList<LocalDate> getUpcomingDates(int days) {
         ArrayList<LocalDate> dates = new ArrayList<>();
         LocalDate date = LocalDate.now();
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < days; i++) {
             dates.add(date);
             date = date.plusDays(1);
         }
