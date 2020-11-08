@@ -300,11 +300,21 @@ public class Time implements Comparable<Time> {
         return currentDate.getMonthValue() > month;
     }
 
+    /**
+     * Returns the dates of when the task will occur.
+     *
+     * @return dates the task will occur
+     */
     public ArrayList<LocalDate> getRecurrenceDates() {
         return recurrenceDates;
     }
 
 
+    /**
+     * Returns the starting time of a task.
+     *
+     * @return the start time of the task
+     */
     public LocalTime getStartTime() {
         return startTime;
     }
