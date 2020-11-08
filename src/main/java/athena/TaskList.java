@@ -147,10 +147,19 @@ public class TaskList {
         return task;
     }
 
+    /**
+     * Decrements maxNumber.
+     */
     private void decrementMaxNumber() {
         maxNumber--;
     }
 
+    /**
+     * Checks if new task clashes with TaskList.
+     *
+     * @param taskToCompare the new task that may be added.
+     * @throws ClashInTaskException Exception thrown when the task clashes with TaskList
+     */
     private void checkClash(Task taskToCompare) throws ClashInTaskException {
         for (Task task : tasks) {
             if (isTimeClash(taskToCompare, task)) {
