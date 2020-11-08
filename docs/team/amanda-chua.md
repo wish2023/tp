@@ -25,6 +25,8 @@ The code contributed by me can be found in this [link](https://nus-cs2113-ay2021
 * Implemented shortcut commands
 * Used regex to parse parameters input by user
 
+<div style="page-break-after: always;"></div>
+
 ### Documentation:
   * User Guide:
     * Created the first draft and provided a template for the team to follow. 
