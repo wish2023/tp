@@ -412,4 +412,9 @@ public class AthenaUi implements Ui {
         System.out.println(colorText.toRed(
                 "You are not allowed to add a task from 12am to 8am. It is time to sleep! \n"));
     }
+
+    public void printIllegalTimeModificationException() {
+        System.out.println(colorText.toRed(
+                "You are not allowed to modify the time of flexible tasks \n"));
+    }
 }
