@@ -1,14 +1,12 @@
 package athena;
 
 import athena.exceptions.NoNextSlotException;
-import athena.exceptions.DateHasPassedException;
 import athena.exceptions.InvalidRecurrenceException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
-import athena.task.Time;
+import athena.task.TimeData;
 import athena.task.taskfilter.DayFilter;
 import athena.task.taskfilter.FlexibleTimeFilter;
-import athena.task.taskfilter.ForecastFilter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -62,7 +60,7 @@ public class TimeAllocator {
             }
             for (Task currTask : undefinedTimeTasks) {
                 try {
-                    Time timeInfo = this.taskList.getTaskFromNumber(currTask.getNumber()).getTimeInfo();
+                    TimeData timeInfo = this.taskList.getTaskFromNumber(currTask.getNumber()).getTimeInfo();
                     timeInfo.setStartTime(null);
                 } catch (TaskNotFoundException e) {
                     //do nothing
@@ -85,7 +83,7 @@ public class TimeAllocator {
         for (int taskNumber : bestLog) {
             if (!assignedNumbers.contains(taskNumber)) {
                 try {
-                    Time timeInfo = this.taskList.getTaskFromNumber(taskNumber)
+                    TimeData timeInfo = this.taskList.getTaskFromNumber(taskNumber)
                             .getTimeInfo();
                     timeInfo.setStartTime(LocalTime.of(pos + count, 0));
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM");

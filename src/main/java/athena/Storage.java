@@ -13,7 +13,7 @@ import athena.exceptions.TaskIsDoneException;
 import athena.exceptions.TaskNotFoundException;
 import athena.exceptions.TaskTooLongException;
 import athena.task.Task;
-import athena.task.Time;
+import athena.task.TimeData;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -55,7 +55,7 @@ public class Storage {
         try {
             FileWriter csvWriter = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {
-                Time timeInfo = task.getTimeInfo();
+                TimeData timeInfo = task.getTimeInfo();
                 taskString = replaceCommas(task.getName()) + ","
                         + replaceCommas(timeInfo.getStartTimeString()) + ","
                         + replaceCommas(timeInfo.getDurationString()) + ","

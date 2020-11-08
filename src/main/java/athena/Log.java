@@ -1,7 +1,7 @@
 package athena;
 
 import athena.task.Task;
-import athena.task.Time;
+import athena.task.TimeData;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,7 +66,7 @@ public class Log {
     public void setFixedTasks(ArrayList<Task> fixedTaskList) {
         for (Task currTask : fixedTaskList) {
             int tag = currTask.getNumber();
-            Time timeInfo = currTask.getTimeInfo();
+            TimeData timeInfo = currTask.getTimeInfo();
             for (int i = 0; i < timeInfo.getDuration(); i++) {
                 this.setNumber(timeInfo.getStartTime().getHour() + i, tag);
             }

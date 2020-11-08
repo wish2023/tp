@@ -254,9 +254,7 @@ public class TaskList {
     public void editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, Importance importance,
                          String notes)
-            throws
-            TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException,
-
+            throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException,
             TaskTooLongException, InvalidRecurrenceException, InvalidDeadlineException {
         Task task = getTaskFromNumber(taskNumber);
         Task possibleEditedTask = createTask(taskNumber, name, startTime,
