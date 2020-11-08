@@ -1,5 +1,7 @@
 package athena;
 
+import athena.exceptions.InvalidForecastException;
+import athena.exceptions.InvalidImportanceException;
 import athena.logic.commands.AddCommand;
 import athena.logic.commands.Command;
 import athena.logic.commands.DeleteCommand;
@@ -322,6 +324,38 @@ class ParserTest {
         final ListCommand parsedCommand = parseAndAssertCommandType(input, ListCommand.class);
         final ListCommand expectedCommand = new ListCommand(Importance.MEDIUM, Forecast.WEEK);
         assertEquals(parsedCommand, expectedCommand);
+    }
+
+    @Test
+    public void parse_listCommandBadImportanceNumber_throwsException() {
+        final String input = "list i/-12345";
+        assertThrows(InvalidImportanceException.class, () -> {
+            parseAndAssertCommandType(input, DeleteCommand.class);
+        });
+    }
+
+    @Test
+    public void parse_listCommandBadImportanceAlphabet_throwsException() {
+        final String input = "list i/abcde";
+        assertThrows(InvalidImportanceException.class, () -> {
+            parseAndAssertCommandType(input, ListCommand.class);
+        });
+    }
+
+    @Test
+    public void parse_listCommandBadForecastNumber_throwsException() {
+        final String input = "list f/-12345";
+        assertThrows(InvalidForecastException.class, () -> {
+            parseAndAssertCommandType(input, ListCommand.class);
+        });
+    }
+
+    @Test
+    public void parse_listCommandBadForecastAlphabet_throwsException() {
+        final String input = "list f/abcde";
+        assertThrows(InvalidForecastException.class, () -> {
+            parseAndAssertCommandType(input, ListCommand.class);
+        });
     }
 
     /*
