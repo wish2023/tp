@@ -12,12 +12,10 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-/*
+/**
  * Stores information related to time.
  * examples include startTime, duration, deadline
  * Recurrence and recurrenceDate can also be stored here
- * setters and getter are needed
- * new things to add ifFlexibleTime to let the TimeAllocate change the time values
  */
 public class Time implements Comparable<Time> {
 
@@ -129,9 +127,9 @@ public class Time implements Comparable<Time> {
     }
 
     /**
-     * Check if a task is scheduled to be between 12am and 8am.
+     * Check if a task is not between 12am and 8am.
      *
-     * @return whether the task clashes with sleep time
+     * @return whether the task doesn't clash with sleep time
      */
     private boolean isNoClashWithSleep() {
         return startTime.compareTo(WAKE_TIME) >= 0
@@ -139,9 +137,18 @@ public class Time implements Comparable<Time> {
                 && duration <= 16;
     }
 
-    public Time getClone()
-            throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException {
-        return new Time(isFlexible, startTime, duration, deadline, recurrence);
+    /**
+     * Create a deep clone of a Time object.
+     *
+     * @return Cloned Time object
+     */
+    public Time getClone() {
+        try {
+            return new Time(isFlexible, startTime, duration, deadline, recurrence);
+        } catch (TaskDuringSleepTimeException | InvalidRecurrenceException | InvalidDeadlineException e) {
+            assert false;
+            return null;
+        }
     }
 
 
@@ -149,7 +156,7 @@ public class Time implements Comparable<Time> {
      * Add all dates for when task is supposed to occur in recurrenceDates.
      *
      * @param recurrence when the task occurs/repeats
-     * @throws InvalidRecurrenceException   Exception thrown when user mistypes recurrence
+     * @throws InvalidRecurrenceException Exception thrown when user mistypes recurrence
      */
     public void setRecurrence(String recurrence) throws InvalidRecurrenceException {
         switch (recurrence.toUpperCase()) {
@@ -199,6 +206,10 @@ public class Time implements Comparable<Time> {
         }
     }
 
+    /**
+     * @param dayOfWeek
+     * @return
+     */
     private LocalDate getFirstDateMatchingDay(DayOfWeek dayOfWeek) {
         LocalDate startDate = LocalDate.now();
         for (int i = 0; i < 6; i++) {
