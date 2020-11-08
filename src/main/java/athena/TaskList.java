@@ -79,14 +79,6 @@ public class TaskList {
         return task;
     }
 
-    /**
-     * Returns size of the task list.
-     *
-     * @return Size of the task list.
-     */
-    public int getTaskListSize() {
-        return tasks.size();
-    }
 
     /**
      * Adds a task to the task list.
@@ -338,14 +330,6 @@ public class TaskList {
         return maxNumber;
     }
 
-    /**
-     * Sets the max index.
-     *
-     * @param maxIndex Max index
-     */
-    public void setMaxNumber(int maxIndex) {
-        this.maxNumber = maxIndex;
-    }
 
     /**
      * Determines if two objects have the same attributes.
