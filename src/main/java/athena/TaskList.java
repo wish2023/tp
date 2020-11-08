@@ -1,12 +1,12 @@
 package athena;
 
-import athena.exceptions.ClashInTaskException;
-import athena.exceptions.InvalidDeadlineException;
-import athena.exceptions.InvalidRecurrenceException;
-import athena.exceptions.InvalidTimeFormatException;
-import athena.exceptions.TaskDuringSleepTimeException;
-import athena.exceptions.TaskIsDoneException;
-import athena.exceptions.TaskNotFoundException;
+import athena.exceptions.command.ClashInTaskException;
+import athena.exceptions.command.InvalidDeadlineException;
+import athena.exceptions.command.InvalidRecurrenceException;
+import athena.exceptions.command.InvalidTimeFormatException;
+import athena.exceptions.command.TaskDuringSleepTimeException;
+import athena.exceptions.command.TaskIsDoneException;
+import athena.exceptions.command.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.taskfilter.TaskFilter;
 
@@ -65,6 +65,9 @@ public class TaskList {
      * @param importance Importance of the task
      * @param notes      Additional notes
      * @return Task as Task object
+     * @throws TaskDuringSleepTimeException Exception thrown when task clashes with sleep time
+     * @throws InvalidRecurrenceException   Exception thrown when user mistypes recurrence
+     * @throws InvalidDeadlineException     Exception thrown when user mistypes deadline
      */
     private Task createTask(int number, String name, String startTime, String duration, String deadline,
                             String recurrence, Importance importance, String notes, Boolean isFlexible)
@@ -103,20 +106,25 @@ public class TaskList {
      * @param recurrence Recurrence of task
      * @param importance Importance of task
      * @param notes      Additional notes of task
+     * @return Task added.
      */
 
-    public void addTask(int number, String name, String startTime, String duration,
+    public Task addTask(int number, String name, String startTime, String duration,
                         String deadline, String recurrence,
                         Importance importance, String notes, boolean isFlexible)
             throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException,
             InvalidRecurrenceException, InvalidDeadlineException {
         try {
+            if (number < maxNumber) {
+                number = maxNumber;
+            }
             Task task = createTask(number, name, startTime,
                     duration, deadline, recurrence, importance, notes, isFlexible);
             decrementMaxNumber();
             checkClash(task);
             updateMaxNumber(number);
             tasks.add(task);
+            return task;
         } catch (DateTimeParseException e) {
             throw new InvalidTimeFormatException();
         }
@@ -132,14 +140,16 @@ public class TaskList {
      * @param recurrence Recurrence of task
      * @param importance Importance of task
      * @param notes      Additional notes of task
+     * @return Task added.
      */
-    public void addTask(String name, String startTime, String duration,
+    public Task addTask(String name, String startTime, String duration,
                         String deadline, String recurrence,
                         Importance importance, String notes, Boolean isFlexible)
             throws ClashInTaskException, TaskDuringSleepTimeException,
             InvalidTimeFormatException, InvalidRecurrenceException, InvalidDeadlineException {
         maxNumber++;
-        addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
+        Task task = addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
+        return task;
     }
 
     private void decrementMaxNumber() {
@@ -240,10 +250,15 @@ public class TaskList {
      * @param recurrence Recurrence of task
      * @param importance Importance of task
      * @param notes      Additional notes of task
+     * @return Edited task.
      * @throws TaskNotFoundException thrown when the program is unable to find a task at the index
      *                               specified by the user
+     * @throws ClashInTaskException thrown when there is a clash with another task.
+     * @throws TaskDuringSleepTimeException thrown when the user wants a task to be done during sleep time.
+     * @throws InvalidRecurrenceException when user mistypes recurrence
+     * @throws InvalidDeadlineException when user mistypes deadline
      */
-    public void editTask(int taskNumber, String name, String startTime, String duration,
+    public Task editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, Importance importance,
                          String notes)
             throws TaskNotFoundException, ClashInTaskException,
@@ -253,6 +268,7 @@ public class TaskList {
                 duration, deadline, recurrence, importance, notes, task.isFlexible());
         checkClash(possibleEditedTask);
         task.edit(name, startTime, duration, deadline, recurrence, importance, notes);
+        return possibleEditedTask;
 
     }
 
@@ -263,7 +279,7 @@ public class TaskList {
      * @return Task marked as done.
      * @throws TaskNotFoundException thrown when the program is unable to find a task at the index
      *                               specified by the user
-     * @throws TaskIsDoneException Exception thrown when user tries to mark a task as done which is done.
+     * @throws TaskIsDoneException   Exception thrown when user tries to mark a task as done which is done.
      */
     public Task markTaskAsDone(int taskNumber)
             throws TaskNotFoundException, TaskIsDoneException {

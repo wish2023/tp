@@ -2,6 +2,7 @@ package athena.ui;
 
 import athena.Importance;
 import athena.task.Task;
+import athena.task.Time;
 import athena.timetable.Timetable;
 import org.fusesource.jansi.AnsiConsole;
 

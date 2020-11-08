@@ -2,7 +2,7 @@ package athena.logic.commands;
 
 import athena.TaskList;
 import athena.ui.AthenaUi;
-import athena.exceptions.CommandException;
+import athena.exceptions.command.CommandException;
 
 /**
  * Abstract Command class for Command objects.
