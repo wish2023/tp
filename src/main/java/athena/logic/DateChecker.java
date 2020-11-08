@@ -47,8 +47,7 @@ public class DateChecker {
     private void checkDefaultDate(String recurrenceString) {
         if (recurrenceString.toLowerCase().equals(TODAY)) {
             this.recurrence = LocalDate.now();
-        }
-        else if (recurrenceString.length() == "dd-MM-yyyy".length()) {
+        } else if (recurrenceString.length() == "dd-MM-yyyy".length()) {
             this.recurrence = LocalDate.parse(recurrenceString, dateFormatter);
         }
     }
@@ -61,8 +60,7 @@ public class DateChecker {
     private void checkDatePassed() throws DateHasPassedException {
         if (recurrence.compareTo(LocalDate.now()) < 0) {
             throw new DateHasPassedException();
-        }
-        else if (recurrence.compareTo(LocalDate.now()) == 0) {
+        } else if (recurrence.compareTo(LocalDate.now()) == 0) {
             checkStartTime();
         }
     }
