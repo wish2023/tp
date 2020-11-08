@@ -2,6 +2,7 @@ package athena.ui;
 
 import athena.Importance;
 import athena.task.Task;
+import athena.task.Time;
 import athena.timetable.Timetable;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -47,24 +48,25 @@ public class AthenaUi implements Ui {
      * @param task       The task of whose details are going to be printed.
      */
     public void printTaskAdded(Task task) {
+        Time timeInfo = task.getTimeInfo();
         System.out.print("\nYou've successfully added " + colorText.toBlue(task.getName()) + " to your list!\n"
-                + "It will start at " + colorText.toBlue(task.getTimeInfo().getStartTimeString()));
+                + "It will start at " + colorText.toBlue(timeInfo.getStartTimeString()));
 
-        if (task.getTimeInfo().getDeadline().toLowerCase().equals("no deadline")) {
+        if (timeInfo.getDeadline().toLowerCase().equals("no deadline")) {
             System.out.println(" and has no deadline.\n");
         } else {
-            System.out.println(" and finish on " + colorText.toBlue(task.getTimeInfo().getDeadline()) + ".\n");
+            System.out.println(" and finish on " + colorText.toBlue(timeInfo.getDeadline()) + ".\n");
         }
 
-        System.out.println("You should spend a total of " + colorText.toBlue(task.getTimeInfo().getDurationString())
+        System.out.println("You should spend a total of " + colorText.toBlue(timeInfo.getDurationString())
                 + " hour(s) on it.");
 
-        if (task.getTimeInfo().getRecurrence().toLowerCase().equals("today")) {
-            System.out.print("It is set to happen " + colorText.toBlue(task.getTimeInfo().getRecurrence()));
-        } else if (task.getTimeInfo().getRecurrence().contains("-")) {
-            System.out.print("It is set to happen on " + colorText.toBlue(task.getTimeInfo().getRecurrence()));
+        if (timeInfo.getRecurrence().toLowerCase().equals("today")) {
+            System.out.print("It is set to happen " + colorText.toBlue(timeInfo.getRecurrence()));
+        } else if (timeInfo.getRecurrence().contains("-")) {
+            System.out.print("It is set to happen on " + colorText.toBlue(timeInfo.getRecurrence()));
         } else {
-            System.out.print("It is set to happen every " + colorText.toBlue(task.getTimeInfo().getRecurrence()));
+            System.out.print("It is set to happen every " + colorText.toBlue(timeInfo.getRecurrence()));
         }
 
         System.out.println(" and has an importance of " + colorText.toBlue(task.getImportance().toString()) + ".\n"
@@ -89,14 +91,15 @@ public class AthenaUi implements Ui {
      * @param task Updated task
      */
     public void printTaskEdited(Task task) {
+        Time timeInfo = task.getTimeInfo();
         System.out.println("\nYou've changed the details of task number "
                 + colorText.toBlue(Integer.toString(task.getNumber())) + ": "
                 + colorText.toBlue(task.getName()) + "!\n"
                 + "Here are the new details of your task!\n"
-                + "Start Time: " + colorText.toBlue(task.getTimeInfo().getStartTimeString()) + "\n"
-                + "Duration: " + colorText.toBlue(task.getTimeInfo().getDurationString()) + "\n"
-                + "Due Date: " + colorText.toBlue(task.getTimeInfo().getDeadline()) + "\n"
-                + "Recurrence: " + colorText.toBlue(task.getTimeInfo().getRecurrence()) + "\n"
+                + "Start Time: " + colorText.toBlue(timeInfo.getStartTimeString()) + "\n"
+                + "Duration: " + colorText.toBlue(timeInfo.getDurationString()) + "\n"
+                + "Due Date: " + colorText.toBlue(timeInfo.getDeadline()) + "\n"
+                + "Recurrence: " + colorText.toBlue(timeInfo.getRecurrence()) + "\n"
                 + "Importance: " + colorText.toBlue(task.getImportance().toString()) + "\n"
                 + "Additional Notes: " + colorText.toBlue(task.getNotes()) + "\n"
                 + "The mistakes of the past have been vanquished!\n");
