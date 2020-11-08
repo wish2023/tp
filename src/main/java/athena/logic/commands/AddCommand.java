@@ -2,11 +2,9 @@ package athena.logic.commands;
 
 import athena.Importance;
 import athena.TaskList;
-import athena.exceptions.CommandException;
-import athena.exceptions.TaskDuringSleepTimeException;
-import athena.exceptions.AddMissingRequiredParametersException;
-import athena.exceptions.ClashInTaskException;
 import athena.exceptions.AddDateWrongFormatException;
+import athena.exceptions.AddMissingRequiredParametersException;
+import athena.exceptions.CommandException;
 import athena.logic.DateChecker;
 import athena.ui.AthenaUi;
 
@@ -35,10 +33,10 @@ public class AddCommand extends Command {
      * @param recurrence String representing recurrence of task.
      * @param importance String representing importance of task.
      * @param notes      String representing additional notes of task.
-     * @param isFlexible  Boolean representing if task time is flexible
+     * @param isFlexible Boolean representing if task time is flexible
      */
     public AddCommand(String name, String startTime, String duration, String deadline,
-                      String recurrence, String importance, String notes, boolean isFlexible) {
+                      String recurrence, Importance importance, String notes, boolean isFlexible) {
         taskName = name;
         assert !taskName.equals("");
         taskStartTime = startTime;
@@ -46,7 +44,7 @@ public class AddCommand extends Command {
         taskDuration = duration;
         taskDeadline = deadline;
         taskRecurrence = recurrence;
-        taskImportance = Importance.valueOf(importance.toUpperCase());
+        taskImportance = importance;
         taskNotes = notes;
         isTaskFlexible = isFlexible;
     }

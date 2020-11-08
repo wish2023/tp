@@ -27,7 +27,7 @@ class AddCommandTest {
      */
     public static TaskList getTaskList() throws CommandException {
         TaskList taskList = new TaskList();
-        taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
+        taskList.addTask(0, "Assignment 1", "1600", "2", "01-01-2021", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
         return taskList;
     }
@@ -39,9 +39,9 @@ class AddCommandTest {
      */
     public static TaskList getTaskListWithAddedTask() throws CommandException {
         TaskList taskList = new TaskList();
-        taskList.addTask(0, "Assignment 1", "1600", "2", "6pm", "12-12-2020",
+        taskList.addTask(0, "Assignment 1", "1600", "2", "01-01-2021", "12-12-2020",
                 Importance.HIGH, "Tough assignment", false);
-        taskList.addTask(1, "Homework 2", "0800", "4", "8pm", "10-12-2020",
+        taskList.addTask(1, "Homework 2", "0800", "4", "01-01-2021", "10-12-2020",
                 Importance.HIGH, "Very easy homework", false);
         return taskList;
     }
@@ -70,8 +70,8 @@ class AddCommandTest {
      * Creates a new add command.
      */
     private AddCommand createAddCommand() {
-        AddCommand command = new AddCommand("Homework 2", "0800", "4", "8pm", "10-12-2020",
-                "high", "Very easy homework", false);
+        AddCommand command = new AddCommand("Homework 2", "0800", "4", "01-01-2021", "10-12-2020",
+                Importance.HIGH, "Very easy homework", false);
         return command;
     }
 
