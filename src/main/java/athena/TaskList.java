@@ -111,6 +111,9 @@ public class TaskList {
             throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException,
             InvalidRecurrenceException, InvalidDeadlineException {
         try {
+            if (number < maxNumber) {
+                number = maxNumber;
+            }
             Task task = createTask(number, name, startTime,
                     duration, deadline, recurrence, importance, notes, isFlexible);
             decrementMaxNumber();
@@ -263,7 +266,7 @@ public class TaskList {
      * @return Task marked as done.
      * @throws TaskNotFoundException thrown when the program is unable to find a task at the index
      *                               specified by the user
-     * @throws TaskIsDoneException Exception thrown when user tries to mark a task as done which is done.
+     * @throws TaskIsDoneException   Exception thrown when user tries to mark a task as done which is done.
      */
     public Task markTaskAsDone(int taskNumber)
             throws TaskNotFoundException, TaskIsDoneException {
