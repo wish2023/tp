@@ -61,7 +61,7 @@ Prints out a message on how to use ATHENA.
 #### Format: `help`
 
 #### Expected output
-![help-command](screenshots/help.jpeg)
+![help-command](screenshots/help.png)
 
 
 ### Add a task: `add` or `a`
@@ -369,7 +369,7 @@ Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of t
 The screenshot below shows the output from ATHENA after entering `done 0`.
 You should expect to see a message to confirm that the task with `TASK-ID` of `0` is marked as done. 
 
-![done](screenshots/done.jpg)
+![done](screenshots/done-basic.png)
 
 
 #### Intermediate Usage (done)
@@ -388,7 +388,7 @@ Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of t
 The user can just type `dn` instead of `done`.
 The screenshot below shows the output from ATHENA after entering `dn 1`.
 
-![dn](screenshots/dn.jpg)
+![dn](screenshots/done-intermediate.png)
 
 
 ### Delete task: `delete` or `dl`
@@ -416,7 +416,7 @@ The following shows the output from ATHENA after entering `delete 0`.
 You should expect to see a message to confirm that the task with `TASK-ID` of `0` is deleted. 
 ATHENA also prints the command required to restore the deleted task.
 
-![delete](screenshots/delete-basic.jpeg)
+![delete](screenshots/delete-basic.png)
 
 
 #### Intermediate Usage (delete)
@@ -432,7 +432,7 @@ Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of t
 The user can just type `dl` instead of `delete`.
 The screenshot below shows the output from ATHENA after entering `dl 0`.
 
-![dl](screenshots/delete-intermediate.jpeg)
+![dl](screenshots/delete-intermediate.png)
 
 
 ### View task: `view` or `v`
@@ -459,7 +459,7 @@ Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of t
 The following shows the output from ATHENA after entering `view 0`.
 You should expect to see the details of your task with `TASK-ID` of `0`.
 
-![view](screenshots/view-basic.jpeg)
+![view](screenshots/view-basic.png)
 
 
 #### Intermediate Usage (view)
@@ -472,7 +472,7 @@ The `view` command supports shortcuts for intermediate users.
 The user can just type `v` instead of `view`.
 The screenshot below shows the output from ATHENA after entering `v 0`.
 
-![v](screenshots/view-intermediate.jpeg)
+![v](screenshots/view-intermediate.png)
 
 
 ### Exit program: `exit` or `ex`
@@ -483,8 +483,8 @@ This command exits the program.
 #### Expected output:
 The screenshot below shows the output from ATHENA after entering `exit`.
 
-![exit](screenshots/exit-basic.jpeg)
-![ex](screenshots/exit-intermediate.jpeg)
+![exit](screenshots/exit-basic.png)
+![ex](screenshots/exit-intermediate.png)
 
 
 ### Saving the data
