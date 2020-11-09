@@ -306,7 +306,7 @@ public class AthenaUi implements Ui {
      * Prints a message telling user that their proposed date has passed.
      */
     public void printDateHasPassedException() {
-        printError("Your date has already passed. "
+        printError("Your date or time has already passed. "
                 + "I can't help you here unless I'm a time traveller.");
     }
 
