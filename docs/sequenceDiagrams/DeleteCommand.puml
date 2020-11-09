@@ -1,6 +1,6 @@
 @startuml
 hide footbox
-title DeleteCommand
+title Delete
 participant "command:DeleteCommand" as DeleteCommand
 participant "tasklist:TaskList" as TaskList
 participant "task:Task" as Task

@@ -1,6 +1,6 @@
 @startuml
 hide footbox
-title DoneCommand
+title Done
 
 participant "command:DoneCommand" as DoneCommand
 participant "tasklist:TaskList" as TaskList

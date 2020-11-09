@@ -507,9 +507,10 @@ In this section, we use the terms *fixed tasks* and *flexible tasks*.
 
 **A**: For *fixed tasks*, it will just record that you did not do that task. But for *flexible tasks*, ATHENA will allocate it again at a later date so that you can have another opportunity to work on it.
 
-**Q: Why is ATHENA allocating tasks during periods that have not passed?**
+**Q: Why is ATHENA allocating tasks during periods that has passed?**
 
-**A**: ATHENA is also best suited for forward planning. ATHENA will not allocate tasks to the current day. If you have tasks that need immediate attention, it is recommended that you start on those tasks immediately.
+**A**: ATHENA is also best suited for planning before the day starts. ATHENA will allocate tasks to the current day in order to have more consistent behaviour. This is to ensure that you have the chance to mark tasks done before they get reallocated.
+If you have tasks that need immediate attention, it is recommended that you start on those tasks immediately.
 
 **Q: Why is ATHENA is not allocating some of my tasks?**
 

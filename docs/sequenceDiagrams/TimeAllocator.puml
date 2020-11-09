@@ -1,5 +1,5 @@
 @startuml
-title timeAllocator
+title Allocator
 hide footbox
 
 participant "allocator:timeAllocator" as timeAllocator
@@ -19,9 +19,12 @@ loop hasNextTimeSlot
 timeAllocator->TimeSlot++:findNextSlot()
 return
 timeAllocator->Log**:
+activate Log
+return
 
 timeAllocator->Log++:removeAssignedTasks()
 return
+
 
 timeAllocator->log++:populateLog()
 return

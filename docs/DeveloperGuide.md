@@ -130,6 +130,26 @@ The respective Command sequence diagrams are illustrated [here](#implementation)
 3. A new `Task` object is created everytime the user uses the *add* command.
 4. The `Task` object is removed with the *delete* command.
 
+### Storage component
+
+![`Storage.java`](structures/StorageStructure.JPG)
+
+[`Storage.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Storage.java)
+
+1. The `Storage` takes in a `TaskList` object and converts it into an equivalent .csv file.
+2. `Athena` creates a `TaskList` from `data.csv`.
+
+### TimeAllocator component
+
+![`TimeAllocator.java`](structures/TimeAllocatorStructure.JPG)
+
+[`TimeAllocator.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/TimeAllocator.java)
+
+The `TimeAllocator` allocates tasks without a specified time to a free time slot. i.e. Tasks that were added using the *add* command without the *t/* parameter.
+
+1. The `TimeAllocator` keeps track of 3 `TaskList`s. One containing all of the user's tasks, one containing only fixed tasks, and another containing only flexible tasks.
+2. The `TimeAllocator` creates `Log`s and a `TimeSlot` when allocating tasks.
+
 ### Timetable component
 
 ![`Timetable Component`](structures/TimetableStructure.png)
@@ -352,6 +372,51 @@ Given below is an example usage scenario and how this mechanism behaves at each 
 The following sequence diagram illustrates how **Step 3** of the task viewing operation works:
 
 ![ViewSequenceDiagram](sequenceDiagrams/ViewCommand.png)
+
+
+### Time allocation to task in timetable
+The time allocation mechanism is facilitated by `TimeAllocator`. It allocates time slots to `Task` objects in a `TaskList` that are not given a fixed time slot by the user. It implements the following operations:
+
+
+Implementation
+
+* `TimeAllocator#runAllocate` - Creates `Log` and `TimeSlot` objects based on the tasks available. It also changes the `startTime` of the allocated tasks.
+
+
+When Athena executes any command, the current `Tasklist` is used to generate a `TimeAllocator` object.
+
+`TimeAllocator` keeps `tasklist`,`fixedTaskList` and `flexibleTaskList` objects.
+
+`TimeAllocator#runAllocate` creates a `Log` object named dayLog and a `TimeSlot` object to keep track of the current allocations for the day. 
+
+Before the allocation of `Task` objects begin, an ArrayList `unassignedTimeTasks` is created from `flexibleTaskList`.
+
+Fixed tasks that occur on the same day are placed into the `dayLog` first.
+
+`TimeSlot#findNextSlot` continually finds the next possible locations for the `Task` objects in `flexibleTaskList`.
+
+The method will iterate through all the combinations of `Log` objects with the existing `flexibleTaskList` until it finds one that completely takes up the time in the `TimeSlot` or it returns the best possible timetable after going through all the possibilities.
+
+The dayLog is used to assign the `startTime` of the allocated `Task` objects, and also removes them from `unassignedTimeTasks`.
+
+This process is repeated to fill up the time for the subsequent days.
+
+
+Shown below is an example usage scenario and how the allocation mechanism behaves at each step.
+
+**Step 1**. The user launches the application. The *data.csv* file located next to the application JAR file contains 5 tasks. These tasks are loaded into the `TaskList`. 3 of them have a fixed time slot, while the other 2 are not assigned any time slot.
+
+**Step 2.** The user executes any command and the allocator will run automatically.
+
+**Step 3**. The application allocates a time slot for the `Task` objects without a fixed time slot.
+
+
+The following sequence diagram illustrates how the allocate operation works:
+
+![TimeAllocatorSequenceDiagram](sequenceDiagrams/TimeAllocator.png)
+
+**Step 4.** The user executes `list` to get an overview of the week. The user sees all 5 tasks in the printed timetable.
+
 
 --------------------------------------------------------------------------------------------------------------------
 
