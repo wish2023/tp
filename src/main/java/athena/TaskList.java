@@ -111,7 +111,10 @@ public class TaskList {
             throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException,
             InvalidRecurrenceException, InvalidDeadlineException, TaskTooLongException {
         try {
-            number = checkNumber(number);
+            if (containsTaskWithNumber(number)) {
+                incrementMaxNumber();
+                number = setNumber();
+            }
             Task task = createTask(number, name, startTime,
                     duration, deadline, recurrence, importance, notes, isFlexible);
             decrementMaxNumber();
@@ -122,6 +125,17 @@ public class TaskList {
         } catch (DateTimeParseException e) {
             throw new InvalidTimeFormatException();
         }
+    }
+
+    /**
+     * Create a Task-ID based on maxNumber.
+     *
+     * @return the Task-ID
+     */
+    private int setNumber() {
+        int number;
+        number = maxNumber;
+        return number;
     }
 
 
@@ -261,19 +275,6 @@ public class TaskList {
         }
     }
 
-    /**
-     * Updates the Task-ID based on maxNumber.
-     *
-     * @param number the Task-ID
-     * @return the new Task-ID
-     */
-    private int checkNumber(int number) {
-        if (number < maxNumber) {
-            number = maxNumber;
-        }
-        return number;
-    }
-
 
     /**
      * Returns the task description of the task with the given number.
@@ -367,6 +368,21 @@ public class TaskList {
         Task task = getTaskFromNumber(taskNumber);
         task.setDone();
         return task;
+    }
+
+    /**
+     * Checks whether the task list contains a task with the given number.
+     *
+     * @param taskNumber number to search for.
+     * @return True if task with given number is found. False otherwise.
+     */
+    public boolean containsTaskWithNumber(int taskNumber) {
+        for (Task t : tasks) {
+            if (t.getNumber() == taskNumber) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

@@ -15,6 +15,7 @@ import java.util.Objects;
  * Handles adding tasks to the Tasks list.
  */
 public class AddCommand extends Command {
+    public static final String TODAY = "today";
     private String taskName;
     private String taskStartTime;
     private String taskDuration;
@@ -63,8 +64,9 @@ public class AddCommand extends Command {
         if (taskName.equals("")) {
             throw new AddMissingRequiredParametersException();
         }
-        if (taskRecurrence.contains("-") && (taskRecurrence.length() == "dd-MM-yyyy".length())) {
-            DateChecker dateChecker = new DateChecker(taskRecurrence);
+        if ((taskRecurrence.contains("-") && (taskRecurrence.length() == "dd-MM-yyyy".length()))
+                || taskRecurrence.toLowerCase().equals(TODAY)) {
+            DateChecker dateChecker = new DateChecker(taskRecurrence, taskStartTime);
         }
         try {
             Task task = taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,

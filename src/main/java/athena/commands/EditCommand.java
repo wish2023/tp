@@ -57,7 +57,7 @@ public class EditCommand extends Command {
     @Override
     public void execute(TaskList taskList, AthenaUi athenaUi) throws CommandException {
         if (taskRecurrence.contains("-") && (taskRecurrence.length() == "dd-MM-yyyy".length())) {
-            DateChecker dateChecker = new DateChecker(taskRecurrence);
+            DateChecker dateChecker = new DateChecker(taskRecurrence, taskStartTime);
         }
         Task task = taskList.editTask(taskNumber, taskName, taskStartTime, taskDuration, taskDeadline,
                 taskRecurrence, taskImportance, taskNotes);
