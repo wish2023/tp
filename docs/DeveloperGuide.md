@@ -1,3 +1,77 @@
+# Developer Guide
+
+- [**Developer Guide**](#developer-guide)
+  - [Introduction](#introduction)
+  - [**Setting up and getting started**](#setting-up-and-getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Setting up the project in your computer](#setting-up-the-project-in-your-computer)
+  - [**Design & implementation**](#design--implementation)
+    - [Architecture](#architecture)
+    - [UI component](#ui-component)
+    - [Logic component](#logic-component)
+    - [TaskList component](#tasklist-component)
+    - [Storage component](#storage-component)
+    - [TimeAllocator component](#timeallocator-component)
+    - [Timetable component](#timetable-component)
+  - [**Implementation**](#implementation)
+    - [Add task feature](#add-task-feature)
+    - [Edit task feature](#edit-task-feature)
+    - [List feature](#list-feature)
+    - [Mark task as done feature](#mark-task-as-done-feature)
+    - [Delete task feature](#delete-task-feature)
+    - [View task feature](#view-task-feature)
+    - [Time allocation to task in timetable](#time-allocation-to-task-in-timetable)
+    - [Data storage](#data-storage)
+  - [**Product scope**](#product-scope)
+    - [Target user profile](#target-user-profile)
+      - [Value proposition](#value-proposition)
+    - [User Stories](#user-stories)
+    - [Non-Functional Requirements](#non-functional-requirements)
+    - [Glossary](#glossary)
+    - [Instructions for manual testing](#instructions-for-manual-testing)
+      - [Launch and shutdown](#launch-and-shutdown)
+      - [Adding a task](#adding-a-task)
+      - [Deleting a task](#deleting-a-task)
+      - [Marking a task as done](#marking-a-task-as-done)
+      - [Viewing the full details of a task](#viewing-the-full-details-of-a-task)
+      - [Editing a task](#editing-a-task)
+      - [Listing all tasks](#listing-all-tasks)
+      - [Help](#help)
+      - [Data storage](#data-storage-1)
+- [**Appendix: Requirements**](#appendix-requirements)
+- [**Other Guides: Documentation, logging, testing, configuration, dev-ops**](#other-guides-documentation-logging-testing-configuration-dev-ops)
+
+## Introduction
+
+Welcome to ATHENA's Developer Guide! ATHENA (which stands for Automated Timetable Helper Encourager n' Assistant), is a desktop daily life planner that aims to help students automate the process of organising their schedule. It is a Command Line Interface (CLI) based application that helps users figure out the best timetable after the user has input their pre-allocated time slots for work and relaxation.
+
+This document describes the software architecture and design of ATHENA that should hopefully help you - a developer, designer, or software tester - understand  the inner workings of ATHENA. 
+
+Do refer to the [glossary](#glossary) if you encounter any unfamiliar terms used in this document.
+
+
+## Setting up and getting started
+
+### Prerequisites
+1. Ensure you have `JDK 11` installed on your computer.
+2. Install IntelliJ IDEA (referred to as IntelliJ in the rest of this document).
+
+### Setting up the project in your computer
+1. Fork [this](https://https://github.com/AY2021S1-CS2113T-W12-2/tp) repository, and clone the fork onto your computer.
+2. Open IntelliJ (If you do not see the welcome screen, click `File` > `Close Project` to close the existing project dialog first).
+3. Set up the correct JDK version for Gradle  
+   1. Click `Configure` > `Project Defaults` > `Project Structure`.
+   2. Click `New…` and select the directory where you have installed `JDK 11`.
+   3. Click `OK`.
+4. By default, IntelliJ has the Gradle plugin installed. If you have disabled it, go to `File` > `Settings` > `Plugins` to re-enable it.
+5. Click `Import Project`(or `Open or Import` in newer versions of IntelliJ).
+6. Locate the `build.gradle` file and select it. Click `OK`. If prompted, choose to `Open as Project` (not `Open as File`).
+7. Click `OK` to accept the default settings, if prompted. 
+8. Wait for the importing process to finish, then you are good to go!
+9. Verify the setup:
+    1. Run `Athena` and try a few commands such as `list` or `help`.
+    2. Run the JUnit tests to ensure they all pass.
+
 ## **Design & implementation**
 
 ### Architecture
@@ -20,6 +94,18 @@ The rest of the application mainly consists of these components:
 * [**`Timetable`**](#timetable-component): The component to generate an output for the *list* command.
 
 The sections below provide more details for each component.
+
+### UI component
+
+![UiStructure](https://raw.githubusercontent.com/alstontham/tp/DG-UG/docs/structures/UiStructure.png)
+
+[`Ui.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Ui.java)
+
+1. `Ui` consists of `AthenaUi` and `ColorText`.
+2. `AthenaUi` implements the `Ui` interface and outputs messages that the user sees.
+3. `ColorText` applies relevant colors to certain output messages.
+4. `AthenaUi` also prints out error messages tied to `CommandException`s that get thrown by `Command`s in `Athena`.
+5. `LogicManager` requires `AthenaUi` to execute user commands.
 
 ### Parser component
 
@@ -264,3 +350,21 @@ Guide on the use of ATHENA.
 1. **Test case:** `help`<br>
 
    **Expected:** A guide on how to use ATHENA will be shown.
+   
+--------------------------------------------------------------------------------------------------------------------
+
+## Appendix: Requirements
+### Product scope
+#### Target user profile
+* is a university student
+* has a need to manage a significant number of tasks
+* can type fast and prefers typing over mouse interactions
+* is comfortable using the command line interface
+
+#### Value proposition
+* ATHENA helps students to automate the process of organising their schedule. After the user inputs pre-allocated time slots for work and relaxation, ATHENA figures out the best theoretical timetable based on the user’s needs.
+* The timetable can be updated anytime during the week.
+* ATHENA helps to reduce the amount of time and effort that users need to spend planning their time by finding free spaces to slot tasks in, with the goal of reducing dead space in the user’s timetable. 
+* The planner will also make sure the user has enough time to eat, exercise and sleep. The user can set up ATHENA to follow a fixed weekly routine, and only needs to update a task list. ATHENA will then plan the timetable based on the importance and deadlines of the tasks in the list, making sure that the user is able to finish everything on time.
+
+
