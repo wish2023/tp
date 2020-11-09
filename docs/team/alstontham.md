@@ -10,21 +10,21 @@ ATHENA uses algorithmic optimisation to give you the best timetable that allows 
 
 Shown below are my contributions to my group's CS2113T project, ATHENA. Included are details of contributions to the main code, documentation, and other contributions throughout the development of ATHENA.
 
-###Code contributed: 
+### Code contributed: 
 My code contributions to this project can be found at [this page](https://nus-cs2113-ay2021s1.github.io/tp-dashboard/#breakdown=true&search=alstontham&sort=groupTitle&sortWithin=title&since=2020-09-27&timeframe=commit&mergegroup=&groupSelect=groupByRepos&checkedFileTypes=docs~functional-code~test-code~other)
 
-###Project management:
+### Project management:
 * Overall in-charge and head of the creative direction of the project
     * Implemented all of the `UI` (User Interface) related code, as well as Javadocs comments
     * In-charge of exception handling code to ensure a smooth, seamless user experience
 * Added appropriate issues on the team GitHub page when necessary
 
-###Enhancements to existing features:
+### Enhancements to existing features:
 * Added and amended test code for `Parser`, `TaskList`, `DeleteCommand`, `DoneCommand`, `AddCommand` and `EditCommand`
 * Injected the program with a persona, enhancing the user experience
 * Implemented colored text to improve text readability
 
-###Documentation:
+### Documentation:
   * User Guide:
     * Included writeup of _Introdcution_, _Quick Start_, and _Features_
     * Added documentation for the `help` feature
@@ -35,9 +35,9 @@ My code contributions to this project can be found at [this page](https://nus-cs
     * Added the _Ui component_
     * Proofread the final draft and ensured a consistent voice throughout the guide
     
-###Contributions to team-based tasks:
+### Contributions to team-based tasks:
   * Suggested improvements on team member's PRs on GitHub: [#11] (https://github.com/AY2021S1-CS2113T-W12-2/tp/pull/11), [#47] (https://github.com/AY2021S1-CS2113T-W12-2/tp/pull/47), [#116] (https://github.com/AY2021S1-CS2113T-W12-2/tp/pull/116), [#119] (https://github.com/AY2021S1-CS2113T-W12-2/tp/pull/119)
   
-###Contributions beyond the project team:
+### Contributions beyond the project team:
   * Reported bugs and suggestions for other teams: [#3] (https://github.com/alstontham/ped/issues/3), [#4] (https://github.com/alstontham/ped/issues/4), [#6] (https://github.com/alstontham/ped/issues/6), [#7] (https://github.com/alstontham/ped/issues/7), [#10] (https://github.com/alstontham/ped/issues/10)
   * Suggested improvements for other teams' User Guide and Developer Guide
