@@ -1,45 +1,35 @@
 # Developer Guide
 
-- [**Developer Guide**](#developer-guide)
+- [Developer Guide](#developer-guide)
   - [Introduction](#introduction)
-  - [**Setting up and getting started**](#setting-up-and-getting-started)
+  - [Setting up and getting started](#setting-up-and-getting-started)
     - [Prerequisites](#prerequisites)
     - [Setting up the project in your computer](#setting-up-the-project-in-your-computer)
   - [**Design & implementation**](#design--implementation)
     - [Architecture](#architecture)
     - [UI component](#ui-component)
-    - [Logic component](#logic-component)
-    - [TaskList component](#tasklist-component)
-    - [Storage component](#storage-component)
-    - [TimeAllocator component](#timeallocator-component)
+    - [Parser component](#parser-component)
     - [Timetable component](#timetable-component)
   - [**Implementation**](#implementation)
+    - [User command processing](#user-command-processing)
     - [Add task feature](#add-task-feature)
     - [Edit task feature](#edit-task-feature)
     - [List feature](#list-feature)
     - [Mark task as done feature](#mark-task-as-done-feature)
-    - [Delete task feature](#delete-task-feature)
-    - [View task feature](#view-task-feature)
-    - [Time allocation to task in timetable](#time-allocation-to-task-in-timetable)
-    - [Data storage](#data-storage)
-  - [**Product scope**](#product-scope)
-    - [Target user profile](#target-user-profile)
-      - [Value proposition](#value-proposition)
-    - [User Stories](#user-stories)
-    - [Non-Functional Requirements](#non-functional-requirements)
-    - [Glossary](#glossary)
-    - [Instructions for manual testing](#instructions-for-manual-testing)
+  - [Appendix: Instructions for manual testing](#appendix-instructions-for-manual-testing)
       - [Launch and shutdown](#launch-and-shutdown)
       - [Adding a task](#adding-a-task)
-      - [Deleting a task](#deleting-a-task)
-      - [Marking a task as done](#marking-a-task-as-done)
-      - [Viewing the full details of a task](#viewing-the-full-details-of-a-task)
       - [Editing a task](#editing-a-task)
       - [Listing all tasks](#listing-all-tasks)
+      - [Marking a task as done](#marking-a-task-as-done)
+      - [Deleting a task](#deleting-a-task)
+      - [Viewing the full details of a task](#viewing-the-full-details-of-a-task)
       - [Help](#help)
-      - [Data storage](#data-storage-1)
-- [**Appendix: Requirements**](#appendix-requirements)
-- [**Other Guides: Documentation, logging, testing, configuration, dev-ops**](#other-guides-documentation-logging-testing-configuration-dev-ops)
+  - [Appendix: Requirements](#appendix-requirements)
+    - [Product scope](#product-scope)
+      - [Target user profile](#target-user-profile)
+      - [Value proposition](#value-proposition)
+  - [**Other Guides: Documentation, Testing, Dev-ops**](#other-guides-documentation-testing-dev-ops)
 
 ## Introduction
 
@@ -124,6 +114,20 @@ The following sequence diagram illustrates how the `Parser` works:
 
 The respective Command sequence diagrams are illustrated [here](#implementation) under the Implementation section of this document.
 
+### Timetable component
+
+![`Timetable Component`](structures/TimetableStructure.png)
+
+[`Timetable.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/timetable/Timetable.java)
+
+The `Timetable` component is used to generate an output for the *list* command, when the user requests for Athena to print out the existing tasks. It groups the tasks by their dates and draws an ASCII art timetable for the user.
+
+1. The `ListCommand` creates a `Timetable` to generate an output when the user enters the *list* command.
+2. The `Timetable` uses the specified `Importance` and `Forecast` to filter the tasks in the `TaskList`. It also stores the `Forecast` for later use.
+3. The `Timetable` groups the tasks by their `LocalDate` in a `TimetableDay`.
+4. The `Timetable` also creates a `TimetableDrawer` that is used to generate the timetable ASCII art.
+5. The `Timetable` and `TimetableDrawer` store a `TreeMap<LocalDate, TimetableDay>` to query for a `TimetableDay` based on a specific `LocalDate` quickly.
+
 ## **Implementation**
 
 This section describes some important details about how certain features are implemented.
@@ -167,7 +171,7 @@ The mechanism to add a task is facilitated by the `AddCommand` class. The user i
 * `AddCommand#execute` - Adds the specified task into `TaskList` and calls `AthenaUi` to print a message to the output.
 * `TaskList#addTask` - Creates a task based on the given parameters and adds it into the list.
 
-The process starts with `Parser#parse` parsing the user input and returns an `AddCommand` object. This is described in the [*User command processing*](user-command-processing) section.
+The process starts with `Parser#parse` parsing the user input and returns an `AddCommand` object. This is described in the [**user command processing**](user-command-processing) section.
 
 Given below is an example usage scenario and how the task adding mechanism behaves at each step.
 
@@ -197,7 +201,7 @@ The mechanism to edit a task is facilitated by the `EditCommand` class. The user
 * `EditCommand#execute` -  Edits the specified task in `TaskList` and calls `AthenaUi` to print a message to the output.
 * `TaskList#editTask` - Edits a task based on the given parameters and adds the updated task into the list.
 
-The process starts with `Parser#parse` parsing the user input and returns an `EditCommand` object. This is described in the [*User command processing*](user-command-processing) section.
+The process starts with `Parser#parse` parsing the user input and returns an `EditCommand` object. This is described in the [**user command processing**](user-command-processing) section.
 
 Given below is an example usage scenario and how the task editing mechanism behaves at each step.
 
@@ -216,6 +220,65 @@ Given below is an example usage scenario and how the task editing mechanism beha
 The following sequence diagram illustrates how **Step 3** of the editing task operation works:
 
 ![EditTaskSequenceDiagram](sequenceDiagrams/EditCommand.png)
+
+
+### List feature
+The mechanism to print out the user's tasks is facilitated by the `ListCommand` class. The user is able to see a list of their tasks with the `list` command, and can provide filters to display the tasks based on their `Importance` and `Time`.
+
+`ListCommand#execute` is called, and a `Timetable`is used to group the user's tasks by their dates before printing them out.
+
+`ListCommand` and `Timetable` implements the following operations:
+
+* `ListCommand#execute` - Passes the given filters to `Timetable`.
+* `Timetable#populateTimetable` - Groups the tasks by their dates in a `TimetableDay`.
+* `Timetable#toString` - Prepares a string with a ASCII art timetable and a list of the user's tasks, so that it can be printed to the user.
+
+The process starts with `Parser#parse` parsing the user input and returning a `ListCommand` object. This is described in the [**user command processing**](user-command-processing) section.
+
+Given below is an example usage scenario and how this mechanism behaves at each step.
+
+**Step 1.** The user launches the application. The `TaskList` contains the `Task`s for the week.
+
+**Step 2.** The user wants to see the `HIGH` `IMPORTANCE` tasks within one week from now, by entering `list i/HIGH f/WEEK`. `Parser#parse` parses the user input, and creates a `ListCommand` object. The `ListCommand` object is returned to `Athena`.
+
+**Step 3.** `Athena` calls `ListCommand#execute`, which creates a `Timetable` with the `TaskList` and the filter values provided by the user. `Timetable` calls `Timetable#populateTimetable` to groups
+
+**Step 4.** `AthenaUi` prints the output generated by `Timetable#toString`.
+
+![ListSequenceDiagram](sequenceDiagrams/ListCommand.png)
+
+
+### Mark task as done feature
+The mechanism to mark a task as done is facilitated by the `DoneCommand` class. The user can use this feature through the `done` command.
+
+`DoneCommand#execute` is called and the `Task` selected by the user is marked as done by the `TaskList`.
+
+`DoneCommand` and `TaskList` implements the following operations:
+
+* `DoneCommand#execute` - Passes the task number of the corresponding task to `TaskList` to mark the task as done, then calls `AthenaUi` to print a message to the output.
+* `TaskList#markTaskAsDone` - Searches for the task with the given number, and marks it as done.
+
+The process starts with `Parser#parse` parsing the user input and returning a `DoneCommand` object. This is described in the [**user command processing**](user-command-processing) section.
+
+Given below is an example usage scenario and how this mechanism behaves at each step.
+
+**Step 1.** The user launches the application. The `TaskList` contains at least one `Task`.
+
+![DoneTaskNotDoneObjectDiagram](objectDiagrams/doneTask/beforeDone.png)
+
+**Step 2.** The user marks **Task 1** as done, by entering `done 1`. `Parser#parse` parses the user input, and creates a `DoneCommand` object. The `DoneCommand` object is returned to `Athena`.
+
+**Step 3.** `Athena` calls `DoneCommand#execute`, which calls `TaskList#markTaskAsDone` to mark **Task 1** as done. **Task 1** is now marked as done.
+
+![DoneTaskDoneObjectDiagram](objectDiagrams/doneTask/afterDone.png)
+
+**Step 4.** `AthenaUi` prints a message to inform the user of whether the command has succeeded or failed.
+
+The following sequence diagram illustrates how **Step 3** of the marking task as done operation works:
+
+![DoneSequenceDiagram](sequenceDiagrams/DoneCommand.png)
+
+--------------------------------------------------------------------------------------------------------------------
 
 ## Appendix: Instructions for manual testing
 
@@ -367,4 +430,14 @@ Guide on the use of ATHENA.
 * ATHENA helps to reduce the amount of time and effort that users need to spend planning their time by finding free spaces to slot tasks in, with the goal of reducing dead space in the user’s timetable. 
 * The planner will also make sure the user has enough time to eat, exercise and sleep. The user can set up ATHENA to follow a fixed weekly routine, and only needs to update a task list. ATHENA will then plan the timetable based on the importance and deadlines of the tasks in the list, making sure that the user is able to finish everything on time.
 
+--------------------------------------------------------------------------------------------------------------------
 
+## **Other Guides: Documentation, Testing, Dev-ops**
+
+This section contains links to other relevant guides that may be of use.
+
+* [Documentation guide](./Documentation.md)
+* [Testing guide](./Testing.md)
+* [Dev-ops guide](./DevOps.md)
+
+--------------------------------------------------------------------------------------------------------------------
