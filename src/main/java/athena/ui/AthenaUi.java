@@ -309,6 +309,11 @@ public class AthenaUi implements Ui {
                 + "Or you can type a day of the week for repeating tasks.");
     }
 
+    public void printTimeNotHourlyException() {
+        printError("Your time has to be hourly only! This version does not support "
+                + " any time where the minute hand is not on 12.");
+    }
+
     /**
      * Prints a message telling user that their proposed date has passed.
      */
