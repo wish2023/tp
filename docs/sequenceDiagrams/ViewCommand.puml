@@ -5,6 +5,12 @@ title View
 
 ->ViewCommand++: execute()
 
+participant "command:ViewCommand" as ViewCommand
+participant ":Task" as Task
+participant "taskList:TaskList" as TaskList
+participant ":Time" as Time
+participant ":AthenaUI" as AthenaUI
+
 ViewCommand->TaskList++: getTaskDescription()
 
 TaskList->TaskList++: getTaskFromNumber()
