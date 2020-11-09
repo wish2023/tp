@@ -9,6 +9,7 @@
     - [Architecture](#architecture)
     - [UI component](#ui-component)
     - [Parser component](#parser-component)
+    - [TaskList component](#tasklist-component)
     - [Timetable component](#timetable-component)
   - [**Implementation**](#implementation)
     - [User command processing](#user-command-processing)
@@ -16,6 +17,8 @@
     - [Edit task feature](#edit-task-feature)
     - [List feature](#list-feature)
     - [Mark task as done feature](#mark-task-as-done-feature)
+    - [Delete task feature](#delete-task-feature)
+    - [View task feature](#view-task-feature)
   - [Appendix: Instructions for manual testing](#appendix-instructions-for-manual-testing)
       - [Launch and shutdown](#launch-and-shutdown)
       - [Adding a task](#adding-a-task)
@@ -29,7 +32,9 @@
     - [Product scope](#product-scope)
       - [Target user profile](#target-user-profile)
       - [Value proposition](#value-proposition)
+      - [User Stories](#user-stories)
   - [**Other Guides: Documentation, Testing, Dev-ops**](#other-guides-documentation-testing-dev-ops)
+  - [Glossary](#glossary)
 
 ## Introduction
 
@@ -113,6 +118,17 @@ The following sequence diagram illustrates how the `Parser` works:
 ![ParserSequenceDiagram](sequenceDiagrams/Parser.png)
 
 The respective Command sequence diagrams are illustrated [here](#implementation) under the Implementation section of this document.
+
+### TaskList component
+
+![TaskListStructure](structures/TaskListStructure.png)
+
+[`TaskList.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/TaskList.java)
+
+1. The `TaskList` stores task data in `Task` type objects.
+2. The `TaskList` is updated in `Athena`.
+3. A new `Task` object is created everytime the user uses the *add* command.
+4. The `Task` object is removed with the *delete* command.
 
 ### Timetable component
 
@@ -278,6 +294,65 @@ The following sequence diagram illustrates how **Step 3** of the marking task as
 
 ![DoneSequenceDiagram](sequenceDiagrams/DoneCommand.png)
 
+
+### Delete task feature
+The mechanism to delete a task is facilitated by the `DeleteCommand` class. The user is able to delete a task with the `delete` command.
+
+`DeleteCommand#execute` is called and the `Task` selected by the user is deleted from the `TaskList`.
+
+`DeleteCommand` and `TaskList` implements the following operations:
+
+* `DeleteCommand#execute` - Passes the task number of the corresponding task to `TaskList` to delete the task, then calls `AthenaUi` to print a message to the output.
+* `TaskList#deleteTask` - Searches for the task with the given task number, then deletes it.
+
+The process starts with `Parser#parse` parsing the user input and returning a `DeleteCommand` object. This is described in the [*User command processing*](user-command-processing) section.
+
+Given below is an example usage scenario and how this mechanism behaves at each step.
+
+**Step 1.** The user launches the application. The `TaskList` contains at least one `Task`.
+
+![BeforeDeleteTaskObjectDiagram](objectDiagrams/deleteTask/notDeleted.png)
+
+**Step 2.** The user deletes **Task 1** by entering `delete 1`. `Parser#parse` parses the user input, and creates a `DeleteCommand` object. The `DeleteCommand` object is returned to `Athena`.
+
+**Step 3.** `Athena` calls `DeleteCommand#execute`, which calls `TaskList#deleteTask` to delete **Task 1**. **Task 1** is now deleted.
+
+![AfterDeleteTaskObjectDiagram](objectDiagrams/deleteTask/deleted.png)
+
+**Step 4.** `AthenaUi` prints a message to inform the user of whether the command has succeeded or failed.
+
+The following sequence diagram illustrates how **Step 3** of the task deleting operation works:
+
+![DeleteSequenceDiagram](sequenceDiagrams/DeleteCommand.png)
+
+
+### View task feature
+The mechanism to view a task is facilitated by the `ViewCommand` class. The user is able to view a task with the `view` command.
+
+`ViewCommand#execute` is called and the details of the `Task` selected by the user are displayed by the `TaskList`.
+
+`ViewCommand` and `TaskList` implement the following operations:
+
+* `ViewCommand#execute` - Passes the selected task number to `TaskList` of that task that is to be viewed, then calls `AthenaUi` to print a message to the output.
+* `TaskList#getTaskDescription` - Searches for the task with the given number, and return the details of the task.
+
+The process starts with `Parser#parse` parsing the user input and returning a `ViewCommand` object. This is described in the [*User command processing*](user-command-processing) section.
+
+Given below is an example usage scenario and how this mechanism behaves at each step.
+
+**Step 1.** The user launches the application. The `TaskList` contains at least one `Task`.
+
+**Step 2.** The user views **Task 1** by entering `view 1`. `Parser#parse` parses the user input, and creates a `ViewCommand` object. The `ViewCommand` object is returned to `Athena`.
+
+**Step 3.** `Athena` calls `ViewCommand#execute`, which calls `TaskList` to view **Task 1**. The details of **Task 1** can now be viewed.
+
+
+**Step 4.** `AthenaUi` prints a message to inform the user of whether the command has succeeded or failed.
+
+The following sequence diagram illustrates how **Step 3** of the task viewing operation works:
+
+![ViewSequenceDiagram](sequenceDiagrams/ViewCommand.png)
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Appendix: Instructions for manual testing
@@ -430,6 +505,23 @@ Guide on the use of ATHENA.
 * ATHENA helps to reduce the amount of time and effort that users need to spend planning their time by finding free spaces to slot tasks in, with the goal of reducing dead space in the user’s timetable. 
 * The planner will also make sure the user has enough time to eat, exercise and sleep. The user can set up ATHENA to follow a fixed weekly routine, and only needs to update a task list. ATHENA will then plan the timetable based on the importance and deadlines of the tasks in the list, making sure that the user is able to finish everything on time.
 
+### User Stories
+
+| Version | As a ...          | I want to ...                                  | So that I ...                                     |
+| ------- | ----------------- | ---------------------------------------------- | ------------------------------------------------- |
+| `v1.0`  | forgetful student | upload my tasks for the week                   | remember to do them                               |
+| `v1.0`  | student           | mark my tasks as done                          | know that I have done them and can put them aside |
+| `v1.0`  | student           | get reminded to do the tasks that are due soon | will be on time                                   |
+| `v1.0`  | student           | edit the tasks I added                         | update accordingly to small changes               |
+| `v1.0`  | student           | delete the tasks I added                       | remove tasks that are not needed to do anymore    |
+| `v1.0`  | student           | set my tasks according to importance            | complete the more important tasks first           |
+| `v1.0`  | student           | leave some notes for a task                    | remember about it                                 |
+| `v2.0`  | student           | have a planner that tells me what time to rest | don’t exhaust myself                              |
+| `v2.0`  | student           | see an overview of the week ahead              | make sure that I am staying on top of my tasks    |
+| `v2.0`  | student           | view the details of a task                     | can ensure I am on the right track with tasks     |
+| `v2.0`  | busy student      | know what tasks to work on next                | don’t need to spend time planning                 |
+
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Other Guides: Documentation, Testing, Dev-ops**
@@ -440,4 +532,12 @@ This section contains links to other relevant guides that may be of use.
 * [Testing guide](./Testing.md)
 * [Dev-ops guide](./DevOps.md)
 
---------------------------------------------------------------------------------------------------------------------
+---
+
+## **Glossary**
+
+* **Mainstream OS**: Windows, Linux, Unix, OS-X
+* **Task**: The activity a user intends to schedule. It could be a lecture, a social gathering, etc.
+* **Flexible Task**: A task without an explicit time given by the user. ATHENA will allocate or shift the task based on the rest of the timetable.
+* **Fixed Task**: A task with an explicit time given by the user. These tasks can be edited freely.
+* **Command**: An instruction meant to update the TaskList in a certain way.
