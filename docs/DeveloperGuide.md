@@ -67,7 +67,6 @@ The following operations are implemented:
 
 **Step 2.** `Parser#parse` will then create a `Command` object based on the user input. The `Command` object is returned to `Athena`.
 
-
 **Step 3.** `Athena` will call `Command#execute` to execute the command.
 
 The specific implementation of each command is explained in the following subsections. 
