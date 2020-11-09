@@ -1,0 +1,19 @@
+@startuml
+title LOAD
+hide footbox
+
+participant "storage:Storage" as Storage
+participant ":TaskList" as TaskList
+participant ":File" as File
+
+->Storage++: loadTaskListData()
+Storage->TaskList**:
+activate TaskList
+Storage->File**
+loop csvReader.readLine()
+    Storage->TaskList: addTask()
+    TaskList-->Storage
+end
+return taskList
+return taskList
+@enduml

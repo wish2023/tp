@@ -1,17 +1,17 @@
 package athena;
 
-import athena.exceptions.DateHasPassedException;
-import athena.exceptions.TaskNotFoundException;
+import athena.exceptions.allocator.NoNextSlotException;
+import athena.exceptions.command.InvalidRecurrenceException;
+import athena.exceptions.command.TaskNotFoundException;
 import athena.task.Task;
-import athena.task.Time;
+import athena.task.TimeData;
+import athena.task.taskfilter.DayFilter;
 import athena.task.taskfilter.FlexibleTimeFilter;
-import athena.task.taskfilter.ForecastFilter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class TimeAllocator {
     TaskList flexibleTaskList;
@@ -40,41 +40,27 @@ public class TimeAllocator {
      */
     public void runAllocate() {
         LocalDate currDay = LocalDate.now();
-        ForecastFilter forecast = new ForecastFilter(Forecast.DAY);
         ArrayList<Task> undefinedTimeTasks = getSortedFlexibleTasks(this.flexibleTaskList);
-        for (int day = 0; day < 31; day++) {
-            ArrayList<Integer> dayLog = new ArrayList<Integer>(Collections.nCopies(24, -1));
+        for (int day = 0; day < 366; day++) {
+            Log dayLog = new Log(0, 24);
             ArrayList<Task> predefinedTimeTasks = getSortedFixedTasks(getFixedDayTasks(currDay));
-            for (Task currTask : predefinedTimeTasks) {
-                int tag = currTask.getNumber();
-                Time timeInfo = currTask.getTimeInfo();
-                for (int i = 0; i < timeInfo.getDuration(); i++) {
-                    dayLog.set(timeInfo.getStartTime().getHour() + i, tag);
-                }
-            }
-            ArrayList<Task> carryOverTasks = new ArrayList<Task>();
-
-            int start = 8;
-            int sleep = 24;
-            boolean done = false;
-            while (!done) {
-                int pos = start;
-                pos = nextVacantSlotStart(dayLog, pos, sleep);
-                int end = pos;
-                end = nextVacantSlotEnd(dayLog, end, sleep);
-                carryOverTasks = new ArrayList<Task>();
-                ArrayList<Integer> bestLog = getBestLog(pos, end, undefinedTimeTasks, carryOverTasks);
-                populateDayLog(pos, dayLog, bestLog);
-                assignTime(bestLog, pos, currDay);
-                undefinedTimeTasks = carryOverTasks;
-                start = end;
-                if (end == sleep) {
-                    done = true;
-                }
-            }
-            for (Task currTask : carryOverTasks) {
+            dayLog.setFixedTasks(predefinedTimeTasks);
+            TimeSlot currSlot = new TimeSlot(dayLog);
+            while (true) {
                 try {
-                    Time timeInfo = taskList.getTaskFromNumber(currTask.getNumber()).getTimeInfo();
+                    currSlot.findNextSlot();
+                } catch (NoNextSlotException e) {
+                    break;
+                }
+                Log bestLog = new Log(currSlot, undefinedTimeTasks);
+                bestLog.removeAssignedTasks(this.taskList);
+                dayLog.populateLog(currSlot.getStart(), bestLog);
+                assignTime(bestLog.getNumberList(), currSlot.getStart(), currDay);
+                undefinedTimeTasks = bestLog.getCarryOverTasks();
+            }
+            for (Task currTask : undefinedTimeTasks) {
+                try {
+                    TimeData timeInfo = this.taskList.getTaskFromNumber(currTask.getNumber()).getTimeInfo();
                     timeInfo.setStartTime(null);
                 } catch (TaskNotFoundException e) {
                     //do nothing
@@ -97,7 +83,7 @@ public class TimeAllocator {
         for (int taskNumber : bestLog) {
             if (!assignedNumbers.contains(taskNumber)) {
                 try {
-                    Time timeInfo = this.taskList.getTaskFromNumber(taskNumber)
+                    TimeData timeInfo = this.taskList.getTaskFromNumber(taskNumber)
                             .getTimeInfo();
                     timeInfo.setStartTime(LocalTime.of(pos + count, 0));
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM");
@@ -107,118 +93,16 @@ public class TimeAllocator {
                     this.flexibleTaskList.deleteTask(taskNumber);
                 } catch (TaskNotFoundException e) {
                     //do nothing
+                } catch (InvalidRecurrenceException e) {
+                    //do nothing?
                 }
             }
             count++;
         }
     }
 
-    /**
-     * Creates the arrangement that reduces the breaks in the timetable.
-     * Iterates through the undefinedTimeTasks
-     * Modifies the excess tasks left over
-     *
-     * @param pos                staring position
-     * @param end                ending position
-     * @param undefinedTimeTasks Tasks with undefined times
-     * @param carryOverTasks     store tasks that did not get assigned yet
-     * @return
-     */
-    private ArrayList<Integer> getBestLog(int pos, int end, ArrayList<Task> undefinedTimeTasks,
-                                          ArrayList<Task> carryOverTasks) {
-        ArrayList<Integer> currentLog = new ArrayList<Integer>();
-        ArrayList<Integer> bestLog = new ArrayList<Integer>();
-        boolean hasUsableVacancy = true;
-        while (hasUsableVacancy) {
-            currentLog = getLog(undefinedTimeTasks, pos, end);
-            hasUsableVacancy = currentLog.contains(-1);
-            if ((bestLog.indexOf(-1) < currentLog.indexOf(-1)) | !hasUsableVacancy) {
-                bestLog = currentLog;
-            }
-            if (!undefinedTimeTasks.isEmpty()) {
-                carryOverTasks.add(undefinedTimeTasks.get(0));
-                undefinedTimeTasks.remove(0);
-
-            } else {
-                break;
-            }
-
-        }
-        for (int taskNumber : bestLog) {
-            try {
-                Task taskRemoved = taskList.getTaskFromNumber(taskNumber);
-                undefinedTimeTasks.remove(taskRemoved);
-                carryOverTasks.remove(taskRemoved);
-            } catch (TaskNotFoundException e) {
-                //do nothing
-            }
-        }
-        carryOverTasks.addAll(undefinedTimeTasks);
-        return bestLog;
-    }
-
-    /**
-     * Gets a filled vacant slots given undefinedTimeTasks.
-     *
-     * @param undefinedTimeTasks Tasks to be slotted into the timetable
-     * @param pos                starting position
-     * @param end                ending position
-     * @return ArrayList containing taskNumbers
-     */
-    private ArrayList<Integer> getLog(ArrayList<Task> undefinedTimeTasks, int pos, int end) {
-        int space = end - pos;
-        ArrayList<Integer> log = new ArrayList<Integer>(Collections.nCopies(space, -1));
-        for (Task currTask : undefinedTimeTasks) {
-            int span = currTask.getTimeInfo().getDuration();
-            if (span <= space) {
-                int taskNumber = currTask.getNumber();
-                for (int i = 0; i < span; i++) {
-                    int relativePos = end - space - pos;
-                    log.set(i + relativePos, taskNumber);
-                }
-                space -= span;
-            }
-            if (space == 0) {
-                break;
-            }
-        }
-        return log;
-    }
 
 
-    /**
-     * Finds end of vacant time slot.
-     *
-     * @param dayLog log of the day's tasks
-     * @param end    ending position
-     * @param sleep  sleep time
-     * @return valid end value
-     */
-    private int nextVacantSlotEnd(ArrayList<Integer> dayLog, int end, int sleep) {
-        for (; end < sleep; end++) {
-            if (dayLog.get(end) != -1) {
-                break;
-            }
-        }
-        return end;
-    }
-
-    /**
-     * Finds start of vacant time slot.
-     *
-     * @param dayLog log of the day's tasks
-     * @param pos    starting position
-     * @param sleep  sleep time
-     * @return valid pos value
-     */
-    private int nextVacantSlotStart(ArrayList<Integer> dayLog, int pos, int sleep) {
-        for (; pos < sleep; pos++) {
-            if (dayLog.get(pos) == -1) {
-                break;
-            }
-        }
-        return pos;
-    }
 
     private ArrayList<Task> getSortedFixedTasks(TaskList taskList) {
         TaskList fixedDayTasks = taskList;
@@ -237,26 +121,15 @@ public class TimeAllocator {
     }
 
 
-    private void populateDayLog(int pos, ArrayList<Integer> dayLog, ArrayList<Integer> bestLog) {
-        int count = 0;
-        for (int taskNumber : bestLog) {
-            dayLog.set(count + pos, taskNumber);
-            count++;
-        }
-    }
+
 
 
     private TaskList getFixedDayTasks(LocalDate date) {
-        ForecastFilter forecast = new ForecastFilter(date);
-        TaskList fixedDayTask = this.fixedTaskList.getFilteredList(forecast);
+        DayFilter filter = new DayFilter(date);
+        TaskList fixedDayTask = this.fixedTaskList.getFilteredList(filter);
         return fixedDayTask;
     }
 
-    private TaskList getFlexibleDayTasks(LocalDate date) {
-        ForecastFilter forecast = new ForecastFilter(date);
-        TaskList flexibleDayTask = this.flexibleTaskList.getFilteredList(forecast);
-        return flexibleDayTask;
-    }
 
     // Psuedocode for allocation runs might refactor into a command class
     //    public void runAllocate() {

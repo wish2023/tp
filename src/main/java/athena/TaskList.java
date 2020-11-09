@@ -1,13 +1,17 @@
 package athena;
 
-import athena.exceptions.ClashInTaskException;
-import athena.exceptions.DateHasPassedException;
-import athena.exceptions.InvalidTimeFormatException;
-import athena.exceptions.TaskDuringSleepTimeException;
-import athena.exceptions.TaskIsDoneException;
-import athena.exceptions.TaskNotFoundException;
+import athena.exceptions.command.ClashInTaskException;
+import athena.exceptions.command.DateHasPassedException;
+import athena.exceptions.command.IllegalTimeModificationException;
+import athena.exceptions.command.InvalidDeadlineException;
+import athena.exceptions.command.InvalidRecurrenceException;
+import athena.exceptions.command.InvalidTimeFormatException;
+import athena.exceptions.command.TaskDuringSleepTimeException;
+import athena.exceptions.command.TaskIsDoneException;
+import athena.exceptions.command.TaskNotFoundException;
+import athena.exceptions.command.TaskTooLongException;
 import athena.task.Task;
-import athena.task.taskfilter.ForecastFilter;
+import athena.task.TimeData;
 import athena.task.taskfilter.TaskFilter;
 
 import java.time.LocalDate;
@@ -38,7 +42,6 @@ public class TaskList {
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = new ArrayList<>();
         this.tasks.addAll(tasks);
-
         for (Task task : tasks) {
             maxNumber = Math.max(maxNumber, task.getNumber());
         }
@@ -65,22 +68,18 @@ public class TaskList {
      * @param importance Importance of the task
      * @param notes      Additional notes
      * @return Task as Task object
+     * @throws TaskDuringSleepTimeException Exception thrown when task clashes with sleep time
+     * @throws InvalidRecurrenceException   Exception thrown when user mistypes recurrence
+     * @throws InvalidDeadlineException     Exception thrown when user mistypes deadline
      */
     private Task createTask(int number, String name, String startTime, String duration, String deadline,
                             String recurrence, Importance importance, String notes, Boolean isFlexible)
-            throws TaskDuringSleepTimeException {
+            throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException,
+            TaskTooLongException {
         Task task = new Task(name, startTime, duration, deadline, recurrence, importance, notes, number, isFlexible);
         return task;
     }
 
-    /**
-     * Returns size of the task list.
-     *
-     * @return Size of the task list.
-     */
-    public int getTaskListSize() {
-        return tasks.size();
-    }
 
     /**
      * Adds a task to the task list.
@@ -95,6 +94,28 @@ public class TaskList {
     /**
      * Adds a task to the task list.
      *
+     * @param name       Name of task
+     * @param startTime  Start time of task
+     * @param duration   Duration of task
+     * @param deadline   Deadline of task
+     * @param recurrence Recurrence of task
+     * @param importance Importance of task
+     * @param notes      Additional notes of task
+     * @return Task added.
+     */
+    public Task addTask(String name, String startTime, String duration,
+                        String deadline, String recurrence,
+                        Importance importance, String notes, Boolean isFlexible)
+            throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException, TaskTooLongException,
+            InvalidRecurrenceException, InvalidDeadlineException {
+        incrementMaxNumber();
+        Task task = addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
+        return task;
+    }
+
+    /**
+     * Adds a task to the task list.
+     *
      * @param number     Number assigned to the task
      * @param name       Name of task
      * @param startTime  Start time of task
@@ -103,55 +124,90 @@ public class TaskList {
      * @param recurrence Recurrence of task
      * @param importance Importance of task
      * @param notes      Additional notes of task
+     * @return Task added.
      */
 
-    public void addTask(int number, String name, String startTime, String duration,
+    public Task addTask(int number, String name, String startTime, String duration,
                         String deadline, String recurrence,
                         Importance importance, String notes, boolean isFlexible)
-            throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException {
+            throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException,
+            InvalidRecurrenceException, InvalidDeadlineException, TaskTooLongException {
         try {
+            if (containsTaskWithNumber(number)) {
+                incrementMaxNumber();
+                number = setNumber();
+            }
             Task task = createTask(number, name, startTime,
                     duration, deadline, recurrence, importance, notes, isFlexible);
             decrementMaxNumber();
             checkClash(task);
             updateMaxNumber(number);
             tasks.add(task);
+            return task;
         } catch (DateTimeParseException e) {
             throw new InvalidTimeFormatException();
         }
     }
 
     /**
-     * Adds a task to the task list.
+     * Create a Task-ID based on maxNumber.
      *
-     * @param name       Name of task
-     * @param startTime  Start time of task
-     * @param duration   Duration of task
-     * @param deadline   Deadline of task
-     * @param recurrence Recurrence of task
-     * @param importance Importance of task
-     * @param notes      Additional notes of task
+     * @return the Task-ID
      */
-    public void addTask(String name, String startTime, String duration,
-                        String deadline, String recurrence,
-                        Importance importance, String notes, Boolean isFlexible)
-            throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException {
-        maxNumber++;
-        addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
+    private int setNumber() {
+        int number;
+        number = maxNumber;
+        return number;
     }
 
+
+    /**
+     * Decrements maxNumber.
+     */
     private void decrementMaxNumber() {
         maxNumber--;
     }
 
+    /**
+     * Increments maxNumber.
+     */
+    private void incrementMaxNumber() {
+        maxNumber++;
+    }
+
+    /**
+     * Checks if new task clashes with TaskList.
+     *
+     * @param taskToCompare the new task that may be added.
+     * @throws ClashInTaskException Exception thrown when the task clashes with TaskList
+     */
     private void checkClash(Task taskToCompare) throws ClashInTaskException {
         for (Task task : tasks) {
-            if (isTimeClash(taskToCompare, task)) {
-                checkRecurrenceClash(taskToCompare, task);
-            }
+            checkTimeClash(taskToCompare, task);
         }
     }
 
+    /**
+     * Checks for a clash between two tasks.
+     *
+     * @param taskToCompare the new task that may be added
+     * @param task          the current task in tasklist
+     * @throws ClashInTaskException Exception thrown when the task clashes with TaskList
+     */
+    private void checkTimeClash(Task taskToCompare, Task task) throws ClashInTaskException {
+        if (isTimeClash(taskToCompare, task)) {
+            checkRecurrenceClash(taskToCompare, task);
+        }
+    }
+
+
+    /**
+     * Checks if there is a date clash between tasks.
+     *
+     * @param taskToCompare the new task that may be added
+     * @param task          the current task in tasklist
+     * @throws ClashInTaskException Exception thrown when the task clashes with TaskList
+     */
     private void checkRecurrenceClash(Task taskToCompare, Task task) throws ClashInTaskException {
         LocalDate dateToCompare = taskToCompare.getTimeInfo().getRecurrenceDates().get(0);
         for (LocalDate date : task.getTimeInfo().getRecurrenceDates()) {
@@ -162,6 +218,13 @@ public class TaskList {
         }
     }
 
+    /**
+     * Checks if there is a timing clash between tasks.
+     *
+     * @param taskToCompare the new task that may be added
+     * @param task          the current task in tasklist
+     * @return
+     */
     private boolean isTimeClash(Task taskToCompare, Task task) {
         LocalTime taskStartTime = taskToCompare.getTimeInfo().getStartTime();
         if (taskStartTime == null) {
@@ -181,6 +244,15 @@ public class TaskList {
     }
 
 
+    /**
+     * Checks if times of a task overlap each other.
+     *
+     * @param taskStartTime             the starting time of the new task that may be added
+     * @param taskEndTime               the ending time of the new task that may be added
+     * @param existingTaskStartTime     the starting time of the existing task
+     * @param existingTaskEndTime       the ending time of the existing task
+     * @return
+     */
     private boolean isIndividualTimeClash(LocalTime taskStartTime, LocalTime taskEndTime,
                                           LocalTime existingTaskStartTime, LocalTime existingTaskEndTime) {
         boolean isTimeClash = !(taskEndTime.compareTo(existingTaskStartTime) <= 0
@@ -191,10 +263,15 @@ public class TaskList {
         return isTimeClash || isMidnightClash;
     }
 
+    /**
+     * Updates maxNumber based on the task ID.
+     *
+     * @param number the Task-ID
+     */
     private void updateMaxNumber(int number) {
         maxNumber++;
-        if (this.maxNumber < number) {
-            this.maxNumber = number;
+        if (maxNumber < number) {
+            maxNumber = number;
         }
     }
 
@@ -238,19 +315,43 @@ public class TaskList {
      * @param recurrence Recurrence of task
      * @param importance Importance of task
      * @param notes      Additional notes of task
-     * @throws TaskNotFoundException thrown when the program is unable to find a task at the index
-     *                               specified by the user
+     * @return Edited task.
+     * @throws TaskNotFoundException        thrown when the program is unable to find a task at the index
+     *                                      specified by the user
+     * @throws ClashInTaskException         thrown when there is a clash with another task.
+     * @throws TaskDuringSleepTimeException thrown when the user wants a task to be done during sleep time.
+     * @throws InvalidRecurrenceException   when user mistypes recurrence
+     * @throws InvalidDeadlineException     when user mistypes deadline
      */
-    public void editTask(int taskNumber, String name, String startTime, String duration,
+    public Task editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, Importance importance,
                          String notes)
-            throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException {
+            throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException,
+            TaskTooLongException, InvalidRecurrenceException, InvalidDeadlineException,
+            IllegalTimeModificationException {
         Task task = getTaskFromNumber(taskNumber);
+        TimeData time = task.getTimeInfo();
+        if (isFlexibleTaskEdit(startTime, recurrence, time)) {
+            throw new IllegalTimeModificationException();
+        }
         Task possibleEditedTask = createTask(taskNumber, name, startTime,
                 duration, deadline, recurrence, importance, notes, task.isFlexible());
         checkClash(possibleEditedTask);
         task.edit(name, startTime, duration, deadline, recurrence, importance, notes);
+        return possibleEditedTask;
 
+    }
+
+    /**
+     * Checks if the task being edited is a flexible task.
+     *
+     * @param startTime     New start time of task
+     * @param recurrence    New recurrence of task
+     * @param time          Time related information of task
+     * @return
+     */
+    private boolean isFlexibleTaskEdit(String startTime, String recurrence, TimeData time) {
+        return time.getFlexible() && ((startTime != time.getStartTimeString()) || (recurrence != time.getRecurrence()));
     }
 
     /**
@@ -260,13 +361,28 @@ public class TaskList {
      * @return Task marked as done.
      * @throws TaskNotFoundException thrown when the program is unable to find a task at the index
      *                               specified by the user
-     * @throws TaskIsDoneException Exception thrown when user tries to mark a task as done which is done.
+     * @throws TaskIsDoneException   Exception thrown when user tries to mark a task as done which is done.
      */
     public Task markTaskAsDone(int taskNumber)
             throws TaskNotFoundException, TaskIsDoneException {
         Task task = getTaskFromNumber(taskNumber);
         task.setDone();
         return task;
+    }
+
+    /**
+     * Checks whether the task list contains a task with the given number.
+     *
+     * @param taskNumber number to search for.
+     * @return True if task with given number is found. False otherwise.
+     */
+    public boolean containsTaskWithNumber(int taskNumber) {
+        for (Task t : tasks) {
+            if (t.getNumber() == taskNumber) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -296,26 +412,10 @@ public class TaskList {
         ArrayList<Task> filteredTasks = new ArrayList<>();
         for (Task task : tasks) {
             if (taskFilter.isTaskIncluded(task)) {
-                if (taskFilter instanceof ForecastFilter) {
-                    assert taskFilter instanceof ForecastFilter;
-                    Task filteredTask = ((ForecastFilter) taskFilter).removeExcludedDates(task);
-                    filteredTasks.add(filteredTask);
-                } else {
-                    filteredTasks.add(task);
-
-                }
+                filteredTasks.add(task);
             }
         }
         return new TaskList(filteredTasks);
-    }
-
-
-    public ArrayList<Task> makeDeepCopyTasks(ArrayList<Task> oldTasks) {
-        ArrayList<Task> tasksCopy = new ArrayList<Task>();
-        for (Task task : oldTasks) {
-            tasksCopy.add(task.getClone());
-        }
-        return tasksCopy;
     }
 
     /**
@@ -327,14 +427,6 @@ public class TaskList {
         return maxNumber;
     }
 
-    /**
-     * Sets the max index.
-     *
-     * @param maxIndex Max index
-     */
-    public void setMaxNumber(int maxIndex) {
-        this.maxNumber = maxIndex;
-    }
 
     /**
      * Determines if two objects have the same attributes.

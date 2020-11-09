@@ -3,9 +3,9 @@ package athena.tasklist;
 import athena.Forecast;
 import athena.Importance;
 import athena.TaskList;
-import athena.exceptions.CommandException;
+import athena.exceptions.command.CommandException;
 import athena.common.utils.DateUtils;
-import athena.exceptions.TaskNotFoundException;
+import athena.exceptions.command.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.taskfilter.ForecastFilter;
 import athena.task.taskfilter.ImportanceFilter;
@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests methods of TaskList.
@@ -62,7 +64,7 @@ class TaskListTest {
      */
     @Test
     void addTask_noGivenTaskNumber_maxNumberIncremented() throws CommandException {
-        String todayDateString = LocalDate.now().toString();
+        String todayDateString = DateUtils.formatDate(LocalDate.now());
         testTaskList.addTask("big number", "1400",
                 "2", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", false);
@@ -153,6 +155,16 @@ class TaskListTest {
         ForecastFilter todayFilter = new ForecastFilter(Forecast.DAY);
         TaskList actualTaskList = testTaskList.getFilteredList(todayFilter);
         assertEquals(actualTaskList, expectedTaskList);
+    }
+
+    @Test
+    void containsTaskWithNumber_containsTask_returnsTrue() {
+        assertTrue(testTaskList.containsTaskWithNumber(0));
+    }
+
+    @Test
+    void containsTaskWithNumber_doesNotContainTask_returnsFalse() {
+        assertFalse(testTaskList.containsTaskWithNumber(3));
     }
 
     private TaskList getImportanceTestExpectedTasks(Importance importance) throws CommandException {

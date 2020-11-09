@@ -1,0 +1,23 @@
+@startuml
+
+participant "command:ListCommand" as ListCommand
+participant "timetable:Timetable" as Timetable
+participant ":AthenaUI" as AthenaUI
+
+title List
+hide footbox
+
+->ListCommand++: execute()
+
+ListCommand->Timetable**:
+activate Timetable
+Timetable -> Timetable: populateTimetable()
+return
+
+ListCommand->AthenaUI++: printTimetable()
+AthenaUI -> Timetable++: toString()
+return output
+AthenaUI-->ListCommand--:
+
+<--ListCommand--
+@enduml 

@@ -4,7 +4,7 @@ import athena.TaskList;
 import athena.task.Task;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Represents a day in the timetable.
@@ -12,8 +12,8 @@ import java.util.ArrayList;
  * that the user registered into the program.
  */
 public class TimetableDay {
-    private LocalDate date;
-    private TaskList taskList;
+    private final LocalDate date;
+    private final TaskList taskList;
 
     /**
      * Initializes the object with the date and an empty task list.
@@ -61,14 +61,32 @@ public class TimetableDay {
      */
     @Override
     public String toString() {
-        String message = date.toString() + ":\n";
+        StringBuilder message = new StringBuilder(date.toString() + ":\n");
         if (taskList.getTasks().isEmpty()) {
-            message += "Got no tasks for this day\n";
+            message.append("Got no tasks for this day\n");
         } else {
             for (Task task : taskList.getTasks()) {
-                message += task + "\n";
+                message.append(task).append("\n");
             }
         }
-        return message;
+        return message.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TimetableDay that = (TimetableDay) o;
+        return Objects.equals(date, that.date)
+                && Objects.equals(taskList, that.taskList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, taskList);
     }
 }

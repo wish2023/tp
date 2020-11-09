@@ -8,43 +8,41 @@
   - [**Design & implementation**](#design--implementation)
     - [Architecture](#architecture)
     - [UI component](#ui-component)
-    - [Logic component](#logic-component)
+    - [Parser component](#parser-component)
     - [TaskList component](#tasklist-component)
-    - [Storage component](#storage-component)
     - [Timetable component](#timetable-component)
-  - [**Other Guides: Documentation, logging, testing, configuration, dev-ops**](#other-guides-documentation-logging-testing-configuration-dev-ops)
   - [**Implementation**](#implementation)
+    - [User command processing](#user-command-processing)
     - [Add task feature](#add-task-feature)
-    - [Delete task feature](#delete-task-feature)
-    - [Mark task as done feature](#mark-task-as-done-feature)
     - [Edit task feature](#edit-task-feature)
-    - [View task feature](#view-task-feature)
     - [List feature](#list-feature)
-    - [Time allocation to task in timetable](#time-allocation-to-task-in-timetable)
-    - [Data storage](#data-storage)
-  - [Appendix: Requirements](#appendix-requirements)
-  - [Product scope](#product-scope)
-    - [Target user profile](#target-user-profile)
-      - [Value proposition](#value-proposition)
-    - [User Stories](#user-stories)
-    - [Non-Functional Requirements](#non-functional-requirements)
-    - [Glossary](#glossary)
-    - [Instructions for manual testing](#instructions-for-manual-testing)
+    - [Mark task as done feature](#mark-task-as-done-feature)
+    - [Delete task feature](#delete-task-feature)
+    - [View task feature](#view-task-feature)
+  - [Appendix: Instructions for manual testing](#appendix-instructions-for-manual-testing)
       - [Launch and shutdown](#launch-and-shutdown)
       - [Adding a task](#adding-a-task)
-      - [Deleting a task](#deleting-a-task)
-      - [Marking a task as done](#marking-a-task-as-done)
-      - [Viewing the full details of a task](#viewing-the-full-details-of-a-task)
       - [Editing a task](#editing-a-task)
       - [Listing all tasks](#listing-all-tasks)
+      - [Marking a task as done](#marking-a-task-as-done)
+      - [Deleting a task](#deleting-a-task)
+      - [Viewing the full details of a task](#viewing-the-full-details-of-a-task)
       - [Help](#help)
-      - [Data storage](#data-storage-1)
+  - [Appendix: Requirements](#appendix-requirements)
+    - [Product scope](#product-scope)
+      - [Target user profile](#target-user-profile)
+      - [Value proposition](#value-proposition)
+      - [User Stories](#user-stories)
+  - [**Other Guides: Documentation, Testing, Dev-ops**](#other-guides-documentation-testing-dev-ops)
+  - [Glossary](#glossary)
 
 ## Introduction
 
 Welcome to ATHENA's Developer Guide! ATHENA (which stands for Automated Timetable Helper Encourager n' Assistant), is a desktop daily life planner that aims to help students automate the process of organising their schedule. It is a Command Line Interface (CLI) based application that helps users figure out the best timetable after the user has input their pre-allocated time slots for work and relaxation.
 
 This document describes the software architecture and design of ATHENA that should hopefully help you - a developer, designer, or software tester - understand  the inner workings of ATHENA. 
+
+Do refer to the [glossary](#glossary) if you encounter any unfamiliar terms used in this document.
 
 
 ## Setting up and getting started
@@ -64,7 +62,7 @@ This document describes the software architecture and design of ATHENA that shou
 5. Click `Import Project`(or `Open or Import` in newer versions of IntelliJ).
 6. Locate the `build.gradle` file and select it. Click `OK`. If prompted, choose to `Open as Project` (not `Open as File`).
 7. Click `OK` to accept the default settings, if prompted. 
-8. Wait for the importing process to finish, and you are good to go!
+8. Wait for the importing process to finish, then you are good to go!
 9. Verify the setup:
     1. Run `Athena` and try a few commands such as `list` or `help`.
     2. Run the JUnit tests to ensure they all pass.
@@ -75,110 +73,121 @@ This document describes the software architecture and design of ATHENA that shou
 
 ![Architecture Diagram](structures/ArchitectureDiagram.png)
 
-The ***Architecture Diagram*** given above explains the high-level design of ATHENA. A quick overview of each component is shown below.
+The ***Architecture Diagram*** shown above displays the high-level design of ATHENA. It is done with an N-tier architectural style, where the higher layers make use of services provided by lower layers. A quick overview of each component is shown below.
 
-**`Main`** has one class called [`Athena`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Athena.java). It is responsible for:
+[`Athena`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Athena.java) is responsible for:
 * At application launch: Initializes the components and connects them up with each other.
 * At application shut down: Shuts down the components.
 
-The rest of the application consists of these components:
+The rest of the application mainly consists of these components:
 
 * [**`Ui`**](#athenaUi-component): The user interface of ATHENA.
-* [**`Logic`**](#logic-component): Parses user input and executes commands.
-* [**`TaskList`**](#tasklist-component): The list that stores the user's tasks.
-* [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
+* [**`Parser`**](#parser-component): The component that parses user input and executes commands.
+* [**`TaskList`**](#tasklist-component): The list storing all the user's tasks.
+* [**`Storage`**](#storage-component): The component that reads data from, and writes data to, the hard disk.
+* [**`TimeAllocator`**](#timeallocator-component): The component that allocates tasks without a specified time to a free time slot.
+* [**`Timetable`**](#timetable-component): The component to generate an output for the *list* command.
 
-The *Sequence Diagram* below shows how these components interact with each other for the scenario where the user issues a command.
-
-*work in progress*
-
-The sections below give more details for each component.
+The sections below provide more details for each component.
 
 ### UI component
 
 ![UiStructure](https://raw.githubusercontent.com/alstontham/tp/DG-UG/docs/structures/UiStructure.png)
 
-**API** :
 [`Ui.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Ui.java)
 
-1. `Ui` consists of `AthenaUi` and `ColorText`
-2. `AthenaUi` implements `Ui` interface and outputs messages that the user sees
-3. `ColorText` applies relevant colors to certain output messages
-4. `AthenaUi` also prints out error messages tied to `Command Exception` that get thrown by `Athena`
-5. `LogicManager` requires `AthenaUi` to execute user commands
+1. `Ui` consists of `AthenaUi` and `ColorText`.
+2. `AthenaUi` implements the `Ui` interface and outputs messages that the user sees.
+3. `ColorText` applies relevant colors to certain output messages.
+4. `AthenaUi` also prints out error messages tied to `CommandException`s that get thrown by `Command`s in `Athena`.
+5. `LogicManager` requires `AthenaUi` to execute user commands.
 
-### Logic component
+### Parser component
 
-![Structure of the Logic Component](structures/LogicStructure.png)
+![Structure of the Parser Component](structures/ParserStructure.png)
 
-**API** :
-[`Logic.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/logic/Logic.java)
+[`Parser.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Parser.java)
 
-1. `Logic` consists of `LogicManager`, which calls the `Parser` class to parse the user command.
-2. This results in a `Command` object being created, which is then executed by the `LogicManager`.
-3. The command execution can affect the `TaskList` (e.g. Adding a task).
-4. The result of the command execution will also call the `Ui` to print the respective messages for each command.
-
-The following sequence diagram illustrates how the `LogicManager` works:
-
-![LogicManagerSequenceDiagram](sequenceDiagrams/LogicManager%20diagram.png)
+1. `Parser` class will parse the user command.
+2. A `Command` object is then created, which is executed by `Athena`.
+3. The command execution can alter the `TaskList` (e.g. Adding a task).
+4. At the end of each command execution, a corresponding method in `AthenaUi` is called to print a message to the user.
 
 The following sequence diagram illustrates how the `Parser` works:
 
-![ParserSequenceDiagram](sequenceDiagrams/Parser%20diagram.png)
+![ParserSequenceDiagram](sequenceDiagrams/Parser.png)
 
-The respective Command sequence diagrams will be illustrated [here](#implementation) under the implementation part of this document.
+The respective Command sequence diagrams are illustrated [here](#implementation) under the Implementation section of this document.
 
 ### TaskList component
 
-![TaskListStructure](https://raw.githubusercontent.com/wish2023/tp/DG-tasklist/docs/structures/TaskListStructure.png)
+![TaskListStructure](structures/TaskListStructure.png)
 
 [`TaskList.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/TaskList.java)
 
 1. The `TaskList` stores task data in `Task` type objects.
 2. The `TaskList` is updated in `Athena`.
-3. A new `Task` object is created everytime the user uses the command `add`.
-
-### Storage component
-
-**API** : 
-[`Storage.java`](structures/StorageStructure.png)
+3. A new `Task` object is created everytime the user uses the *add* command.
+4. The `Task` object is removed with the *delete* command.
 
 ### Timetable component
 
-**API** : 
-[`Timetable.java`](structures/TimetableStructure.png)
+![`Timetable Component`](structures/TimetableStructure.png)
 
---------------------------------------------------------------------------------------------------------------------
+[`Timetable.java`](https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/timetable/Timetable.java)
 
-## **Other Guides: Documentation, logging, testing, configuration, dev-ops**
+The `Timetable` component is used to generate an output for the *list* command, when the user requests for Athena to print out the existing tasks. It groups the tasks by their dates and draws an ASCII art timetable for the user.
 
-This section contains links to other relevant guides.
-
-* [Documentation guide](./Documentation.md)
-* [Testing guide](./Testing.md)
-* [DevOps guide](./DevOps.md)
-
------------------------------------------------------------------------------------------------------------------------
+1. The `ListCommand` creates a `Timetable` to generate an output when the user enters the *list* command.
+2. The `Timetable` uses the specified `Importance` and `Forecast` to filter the tasks in the `TaskList`. It also stores the `Forecast` for later use.
+3. The `Timetable` groups the tasks by their `LocalDate` in a `TimetableDay`.
+4. The `Timetable` also creates a `TimetableDrawer` that is used to generate the timetable ASCII art.
+5. The `Timetable` and `TimetableDrawer` store a `TreeMap<LocalDate, TimetableDay>` to query for a `TimetableDay` based on a specific `LocalDate` quickly.
 
 ## **Implementation**
 
-This section describes some noteworthy details on how certain features are implemented.
+This section describes some important details about how certain features are implemented.
+
+### User command processing
+The processing of user commands is facilitated by `AthenaUi`, Parser` and the `Command` subclasses.
+
+The following operations are implemented:
+
+* `AthenaUi#detectInput` - Read user input from the standard input stream.
+* `Parser#parse` - Split the user's input based on the command type and the various parameters given. The parameters can be entered in any order. A `Command` object based on the type of command entered is returned. 
+
+    The following table shows each command with their corresponding `Command` subclass.
+
+    Command Type | `Command` Subclass
+    ---|----
+    add | `AddCommand`
+    edit | `EditCommand`
+    list | `ListCommand`
+    done | `DoneCommand`
+    delete | `DeleteCommand`
+    view | `ViewCommand`
+    help | `HelpCommand`
+    exit | `ExitCommand`
+
+**Step 1.**  The user input will be read in by the `AthenaUi` class. `Athena` will call for `Parser#parse` to parse the user input and retrieve the respective command type and parameters.
+
+**Step 2.** `Parser#parse` will then create a `Command` object based on the user input. The `Command` object is returned to `Athena`.
+
+**Step 3.** `Athena` will call `Command#execute` to execute the command.
+
+The specific implementation of each command is explained in the following subsections. 
 
 ### Add task feature
-The adding of task mechanism is facilitated by `LogicManager`.
+The mechanism to add a task is facilitated by the `AddCommand` class. The user is able to add a task with the `add` command.
 
-The retrieving of task details is done by `Parser`. It splits the user input based on the command type and the various parameters' description.
-The user can input the parameters in any order.
-The `AddCommand` class will then be executed and the task will be added to the `TaskList`.
+`AddCommand#execute` is called and the `Task` described by the user input is added to the `TaskList`.
 
-`Parser`, `AddCommand`, `TaskList` implements the following operations:
+`AddCommand` and `TaskList` implements the following operations:
 
-* `Parser#parse` - Parse user input to retrieve the command type and task details.
-* `Parser#parseAddCommand` - Parse user input to retrieve the respective parameters' details and creates an `AddCommand` object.
-* `AddCommand#execute` - Add task into `TaskList` and calls `Ui` to print message output.
-* `TaskList#addTask` - Create a task based on the given parameters and add it into the list.
-* `Storage#saveTaskListData` - Writes the current task list into the save file.
+* `AddCommand#execute` - Adds the specified task into `TaskList` and calls `AthenaUi` to print a message to the output.
+* `TaskList#addTask` - Creates a task based on the given parameters and adds it into the list.
+
+The process starts with `Parser#parse` parsing the user input and returns an `AddCommand` object. This is described in the [**user command processing**](user-command-processing) section.
 
 Given below is an example usage scenario and how the task adding mechanism behaves at each step.
 
@@ -186,246 +195,313 @@ Given below is an example usage scenario and how the task adding mechanism behav
 
 ![AddTaskEmptyListObjectDiagram](objectDiagrams/addTask/empty.png)
 
-**Step 2.** The user adds a task to the application, by entering `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`. The input will be read in by the `Athena` class. The input is passed into `LogicManager` which calls `Parser#parse` to parse the user input through `Parser#parseAddCommand`, to create an `AddCommand` object. The `AddCommand` object is returned to the `LogicManager`.
+**Step 2.** The user adds a task to the application, by entering `add n/Assignment1 t/1100 D/16-11-2020 d/2 r/Today i/high a/Refer to lecture notes`. `Parser#parse` parses the user input, and creates an `AddCommand` object. The `AddCommand` object is returned to `Athena`.
 
-**Step 3.** The `LogicManager` calls `AddCommand#execute`, which calls `TaskList#addTask` to create a task based on the given parameters, and adds the task to the list. The `TaskList` now contains 1 task (Assignment1). The message to show if the task is added successfully is subsequently outputted by the `AthenaUi` class to the user.
+**Step 3.** `Athena` calls `AddCommand#execute`, which calls `TaskList#addTask` to create a task based on the given parameters, and adds the task to the list. The `TaskList` now contains 1 task (Assignment1).
 
-![AddTaskEmptyListObjectDiagram](objectDiagrams/addTask/onetask.png)
+![AddTaskOneTaskObjectDiagram](objectDiagrams/addTask/onetask.png)
 
-**Step 4.** After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
+**Step 4.** `AthenaUi` prints a message to inform the user of whether the command has succeeded or failed.
 
-**Step 5.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
+The following sequence diagram illustrates how **Step 3** of the task adding operation works:
 
-The following sequence diagram illustrates how Step 3 of the task adding operation works:
-
-![AddTaskSequenceDiagram](sequenceDiagrams/AddCommand%20diagram.png)
-
-### Delete task feature
-The deleting task mechanism is facilitated by `LogicManager`.
-
-The retrieving of input details is done by `Parser`. It splits the user input based on the command type and the index of task.
-The `DeleteCommand` class will then be executed and the task will be removed from the `TaskList`.
-
-`Parser`, `DeleteCommand`, `TaskList` implements the following operations:
-
-* `Parser#parse` - Parse user input to retrieve the command type and index of task.
-* `Parser#parseDeleteCommand` - Parse user input to retrieve the index of task to be deleted and creates an `DeleteCommand` object.
-* `DeleteCommand#execute` - Remove task into `TaskList` and calls `Ui` to print message output.
-* `Storage#saveTaskListData` - Updates the current task list into the save file.
-
-Given below is an example usage scenario and how the deleting task mechanism behaves at each step.
-
-**Step 1.** The user deletes a task from the application, by inputting `delete 1`. 
-
-**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where `Parser#parse` will parse the user input to get the command type and details then call`Parse#parseDeleteCommand`to create a `DeleteCommand` object.The `DeleteCommand` object is returned to the `LogicManager`.
-
-**Step 3.** The `LogicManager` calls `DeleteCommand#execute`. The `TaskList` now removed task with index 1. The message to show if the task is deleted successfully is subsequently outputted by the `AthenaUi` class to the user.
-
-**Step 4.** After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
-
-**Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
-
-The following sequence diagram illustrates how Step 3 of the task deleting operation works:
-
-![DeleteTaskSequenceDiagram](sequenceDiagrams/DeleteCommand%20diagram.png)
-
-### Mark task as done feature
-The marking task as done mechanism is facilitated by `LogicManager`.
-
-The retrieving of input details is done by `Parser`. It splits the user input based on the command type and the index of task.
-The `DoneCommand` class will then be executed and the task will be marked as done in the `TaskList`.
-
-`Parser`, `DoneCommand`, `TaskList` implements the following operations:
-
-* `Parser#parse` - Parse user input to retrieve the command type and index of task.
-* `Parser#parseDoneCommand` - Parse user input to retrieve the index of task to be marked as done and creates an `DoneCommand` object.
-* `DoneCommand#execute` - Marks task as done into `TaskList` and calls `AthenaUi` to print message output.
-* `Storage#saveTaskListData` - Writes the current task list into the save file.
-
-Given below is an example usage scenario and how the marking task as done mechanism behaves at each step.
-
-**Step 1.** The user marks a task as done in the application, by inputting `done 1`. 
-
-**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where `Parser#parse` will parse the user input to get the command type and details then call`Parse#parseDoneCommand`to create a `DoneCommand` object. The `DoneCommand` object is returned to the `LogicManager`.
-
-**Step 3.** The `LogicManager` calls `DoneCommand#execute`. The `TaskList` now has task with index 1 marked as done. The message to show if the task is marked as done successfully is subsequently outputted by the `AthenaUi` class to the user.
- 
-**Step 4.** After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
-
-**Step 5.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
-
-The following sequence diagram illustrates how Step 3 of the marking task as done operation works:
-
-![DoneTaskSequenceDiagram](sequenceDiagrams/DoneCommand%20diagram.png)
+![AddTaskSequenceDiagram](sequenceDiagrams/AddCommand.png)
 
 ### Edit task feature
-The editing of task mechanism is facilitated by `LogicManager`.
+The mechanism to edit a task is facilitated by the `EditCommand` class. The user is able to edit a task with the `edit` command.
 
-The retrieving of task details is done by `Parser`. It splits the user input based on the command type and the various parameters' description.
-The user can input the parameters in any order.
-The `EditCommand` class will then be executed and the edited task details will be added to the `TaskList`.
+`EditCommand#execute` is called and the `Task` described by the user input is edited in the `TaskList`.
 
-`Parser`, `EditCommand`, `TaskList` implements the following operations:
+`EditCommand`, `TaskList` implements the following operations:
 
-* `Parser#parse` - Parse user input to retrieve the command type, task index and details.
-* `Parser#parseEditCommand` - Parse user input to retrieve the respective parameters' details and creates an `EditCommand` object.
-* `EditCommand#execute` - Edits the specified task in `TaskList` and calls `Ui` to print message output.
-* `Storage#saveTaskListData` - Writes the current task list into the save file.
+* `EditCommand#execute` -  Edits the specified task in `TaskList` and calls `AthenaUi` to print a message to the output.
+* `TaskList#editTask` - Edits a task based on the given parameters and adds the updated task into the list.
 
-Given below is an example usage scenario and how the editing task mechanism behaves at each step.
+The process starts with `Parser#parse` parsing the user input and returns an `EditCommand` object. This is described in the [**user command processing**](user-command-processing) section.
 
-**Step 1.** The user edits a task to the application, by inputting `edit 1 n/Assignment2 t/1100 D/16-09-2020`. 
+Given below is an example usage scenario and how the task editing mechanism behaves at each step.
 
-**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where `Parser#parse` will parse the user input to get the command type and details then call`Parse#parseEditCommand`to create a `EditCommand` object. The `EditCommand` object is returned to the `LogicManager`.
+**Step 1.** The user launches the application. The `TaskList` contains at least one `Task`.
 
-**Step 3.** The `LogicManager` calls `EditCommand#execute`. The `TaskList` now has task with index 1 name changed from "Assignment1" to "Assignment2". The message to show if the task is edited successfully is subsequently outputted by the `AthenaUi` class to the user.
- 
-**Step 4.** After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the edited task details in the `TaskList` into the save file.
+![BeforeEditTaskObjectDiagram](objectDiagrams/editTask/BeforeEditTask.png) 
 
-**Step 5.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
+**Step 2.** The user edits a task to the application, by inputting `edit 1 t/1200`. `Parser#parse` parses the user input, and creates an `EditCommand` object. The `EditCommand` object is returned to `Athena`.
 
-The following sequence diagram illustrates how Step 3 of the editing task operation works:
+**Step 3.** `Athena` calls `EditCommand#execute`, which calls `TaskList#editTask` to edit the specified task based on the given parameters. The `TaskList` now has the start time of task with index 1 changed from "1100" to "1200". 
 
-![EditTaskSequenceDiagram](sequenceDiagrams/EditCommand%20diagram.png)
+![EditTaskOneObjectDiagram](objectDiagrams/editTask/AfterEditTask.png) 
 
-### View task feature
-The viewing task mechanism is facilitated by `LogicManager`.
+**Step 4.** `AthenaUi` prints a message to inform the user of whether the command has succeeded or failed. 
 
-The retrieving of input details is done by `Parser`. It splits the user input based on the command type and the index of task.
-The `ViewCommand` class will then be executed and the details of that specific task from the `TaskList` will be shown.
+The following sequence diagram illustrates how **Step 3** of the editing task operation works:
 
-`Parser`, `ViewCommand`, `TaskList` implements the following operations:
+![EditTaskSequenceDiagram](sequenceDiagrams/EditCommand.png)
 
-* `Parser#parse` - Parse user input to retrieve the command type and index of task.
-* `Parser#parseViewCommand` - Parse user input to retrieve the index of task to be viewed and creates an `ViewCommand` object.
-* `ViewCommand#execute` - Retrieve task details from `TaskList` and calls `Ui` to print task details output.
-
-Given below is an example usage scenario and how the viewing task mechanism behaves at each step.
-
-**Step 1.** The user views a task from the application, by inputting `view 1`. 
-
-**Step 2.** The input will be read in by the `Athena` class. The input will be passed into `LogicManager` where `Parser#parse` will parse the user input to get the command type and details then call`Parse#parseViewCommand`to create a `ViewCommand` object. The `ViewCommand` object is returned to the `LogicManager`.
-
-**Step 3.** The `LogicManager` calls `ViewCommand#execute`. The `TaskList` now retrieve details of 1 task (Assignment 1). The message to show if the task details is subsequently outputted by the `AthenaUi` class to the user.
-
-**Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to allow the continuous run of the program. 
-
-The following sequence diagram illustrates how Step 3 of the viewing task operation works:
-
-![ViewTaskSequenceDiagram](sequenceDiagrams/ViewCommand%20diagram.png)
 
 ### List feature
-The list command is facilitated by `LogicManager`, using `Parser` which extracts the command type and parameters from the user input, and stores it in a `ListCommand` that contains the parameters provided by the user. `ListCommand` creates a `Timetable` with the existing `TaskList` to generate the output message.
+The mechanism to print out the user's tasks is facilitated by the `ListCommand` class. The user is able to see a list of their tasks with the `list` command, and can provide filters to display the tasks based on their `Importance` and `Time`.
 
-`Parser`, `ListCommand` and `Timetable` implements the following operations:
+`ListCommand#execute` is called, and a `Timetable`is used to group the user's tasks by their dates before printing them out.
 
-* `Parser#parse` - Parses user input to extract the command parameters.
-* `Parser#parseListCommand` - Parses user input to retrieve the filters for the `TaskList` and creates a `ListCommand`.
-* `ListCommand#execute` - Prints the user's tasks using `Timetable#toString`.
-* `Timetable#toString` - Gets a string representation of the user's tasks.
+`ListCommand` and `Timetable` implements the following operations:
 
-Given below is an example usage scenario and how the *list* command behaves at each step.
+* `ListCommand#execute` - Passes the given filters to `Timetable`.
+* `Timetable#populateTimetable` - Groups the tasks by their dates in a `TimetableDay`.
+* `Timetable#toString` - Prepares a string with a ASCII art timetable and a list of the user's tasks, so that it can be printed to the user.
 
-**Step 1.** The user requests the application to print a list of the existing tasks, by inputting `list`. 
+The process starts with `Parser#parse` parsing the user input and returning a `ListCommand` object. This is described in the [**user command processing**](user-command-processing) section.
 
-**Step 2.** The input will be read in by the `Athena` class. Then, the input will be passed into `LogicManager` where `Parser#parse` will be called to parse the user input, to create a `ListCommand` containing the parameters provided by the user. The `ListCommand` object is returned to the `LogicManager`.
+Given below is an example usage scenario and how this mechanism behaves at each step.
 
-**Step 3.** `LogicManager` calls `ListCommand#execute`, which creates a `Timetable` based on the `TaskList`, and the `importance` and `forecast` parameters provided by the user. The `Timetable` returns a string representation of the tasks by calling `Timetable#toString` that is printed to the user.
+**Step 1.** The user launches the application. The `TaskList` contains the `Task`s for the week.
 
-**Step 4.** Upon completion of execution, `LogicManager` returns a boolean value `false` to `Athena` to indicate that the user has not requested to exit the application. 
+**Step 2.** The user wants to see the `HIGH` `IMPORTANCE` tasks within one week from now, by entering `list i/HIGH f/WEEK`. `Parser#parse` parses the user input, and creates a `ListCommand` object. The `ListCommand` object is returned to `Athena`.
 
-The following sequence diagram illustrates how Step 3 of the viewing task operation works:
+**Step 3.** `Athena` calls `ListCommand#execute`, which creates a `Timetable` with the `TaskList` and the filter values provided by the user. `Timetable` calls `Timetable#populateTimetable` to groups
 
-![ViewTaskSequenceDiagram](sequenceDiagrams/ListCommand%20diagram.png)
+**Step 4.** `AthenaUi` prints the output generated by `Timetable#toString`.
 
-### Time allocation to task in timetable
-The time allocation mechanism is facilitated by `TimeAllocator`. It allocates time slots to `Task`s in a `TaskList` that are not assigned a fixed time slot by the user. It implements the following operations:
-
-* Work in progress hehe
-
-Implementation
-TimeAllocator takes in TaskList and separates it into a fixedTaskList and a flexibleTaskList.
-
-When runAllocate is executed, a ForecastFilter is created in order to separate the tasks based on their days in order to identify the day that they belong to.
-
-An ArrayList named dayLog is used to keep track of the times that the tasks take up during the day, it stores the taskNumber that occupies each of the hourly slots.
-
-Fixed tasks are placed into the dayLog first as they do not change. 
-
-The start time and sleep time is referenced together with the dayLog to identify the vacant slots.
-
-bestLog identifies the tasks from the flexibleTaskList that reduces the dead space in the logs based on changing the tasks available for getLog to insert into the logs.
-
-getLog iterates through the TaskList provided to it and checks if there is enough space in the log for the task before slotting it in. Once it runs out of valid tasks or if the log is fully filled, it returns the log and modifies the provided TaskList to contain the leftover tasks
-
-The process repeats until the dayLog contains no valid positions for tasks in the flexibleTaskList.
-
-The taskNumber is then used to identify what task to modify. It changes the startTime of this task to the first index it is identified at which corresponds to the hour that it started at.
-
-It then modifies the ForecastFilter to identify the tasks on the next day.
-
-Once runAllocate finishes running, it changes the startTime of tasks that have been allocated without altering the isFlexible attribute of the tasks.
+![ListSequenceDiagram](sequenceDiagrams/ListCommand.png)
 
 
-Given below is an example usage scenario and how the allocation mechanism behaves at each step.
+### Mark task as done feature
+The mechanism to mark a task as done is facilitated by the `DoneCommand` class. The user can use this feature through the `done` command.
 
-**Step 1**. The user launches the application. The *data.csv* file located next to the application jar file contains 5 tasks. These tasks are loaded into the `TaskList`. 3 of them have a fixed time slot, while the other 2 are not assigned any time slot.
+`DoneCommand#execute` is called and the `Task` selected by the user is marked as done by the `TaskList`.
 
-**Step 2.** The user executes `list` to get an overview of the week. The user sees the 3 tasks with a fixed time slot in the printed timetable.
+`DoneCommand` and `TaskList` implements the following operations:
 
-**Step 3**. The user executes `allocate` to let the application allocate time slots to `Task`s without a fixed time slot.
+* `DoneCommand#execute` - Passes the task number of the corresponding task to `TaskList` to mark the task as done, then calls `AthenaUi` to print a message to the output.
+* `TaskList#markTaskAsDone` - Searches for the task with the given number, and marks it as done.
 
-`TimeAllocator` iterates through the `TaskList`, and checks whether a `Task` has a fixed time slot or should be allocated by the application to an empty slot. Tasks that have a fixed slot are added to a `fixedTaskList`, while the rest are added to a `flexibleTaskList`. The `Task`s in the `flexibleTaskList` are sorted based on their `importance` and `deadline`. Finally, the `TimeAllocator` iterates through the `fixedTaskList` to find empty time slots in a day, which is then allocated to the `Task`s in the sorted `flexibleTaskList`.
+The process starts with `Parser#parse` parsing the user input and returning a `DoneCommand` object. This is described in the [**user command processing**](user-command-processing) section.
 
-The following sequence diagram illustrates how the allocate operation works:
+Given below is an example usage scenario and how this mechanism behaves at each step.
 
-![TimeAllocatorSequenceDiagram](sequenceDiagrams/TimeAllocator%20diagram.png)
+**Step 1.** The user launches the application. The `TaskList` contains at least one `Task`.
 
-**Step 4.** The user executes `list` to get an overview of the week. The user sees all 5 tasks in the printed timetable.
+![DoneTaskNotDoneObjectDiagram](objectDiagrams/doneTask/beforeDone.png)
 
-### Data storage
-The storage mechanism is facilitated by `Storage`. It reads and writes the `Task`s in a `TaskList` to `data.csv`, a csv file located next to the application jar file.
-It implements the following operations:
+**Step 2.** The user marks **Task 1** as done, by entering `done 1`. `Parser#parse` parses the user input, and creates a `DoneCommand` object. The `DoneCommand` object is returned to `Athena`.
 
-* `Storage#saveTaskListData` - Writes the current tasks into the save file.
-* `Storage#loadTaskListData` - Loads the tasks in the save file into the application.
+**Step 3.** `Athena` calls `DoneCommand#execute`, which calls `TaskList#markTaskAsDone` to mark **Task 1** as done. **Task 1** is now marked as done.
 
-These operations are called by the `LogicManager`.
+![DoneTaskDoneObjectDiagram](objectDiagrams/doneTask/afterDone.png)
 
-Given below is an example usage scenario and how the storage mechanism behaves at each step.
+**Step 4.** `AthenaUi` prints a message to inform the user of whether the command has succeeded or failed.
 
-**Step 1.** The user launches the application for the first time. The `TaskList` is initialized to be empty. At this time, there is no *data.csv* file present. So, when `Storage` calls `Storage#loadTaskListData`, this is detected and an empty *data.csv* file is created next to the jar file. Since there was no save file, the `TaskList` remains empty.
+The following sequence diagram illustrates how **Step 3** of the marking task as done operation works:
 
-**Step 2.** The user adds a task to the application, by executing `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`. The `TaskList` now contains 1 task (Assignment 1). After the command is executed, `LogicManager` calls `Storage#saveTaskListData` to automatically save the tasks in the `TaskList` into the save file.
+![DoneSequenceDiagram](sequenceDiagrams/DoneCommand.png)
 
-**Step 3.** The user closes the application. Nothing happens since the data in the `TaskList` is already saved.
 
-**Step 4.** The user launches the application again. The `TaskList` is initialized to be empty. `Storage#loadTaskListData` will read from `data.csv` and add the tasks inside the file into the empty `TaskList`. The `TaskList` now contains the task added earlier (Assignment 1) in **step 3**.
+### Delete task feature
+The mechanism to delete a task is facilitated by the `DeleteCommand` class. The user is able to delete a task with the `delete` command.
 
-**Step 5.** The user executes `list` to get an overview of the week. The user sees *Assignment 1* in the printed timetable.
+`DeleteCommand#execute` is called and the `Task` selected by the user is deleted from the `TaskList`.
 
-The following sequence diagram illustrates how the loading from storage operation works:
+`DeleteCommand` and `TaskList` implements the following operations:
 
-![LoadStorageSequenceDiagram](sequenceDiagrams/loadStorage%20diagram.png)
+* `DeleteCommand#execute` - Passes the task number of the corresponding task to `TaskList` to delete the task, then calls `AthenaUi` to print a message to the output.
+* `TaskList#deleteTask` - Searches for the task with the given task number, then deletes it.
 
-The following sequence diagram illustrates how the saving to storage operation works:
+The process starts with `Parser#parse` parsing the user input and returning a `DeleteCommand` object. This is described in the [*User command processing*](user-command-processing) section.
 
-![SaveStorageSequenceDiagram](sequenceDiagrams/saveStorage%20diagram.png)
+Given below is an example usage scenario and how this mechanism behaves at each step.
 
------------------------------------------------------------------------------------------------------------------------
+**Step 1.** The user launches the application. The `TaskList` contains at least one `Task`.
+
+![BeforeDeleteTaskObjectDiagram](objectDiagrams/deleteTask/notDeleted.png)
+
+**Step 2.** The user deletes **Task 1** by entering `delete 1`. `Parser#parse` parses the user input, and creates a `DeleteCommand` object. The `DeleteCommand` object is returned to `Athena`.
+
+**Step 3.** `Athena` calls `DeleteCommand#execute`, which calls `TaskList#deleteTask` to delete **Task 1**. **Task 1** is now deleted.
+
+![AfterDeleteTaskObjectDiagram](objectDiagrams/deleteTask/deleted.png)
+
+**Step 4.** `AthenaUi` prints a message to inform the user of whether the command has succeeded or failed.
+
+The following sequence diagram illustrates how **Step 3** of the task deleting operation works:
+
+![DeleteSequenceDiagram](sequenceDiagrams/DeleteCommand.png)
+
+
+### View task feature
+The mechanism to view a task is facilitated by the `ViewCommand` class. The user is able to view a task with the `view` command.
+
+`ViewCommand#execute` is called and the details of the `Task` selected by the user are displayed by the `TaskList`.
+
+`ViewCommand` and `TaskList` implement the following operations:
+
+* `ViewCommand#execute` - Passes the selected task number to `TaskList` of that task that is to be viewed, then calls `AthenaUi` to print a message to the output.
+* `TaskList#getTaskDescription` - Searches for the task with the given number, and return the details of the task.
+
+The process starts with `Parser#parse` parsing the user input and returning a `ViewCommand` object. This is described in the [*User command processing*](user-command-processing) section.
+
+Given below is an example usage scenario and how this mechanism behaves at each step.
+
+**Step 1.** The user launches the application. The `TaskList` contains at least one `Task`.
+
+**Step 2.** The user views **Task 1** by entering `view 1`. `Parser#parse` parses the user input, and creates a `ViewCommand` object. The `ViewCommand` object is returned to `Athena`.
+
+**Step 3.** `Athena` calls `ViewCommand#execute`, which calls `TaskList` to view **Task 1**. The details of **Task 1** can now be viewed.
+
+
+**Step 4.** `AthenaUi` prints a message to inform the user of whether the command has succeeded or failed.
+
+The following sequence diagram illustrates how **Step 3** of the task viewing operation works:
+
+![ViewSequenceDiagram](sequenceDiagrams/ViewCommand.png)
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Appendix: Instructions for manual testing
+
+Given below are instructions to test the app manually.
+
+#### Launch and shutdown
+
+1. Initial launch
+
+    1. Ensure that you have **Java 11** or above installed.
+    2. Download the latest version of **ATHENA** [here](https://github.com/AY2021S1-CS2113T-W12-2/tp/releases).
+    3. Copy the downloaded Athena.jar into your **Desktop**.
+    4. Open the terminal/command prompt and enter `cd Desktop`.
+    5. Then, enter `java -jar Athena.jar`.
+    
+        **Expected:** Shows the command line interface with welcome message.
+
+2. Shutdown ATHENA
+
+   1. Enter `exit` into the terminal/command prompt while **ATHENA** is running.
+   
+        **Expected**: A farewell message by ATHENA will be shown.   
+    
+#### Adding a task
+
+Adding a task to the list.
+
+1. **Test case:** `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`<br>
+
+   **Expected:** First task is added to the list. Details of the added task are shown.
+
+2. **Test case:** `add t/1100 D/16-09-2020`<br>
+
+   **Expected:** No task is added. Error details are shown.
+   
+#### Editing a task
+
+Editing a task details while all tasks are shown.
+
+**Prerequisites:** List all tasks using the `list` command.
+
+1. **Test case:** `edit 1 n/new name`<br>
+
+   **Expected:** Name of the task with index 1 in the list is changed to `new name`.
+
+2. **Test case:** `edit 1`<br>
+
+   **Expected:** No task is edited as there are no parameters entered. Error details are shown.
+   
+3. **Test case:** `edit -1`<br>
+
+   **Expected:** No task is edited. Error details are shown.
+   
+4. **Other incorrect edit commands to try:** `edit`, `edit x` (where x is larger than the list size)<br>
+
+   **Expected:** No task is edited. Error details are shown.
+   
+#### Listing all tasks
+
+Listing all the tasks with or without filters.
+
+1. **Test case:** `list`<br>
+   **Expected:** All the tasks will be listed.
+
+2. **Test case:** `list i/HIGH f/TODAY`<br>
+   **Expected:** All the tasks today with high importance will be shown.
+   
+3. **Test case:** `list f/TOMORROW`<br>
+   **Expected:** No task is listed. Error details is shown.
+   
+#### Marking a task as done
+
+Marking a task as done while all tasks are shown.
+
+**Prerequisites:** List all tasks using the `list` command.
+
+1. **Test case:** `done 1`<br>
+
+   **Expected:** Task with index 1 is marked as done in the list. Details of the task are shown.
+
+2. **Test case:** `done -1`<br>
+
+   **Expected:** No task is marked as done. Error details are shown.
+
+3. **Other incorrect delete commands to try:** `done`, `done x` (where x is larger than the list size)<br>
+
+    **Expected:** No task is marked as done. Error details are shown.   
+      
+#### Deleting a task
+
+Deleting a task while all tasks are shown.
+
+**Prerequisite:** List all tasks using the `list` command to see the existing tasks.
+
+1. **Test case:** `delete 0` <br>
+
+    **Prerequisite:** There should be at least one task in the list. If not, follow the steps in [*Adding a task*](#adding-a-task) to add a task.<br>
+    
+    **Expected:** Task with index 0 is deleted from the list. Details of the deleted task are shown.
+
+2. **Test case:** `delete -1`<br>
+
+   **Expected:** No task is deleted. Error details are shown.
+
+3. **Other incorrect delete commands to try:** `delete`, `delete x` (x can be any number that doesn't belong to a task in the list)<br>
+
+   **Expected:** No task is deleted. Error details are shown.
+ 
+      
+#### Viewing the full details of a task
+
+Viewing a task details while all tasks are shown.
+
+**Prerequisites:** List all tasks using the `list` command.
+
+1. **Test case:** `view 1`<br>
+
+   **Expected:** Details of the task with index 1 in the list are shown.
+
+2. **Test case:** `view -1`<br>
+
+   **Expected:** No task details are shown. Error details are shown.
+
+3. **Other incorrect view commands to try:** `view`, `view x` (where x is larger than the list size)<br>
+
+   **Expected:** No task details are shown. Error details are shown.
+      
+#### Help
+
+Guide on the use of ATHENA.
+
+1. **Test case:** `help`<br>
+
+   **Expected:** A guide on how to use ATHENA will be shown.
+   
+--------------------------------------------------------------------------------------------------------------------
 
 ## Appendix: Requirements
-
-## Product scope
-### Target user profile
+### Product scope
+#### Target user profile
 * is a university student
 * has a need to manage a significant number of tasks
-* can type fast and prefers typing to mouse interactions
+* can type fast and prefers typing over mouse interactions
 * is comfortable using the command line interface
 
 #### Value proposition
 * ATHENA helps students to automate the process of organising their schedule. After the user inputs pre-allocated time slots for work and relaxation, ATHENA figures out the best theoretical timetable based on the user’s needs.
-* It can be updated anytime during the week.
+* The timetable can be updated anytime during the week.
 * ATHENA helps to reduce the amount of time and effort that users need to spend planning their time by finding free spaces to slot tasks in, with the goal of reducing dead space in the user’s timetable. 
 * The planner will also make sure the user has enough time to eat, exercise and sleep. The user can set up ATHENA to follow a fixed weekly routine, and only needs to update a task list. ATHENA will then plan the timetable based on the importance and deadlines of the tasks in the list, making sure that the user is able to finish everything on time.
 
@@ -438,142 +514,30 @@ The following sequence diagram illustrates how the saving to storage operation w
 | `v1.0`  | student           | get reminded to do the tasks that are due soon | will be on time                                   |
 | `v1.0`  | student           | edit the tasks I added                         | update accordingly to small changes               |
 | `v1.0`  | student           | delete the tasks I added                       | remove tasks that are not needed to do anymore    |
-| `v1.0`  | student           | set my task according to importance            | complete the more important tasks first           |
+| `v1.0`  | student           | set my tasks according to importance            | complete the more important tasks first           |
 | `v1.0`  | student           | leave some notes for a task                    | remember about it                                 |
 | `v2.0`  | student           | have a planner that tells me what time to rest | don’t exhaust myself                              |
 | `v2.0`  | student           | see an overview of the week ahead              | make sure that I am staying on top of my tasks    |
+| `v2.0`  | student           | view the details of a task                     | can ensure I am on the right track with tasks     |
 | `v2.0`  | busy student      | know what tasks to work on next                | don’t need to spend time planning                 |
 
-### Non-Functional Requirements
 
-1.  Should work on any _mainstream OS_ as long as it has Java `11` installed.
-2.  A user with above average typing speed for regular English text should be able to use the features of ATHENA faster using commands than using the mouse.
+--------------------------------------------------------------------------------------------------------------------
 
-### Glossary
+## **Other Guides: Documentation, Testing, Dev-ops**
+
+This section contains links to other relevant guides that may be of use.
+
+* [Documentation guide](./Documentation.md)
+* [Testing guide](./Testing.md)
+* [Dev-ops guide](./DevOps.md)
+
+---
+
+## **Glossary**
 
 * **Mainstream OS**: Windows, Linux, Unix, OS-X
-
-### Instructions for manual testing
-
-Given below are instructions to test the app manually.
-
-#### Launch and shutdown
-
-1. Initial launch
-
-   1. Download the jar file and copy into an empty folder
-
-   2. Double-click the jar file. Expected: Shows the command line interface with welcome message.
-
-2. Shutdown ATHENA
-
-   1. Test case: `exit`<br>
-      Expected: A farewell message by ATHENA will be shown.   
-    
-#### Adding a task
-
-Adding a task to the list.
-
-1. Test case: `add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes`<br>
-   Expected: First task is added to the list. Details of the added task is shown.
-
-2. Test case: `add t/1100 D/16-09-2020`<br>
-   Expected: No task is added. Error details is shown.
-      
-#### Deleting a task
-
-Deleting a task while all tasks are shown.
-
-1. Prerequisites: List all tasks using the `list` command.
-
-2. Test case: `delete 1`<br>
-   Expected: Task with index 1 is deleted from the list. Details of the deleted task is shown.
-
-3. Test case: `delete -1`<br>
-   Expected: No task is deleted. Error details is shown.
-
-4. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size)<br>
-   Expected: Similar to previous.
- 
-#### Marking a task as done
-
-Marking a task as done while all tasks are shown.
-
-1. Prerequisites: List all tasks using the `list` command.
-
-2. Test case: `done 1`<br>
-   Expected: Task with index 1 is marked as done in the list. Details of the task is shown.
-
-3. Test case: `done -1`<br>
-   Expected: No task is marked as done. Error details is shown.
-
-4. Other incorrect delete commands to try: `done`, `done x` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
-      
-#### Viewing the full details of a task
-
-Viewing a task details while all tasks are shown.
-
-1. Prerequisites: List all tasks using the `list` command.
-
-2. Test case: `view 1`<br>
-   Expected: Details of the task with index 1 in the list is shown.
-
-3. Test case: `view -1`<br>
-   Expected: No task details is shown. Error details is shown.
-
-4. Other incorrect delete commands to try: `view`, `view x` (where x is larger than the list size)<br>
-   Expected: Similar to previous.
-
-#### Editing a task
-
-Editing a task details while all tasks are shown.
-
-1. Prerequisites: List all tasks using the `list` command.
-
-2. Test case: `edit 1 n/new name`<br>
-   Expected: Name of the task with index 1 in the list will be changed to `new name`.
-
-3. Test case: `edit -1`<br>
-   Expected: No task will be edited. Error details is shown.
-
-4. Other incorrect delete commands to try: `edit`, `edit x` (where x is larger than the list size)<br>
-   Expected: Similar to previous.
-
-#### Listing all tasks
-
-Listing all the tasks with or without filters.
-
-1. Test case: `list`<br>
-   Expected: All the tasks will be listed.
-
-2. Test case: `list i/HIGH f/TODAY`<br>
-   Expected: All the tasks today with high importance will be shown.
-      
-#### Help
-
-Guide on the use of ATHENA.
-
-1. Test case: `help`<br>
-   Expected: A guide on how to use ATHENA will be shown.
-
-
-#### Data storage
-
-Storage of user data (e.g. tasks).
-
-1. Dealing with corrupted data files
-
-   1. Open data.csv located next to Athena.jar.
-
-   2. Test case (If the file is not empty): Add `,aaaa` at the end of the first line.
-
-      Expected: The task on that line is corrupted. When you launch Athena again, it will fail to start, while providing an error message to the user.
-
-   3. Test case (If the file is not empty): Remove a comma (`,`) from the file.
-
-      Expected: The task on that line is corrupted. When you launch Athena again, it will fail to start, while providing an error message to the user.
-
-   4. Test case: Add `aaaaa` at the end of the file.
-
-      Expected: An invalid task is added. When you launch Athena again, it will fail to start, while providing an error message to the user.
+* **Task**: The activity a user intends to schedule. It could be a lecture, a social gathering, etc.
+* **Flexible Task**: A task without an explicit time given by the user. ATHENA will allocate or shift the task based on the rest of the timetable.
+* **Fixed Task**: A task with an explicit time given by the user. These tasks can be edited freely.
+* **Command**: An instruction meant to update the TaskList in a certain way.

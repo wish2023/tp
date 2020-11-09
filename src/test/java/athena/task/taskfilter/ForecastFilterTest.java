@@ -3,7 +3,7 @@ package athena.task.taskfilter;
 import athena.Forecast;
 import athena.Importance;
 import athena.common.utils.DateUtils;
-import athena.exceptions.CommandException;
+import athena.exceptions.command.CommandException;
 import athena.task.Task;
 import org.junit.jupiter.api.Test;
 
@@ -78,7 +78,7 @@ class ForecastFilterTest {
     @Test
     void testIsTaskIncluded_filterByToday_returnsTrue() throws CommandException {
         ForecastFilter forecastFilter = new ForecastFilter(Forecast.DAY);
-        String todayDateString = LocalDate.now().toString();
+        String todayDateString = DateUtils.formatDate(LocalDate.now());
         Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
                 todayDateString, Importance.LOW, "testNotes", 0, false); // Tested on 13-10-2020
         boolean isTaskIncluded = forecastFilter.isTaskIncluded(inputTask);
@@ -97,70 +97,6 @@ class ForecastFilterTest {
                 dateInString, Importance.LOW, "testNotes", 0, false); // Tested on 13-10-2020
         boolean isTaskIncluded = forecastFilter.isTaskIncluded(inputTask);
         assertEquals(isTaskIncluded, false);
-    }
-
-    /**
-     * Check if relevant dates have been removed from task after filtering for a day.
-     */
-    @Test
-    void testRemoveExcludedDates_filterToday_returnsOnlyTodayDate() throws CommandException {
-        ForecastFilter forecastFilter = new ForecastFilter(Forecast.DAY);
-        Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
-                todayDate.getDayOfWeek().toString(), Importance.LOW, "testNotes", 0, false);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String expectedDate = todayDate.format(formatter);
-        Task expectedTask = new Task("testName", "0900", "1", "05-11-2020",
-                expectedDate, Importance.LOW, "testNotes", 0, false);
-        Task actualTask = forecastFilter.removeExcludedDates(inputTask);
-        assertEquals(actualTask, expectedTask);
-    }
-
-    /**
-     * Check if relevant dates have been removed from task after filtering for a week.
-     */
-    @Test
-    void testRemoveExcludedDates_filterWeek_returnsOnlyTodayDate() throws CommandException {
-        ForecastFilter forecastFilter = new ForecastFilter(Forecast.WEEK);
-        Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
-                todayDate.getDayOfWeek().toString(), Importance.LOW, "testNotes", 0, false);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String expectedDate = todayDate.format(formatter);
-        Task expectedTask = new Task("testName", "0900", "1", "05-11-2020",
-                expectedDate, Importance.LOW, "testNotes", 0, false);
-        Task actualTask = forecastFilter.removeExcludedDates(inputTask);
-        assertEquals(actualTask, expectedTask);
-    }
-
-    /**
-     * Ensure tasks are not filtered incorrectly for day filter.
-     */
-    @Test
-    void testRemoveExcludedDates_filterDay_returnsFalse() throws CommandException {
-        ForecastFilter forecastFilter = new ForecastFilter(Forecast.DAY);
-        Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
-                todayDate.getDayOfWeek().toString(), Importance.LOW, "testNotes", 0, false);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String wrongDate = todayDate.plusDays(1).format(formatter);
-        Task wrongTask = new Task("testName", "0900", "1", "05-11-2020",
-                wrongDate, Importance.LOW, "testNotes", 0, false);
-        Task actualTask = forecastFilter.removeExcludedDates(inputTask);
-        assertEquals(actualTask.equals(wrongTask), false);
-    }
-
-    /**
-     * Ensure tasks are not filtered incorrectly for week filter.
-     */
-    @Test
-    void testRemoveExcludedDates_filterWeek_returnsFalse() throws CommandException {
-        ForecastFilter forecastFilter = new ForecastFilter(Forecast.WEEK);
-        Task inputTask = new Task("testName", "0900", "1", "05-11-2020",
-                todayDate.getDayOfWeek().toString(), Importance.LOW, "testNotes", 0, false);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String wrongDate = todayDate.plusDays(7).format(formatter);
-        Task wrongTask = new Task("testName", "0900", "1", "05-11-2020",
-                wrongDate, Importance.LOW, "testNotes", 0, false);
-        Task actualTask = forecastFilter.removeExcludedDates(inputTask);
-        assertEquals(actualTask.equals(wrongTask), false);
     }
 
     /**

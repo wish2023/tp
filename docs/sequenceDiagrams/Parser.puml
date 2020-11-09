@@ -1,0 +1,37 @@
+@startuml
+title Parser
+hide footbox
+participant ":Parser" as Parser
+
+->Parser++:parse()
+Parser->Parser++: parseShortcutCommandAndDetails(userInput)
+return command
+alt add
+Parser->Parser++:parseAddCommand()
+return command
+else edit
+Parser->Parser++:parseEditCommand()
+return command
+else list
+Parser->Parser++:parseListCommand()
+return command
+else done
+Parser->Parser++:parseDoneCommand()
+return command
+else delete
+Parser->Parser++:parseDeleteCommand()
+return command
+else view
+Parser->Parser++:parseViewCommand()
+return command
+else help
+Parser->Parser++:HelpCommand()
+return command
+else exit
+Parser->Parser++:ExitCommand()
+return command
+end
+<--Parser--: command
+
+
+@enduml

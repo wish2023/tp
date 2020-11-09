@@ -1,16 +1,18 @@
 package athena.task;
 
 import athena.Importance;
-import athena.exceptions.DateHasPassedException;
-import athena.exceptions.TaskDuringSleepTimeException;
-import athena.exceptions.TaskIsDoneException;
 import athena.common.utils.DateUtils;
+
+import athena.exceptions.command.TaskTooLongException;
+import athena.exceptions.command.InvalidDeadlineException;
+import athena.exceptions.command.InvalidRecurrenceException;
+import athena.exceptions.command.TaskDuringSleepTimeException;
+import athena.exceptions.command.TaskIsDoneException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
-
 
 
 /**
@@ -19,8 +21,8 @@ import java.util.Objects;
 public class Task {
     public static final String YES = "Y";
     public static final String NO = "N";
-    public static final int DATE_TIME_FORMAT = 5;
-    public static final int FIRST_INDEX = 0;
+    public static final String TODAY = "TODAY";
+    public static final String EMPTY = "";
     private String name;
 
     private boolean isFlexible;
@@ -30,10 +32,8 @@ public class Task {
     private String notes;
     private int number;
 
-    private Time timeInfo;
+    private TimeData timeInfo;
 
-
-    //TODO: add dependencies between Tasks
 
     /**
      * Determines if the task is done.
@@ -56,48 +56,112 @@ public class Task {
      * @param notes      additional notes for the task
      * @param number     task number
      * @param isFlexible time flexibility
+     * @throws TaskDuringSleepTimeException Exception thrown when task clashes with sleep time
+     * @throws InvalidRecurrenceException   Exception thrown when user mistypes recurrence
+     * @throws InvalidDeadlineException     Exception thrown when user mistypes deadline
      */
     public Task(String name, String startTime, String duration, String deadline,
                 String recurrence, Importance importance, String notes, int number, Boolean isFlexible)
-            throws TaskDuringSleepTimeException {
+            throws TaskDuringSleepTimeException, TaskTooLongException, InvalidRecurrenceException,
+                InvalidDeadlineException {
+        setAttributes(name, importance, notes, number, isFlexible, isDone);
+        recurrence = getDefaultDate(recurrence);
+        setTime(startTime, duration, deadline, recurrence, isFlexible);
+    }
+
+    /**
+     * Constructor for the task class.
+     *
+     * @param name       name of the task
+     * @param isFlexible time flexibility
+     * @param isDone     whether task has been completed
+     * @param importance importance of the task
+     * @param notes      additional notes for the task
+     * @param number     task number
+     * @param timeInfo   time related information of task
+     */
+    public Task(String name, boolean isFlexible, boolean isDone, Importance importance,
+                String notes, int number, TimeData timeInfo) {
+        setAttributes(name, importance, notes, number, isFlexible, isDone);
+        cloneTimeInfo(timeInfo);
+    }
+
+    /**
+     * Set timeInfo to be a deep clone of its parameter.
+     *
+     * @param timeInfo time related information of task
+     */
+    private void cloneTimeInfo(TimeData timeInfo) {
+        this.timeInfo = timeInfo.getClone();
+    }
+
+    /**
+     * Sets up time information in Time class.
+     *
+     * @param startTime  starting time of the task
+     * @param duration   how long the task is scheduled to last for
+     * @param deadline   when the task is due
+     * @param recurrence when the task occurs/repeats
+     * @param isFlexible time flexibility
+     * @throws TaskDuringSleepTimeException Exception thrown when task clashes with sleep time
+     * @throws InvalidRecurrenceException   Exception thrown when user mistypes recurrence
+     * @throws InvalidDeadlineException     Exception thrown when user mistypes deadline
+     */
+    private void setTime(String startTime, String duration, String deadline, String recurrence, Boolean isFlexible)
+            throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException,
+            TaskTooLongException {
+        this.timeInfo = new TimeData(isFlexible, startTime, duration, deadline, recurrence);
+    }
+
+    /**
+     * Updates recurrence if it is set to today.
+     *
+     * @param recurrence occurrence of task
+     * @return updated occurrence date
+     */
+    private String getDefaultDate(String recurrence) {
+        if (recurrence.toUpperCase().equals(TODAY)) {
+            recurrence = DateUtils.formatDate(LocalDate.now());
+        }
+        return recurrence;
+    }
+
+    /**
+     * Sets all non time related attributes.
+     *
+     * @param name       name of the task
+     * @param importance importance of the task
+     * @param notes      additional notes for the task
+     * @param number     task number
+     * @param isFlexible time flexibility
+     * @param isDone     whether task has been completed
+     */
+    private void setAttributes(String name, Importance importance, String notes, int number, Boolean isFlexible,
+                               Boolean isDone) {
         this.name = name;
-        assert !this.name.equals("");
+        assert !this.name.equals(EMPTY);
         this.importance = importance;
         this.notes = notes;
         this.number = number;
         this.isFlexible = isFlexible;
-        if (recurrence.toUpperCase().equals("TODAY")) {
-            recurrence = DateUtils.formatDate(LocalDate.now());
-        }
-        this.timeInfo = new Time(isFlexible, startTime, duration, deadline, recurrence);
+        this.isDone = isDone;
     }
 
 
+    /**
+     * Converts date from String to LocalDate.
+     *
+     * @param date Date of task occurrence
+     * @return date as a LocalDate
+     */
     public LocalDate getRecurrenceDate(String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         return LocalDate.parse(date, formatter);
     }
 
-    public Task(String name, boolean isFlexible, boolean isDone, Importance importance,
-                String notes, int number, Time timeInfo) throws TaskDuringSleepTimeException, DateHasPassedException {
-        this.name = name;
-        this.isFlexible = isFlexible;
-        this.isDone = isDone;
-        this.importance = importance;
-        this.notes = notes;
-        this.number = number;
-        this.timeInfo = timeInfo.getClone();
-    }
 
     public Task getClone() {
-        Task copy = null;
-        try {
-            copy = new Task(name, isFlexible, isDone, importance, notes, number, timeInfo);
-        } catch (TaskDuringSleepTimeException e) {
-            assert false;   // a task that can be cloned should have been blocked from being assigned the sleep time
-        } catch (DateHasPassedException e) {
-            assert false;
-        }
+        Task copy = new Task(name, isFlexible, isDone, importance, notes, number, timeInfo);
 
         return copy;
     }
@@ -113,23 +177,30 @@ public class Task {
      * @param recurrence New task recurrence
      * @param importance New task importance
      * @param notes      New task notes
+     * @throws InvalidRecurrenceException   Exception thrown when user mistypes recurrence
+     * @throws InvalidDeadlineException     Exception thrown when user mistypes deadline
      */
     public void edit(String name, String startTime, String duration, String deadline,
-                     String recurrence, Importance importance, String notes) throws DateHasPassedException {
-        this.name = name;
-        assert !this.name.equals("");
+                     String recurrence, Importance importance, String notes)
+            throws InvalidRecurrenceException, InvalidDeadlineException, TaskDuringSleepTimeException {
+        setAttributes(name, importance, notes, number, isFlexible, isDone);
+        assertTimeAttributes(startTime, duration, deadline);
+
+        recurrence = getDefaultDate(recurrence);
+        timeInfo.edit(startTime, duration, deadline, recurrence);
+    }
+
+    /**
+     * Assert all time attributes are non empty.
+     *
+     * @param startTime  starting time of the task
+     * @param duration   how long the task is scheduled to last for
+     * @param deadline   when the task is due
+     */
+    private void assertTimeAttributes(String startTime, String duration, String deadline) {
         assert !startTime.equals("");
         assert !duration.equals("");
         assert !deadline.equals("");
-
-        this.timeInfo.edit(startTime, duration, deadline, recurrence);
-
-        this.importance = importance;
-        assert this.importance != null;
-
-        if (!notes.equals(null)) {
-            this.notes = notes;
-        }
     }
 
 
@@ -144,7 +215,7 @@ public class Task {
 
     /**
      * Marks the task as done.
-     * 
+     *
      * @throws TaskIsDoneException Exception thrown when user tries to mark a task as done which is done.
      */
     public void setDone() throws TaskIsDoneException {
@@ -191,14 +262,6 @@ public class Task {
         return timeInfo.getRecurrenceDates();
     }
 
-    /**
-     * Deletes the specified date from recurrenceDates.
-     *
-     * @param date Date to delete
-     */
-    public void removeDate(LocalDate date) {
-        timeInfo.removeDate(date);
-    }
 
     /**
      * Returns the task number.
@@ -218,21 +281,22 @@ public class Task {
         this.number = number;
     }
 
+
+    /**
+     * Returns the time flexibility of a task.
+     *
+     * @return time flexibility
+     */
     public boolean isFlexible() {
         return isFlexible;
     }
 
-    public void setFlexible(boolean isFlexible) {
-        this.isFlexible = isFlexible;
-    }
 
     /**
      * Restores a task that the user has just deleted.
      *
      * @return String representing details of the task the user wants to restore
      */
-
-    //TODO: rework this, hard to do if dependencies are added
     public String getTaskRestore() {
         String taskRestore = "add n/" + this.getName() + " d/" + timeInfo.getDuration()
                 + " D/" + this.timeInfo.getDeadline() + " r/" + timeInfo.getRecurrence() + " i/"
@@ -243,17 +307,13 @@ public class Task {
         return taskRestore;
     }
 
-    public Time getTimeInfo() {
+    /**
+     * Returns the time information of a task.
+     *
+     * @return time information of task
+     */
+    public TimeData getTimeInfo() {
         return timeInfo;
-    }
-
-    public ArrayList<LocalDate> makeDeepCopyDates(ArrayList<LocalDate> oldDates) {
-        ArrayList<LocalDate> copy = new ArrayList<LocalDate>();
-        for (LocalDate date : oldDates) {
-            LocalDate dateCopy = getRecurrenceDate(date.toString());
-            copy.add(dateCopy);
-        }
-        return copy;
     }
 
 
@@ -264,8 +324,18 @@ public class Task {
      */
     @Override
     public String toString() {
-        return "[ID: " + number + "] " + name + " at " + timeInfo.getStartTime() + " finish by "
-                + timeInfo.getDeadline() + ". Done? " + getStatus();
+        String deadlinePreText;
+        if (timeInfo.getDeadline().toLowerCase().equals("no deadline")) {
+            deadlinePreText = " and has ";
+        } else {
+            deadlinePreText = " which should be finished by ";
+        }
+        if (timeInfo.getStartTimeString().equals("")) {
+            return "[ID: " + number + "] " + name + " has not been assigned a time";
+        }
+        return "[ID: " + number + "] " + name + " at " + timeInfo.getStartTime() + deadlinePreText
+                + timeInfo.getDeadline().toLowerCase() + ". Done? " + getStatus()
+                + " Importance: " + importance.toString();
     }
 
     /**

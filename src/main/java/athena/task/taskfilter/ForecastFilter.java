@@ -1,27 +1,19 @@
 package athena.task.taskfilter;
 
+import athena.Forecast;
 import athena.common.utils.DateUtils;
 import athena.task.Task;
-import athena.Forecast;
 
 import java.time.LocalDate;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class ForecastFilter extends TaskFilter {
 
-    private Forecast forecast;
+    private final Forecast forecast;
     private LocalDate filterDate = LocalDate.now();
 
     public ForecastFilter(Forecast forecast) {
         this.forecast = forecast;
-    }
-
-    public ForecastFilter(LocalDate date) {
-        this.forecast = Forecast.DAY;
-        this.filterDate = date;
     }
 
     public void setDate(LocalDate filterDate) {
@@ -37,45 +29,10 @@ public class ForecastFilter extends TaskFilter {
     @Override
     public boolean isTaskIncluded(Task task) {
         for (LocalDate date : task.getDates()) {
-            if (isDateIncluded(date)) {
+            if (DateUtils.isDateIncluded(date, forecast)) {
                 return true;
             }
         }
         return false;
     }
-
-    private static int getWeekNumber(LocalDate taskDate) {
-        TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
-        return taskDate.get(woy);
-    }
-
-    private boolean isDateIncluded(LocalDate taskDate) {
-        boolean isDateIncluded;
-        if (forecast == Forecast.ALL) {
-            isDateIncluded = true;
-        } else if (forecast == Forecast.WEEK) {
-            int currentWeekNumber = getWeekNumber(filterDate);
-            int taskWeekNumber = getWeekNumber(taskDate);
-            isDateIncluded = (currentWeekNumber == taskWeekNumber && taskDate.getYear() == LocalDate.now().getYear());
-        } else {
-            isDateIncluded = taskDate.equals(filterDate);
-        }
-        return isDateIncluded;
-    }
-
-    public Task removeExcludedDates(Task task) {
-        Task taskCopy = task.getClone();
-        ArrayList<LocalDate> datesToDelete = new ArrayList<>();
-        for (LocalDate date : taskCopy.getDates()) {
-            if (!isDateIncluded(date)) {
-                datesToDelete.add(date);
-            }
-        }
-        for (LocalDate date : datesToDelete) {
-            taskCopy.removeDate(date);
-        }
-        return taskCopy;
-    }
-
-
 }
