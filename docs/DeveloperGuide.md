@@ -23,7 +23,7 @@
     - [Delete task feature](#delete-task-feature)
     - [View task feature](#view-task-feature)
     - [Time allocation to task in timetable](#time-allocation-to-task-in-timetable)
-  - [Appendix: Instructions for manual testing](#appendix-instructions-for-manual-testing)
+  - [**Appendix: Instructions for manual testing**](#appendix-instructions-for-manual-testing)
     - [Launch and shutdown](#launch-and-shutdown)
     - [Adding a task](#adding-a-task)
     - [Deleting a task](#deleting-a-task)
