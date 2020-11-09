@@ -30,9 +30,7 @@ public class DateChecker {
             InvalidTimeFormatException, TimeNotHourlyException {
         setStringAttributes(recurrenceString, startTimeString);
         setRecurrence(recurrenceString);
-        System.out.println("2222");
         if (isNonEmptyTime(startTimeString)) {
-            System.out.println("3333");
             setStartTime(startTimeString);
             checkHourlyTime();
             checkDatePassed();
