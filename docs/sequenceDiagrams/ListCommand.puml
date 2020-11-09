@@ -1,0 +1,26 @@
+@startuml
+title ListCommand
+hide footbox
+
+participant "command:ListCommand" as ListCommand
+participant "athenaUi:AthenaUi" as AthenaUI
+participant "timetable:Timetable" as Timetable
+participant ":ImportanceFilter" as ImportanceFilter
+participant ":ForecastFilter" as ForecastFilter
+
+->ListCommand++: execute()
+ListCommand->Timetable**:
+activate Timetable
+Timetable->ImportanceFilter++
+return
+Timetable->ForecastFilter++
+destroy ImportanceFilter
+return
+return Timetable
+destroy ForecastFilter
+
+ListCommand->AthenaUI++: printTimetable()
+AthenaUI-->ListCommand--:
+
+<--ListCommand--
+@enduml
