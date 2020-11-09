@@ -35,7 +35,7 @@ public class DateChecker {
     }
 
     /**
-     * Checks if the starting time of a task is not empty
+     * Checks if the starting time of a task is not empty.
      *
      * @param startTimeString the starting time of a task as a String
      * @return whether the starting time of a task is not empty.
@@ -49,7 +49,7 @@ public class DateChecker {
      * to LocalTime.
      *
      * @param startTimeString the starting time of a task as a String
-     * @throws InvalidTimeFormatException
+     * @throws InvalidTimeFormatException Exception thrown when user mistypes time
      */
     private void setStartTime(String startTimeString) throws InvalidTimeFormatException {
         try {
