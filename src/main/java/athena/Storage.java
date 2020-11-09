@@ -1,6 +1,6 @@
 package athena;
 
-
+import athena.exceptions.command.TaskTooLongException;
 import athena.exceptions.command.ClashInTaskException;
 import athena.exceptions.command.InvalidDeadlineException;
 import athena.exceptions.command.InvalidRecurrenceException;
@@ -12,7 +12,7 @@ import athena.exceptions.command.TaskDuringSleepTimeException;
 import athena.exceptions.command.TaskIsDoneException;
 import athena.exceptions.command.TaskNotFoundException;
 import athena.task.Task;
-import athena.task.Time;
+import athena.task.TimeData;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -54,7 +54,7 @@ public class Storage {
         try {
             FileWriter csvWriter = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {
-                Time timeInfo = task.getTimeInfo();
+                TimeData timeInfo = task.getTimeInfo();
                 taskString = replaceCommas(task.getName()) + ","
                         + replaceCommas(timeInfo.getStartTimeString()) + ","
                         + replaceCommas(timeInfo.getDurationString()) + ","
@@ -107,24 +107,14 @@ public class Storage {
                     }
                 }
                 csvReader.close();
-            } catch (IOException e) {
+            } catch (IOException | TaskNotFoundException e) {
                 throw new StorageLoadFailException();
-            } catch (ArrayIndexOutOfBoundsException e) {
-                throw new StorageCorruptedException(data);
-            } catch (ClashInTaskException e) {
-                throw new StorageCorruptedException(data);
-            } catch (TaskNotFoundException e) {
-                throw new StorageLoadFailException();
-            } catch (TaskDuringSleepTimeException e) {
-                throw new StorageCorruptedException(data);
-            } catch (InvalidTimeFormatException e) {
+            } catch (ArrayIndexOutOfBoundsException | ClashInTaskException | TaskDuringSleepTimeException
+                    | InvalidTimeFormatException | TaskTooLongException | InvalidDeadlineException
+                    | InvalidRecurrenceException e) {
                 throw new StorageCorruptedException(data);
             } catch (TaskIsDoneException e) {
                 assert false;
-            } catch (InvalidDeadlineException e) {
-                throw new StorageCorruptedException(data);
-            } catch (InvalidRecurrenceException e) {
-                throw new StorageCorruptedException(data);
             }
         }
         return loadedTaskList;

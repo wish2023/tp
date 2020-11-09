@@ -1,5 +1,6 @@
 package athena.task;
 
+import athena.exceptions.command.TaskTooLongException;
 import athena.exceptions.command.InvalidDeadlineException;
 import athena.exceptions.command.InvalidRecurrenceException;
 import athena.exceptions.command.TaskDuringSleepTimeException;
@@ -17,7 +18,7 @@ import java.util.Objects;
  * examples include startTime, duration, deadline
  * Recurrence and recurrenceDate can also be stored here
  */
-public class Time implements Comparable<Time> {
+public class TimeData implements Comparable<TimeData> {
 
     private static final int DATE_TIME_FORMAT = 5;
     private static final LocalTime WAKE_TIME = LocalTime.of(8,0);
@@ -27,18 +28,16 @@ public class Time implements Comparable<Time> {
     public static final String DD_MM = "dd-MM";
     public static final String DASH = "-";
     private boolean isFlexible;
-    private LocalTime startTime;
+    private LocalTime startTime = null;
     private int duration;
     private LocalTime endTime;
-
     private String deadline;
     private LocalDate deadlineDate;
-
     private String recurrence;
     private ArrayList<LocalDate> recurrenceDates = new ArrayList<>();
 
     /**
-     * Constructor for time class.
+     * Constructor for timeData class.
      *
      * @param isFlexible    time flexibility
      * @param startTime     starting time of task
@@ -49,13 +48,20 @@ public class Time implements Comparable<Time> {
      * @throws InvalidRecurrenceException   Exception thrown when user mistypes recurrence
      * @throws InvalidDeadlineException     Exception thrown when user mistypes deadline
      */
-    public Time(boolean isFlexible, LocalTime startTime, int duration, String deadline, String recurrence)
+    public TimeData(boolean isFlexible, LocalTime startTime, int duration, String deadline, String recurrence)
             throws TaskDuringSleepTimeException, InvalidDeadlineException, InvalidRecurrenceException {
-
-        setIsFlexible(isFlexible);
-        setDuration(duration);
-        setDeadline(deadline);
+        if (startTime != null) {
+            this.startTime = startTime;
+            this.endTime = startTime.plusHours(duration);
+            if (isClashWithSleep()) {
+                throw new TaskDuringSleepTimeException();
+            }
+        }
+        this.isFlexible = isFlexible;
+        this.duration = duration;
+        this.deadline = deadline;
         setDeadlineDate(deadline);
+        this.recurrence = recurrence;
         setRecurrence(recurrence);
         setTime(startTime);
     }
@@ -72,19 +78,24 @@ public class Time implements Comparable<Time> {
      * @throws InvalidRecurrenceException   Exception thrown when user mistypes recurrence
      * @throws InvalidDeadlineException     Exception thrown when user mistypes deadline
      */
-    public Time(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence)
-            throws TaskDuringSleepTimeException,
+    public TimeData(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence)
+            throws TaskDuringSleepTimeException, DateTimeParseException, TaskTooLongException,
             InvalidRecurrenceException, InvalidDeadlineException {
         setIsFlexible(isFlexible);
         setDuration(duration);
         setDeadline(deadline);
         setDeadlineDate(deadline);
+        this.recurrence = recurrence;
         setRecurrence(recurrence);
-
-        if (isNotEmpty(startTime)) {
-            setTime(startTime);
+        if (startTime.length() > 0) {
+            this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
+            this.endTime = this.startTime.plusHours(this.duration);
+            if (isClashWithSleep()) {
+                throw new TaskDuringSleepTimeException();
+            } else if (this.duration > 16) {
+                throw new TaskTooLongException(this.duration);
+            }
         }
-
     }
 
     /**
@@ -233,9 +244,9 @@ public class Time implements Comparable<Time> {
      *
      * @return Cloned Time object
      */
-    public Time getClone() {
+    public TimeData getClone() {
         try {
-            return new Time(isFlexible, startTime, duration, deadline, recurrence);
+            return new TimeData(isFlexible, startTime, duration, deadline, recurrence);
         } catch (TaskDuringSleepTimeException | InvalidRecurrenceException | InvalidDeadlineException e) {
             assert false;
             return null;
@@ -586,7 +597,7 @@ public class Time implements Comparable<Time> {
 
 
     @Override
-    public int compareTo(Time o) {
+    public int compareTo(TimeData o) {
         return 0;
     }
 
@@ -614,7 +625,7 @@ public class Time implements Comparable<Time> {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Time time = (Time) o;
+        TimeData time = (TimeData) o;
 
         return isFlexible == time.isFlexible
                 && Objects.equals(startTime, time.startTime)

@@ -2,6 +2,8 @@ package athena.task;
 
 import athena.Importance;
 import athena.common.utils.DateUtils;
+
+import athena.exceptions.command.TaskTooLongException;
 import athena.exceptions.command.InvalidDeadlineException;
 import athena.exceptions.command.InvalidRecurrenceException;
 import athena.exceptions.command.TaskDuringSleepTimeException;
@@ -30,7 +32,7 @@ public class Task {
     private String notes;
     private int number;
 
-    private Time timeInfo;
+    private TimeData timeInfo;
 
 
     /**
@@ -60,7 +62,8 @@ public class Task {
      */
     public Task(String name, String startTime, String duration, String deadline,
                 String recurrence, Importance importance, String notes, int number, Boolean isFlexible)
-            throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException {
+            throws TaskDuringSleepTimeException, TaskTooLongException, InvalidRecurrenceException,
+                InvalidDeadlineException {
         setAttributes(name, importance, notes, number, isFlexible, isDone);
         recurrence = getDefaultDate(recurrence);
         setTime(startTime, duration, deadline, recurrence, isFlexible);
@@ -78,7 +81,7 @@ public class Task {
      * @param timeInfo   time related information of task
      */
     public Task(String name, boolean isFlexible, boolean isDone, Importance importance,
-                String notes, int number, Time timeInfo) {
+                String notes, int number, TimeData timeInfo) {
         setAttributes(name, importance, notes, number, isFlexible, isDone);
         cloneTimeInfo(timeInfo);
     }
@@ -88,7 +91,7 @@ public class Task {
      *
      * @param timeInfo time related information of task
      */
-    private void cloneTimeInfo(Time timeInfo) {
+    private void cloneTimeInfo(TimeData timeInfo) {
         this.timeInfo = timeInfo.getClone();
     }
 
@@ -105,8 +108,9 @@ public class Task {
      * @throws InvalidDeadlineException     Exception thrown when user mistypes deadline
      */
     private void setTime(String startTime, String duration, String deadline, String recurrence, Boolean isFlexible)
-            throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException {
-        this.timeInfo = new Time(isFlexible, startTime, duration, deadline, recurrence);
+            throws TaskDuringSleepTimeException, InvalidRecurrenceException, InvalidDeadlineException,
+            TaskTooLongException {
+        this.timeInfo = new TimeData(isFlexible, startTime, duration, deadline, recurrence);
     }
 
     /**
@@ -153,6 +157,13 @@ public class Task {
     public LocalDate getRecurrenceDate(String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         return LocalDate.parse(date, formatter);
+    }
+
+
+    public Task getClone() {
+        Task copy = new Task(name, isFlexible, isDone, importance, notes, number, timeInfo);
+
+        return copy;
     }
 
 
@@ -301,7 +312,7 @@ public class Task {
      *
      * @return time information of task
      */
-    public Time getTimeInfo() {
+    public TimeData getTimeInfo() {
         return timeInfo;
     }
 
@@ -318,6 +329,9 @@ public class Task {
             deadlinePreText = " and has ";
         } else {
             deadlinePreText = " which should be finished by ";
+        }
+        if (timeInfo.getStartTimeString().equals("")) {
+            return "[ID: " + number + "] " + name + " has not been assigned a time";
         }
         return "[ID: " + number + "] " + name + " at " + timeInfo.getStartTime() + deadlinePreText
                 + timeInfo.getDeadline().toLowerCase() + ". Done? " + getStatus()

@@ -1,8 +1,7 @@
 package athena.ui;
 
-import athena.Importance;
 import athena.task.Task;
-import athena.task.Time;
+import athena.task.TimeData;
 import athena.timetable.Timetable;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -157,13 +156,14 @@ public class AthenaUi implements Ui {
         printBoldNextLine((task.getNumber()) + ": " + task.getName() + "!");
         printNormalNextLine("Here are the new details of your task!");
         printNormal("Start Time: ");
-        printBoldNextLine(task.getTimeInfo().getStartTimeString());
+        TimeData timeInfo = task.getTimeInfo();
+        printBoldNextLine(timeInfo.getStartTimeString());
         printNormal("Duration: ");
-        printBoldNextLine(task.getTimeInfo().getDurationString());
+        printBoldNextLine(timeInfo.getDurationString());
         printNormal("Due Date: ");
-        printBoldNextLine(task.getTimeInfo().getDeadline());
+        printBoldNextLine(timeInfo.getDeadline());
         printNormal("Recurrence: ");
-        printBoldNextLine(task.getTimeInfo().getRecurrence());
+        printBoldNextLine(timeInfo.getRecurrence());
         printNormal("Importance: ");
         printBoldNextLine(task.getImportance().toString());
         printNormal("Additional Notes: ");
@@ -456,6 +456,7 @@ public class AthenaUi implements Ui {
 
     /**
      * Prints an error message when there is an error with the stored data.
+     *
      * @param corruptedLine Line in the save file that has an error and has to be removed
      */
     public void printCorruptedLine(String corruptedLine) {
@@ -475,6 +476,11 @@ public class AthenaUi implements Ui {
      */
     public void printSleepTimeNotAllowed() {
         printError("You are not allowed to add a task from 12am to 8am. It is time to sleep!");
+    }
+
+    public void printTaskTooLong(int taskNumber) {
+        System.out.println(colorText.toRed("Task number " + taskNumber
+                + " takes too long to complete, please reduce the time 16 hours and below \n"));
     }
 
     public void printIllegalTimeModificationException() {
