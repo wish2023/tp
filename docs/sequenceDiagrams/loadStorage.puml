@@ -1,5 +1,5 @@
 @startuml
-title LOAD
+title Load
 hide footbox
 
 participant "storage:Storage" as Storage
