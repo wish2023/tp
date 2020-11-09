@@ -2,24 +2,19 @@
 hide footbox
 title View
 
-
-->ViewCommand++: execute()
-
 participant "command:ViewCommand" as ViewCommand
 participant ":Task" as Task
 participant "taskList:TaskList" as TaskList
 participant ":Time" as Time
 participant "athenaUi:AthenaUi" as AthenaUI
 
+->ViewCommand++: execute()
 ViewCommand->TaskList++: getTaskDescription()
-
 TaskList->TaskList++: getTaskFromNumber()
-
 TaskList->Task++:getNumber()
 return taskNumber
 TaskList->Task++:getDetailsAsString()
 Task->Task++:getStatus()
-
 Task->Time++:getStartTime()
 return string
 Task->Time++:getDeadline()
