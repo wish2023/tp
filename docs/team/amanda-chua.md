@@ -39,7 +39,7 @@ The code contributed by me can be found in this [link](https://nus-cs2113-ay2021
     * The following are sections I contributed to:
       1. Architecture
       2. Parser Component  
-      3. Implementation for `Add task feature` and `Edit task feature`
+      3. Implementation for `User command processing`, `Add task feature` and `Edit task feature`
       4. Instructions for manual testing (except Data Storage)
 
 ### Contributions to team-based tasks:
