@@ -1,0 +1,26 @@
+@startuml
+hide footbox
+title Edit
+
+participant "command:EditCommand" as EditCommand
+participant "tasklist:TaskList" as TaskList
+participant "task:Task" as Task
+participant "athenaUi:AthenaUi" as AthenaUI
+
+->EditCommand++: execute()
+EditCommand->TaskList++: editTask()
+TaskList->TaskList++: createTask()
+TaskList->Task**:
+activate Task
+Task-->TaskList--
+TaskList->Task++: edit()
+Task-->TaskList--:
+return task
+TaskList-->EditCommand--:task
+EditCommand->AthenaUI++: printTaskEdited()
+AthenaUI->Task++:getName()
+return String
+AthenaUI-->EditCommand--:
+<--EditCommand--
+
+@enduml
