@@ -44,7 +44,6 @@ public class Athena {
         boolean isExit = false;
         try {
             taskList = storage.loadTaskListData();
-            timeAllocator = new TimeAllocator(taskList);
         } catch (StorageException e) {
             e.printErrorMessage();
             isExit = true;
@@ -53,6 +52,7 @@ public class Athena {
 
         while (!isExit) {
             try {
+                timeAllocator = new TimeAllocator(taskList);
                 timeAllocator.runAllocate();
                 athenaUi.printNewline();
                 athenaUi.printUserInputIndicator();

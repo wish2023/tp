@@ -98,6 +98,7 @@ public class Log {
         Log bestLog = currentLog;
         boolean hasUsableVacancy = true;
         while (hasUsableVacancy) {
+            currentLog = new Log(currSlot.getStart(), currSlot.getEnd());
             currentLog.setNumberList(undefinedTimeTasks);
             hasUsableVacancy = currentLog.hasSpace();
             if ((bestLog.getSpaceNumber() < currentLog.getSpaceNumber()) | !hasUsableVacancy) {
