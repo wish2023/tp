@@ -18,6 +18,7 @@
     - [List feature](#list-feature)
     - [Mark task as done feature](#mark-task-as-done-feature)
     - [Delete task feature](#delete-task-feature)
+    - [View task feature](#view-task-feature)
   - [Appendix: Instructions for manual testing](#appendix-instructions-for-manual-testing)
       - [Launch and shutdown](#launch-and-shutdown)
       - [Adding a task](#adding-a-task)
@@ -323,6 +324,34 @@ Given below is an example usage scenario and how this mechanism behaves at each 
 The following sequence diagram illustrates how **Step 3** of the task deleting operation works:
 
 ![DeleteSequenceDiagram](sequenceDiagrams/DeleteCommand.png)
+
+
+### View task feature
+The mechanism to view a task is facilitated by the `ViewCommand` class. The user is able to view a task with the `view` command.
+
+`ViewCommand#execute` is called and the details of the `Task` selected by the user are displayed by the `TaskList`.
+
+`ViewCommand` and `TaskList` implement the following operations:
+
+* `ViewCommand#execute` - Passes the selected task number to `TaskList` of that task that is to be viewed, then calls `AthenaUi` to print a message to the output.
+* `TaskList#getTaskDescription` - Searches for the task with the given number, and return the details of the task.
+
+The process starts with `Parser#parse` parsing the user input and returning a `ViewCommand` object. This is described in the [*User command processing*](user-command-processing) section.
+
+Given below is an example usage scenario and how this mechanism behaves at each step.
+
+**Step 1.** The user launches the application. The `TaskList` contains at least one `Task`.
+
+**Step 2.** The user views **Task 1** by entering `view 1`. `Parser#parse` parses the user input, and creates a `ViewCommand` object. The `ViewCommand` object is returned to `Athena`.
+
+**Step 3.** `Athena` calls `ViewCommand#execute`, which calls `TaskList` to view **Task 1**. The details of **Task 1** can now be viewed.
+
+
+**Step 4.** `AthenaUi` prints a message to inform the user of whether the command has succeeded or failed.
+
+The following sequence diagram illustrates how **Step 3** of the task viewing operation works:
+
+![ViewSequenceDiagram](sequenceDiagrams/ViewCommand.png)
 
 --------------------------------------------------------------------------------------------------------------------
 
