@@ -5,7 +5,7 @@ title AddCommand
 participant "command:AddCommand" as AddCommand
 participant "tasklist:TaskList" as TaskList
 participant "task:Task" as Task
-participant "athenaUi:AthenaUI" as AthenaUI
+participant "athenaUi:AthenaUi" as AthenaUI
 
 
 ->AddCommand: execute()

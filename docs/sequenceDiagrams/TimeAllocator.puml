@@ -13,6 +13,8 @@ activate log
 timeAllocator->log:setFixedTasks()
 return dayLog
 timeAllocator->TimeSlot**
+activate TimeSlot
+return
 loop hasNextTimeSlot
 timeAllocator->TimeSlot++:findNextSlot()
 return

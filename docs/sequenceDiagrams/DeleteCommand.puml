@@ -4,7 +4,7 @@ title DeleteCommand
 participant "command:DeleteCommand" as DeleteCommand
 participant "tasklist:TaskList" as TaskList
 participant "task:Task" as Task
-participant "athenaUi:AthenaUI" as AthenaUI
+participant "athenaUi:AthenaUi" as AthenaUI
 
 ->DeleteCommand: execute()
 activate DeleteCommand

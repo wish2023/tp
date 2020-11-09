@@ -1,5 +1,6 @@
 @startuml
 title Save
+hide footbox
 participant "storage:Storage" as Storage
 participant ":Time" as Time
 participant ":Task" as Task
@@ -8,6 +9,9 @@ participant ":File" as File
 
 ->Storage++: saveTaskListData()
 Storage->TaskList++: getTasks()
+return
+Storage->File**
+activate File
 return
 loop nextTask
 Storage->Task++: getTimeInfo()

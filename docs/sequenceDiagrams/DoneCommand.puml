@@ -5,7 +5,7 @@ title DoneCommand
 participant "command:DoneCommand" as DoneCommand
 participant "tasklist:TaskList" as TaskList
 participant "task:Task" as Task
-participant "athenaUi:AthenaUI" as AthenaUI
+participant "athenaUi:AthenaUi" as AthenaUI
 
 ->DoneCommand: execute()
 activate DoneCommand

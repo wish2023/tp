@@ -5,7 +5,7 @@ title Edit
 participant "command:EditCommand" as EditCommand
 participant "tasklist:TaskList" as TaskList
 participant "task:Task" as Task
-participant "athenaUi:AthenaUI" as AthenaUI
+participant "athenaUi:AthenaUi" as AthenaUI
 
 ->EditCommand++: execute()
 EditCommand->TaskList++: editTask()
@@ -16,7 +16,7 @@ Task-->TaskList--
 TaskList->Task++: edit()
 Task-->TaskList--:
 return task
-TaskList-->EditCommand--:
+TaskList-->EditCommand--:task
 EditCommand->AthenaUI++: printTaskEdited()
 AthenaUI->Task++:getName()
 return String

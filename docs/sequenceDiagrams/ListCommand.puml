@@ -1,7 +1,12 @@
 @startuml
-title List
+title ListCommand
 hide footbox
 
+participant "command:ListCommand" as ListCommand
+participant "athenaUi:AthenaUi" as AthenaUI
+participant "timetable:Timetable" as Timetable
+participant ":ImportanceFilter" as ImportanceFilter
+participant ":ForecastFilter" as ForecastFilter
 
 ->ListCommand++: execute()
 ListCommand->Timetable**:

@@ -9,7 +9,7 @@ participant "command:ViewCommand" as ViewCommand
 participant ":Task" as Task
 participant "taskList:TaskList" as TaskList
 participant ":Time" as Time
-participant ":AthenaUI" as AthenaUI
+participant "athenaUi:AthenaUi" as AthenaUI
 
 ViewCommand->TaskList++: getTaskDescription()
 
