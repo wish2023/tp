@@ -5,6 +5,7 @@ title AddCommand
 participant "command:AddCommand" as AddCommand
 participant "tasklist:TaskList" as TaskList
 participant "task:Task" as Task
+participant "athenaUi:AthenaUI" as AthenaUI
 
 
 ->AddCommand: execute()
@@ -29,7 +30,12 @@ return boolean
 TaskList->TaskList: updateMaxNumber()
 activate TaskList
 return
-TaskList-->AddCommand:
+TaskList-->AddCommand--:
+AddCommand->AthenaUI++: printTaskAdded()
+AthenaUI->Task++:getName()
+return String
+AthenaUI-->AddCommand--:
+
 deactivate TaskList
 <--AddCommand--
 
