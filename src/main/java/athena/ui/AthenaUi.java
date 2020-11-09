@@ -118,6 +118,7 @@ public class AthenaUi implements Ui {
             printNormalNextLine(".");
         }
 
+        printNormalNextLine("");
         printNormal("You should spend a total of ");
         printBold(task.getTimeInfo().getDurationString());
         printNormal(" hour(s) on it. ");
