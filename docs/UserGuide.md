@@ -32,7 +32,7 @@ We hope you enjoy using ATHENA and start being more productive today!
 5. Then, enter `java -jar Athena.jar`.
 6. A welcome message as seen below will be shown:
 
-![welcome-message](screenshots/welcome-message.jpeg)
+![welcome-message](screenshots/welcome-message.png)
 
 If you are new to the command line and require a guide: 
 * Click [here](https://www.minitool.com/lib/cmd.html) if you use Windows
@@ -41,17 +41,17 @@ If you are new to the command line and require a guide:
 
 ## Features 
 Notes about the command format:
-* Words in UPPER_CASE are the parameters to be supplied by the user.
-e.g. in `add n/NAME`, NAME is a parameter which the user provides, such as: `add n/Assignment1`.
-* Parameters can be in any order.
-e.g. if the command specifies `n/NAME t/TIME`, `t/TIME n/NAME` is also acceptable.
-* Any unknown parameter type entered by the user that does not fit the parameters accepted in a respective feature will be ignored.
-e.g `add n/NAME p/PARAMETER`, since `p/` is an unknown parameter type for `add` command, `p/PARAMETER` is ignored.
-* If user types in 2 or more parameter description for each parameter type, only the first description will be taken.
-e.g. if user types `n/NAME1 n/NAME2`, only `NAME1` will be recorded as the task's name.
+* Words in UPPER_CASE are the parameters that you need to supply to ATHENA.
+e.g. To add a task using `add n/NAME`, you need to provide the NAME parameter, for example: `add n/Assignment1`.
+* Parameters can be entered in any order.
+e.g. If the command format is `add n/NAME t/TIME`, both `add n/Assignment1 t/1800` and `add t/1800 n/Assignment1` are acceptable.
+* Any unsupported parameter type for a command that is entered will be ignored.
+e.g. `list` accepts 2 parameters, `i/IMPORTANCE` and `f/FORECAST`. If you enter `list i/HIGH p/PARAMETER`, since `list` does not support `/p`, `p/PARAMETER` is ignored.
+* If you type in more than 1 parameter descriptions for a particular parameter type, only the first description will be taken.
+e.g. If you enter `add n/NAME1 n/NAME2`, only `NAME1` will be recorded as the newly added task's name.
 * Items in square brackets are optional. e.g in `n/NAME  [d/DURATION]`, the parameters can be provided as `n/Task1 d/1` or as `n/Task1`.
-(Refer to the Intermediate Usage section of each command for more information)
-* For some commands, if no parameters are specified, the command will execute using the default values for each parameter.
+(Refer to the **Intermediate Usage** section of each command for more information)
+* For some commands, if no parameters are specified, the command will be executed using the default values for each parameter.
 * For dates, the program follows the **DD-MM-YYYY** format.
 * For time, the program follows the **HHMM** format.
 
@@ -90,11 +90,11 @@ The `add` command accepts 7 parameters.
 
 * `DURATION` is the expected time taken to complete task (in hours). For example, 2.
 
-* `DEADLINE`  is the date that the user wishes to complete the task by. It is not taken into consideration by ATHENA when allocating tasks. Format: **DD-MM-YYYY**. For example, 16-11-2020.
+* `DEADLINE`  is the date that you wish to complete the task by. It is not taken into consideration by ATHENA when allocating tasks. Format: **DD-MM-YYYY**. For example, 16-11-2020.
 
 * `RECURRENCE` is one of **TODAY**, **MONDAY**, **TUESDAY**, **WEDNESDAY**, **THURSDAY**, **FRIDAY**, **SATURDAY**, **SUNDAY** or a specific date (**DD-MM-YYYY**).
 
-   This is where the user can input a specific date to do the task on.
+   This is where you can input a specific date to do the task on.
    If the input provided is not **TODAY** or a specific date (**DD-MM-YYYY**), the program will treat the task as occuring every week. For example, **MONDAY** means the task happens every Monday.
    
 * `IMPORTANCE` is one of **HIGH**, **MEDIUM**, **LOW**.
@@ -105,7 +105,7 @@ The `add` command accepts 7 parameters.
 The following shows the output from ATHENA after entering `add n/Assignment1 t/1100 D/16-11-2020 d/2 r/Today i/high a/Refer to lecture notes`.
 You should expect to see a message which confirms that the task has been added.
 
-![add-command-basic](screenshots/add-basic.jpg)
+![add-command-basic](screenshots/add-basic.png)
 
 
 #### Intermediate Usage (add)
@@ -118,26 +118,26 @@ Users comfortable with command line applications can proceed with the Intermedia
 ##### Parameters
 The `add` command accepts 7 parameters:
 
-* `NAME` is the name of the task. It is a compulsory parameter the user has to include.
+* `NAME` is the name of the task. It is a compulsory parameter you have to include.
 
 
 * `TIME` is the time to start doing this task (**HHMM**). For example, 1100.
 
    Default: Allocated by Athena (only available for non-recurring tasks)
    
-   > ❗️ **This parameter is optional only if the task is non-recurring. Otherwise, the user must specify a start time
+   > ❗️ **This parameter is optional only if the task is non-recurring. Otherwise, you must specify a start time
     for the task.**
 
 The following parameters are optional. If they are left empty, ATHENA will use the default value assigned.
 * `DURATION` is the expected time taken to complete task (in hours). For example, 2.
 
    Default: 1 hour.
-* `DEADLINE` is the date that the user wishes to complete the task by. It is not taken into consideration by ATHENA when allocating tasks. Format: **DD-MM-YYYY**. For example, 16-11-2020.
+* `DEADLINE` is the date that you wish to complete the task by. It is not taken into consideration by ATHENA when allocating tasks. Format: **DD-MM-YYYY**. For example, 16-11-2020.
 
    Default: No deadline.
 * `RECURRENCE` is one of **TODAY**, **MONDAY**, **TUESDAY**, **WEDNESDAY**, **THURSDAY**, **FRIDAY**, **SATURDAY**, **SUNDAY** or a specific date (**DD-MM-YYYY**).
 
-   This is where the user can input a specific date to do the task on. 
+   This is where you can input a specific date to do the task on. 
    If the input provided is not **TODAY** or a specific date (**DD-MM-YYYY**), the program will treat the task as occurring every week. For example, **MONDAY** means the task happens every Monday.
    
    Default: **TODAY**.
@@ -152,7 +152,7 @@ The following parameters are optional. If they are left empty, ATHENA will use t
 The screenshot below shows the output from ATHENA after entering `add n/Assignment2 t/1400 i/high`.
 You should expect to see a message to confirm that the task has been added, with some of the parameters having their default value assigned.
 
-![add-command-intermediate](screenshots/add-intermediate.jpg)
+![add-command-intermediate](screenshots/add-intermediate.png)
 
 
 #### Advanced Usage (add)
@@ -172,14 +172,14 @@ You can just type `a` instead of `add`.
 The screenshot below shows the output from ATHENA after entering `a n/Assignment3 t/1900 D/16-11-2020 d/2 a/Refer to notes`.
 You should expect to see a message to confirm that the task is added with some of the parameter's default value assigned.
 
-![add-command-advanced](screenshots/add-advanced.jpg)
+![add-command-advanced](screenshots/add-advanced.png)
 
 
 ### List tasks: `list` or `l`
 This command shows your tasks organized nicely in a timetable.
 Each task will be printed with a number (the task ID) that is used as an identifier for other commands (e.g. `edit`, `done`, `delete`), as shown in the screenshot below.
 
-![list](screenshots/list.jpg)
+![list](screenshots/list.png)
 
 > 💡 **If the timetable is too big to fit in the screen, consider using a smaller font size in your terminal/command prompt, or stretch your window to full width. If you're unsure how to adjust font size, check out [this link](https://www.isunshare.com/windows-10/change-font-and-font-size-in-windows-10-command-prompt.html) for Windows users and [this link](https://osxdaily.com/2015/01/11/increase-text-size-terminal-app-mac-keystrokes/) for Mac users.** 
 
@@ -211,7 +211,7 @@ You can indicate in your command to filter your tasks based on
 The following shows the output from ATHENA after entering `list f/Week i/High`.
 You should expect to see all **high importance tasks** occuring **in the week ahead**, as shown in the screenshot below.
 
-![list-week-high](screenshots/list-week-high.jpg)
+![list-week-high](screenshots/list-basic.png)
 
 
 #### Intermediate Usage (list)
@@ -238,12 +238,12 @@ In this section, the two parameters listed above are optional. If they are left 
 The following shows the output from ATHENA after entering `list f/Week i/High`.
 You should expect to see all **high importance tasks** occuring **in the week ahead**.
 
-![list-week-high](screenshots/list-week-high.jpg)
+![list-week-high](screenshots/list-basic.png)
 
 Alternatively, you can let ATHENA use the default values for the parameters.
 For example, entering `list i/Low` will show all **low importance** tasks occuring **in the week ahead**, as shown in the screenshot below.
 
-![list-low](screenshots/list-low.jpg)
+![list-low](screenshots/list-intermediate.png)
 
 
 #### Advanced Usage (list)
@@ -273,7 +273,7 @@ The following are all valid commands.
 
 You can enter `l2 f/DAY` to list **medium importance** tasks occuring **today**, as shown in the screenshot below.
 
-![l2-day](screenshots/l2-day.jpg)
+![l2-day](screenshots/list-advanced.png)
 
 
 ### Edit task: `edit` or `e`
@@ -297,7 +297,7 @@ Square brackets around parameters indicate that they are optional. e.g `TASK-ID 
 ##### Parameters
 The `edit` command accepts 8 parameters:
 
-* `TASK-ID` refers to the number shown beside the task that the user wants to edit in the displayed task list. It must be a non-negative integer.
+* `TASK-ID` refers to the number shown beside the task that you want to edit in the displayed task list. It must be a non-negative integer.
 
 At least one parameter shown below has to be included in the command execution:
 * `NAME` is the name of the task.
@@ -308,7 +308,7 @@ At least one parameter shown below has to be included in the command execution:
 
 * `DURATION` is the expected time taken to complete task (in hours). For example, 2.
 
-* `DEADLINE` is the date that the user wishes to complete the task by. It is not taken into consideration by ATHENA when allocating tasks. Format: **DD-MM-YYYY**. For example, 16-11-2020.
+* `DEADLINE` is the date that you wish to complete the task by. It is not taken into consideration by ATHENA when allocating tasks. Format: **DD-MM-YYYY**. For example, 16-11-2020.
 
 * `RECURRENCE` is one of **TODAY**, **MONDAY**, **TUESDAY**, **WEDNESDAY**, **THURSDAY**, **FRIDAY**, **SATURDAY**, **SUNDAY** or a specific date (**DD-MM-YYYY**).
 
@@ -338,7 +338,7 @@ The command on the left in the table below is the shortcut of the corresponding 
 ##### Example usage
 Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be edited.
 
-The user can just type `e` instead of `edit`.
+You can just type `e` instead of `edit`.
 The screenshot below shows the output from ATHENA after entering `e 1 n/Assignment2 t/1800 D/17-11-2020 d/1 r/today i/high a/Refer to lecture notes`.
 You should expect to see a message to confirm that the time of task with `TASK-ID` '1' is edited.
 
@@ -362,7 +362,7 @@ Users who are comfortable with the basic usage may move on to the [Intermediate]
 ##### Parameters
 The `done` command requires 1 parameter only.
 
-* `TASK-ID` refers to the number shown beside the task that the user wants to mark as done in the displayed task list. It must be a non-negative integer.
+* `TASK-ID` refers to the number shown beside the task that you want to mark as done in the displayed task list. It must be a non-negative integer.
 
 ##### Example Usage
 Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task that you want to mark as done.
@@ -385,7 +385,7 @@ The command on the left in the table below is the shortcut of the corresponding 
 ##### Example usage
 Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be marked as done.
 
-The user can just type `dn` instead of `done`.
+You can just type `dn` instead of `done`.
 The screenshot below shows the output from ATHENA after entering `dn 1`.
 
 ![dn](screenshots/done-intermediate.png)
@@ -408,7 +408,7 @@ Users who are comfortable with the basic usage may move on to the [Intermediate]
 ##### Parameters
 The `delete` command requires 1 parameter only.
 
-* `TASK-ID` refers to the number shown beside the task that the user wants to delete in the displayed task list. It must be a non-negative integer.
+* `TASK-ID` refers to the number shown beside the task that you want to delete in the displayed task list. It must be a non-negative integer.
 
 ##### Example Usage
 Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be deleted.
@@ -429,7 +429,7 @@ The `delete` command supports shortcuts for intermediate users.
 ##### Example usage
 Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be deleted.
 
-The user can just type `dl` instead of `delete`.
+You can just type `dl` instead of `delete`.
 The screenshot below shows the output from ATHENA after entering `dl 0`.
 
 ![dl](screenshots/delete-intermediate.png)
@@ -452,10 +452,7 @@ Users who are comfortable with the basic usage may move on to the [Intermediate]
 ##### Parameters
 The `view` command requires 1 parameter only.
 
-* `TASK-ID` refers to the number shown beside the task that the user wants to view in the displayed task list. It must be a non-negative integer.
-
-##### Example Usage
-Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be viewed.
+* `TASK-ID` refers to the number shown beside the task that you want use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be viewed.
 The following shows the output from ATHENA after entering `view 0`.
 You should expect to see the details of your task with `TASK-ID` of `0`.
 
@@ -469,7 +466,7 @@ The `view` command supports shortcuts for intermediate users.
 |----------|------------------|
 | `v`     | `view`  |
 
-The user can just type `v` instead of `view`.
+You can just type `v` instead of `view`.
 The screenshot below shows the output from ATHENA after entering `v 0`.
 
 ![v](screenshots/view-intermediate.png)
