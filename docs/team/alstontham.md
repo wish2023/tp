@@ -36,8 +36,8 @@ My code contributions to this project can be found at [this page](https://nus-cs
     * Proofread the final draft and ensured a consistent voice throughout the guide
     
 ### Contributions to team-based tasks:
-  * Suggested improvements on team member's PRs on GitHub: [#11] (https://github.com/AY2021S1-CS2113T-W12-2/tp/pull/11), [#47] (https://github.com/AY2021S1-CS2113T-W12-2/tp/pull/47), [#116] (https://github.com/AY2021S1-CS2113T-W12-2/tp/pull/116), [#119] (https://github.com/AY2021S1-CS2113T-W12-2/tp/pull/119)
+  * Suggested improvements on team member's PRs on GitHub: [#11](https://github.com/AY2021S1-CS2113T-W12-2/tp/pull/11), [#47](https://github.com/AY2021S1-CS2113T-W12-2/tp/pull/47), [#116](https://github.com/AY2021S1-CS2113T-W12-2/tp/pull/116), [#119](https://github.com/AY2021S1-CS2113T-W12-2/tp/pull/119)
   
 ### Contributions beyond the project team:
-  * Reported bugs and suggestions for other teams: [#3] (https://github.com/alstontham/ped/issues/3), [#4] (https://github.com/alstontham/ped/issues/4), [#6] (https://github.com/alstontham/ped/issues/6), [#7] (https://github.com/alstontham/ped/issues/7), [#10] (https://github.com/alstontham/ped/issues/10)
+  * Reported bugs and suggestions for other teams: [#3](https://github.com/alstontham/ped/issues/3), [#4](https://github.com/alstontham/ped/issues/4), [#6](https://github.com/alstontham/ped/issues/6), [#7](https://github.com/alstontham/ped/issues/7), [#10](https://github.com/alstontham/ped/issues/10)
   * Suggested improvements for other teams' User Guide and Developer Guide
