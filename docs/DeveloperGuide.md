@@ -489,6 +489,32 @@ Guide on the use of ATHENA.
 
    **Expected:** A guide on how to use ATHENA will be shown.
    
+#### Data storage
+
+Storage of user data (i.e. tasks).
+
+Testing if ATHENA is able to handle corrupted data files.
+
+**Prerequisite:** Open *data.csv* located next to *Athena.jar*.
+       
+1. **Test case:** Add `,aaaa` at the end of the last line.
+
+    **Problem:** The task on that line is corrupted. 
+      
+      **Expected:** When you launch Athena again, it will fail to start, and an error message will be given.
+
+2. **Test case:** Remove one of the commas (`,`) from the file. (If *data.csv* is not empty)
+
+    **Problem:** The task on that line is corrupted. 
+      
+    **Expected:** When you launch Athena again, it will fail to start, and an error message will be given.
+
+3. **Test case:** Add `aaaaa` at the end of the file.
+
+    **Problem:** An invalid task is added.
+      
+    **Expected:** When you launch Athena again, it will fail to start, and an error message will be given.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Appendix: Requirements
