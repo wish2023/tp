@@ -1,6 +1,6 @@
 package athena;
 
-import athena.logic.LogicManager;
+import athena.commands.Command;
 import athena.exceptions.command.CommandException;
 import athena.ui.AthenaUi;
 import athena.exceptions.storage.StorageException;
@@ -15,15 +15,15 @@ public class Athena {
     private AthenaUi athenaUi;
     private Storage storage;
     private TaskList taskList;
-    private TimeAllocator allocator;
-    private LogicManager logicManager;
+    private TimeAllocator timeAllocator;
+    private Parser parser;
 
     /**
      * Creates an ATHENA object.
      */
     public Athena() {
         athenaUi = new AthenaUi();
-        logicManager = new LogicManager();
+        parser = new Parser();
         storage = new Storage("data.csv");
     }
 
@@ -44,6 +44,7 @@ public class Athena {
         boolean isExit = false;
         try {
             taskList = storage.loadTaskListData();
+            timeAllocator = new TimeAllocator(taskList);
         } catch (StorageException e) {
             e.printErrorMessage();
             isExit = true;
@@ -52,16 +53,18 @@ public class Athena {
 
         while (!isExit) {
             try {
-                allocator = new TimeAllocator(taskList);
-                allocator.runAllocate();
+                timeAllocator.runAllocate();
                 athenaUi.printNewline();
                 athenaUi.printUserInputIndicator();
+
                 inputString = athenaUi.detectInput(input);
-                isExit = logicManager.execute(inputString);
+                Command userCommand = parser.parse(inputString, taskList);
+                userCommand.execute(taskList, athenaUi);
+
+                storage.saveTaskListData(taskList);
+                isExit = userCommand.getIsExit();
             } catch (CommandException e) {
                 e.printErrorMessage();
-            } catch (StorageException e) {
-                e.printStackTrace();
             } catch (NoSuchElementException e) {
                 isExit = true;
             }

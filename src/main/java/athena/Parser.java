@@ -1,7 +1,14 @@
-package athena.logic;
+package athena;
 
-import athena.Importance;
-import athena.TaskList;
+import athena.commands.AddCommand;
+import athena.commands.Command;
+import athena.commands.DeleteCommand;
+import athena.commands.DoneCommand;
+import athena.commands.EditCommand;
+import athena.commands.ExitCommand;
+import athena.commands.HelpCommand;
+import athena.commands.ListCommand;
+import athena.commands.ViewCommand;
 import athena.exceptions.command.CommandException;
 import athena.exceptions.command.DeleteNoIndexException;
 import athena.exceptions.command.DoneNoIndexException;
@@ -11,15 +18,6 @@ import athena.exceptions.command.InvalidForecastException;
 import athena.exceptions.command.InvalidImportanceException;
 import athena.exceptions.command.TaskNotFoundException;
 import athena.exceptions.command.ViewNoIndexException;
-import athena.logic.commands.AddCommand;
-import athena.logic.commands.Command;
-import athena.logic.commands.DeleteCommand;
-import athena.logic.commands.DoneCommand;
-import athena.logic.commands.EditCommand;
-import athena.logic.commands.ExitCommand;
-import athena.logic.commands.HelpCommand;
-import athena.logic.commands.ListCommand;
-import athena.logic.commands.ViewCommand;
 import athena.task.Task;
 import athena.task.taskfilter.FilterCalculator;
 
@@ -96,7 +94,7 @@ public class Parser {
      * @throws InvalidImportanceException Exception thrown when the user does not specify a valid importance
      */
     public Command parseAddCommand(String taskInfo, int namePos, int timePos, int durationPos, int deadlinePos,
-                                          int recurrencePos, int importancePos, int addNotesPos)
+                                   int recurrencePos, int importancePos, int addNotesPos)
             throws InvalidCommandException, InvalidImportanceException {
         String name = getParameterDesc(taskInfo, NAME_DELIMITER, namePos, EMPTY_STRING);
         String time = getParameterDesc(taskInfo, TIME_DELIMITER, timePos, EMPTY_STRING);

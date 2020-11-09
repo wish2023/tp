@@ -1,4 +1,4 @@
-package athena.logic.commands;
+package athena.commands;
 
 import athena.Importance;
 import athena.TaskList;
