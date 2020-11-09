@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests methods of TaskList.
@@ -153,6 +155,16 @@ class TaskListTest {
         ForecastFilter todayFilter = new ForecastFilter(Forecast.DAY);
         TaskList actualTaskList = testTaskList.getFilteredList(todayFilter);
         assertEquals(actualTaskList, expectedTaskList);
+    }
+
+    @Test
+    void containsTaskWithNumber_containsTask_returnsTrue() {
+        assertTrue(testTaskList.containsTaskWithNumber(0));
+    }
+
+    @Test
+    void containsTaskWithNumber_doesNotContainTask_returnsFalse() {
+        assertFalse(testTaskList.containsTaskWithNumber(3));
     }
 
     private TaskList getImportanceTestExpectedTasks(Importance importance) throws CommandException {

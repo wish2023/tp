@@ -4,7 +4,7 @@ import athena.exceptions.allocator.NoNextSlotException;
 import athena.exceptions.command.InvalidRecurrenceException;
 import athena.exceptions.command.TaskNotFoundException;
 import athena.task.Task;
-import athena.task.Time;
+import athena.task.TimeData;
 import athena.task.taskfilter.DayFilter;
 import athena.task.taskfilter.FlexibleTimeFilter;
 
@@ -41,11 +41,10 @@ public class TimeAllocator {
     public void runAllocate() {
         LocalDate currDay = LocalDate.now();
         ArrayList<Task> undefinedTimeTasks = getSortedFlexibleTasks(this.flexibleTaskList);
-        for (int day = 0; day < 31; day++) {
+        for (int day = 0; day < 366; day++) {
             Log dayLog = new Log(0, 24);
             ArrayList<Task> predefinedTimeTasks = getSortedFixedTasks(getFixedDayTasks(currDay));
             dayLog.setFixedTasks(predefinedTimeTasks);
-            ArrayList<Task> carryOverTasks = null;
             TimeSlot currSlot = new TimeSlot(dayLog);
             while (true) {
                 try {
@@ -61,7 +60,7 @@ public class TimeAllocator {
             }
             for (Task currTask : undefinedTimeTasks) {
                 try {
-                    Time timeInfo = this.taskList.getTaskFromNumber(currTask.getNumber()).getTimeInfo();
+                    TimeData timeInfo = this.taskList.getTaskFromNumber(currTask.getNumber()).getTimeInfo();
                     timeInfo.setStartTime(null);
                 } catch (TaskNotFoundException e) {
                     //do nothing
@@ -84,7 +83,7 @@ public class TimeAllocator {
         for (int taskNumber : bestLog) {
             if (!assignedNumbers.contains(taskNumber)) {
                 try {
-                    Time timeInfo = this.taskList.getTaskFromNumber(taskNumber)
+                    TimeData timeInfo = this.taskList.getTaskFromNumber(taskNumber)
                             .getTimeInfo();
                     timeInfo.setStartTime(LocalTime.of(pos + count, 0));
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM");

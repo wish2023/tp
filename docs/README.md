@@ -1,14 +1,17 @@
 # ATHENA (Automated Timetable Helper Encourager n' Assistant)
 
-Our product aims to help students to automate the process of organising their schedule. After the user inputs pre-allocated time slots for work and relaxation, ATHENA figures out the best timetable based on the user’s needs.
+ATHENA aims to help students automate the process of organising their schedule.
+To start using ATHENA, you can set up ATHENA by entering your desired periods for work and rest. Then, at any time in the week, you can add tasks that need to be completed.
+ATHENA will figure out the best timetable based on your available time slots.
 
-It can be updated anytime during the week.
+ATHENA helps to reduce the amount of time and effort you need to spend planning your time by finding available periods in a day,
+with the goal of reducing dead space in the your schedule.
+Don't worry, ATHENA will make sure you have enough time to eat, exercise and sleep, while making sure that you can finish all your tasks on time.
 
-ATHENA helps to reduce the amount of time and effort that users need to spend planning their time by finding free spaces to slot tasks in, with the goal of reducing dead space in the user’s timetable. 
-
-The planner will also make sure the user has enough time to eat, exercise and sleep. The user can set up ATHENA to follow a fixed weekly routine, and only needs to update a task list. ATHENA will then plan the timetable based on the importance and deadlines of the tasks in the list, making sure that the user is able to finish everything on time.
+[Download the latest release](https://github.com/AY2021S1-CS2113T-W12-2/tp/releases).
 
 Useful links:
+* [GitHub](https://github.com/AY2021S1-CS2113T-W12-2/tp)
 * [User Guide](UserGuide.md)
 * [Developer Guide](DeveloperGuide.md)
 * [About Us](AboutUs.md)
