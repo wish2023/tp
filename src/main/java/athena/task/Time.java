@@ -1,10 +1,8 @@
 package athena.task;
 
-import athena.common.utils.DateUtils;
-import athena.exceptions.DateHasPassedException;
-import athena.exceptions.InvalidDeadlineException;
-import athena.exceptions.InvalidRecurrenceException;
-import athena.exceptions.TaskDuringSleepTimeException;
+import athena.exceptions.command.InvalidDeadlineException;
+import athena.exceptions.command.InvalidRecurrenceException;
+import athena.exceptions.command.TaskDuringSleepTimeException;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -37,56 +35,105 @@ public class Time implements Comparable<Time> {
     private String recurrence;
     private ArrayList<LocalDate> recurrenceDates = new ArrayList<>();
 
+    /**
+     * Constructor for time class.
+     *
+     * @param isFlexible    time flexibility
+     * @param startTime     starting time of task
+     * @param duration      how long the task is scheduled to last for
+     * @param deadline      when the task is due
+     * @param recurrence    when the task occurs/repeats
+     * @throws TaskDuringSleepTimeException Exception thrown when task clashes with sleep time
+     * @throws InvalidRecurrenceException   Exception thrown when user mistypes recurrence
+     * @throws InvalidDeadlineException     Exception thrown when user mistypes deadline
+     */
     public Time(boolean isFlexible, LocalTime startTime, int duration, String deadline, String recurrence)
             throws TaskDuringSleepTimeException, InvalidDeadlineException, InvalidRecurrenceException {
-        if (startTime != null) {
-            this.startTime = startTime;
-            this.endTime = startTime.plusHours(duration);
-            if (isClashWithSleep()) {
-                throw new TaskDuringSleepTimeException();
-            }
-        }
-        this.isFlexible = isFlexible;
-        this.duration = duration;
 
-        this.deadline = deadline;
+        setIsFlexible(isFlexible);
+        setDuration(duration);
+        setDeadline(deadline);
         setDeadlineDate(deadline);
-
-        this.recurrence = recurrence;
         setRecurrence(recurrence);
+        setTime(startTime);
     }
 
+    /**
+     * Constructor for time class.
+     *
+     * @param isFlexible    time flexibility
+     * @param startTime     starting time of task
+     * @param duration      how long the task is scheduled to last for
+     * @param deadline      when the task is due
+     * @param recurrence    when the task occurs/repeats
+     * @throws TaskDuringSleepTimeException Exception thrown when task clashes with sleep time
+     * @throws InvalidRecurrenceException   Exception thrown when user mistypes recurrence
+     * @throws InvalidDeadlineException     Exception thrown when user mistypes deadline
+     */
     public Time(Boolean isFlexible, String startTime, String duration, String deadline, String recurrence)
-            throws TaskDuringSleepTimeException, DateTimeParseException,
+            throws TaskDuringSleepTimeException,
             InvalidRecurrenceException, InvalidDeadlineException {
-        this.isFlexible = isFlexible;
-
-        this.duration = Integer.parseInt(duration);
-
-        this.deadline = deadline;
+        setIsFlexible(isFlexible);
+        setDuration(duration);
+        setDeadline(deadline);
         setDeadlineDate(deadline);
-
-        this.recurrence = recurrence;
         setRecurrence(recurrence);
 
-        if (startTime.length() > 0) {
-            this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
-            this.endTime = this.startTime.plusHours(this.duration);
-            if (isClashWithSleep()) {
-                throw new TaskDuringSleepTimeException();
-            }
+        if (isNotEmpty(startTime)) {
+            setTime(startTime);
         }
 
+    }
+
+    private boolean isNotEmpty(String startTime) {
+        return startTime.length() > 0;
+    }
+
+    private void setTime(String startTime) throws TaskDuringSleepTimeException {
+        this.startTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HHmm"));
+        setEndTime();
+    }
+
+    private void setTime(LocalTime startTime) throws TaskDuringSleepTimeException {
+        if (startTime != null) {
+            this.startTime = startTime;
+            setEndTime();
+        }
+    }
+
+    private void setEndTime() throws TaskDuringSleepTimeException {
+        endTime = startTime.plusHours(duration);
+        if (isClashWithSleep()) {
+            throw new TaskDuringSleepTimeException();
+        }
+    }
+
+    private void setDeadline(String deadline) {
+        this.deadline = deadline;
+    }
+
+    private void setDuration(String duration) {
+        this.duration = Integer.parseInt(duration);
+    }
+
+    private void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    private void setIsFlexible(Boolean isFlexible) {
+        this.isFlexible = isFlexible;
     }
 
     private boolean isClashWithSleep() {
         return !isNoClashWithSleep();
     }
 
+    /**
+     * Check if a task is scheduled to be between 12am and 8am.
+     *
+     * @return whether the task clashes with sleep time
+     */
     private boolean isNoClashWithSleep() {
-        // Needed only if we make sleep time customizable (Causing bugs) - Low priority
-        // LocalTime twoThreeFiveNine = LocalTime.of(23,59);
-        // System.out.println(endTime.compareTo(SLEEP_TIME) <= 0);
         return startTime.compareTo(WAKE_TIME) >= 0
                 && !(endTime.compareTo(WAKE_TIME) < 0 && endTime.compareTo(SLEEP_TIME) > 0)
                 && duration <= 16;
@@ -97,10 +144,13 @@ public class Time implements Comparable<Time> {
         return new Time(isFlexible, startTime, duration, deadline, recurrence);
     }
 
-    public LocalDate getDeadlineDate() {
-        return deadlineDate;
-    }
 
+    /**
+     * Add all dates for when task is supposed to occur in recurrenceDates.
+     *
+     * @param recurrence when the task occurs/repeats
+     * @throws InvalidRecurrenceException   Exception thrown when user mistypes recurrence
+     */
     public void setRecurrence(String recurrence) throws InvalidRecurrenceException {
         switch (recurrence.toUpperCase()) {
         case "MONDAY":
@@ -133,11 +183,18 @@ public class Time implements Comparable<Time> {
             break;
         default:
             setRecurrenceDate(recurrence);
+            return;
         }
+        this.recurrence = recurrence;
     }
 
+    /**
+     * Add dates of tasks in recurrenceDates for 10 weeks.
+     *
+     * @param startDate the start date of the task
+     */
     private void addDates(LocalDate startDate) {
-        for (int i = 0; i < 10; i++) { // Max number of weeks now is 10 to prevent infinite recurrence
+        for (int i = 0; i < 10; i++) {
             recurrenceDates.add(startDate.plusWeeks(i));
         }
     }
@@ -159,27 +216,39 @@ public class Time implements Comparable<Time> {
             LocalDate date = getDate(recurrence);
             if (recurrence.length() == "dd-MM".length()) {
                 this.recurrence = recurrence + "-" + date.getYear();
+            } else {
+                this.recurrence = recurrence;
             }
             recurrenceDates.add(date);
         } catch (DateTimeParseException e) {
+            throw new InvalidRecurrenceException();
+        } catch (NumberFormatException e) {
             throw new InvalidRecurrenceException();
         }
     }
 
     private void setDeadlineDate(String deadline) throws InvalidDeadlineException {
         if (!deadline.equals("No deadline")) {
-            try {
-                LocalDate date = getDate(deadline);
-                if (deadline.length() == "dd-MM".length()) {
-                    this.deadline = deadline + "-" + date.getYear();
-                }
-                this.deadlineDate = date;
-            } catch (DateTimeParseException e) {
-                throw new InvalidDeadlineException();
-            } catch (NumberFormatException e) {
-                throw new InvalidDeadlineException();
-            }
+            trySetHardDeadline(deadline);
         }
+    }
+
+    private void trySetHardDeadline(String deadline) throws InvalidDeadlineException {
+        try {
+            setHardDeadline(deadline);
+        } catch (DateTimeParseException e) {
+            throw new InvalidDeadlineException();
+        } catch (NumberFormatException e) {
+            throw new InvalidDeadlineException();
+        }
+    }
+
+    private void setHardDeadline(String deadline) {
+        LocalDate date = getDate(deadline);
+        if (deadline.length() == "dd-MM".length()) {
+            this.deadline = deadline + "-" + date.getYear();
+        }
+        this.deadlineDate = date;
     }
 
     private LocalDate getDate(String dateString) {
@@ -214,10 +283,9 @@ public class Time implements Comparable<Time> {
         int month = getMonth(recurrence);
         int day = getDay(recurrence);
         int year;
-        if (currentDate.getMonthValue() > month) {
+        if (isCurrentMonthAhead(currentDate, month)) {
             year = currentDate.getYear() + 1;
-        } else if (currentDate.getMonthValue() == month
-                && currentDate.getDayOfMonth() > day) {
+        } else if (isCurrentDayAhead(currentDate, month, day)) {
             year = currentDate.getYear() + 1;
         } else {
             year = currentDate.getYear();
@@ -225,25 +293,48 @@ public class Time implements Comparable<Time> {
         return year;
     }
 
+    private boolean isCurrentDayAhead(LocalDate currentDate, int month, int day) {
+        return currentDate.getMonthValue() == month
+                && currentDate.getDayOfMonth() > day;
+    }
+
+    private boolean isCurrentMonthAhead(LocalDate currentDate, int month) {
+        return currentDate.getMonthValue() > month;
+    }
+
+    /**
+     * Returns the dates of when the task will occur.
+     *
+     * @return dates the task will occur
+     */
     public ArrayList<LocalDate> getRecurrenceDates() {
         return recurrenceDates;
     }
 
+
     /**
-     * Returns start time of the task.
+     * Returns the starting time of a task.
      *
-     * @return Start time of task
+     * @return the start time of the task
      */
-
-
     public LocalTime getStartTime() {
         return startTime;
     }
 
+    /**
+     * Returns the time a task is expected to finish.
+     *
+     * @return ending time of a task
+     */
     public LocalTime getEndTime() {
         return endTime;
     }
 
+    /**
+     * Set the start time of the task.
+     *
+     * @param startTime Start time of task
+     */
     public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
@@ -262,6 +353,11 @@ public class Time implements Comparable<Time> {
         return startTime.format(timeFormatter);
     }
 
+    /**
+     * Returns the date or occurrence of task.
+     *
+     * @return when the task occurs/repeats
+     */
     public String getRecurrence() {
         return recurrence;
     }
@@ -275,6 +371,7 @@ public class Time implements Comparable<Time> {
         return duration;
     }
 
+
     /**
      * Converts the duration to a string.
      *
@@ -283,6 +380,7 @@ public class Time implements Comparable<Time> {
     public String getDurationString() {
         return Integer.toString(duration);
     }
+
 
     /**
      * Returns due date of the task.
@@ -293,10 +391,6 @@ public class Time implements Comparable<Time> {
         return deadline;
     }
 
-
-    public Boolean getFlexible() {
-        return isFlexible;
-    }
 
     @Override
     public int compareTo(Time o) {
@@ -343,11 +437,7 @@ public class Time implements Comparable<Time> {
                 && Objects.equals(recurrenceDates, time.recurrenceDates);
     }
 
-    //    @Override
-    //    public int compareTo(Time o) {
-    //        if(this.startTime>o.startTime){
-    //            return 1;
-    //        }
-    //        return 0;
-    //    }
+    public boolean getFlexible() {
+        return isFlexible;
+    }
 }

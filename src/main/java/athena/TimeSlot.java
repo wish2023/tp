@@ -1,14 +1,13 @@
 package athena;
 
-import athena.exceptions.NoNextSlotException;
+import athena.exceptions.allocator.NoNextSlotException;
 
 public class TimeSlot {
     private Log dayLog;
-    private final Integer wake = 8;
-    private final Integer sleep = 22;
-    private Integer start = wake;
-    private Integer end = wake;
-
+    private final int wake = 8;
+    private final int sleep = 22;
+    private int start = wake;
+    private int end = wake;
 
     public TimeSlot(Log dayLog) {
         this.dayLog = dayLog;
@@ -32,11 +31,11 @@ public class TimeSlot {
         }
     }
 
-    public Integer getStart() {
+    public int getStart() {
         return start;
     }
 
-    public Integer getEnd() {
+    public int getEnd() {
         return end;
     }
 }
