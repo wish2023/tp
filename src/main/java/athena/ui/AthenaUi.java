@@ -100,13 +100,20 @@ public class AthenaUi implements Ui {
     public void printTaskAdded(Task task) {
         printNormal("You've successfully added ");
         printBold(task.getName());
-        printNormal(" to your list!\n It will start at ");
-        printBold(task.getTimeInfo().getStartTimeString());
+        printNormalNextLine(" to your list!");
+
+        if (task.getTimeInfo().getStartTimeString().equals("")) {
+            printNormal("Since you haven't specified a start time, I'll allocate this task for you!");
+        } else {
+            printNormal("It will start at ");
+            printBold(task.getTimeInfo().getStartTimeString());
+            printNormal(".");
+        }
 
         if (task.getTimeInfo().getDeadline().toLowerCase().equals("no deadline")) {
-            printNormalNextLine(" and has no deadline.");
+            printNormalNextLine(" This task has no deadline.");
         } else {
-            printNormal(" and finish on ");
+            printNormal(" This task is scheduled to finish on ");
             printBold(task.getTimeInfo().getDeadline());
             printNormalNextLine(".");
         }
