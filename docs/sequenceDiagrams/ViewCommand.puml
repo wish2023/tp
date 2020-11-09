@@ -1,0 +1,34 @@
+@startuml
+hide footbox
+title View
+
+participant "command:ViewCommand" as ViewCommand
+participant ":Task" as Task
+participant "taskList:TaskList" as TaskList
+participant ":Time" as Time
+participant "athenaUi:AthenaUi" as AthenaUI
+
+->ViewCommand++: execute()
+ViewCommand->TaskList++: getTaskDescription()
+TaskList->TaskList++: getTaskFromNumber()
+TaskList->Task++:getNumber()
+return taskNumber
+TaskList->Task++:getDetailsAsString()
+Task->Task++:getStatus()
+Task->Time++:getStartTime()
+return string
+Task->Time++:getDeadline()
+return string
+Task->Time++:getDuration()
+return string
+Task->Time++:getRecurrence()
+return string
+return string
+return string
+return string
+return string
+ViewCommand->AthenaUI++: printTaskDetails()
+return
+<--ViewCommand--
+
+@enduml
