@@ -325,7 +325,7 @@ public class TaskList {
     public Task editTask(int taskNumber, String name, String startTime, String duration,
                          String deadline, String recurrence, Importance importance,
                          String notes)
-            throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException, DateHasPassedException,
+            throws TaskNotFoundException, ClashInTaskException, TaskDuringSleepTimeException,
             TaskTooLongException, InvalidRecurrenceException, InvalidDeadlineException,
             IllegalTimeModificationException {
         Task task = getTaskFromNumber(taskNumber);
