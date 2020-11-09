@@ -94,6 +94,7 @@ public class Log {
     public Log(TimeSlot currSlot, ArrayList<Task> undefinedTimeTasks) {
         this.start = currSlot.getStart();
         this.end = currSlot.getEnd();
+        this.carryOverTasks = (ArrayList<Task>) undefinedTimeTasks.clone();
         Log currentLog = new Log(currSlot.getStart(), currSlot.getEnd());
         Log bestLog = currentLog;
         boolean hasUsableVacancy = true;
@@ -105,7 +106,6 @@ public class Log {
                 bestLog = currentLog;
             }
             if (!undefinedTimeTasks.isEmpty()) {
-                this.carryOverTasks.add(undefinedTimeTasks.get(0));
                 undefinedTimeTasks.remove(0);
             } else {
                 break;

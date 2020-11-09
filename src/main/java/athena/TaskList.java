@@ -183,7 +183,9 @@ public class TaskList {
      */
     private void checkClash(Task taskToCompare) throws ClashInTaskException {
         for (Task task : tasks) {
-            checkTimeClash(taskToCompare, task);
+            if (task.getTimeInfo().getFlexible() && taskToCompare.getTimeInfo().getFlexible()) {
+                checkTimeClash(taskToCompare, task);
+            }
         }
     }
 
@@ -247,10 +249,10 @@ public class TaskList {
     /**
      * Checks if times of a task overlap each other.
      *
-     * @param taskStartTime             the starting time of the new task that may be added
-     * @param taskEndTime               the ending time of the new task that may be added
-     * @param existingTaskStartTime     the starting time of the existing task
-     * @param existingTaskEndTime       the ending time of the existing task
+     * @param taskStartTime         the starting time of the new task that may be added
+     * @param taskEndTime           the ending time of the new task that may be added
+     * @param existingTaskStartTime the starting time of the existing task
+     * @param existingTaskEndTime   the ending time of the existing task
      * @return
      */
     private boolean isIndividualTimeClash(LocalTime taskStartTime, LocalTime taskEndTime,
@@ -345,9 +347,9 @@ public class TaskList {
     /**
      * Checks if the task being edited is a flexible task.
      *
-     * @param startTime     New start time of task
-     * @param recurrence    New recurrence of task
-     * @param time          Time related information of task
+     * @param startTime  New start time of task
+     * @param recurrence New recurrence of task
+     * @param time       Time related information of task
      * @return
      */
     private boolean isFlexibleTaskEdit(String startTime, String recurrence, TimeData time) {
