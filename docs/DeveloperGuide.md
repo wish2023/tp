@@ -1,8 +1,8 @@
 # Developer Guide
 
-- [Developer Guide](#developer-guide)
+- [**Developer Guide**](#developer-guide)
   - [Introduction](#introduction)
-  - [Setting up and getting started](#setting-up-and-getting-started)
+  - [**Setting up and getting started**](#setting-up-and-getting-started)
     - [Prerequisites](#prerequisites)
     - [Setting up the project in your computer](#setting-up-the-project-in-your-computer)
   - [**Design & implementation**](#design--implementation)
@@ -10,32 +10,38 @@
     - [UI component](#ui-component)
     - [Parser component](#parser-component)
     - [TaskList component](#tasklist-component)
+    - [Storage component](#storage-component)
+    - [TimeAllocator component](#timeallocator-component)
     - [Timetable component](#timetable-component)
   - [**Implementation**](#implementation)
-    - [User command processing](#user-command-processing)
+    - [Data storage](#data-storage)
+    - [User Command Processing](#user-command-processing)
     - [Add task feature](#add-task-feature)
     - [Edit task feature](#edit-task-feature)
     - [List feature](#list-feature)
     - [Mark task as done feature](#mark-task-as-done-feature)
     - [Delete task feature](#delete-task-feature)
     - [View task feature](#view-task-feature)
-  - [Appendix: Instructions for manual testing](#appendix-instructions-for-manual-testing)
-      - [Launch and shutdown](#launch-and-shutdown)
-      - [Adding a task](#adding-a-task)
-      - [Editing a task](#editing-a-task)
-      - [Listing all tasks](#listing-all-tasks)
-      - [Marking a task as done](#marking-a-task-as-done)
-      - [Deleting a task](#deleting-a-task)
-      - [Viewing the full details of a task](#viewing-the-full-details-of-a-task)
-      - [Help](#help)
-  - [Appendix: Requirements](#appendix-requirements)
-    - [Product scope](#product-scope)
-      - [Target user profile](#target-user-profile)
-      - [Value proposition](#value-proposition)
-      - [User Stories](#user-stories)
-  - [**Other Guides: Documentation, Testing, Dev-ops**](#other-guides-documentation-testing-dev-ops)
-  - [Glossary](#glossary)
-
+    - [Time allocation to task in timetable](#time-allocation-to-task-in-timetable)
+  - [**Appendix: Instructions for manual testing**](#appendix-instructions-for-manual-testing)
+    - [Launch and shutdown](#launch-and-shutdown)
+    - [Adding a task](#adding-a-task)
+    - [Editing a task](#editing-a-task)
+    - [Listing all tasks](#listing-all-tasks)
+    - [Marking a task as done](#marking-a-task-as-done)
+    - [Deleting a task](#deleting-a-task)
+    - [Viewing the full details of a task](#viewing-the-full-details-of-a-task)
+    - [Help](#help)
+    - [Data storage](#data-storage)
+  - [**Appendix: Requirements**](#appendix-requirements)
+  - [**Product scope**](#product-scope)
+    - [Target user profile](#target-user-profile)
+    - [Value proposition](#value-proposition)
+    - [User Stories](#user-stories)
+    - [Non-Functional Requirements](#non-functional-requirements)
+  - [**Other Guides: Documentation, logging, testing, configuration, dev-ops**](#other-guides-documentation-logging-testing-configuration-dev-ops)
+  - [**Glossary**](#glossary)
+    
 ## Introduction
 
 Welcome to ATHENA's Developer Guide! ATHENA (which stands for Automated Timetable Helper Encourager n' Assistant), is a desktop daily life planner that aims to help students automate the process of organising their schedule. It is a Command Line Interface (CLI) based application that helps users figure out the best timetable after the user has input their pre-allocated time slots for work and relaxation.
@@ -207,7 +213,7 @@ The mechanism to add a task is facilitated by the `AddCommand` class. The user i
 * `AddCommand#execute` - Adds the specified task into `TaskList` and calls `AthenaUi` to print a message to the output.
 * `TaskList#addTask` - Creates a task based on the given parameters and adds it into the list.
 
-The process starts with `Parser#parse` parsing the user input and returns an `AddCommand` object. This is described in the [**user command processing**](user-command-processing) section.
+The process starts with `Parser#parse` parsing the user input and returns an `AddCommand` object. This is described in the [**user command processing**](#user-command-processing) section.
 
 Given below is an example usage scenario and how the task adding mechanism behaves at each step.
 
@@ -237,7 +243,7 @@ The mechanism to edit a task is facilitated by the `EditCommand` class. The user
 * `EditCommand#execute` -  Edits the specified task in `TaskList` and calls `AthenaUi` to print a message to the output.
 * `TaskList#editTask` - Edits a task based on the given parameters and adds the updated task into the list.
 
-The process starts with `Parser#parse` parsing the user input and returns an `EditCommand` object. This is described in the [**user command processing**](user-command-processing) section.
+The process starts with `Parser#parse` parsing the user input and returns an `EditCommand` object. This is described in the [**user command processing**](#user-command-processing) section.
 
 Given below is an example usage scenario and how the task editing mechanism behaves at each step.
 
@@ -269,7 +275,7 @@ The mechanism to print out the user's tasks is facilitated by the `ListCommand` 
 * `Timetable#populateTimetable` - Groups the tasks by their dates in a `TimetableDay`.
 * `Timetable#toString` - Prepares a string with a ASCII art timetable and a list of the user's tasks, so that it can be printed to the user.
 
-The process starts with `Parser#parse` parsing the user input and returning a `ListCommand` object. This is described in the [**user command processing**](user-command-processing) section.
+The process starts with `Parser#parse` parsing the user input and returning a `ListCommand` object. This is described in the [**user command processing**](#user-command-processing) section.
 
 Given below is an example usage scenario and how this mechanism behaves at each step.
 
@@ -294,7 +300,7 @@ The mechanism to mark a task as done is facilitated by the `DoneCommand` class. 
 * `DoneCommand#execute` - Passes the task number of the corresponding task to `TaskList` to mark the task as done, then calls `AthenaUi` to print a message to the output.
 * `TaskList#markTaskAsDone` - Searches for the task with the given number, and marks it as done.
 
-The process starts with `Parser#parse` parsing the user input and returning a `DoneCommand` object. This is described in the [**user command processing**](user-command-processing) section.
+The process starts with `Parser#parse` parsing the user input and returning a `DoneCommand` object. This is described in the [**user command processing**](#user-command-processing) section.
 
 Given below is an example usage scenario and how this mechanism behaves at each step.
 
@@ -325,7 +331,7 @@ The mechanism to delete a task is facilitated by the `DeleteCommand` class. The 
 * `DeleteCommand#execute` - Passes the task number of the corresponding task to `TaskList` to delete the task, then calls `AthenaUi` to print a message to the output.
 * `TaskList#deleteTask` - Searches for the task with the given task number, then deletes it.
 
-The process starts with `Parser#parse` parsing the user input and returning a `DeleteCommand` object. This is described in the [*User command processing*](user-command-processing) section.
+The process starts with `Parser#parse` parsing the user input and returning a `DeleteCommand` object. This is described in the [*User command processing*](#user-command-processing) section.
 
 Given below is an example usage scenario and how this mechanism behaves at each step.
 
@@ -356,7 +362,7 @@ The mechanism to view a task is facilitated by the `ViewCommand` class. The user
 * `ViewCommand#execute` - Passes the selected task number to `TaskList` of that task that is to be viewed, then calls `AthenaUi` to print a message to the output.
 * `TaskList#getTaskDescription` - Searches for the task with the given number, and return the details of the task.
 
-The process starts with `Parser#parse` parsing the user input and returning a `ViewCommand` object. This is described in the [*User command processing*](user-command-processing) section.
+The process starts with `Parser#parse` parsing the user input and returning a `ViewCommand` object. This is described in the [*User command processing*](#user-command-processing) section.
 
 Given below is an example usage scenario and how this mechanism behaves at each step.
 
@@ -554,6 +560,32 @@ Guide on the use of ATHENA.
 
    **Expected:** A guide on how to use ATHENA will be shown.
    
+#### Data storage
+
+Storage of user data (i.e. tasks).
+
+Testing if ATHENA is able to handle corrupted data files.
+
+**Prerequisite:** Open *data.csv* located next to *Athena.jar*.
+       
+1. **Test case:** Add `,aaaa` at the end of the last line.
+
+    **Problem:** The task on that line is corrupted. 
+      
+      **Expected:** When you launch Athena again, it will fail to start, and an error message will be given.
+
+2. **Test case:** Remove one of the commas (`,`) from the file. (If *data.csv* is not empty)
+
+    **Problem:** The task on that line is corrupted. 
+      
+    **Expected:** When you launch Athena again, it will fail to start, and an error message will be given.
+
+3. **Test case:** Add `aaaaa` at the end of the file.
+
+    **Problem:** An invalid task is added.
+      
+    **Expected:** When you launch Athena again, it will fail to start, and an error message will be given.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Appendix: Requirements

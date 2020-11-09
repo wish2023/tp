@@ -28,7 +28,7 @@ My code contributions to this project can be found at [this page](https://nus-cs
 
 ### Contributions to Documentation:
   * User Guide:
-    * Included writeup of _Introdcution_, _Quick Start_, and _Features_
+    * Included writeup of _Introduction_, _Quick Start_, and _Features_
     * Added documentation for the `help` feature
   
  * Developer Guide:
