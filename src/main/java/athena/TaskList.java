@@ -110,9 +110,7 @@ public class TaskList {
             throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException,
             InvalidRecurrenceException, InvalidDeadlineException {
         try {
-            if (number < maxNumber) {
-                number = maxNumber;
-            }
+            number = checkNumber(number);
             Task task = createTask(number, name, startTime,
                     duration, deadline, recurrence, importance, notes, isFlexible);
             decrementMaxNumber();
@@ -124,6 +122,7 @@ public class TaskList {
             throw new InvalidTimeFormatException();
         }
     }
+
 
     /**
      * Adds a task to the task list.
@@ -142,7 +141,7 @@ public class TaskList {
                         Importance importance, String notes, Boolean isFlexible)
             throws ClashInTaskException, TaskDuringSleepTimeException,
             InvalidTimeFormatException, InvalidRecurrenceException, InvalidDeadlineException {
-        maxNumber++;
+        incrementMaxNumber();
         Task task = addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
         return task;
     }
@@ -155,6 +154,13 @@ public class TaskList {
     }
 
     /**
+     * Increments maxNumber.
+     */
+    private void incrementMaxNumber() {
+        maxNumber++;
+    }
+
+    /**
      * Checks if new task clashes with TaskList.
      *
      * @param taskToCompare the new task that may be added.
@@ -162,12 +168,31 @@ public class TaskList {
      */
     private void checkClash(Task taskToCompare) throws ClashInTaskException {
         for (Task task : tasks) {
-            if (isTimeClash(taskToCompare, task)) {
-                checkRecurrenceClash(taskToCompare, task);
-            }
+            checkTimeClash(taskToCompare, task);
         }
     }
 
+    /**
+     * Checks for a clash between two tasks.
+     *
+     * @param taskToCompare the new task that may be added
+     * @param task          the current task in tasklist
+     * @throws ClashInTaskException Exception thrown when the task clashes with TaskList
+     */
+    private void checkTimeClash(Task taskToCompare, Task task) throws ClashInTaskException {
+        if (isTimeClash(taskToCompare, task)) {
+            checkRecurrenceClash(taskToCompare, task);
+        }
+    }
+
+
+    /**
+     * Checks if there is a date clash between tasks.
+     *
+     * @param taskToCompare the new task that may be added
+     * @param task          the current task in tasklist
+     * @throws ClashInTaskException Exception thrown when the task clashes with TaskList
+     */
     private void checkRecurrenceClash(Task taskToCompare, Task task) throws ClashInTaskException {
         LocalDate dateToCompare = taskToCompare.getTimeInfo().getRecurrenceDates().get(0);
         for (LocalDate date : task.getTimeInfo().getRecurrenceDates()) {
@@ -178,6 +203,13 @@ public class TaskList {
         }
     }
 
+    /**
+     * Checks if there is a timing clash between tasks.
+     *
+     * @param taskToCompare the new task that may be added
+     * @param task          the current task in tasklist
+     * @return
+     */
     private boolean isTimeClash(Task taskToCompare, Task task) {
         LocalTime taskStartTime = taskToCompare.getTimeInfo().getStartTime();
         if (taskStartTime == null) {
@@ -197,6 +229,15 @@ public class TaskList {
     }
 
 
+    /**
+     * Checks if times of a task overlap each other.
+     *
+     * @param taskStartTime             the starting time of the new task that may be added
+     * @param taskEndTime               the ending time of the new task that may be added
+     * @param existingTaskStartTime     the starting time of the existing task
+     * @param existingTaskEndTime       the ending time of the existing task
+     * @return
+     */
     private boolean isIndividualTimeClash(LocalTime taskStartTime, LocalTime taskEndTime,
                                           LocalTime existingTaskStartTime, LocalTime existingTaskEndTime) {
         boolean isTimeClash = !(taskEndTime.compareTo(existingTaskStartTime) <= 0
@@ -207,11 +248,29 @@ public class TaskList {
         return isTimeClash || isMidnightClash;
     }
 
+    /**
+     * Updates maxNumber based on the task ID.
+     *
+     * @param number the Task-ID
+     */
     private void updateMaxNumber(int number) {
         maxNumber++;
-        if (this.maxNumber < number) {
-            this.maxNumber = number;
+        if (maxNumber < number) {
+            maxNumber = number;
         }
+    }
+
+    /**
+     * Updates the Task-ID based on maxNumber.
+     *
+     * @param number the Task-ID
+     * @return the new Task-ID
+     */
+    private int checkNumber(int number) {
+        if (number < maxNumber) {
+            number = maxNumber;
+        }
+        return number;
     }
 
 
@@ -281,6 +340,14 @@ public class TaskList {
 
     }
 
+    /**
+     * Checks if the task being edited is a flexible task.
+     *
+     * @param startTime     New start time of task
+     * @param recurrence    New recurrence of task
+     * @param time          Time related information of task
+     * @return
+     */
     private boolean isFlexibleTaskEdit(String startTime, String recurrence, Time time) {
         return time.getFlexible() && ((startTime != time.getStartTimeString()) || (recurrence != time.getRecurrence()));
     }
