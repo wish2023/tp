@@ -14,11 +14,11 @@ class TimeAllocatorTest {
                 Importance.MEDIUM, "Tough assignment", true);
         taskList.addTask(3, "Assignment 4", "1300", "2", "01-01-2021", "today",
                 Importance.MEDIUM, "Tough assignment", false);
-        taskList.addTask(4, "Assignment 5", "1600", "2", "01-01-2021", "today",
+        taskList.addTask(4, "Assignment 5", "1500", "2", "01-01-2021", "today",
                 Importance.MEDIUM, "Tough assignment", true);
         taskList.addTask(6, "Assignment 7", "1700", "3", "01-01-2021", "today",
                 Importance.MEDIUM, "Tough assignment", false);
-        taskList.addTask(7, "Assignment 8", "1500", "1", "01-01-2021", "today",
+        taskList.addTask(7, "Assignment 8", "2000", "1", "01-01-2021", "today",
                 Importance.MEDIUM, "Tough assignment", true);
 
         TaskList messyTaskList = new TaskList();
