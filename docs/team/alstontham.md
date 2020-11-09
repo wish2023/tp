@@ -24,6 +24,7 @@ My code contributions to this project can be found at [this page](https://nus-cs
 * Injected the program with a persona, enhancing the user experience
 * Implemented colored text to improve text readability
 
+<div style="page-break-after: always;"></div>
 ### Documentation:
   * User Guide:
     * Included writeup of _Introdcution_, _Quick Start_, and _Features_
