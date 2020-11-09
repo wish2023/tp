@@ -64,10 +64,9 @@ public class AddCommand extends Command {
         if (taskName.equals("")) {
             throw new AddMissingRequiredParametersException();
         }
-        if ((taskRecurrence.contains("-") && (taskRecurrence.length() == "dd-MM-yyyy".length()))
-                || taskRecurrence.toLowerCase().equals(TODAY)) {
-            DateChecker dateChecker = new DateChecker(taskRecurrence, taskStartTime);
-        }
+
+        DateChecker dateChecker = new DateChecker(taskRecurrence, taskStartTime);
+
         try {
             Task task = taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
                     taskRecurrence, taskImportance, taskNotes, isTaskFlexible);

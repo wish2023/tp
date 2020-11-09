@@ -4,6 +4,7 @@ package athena;
 import athena.exceptions.command.DateHasPassedException;
 import athena.exceptions.command.InvalidRecurrenceException;
 import athena.exceptions.command.InvalidTimeFormatException;
+import athena.exceptions.command.TimeNotHourlyException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -25,12 +26,25 @@ public class DateChecker {
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
 
     public DateChecker(String recurrenceString, String startTimeString)
-            throws DateHasPassedException, InvalidRecurrenceException, InvalidTimeFormatException {
+            throws DateHasPassedException, InvalidRecurrenceException,
+            InvalidTimeFormatException, TimeNotHourlyException {
         setStringAttributes(recurrenceString, startTimeString);
         setRecurrence(recurrenceString);
         if (isNonEmptyTime(startTimeString)) {
             setStartTime(startTimeString);
+            checkHourlyTime();
             checkDatePassed();
+        }
+    }
+
+    /**
+     * Checks if user's time is hourly.
+     *
+     * @throws TimeNotHourlyException Exception thrown if time is not hourly
+     */
+    private void checkHourlyTime() throws TimeNotHourlyException {
+        if (startTime.getMinute() != 0) {
+            throw new TimeNotHourlyException();
         }
     }
 
@@ -80,11 +94,23 @@ public class DateChecker {
      * @param recurrenceString the date the task will occur
      */
     private void checkDefaultDate(String recurrenceString) {
-        if (recurrenceString.toLowerCase().equals(TODAY)) {
+        if (isDayOfWeek(recurrenceString.toLowerCase())) {
+            return;
+        } else if (recurrenceString.toLowerCase().equals(TODAY)) {
             this.recurrence = LocalDate.now();
         } else if (recurrenceString.length() == DD_MM_YYYY.length()) {
             this.recurrence = LocalDate.parse(recurrenceString, dateFormatter);
         }
+    }
+
+    private boolean isDayOfWeek(String recurrenceString) {
+        return recurrenceString.equals("sunday")
+                || recurrenceString.equals("monday")
+                || recurrenceString.equals("tuesday")
+                || recurrenceString.equals("wednesday")
+                || recurrenceString.equals("thursday")
+                || recurrenceString.equals("friday")
+                || recurrenceString.equals("saturday");
     }
 
     /**
@@ -104,7 +130,9 @@ public class DateChecker {
      * @throws DateHasPassedException Exception thrown if the user's date has already passed
      */
     private void checkDatePassed() throws DateHasPassedException {
-        if (recurrence.compareTo(LocalDate.now()) < 0) {
+        if (recurrence == null) {
+            return;
+        } else if (recurrence.compareTo(LocalDate.now()) < 0) {
             throw new DateHasPassedException();
         } else if (recurrence.compareTo(LocalDate.now()) == 0) {
             checkStartTime();
