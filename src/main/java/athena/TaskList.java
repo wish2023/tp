@@ -94,6 +94,28 @@ public class TaskList {
     /**
      * Adds a task to the task list.
      *
+     * @param name       Name of task
+     * @param startTime  Start time of task
+     * @param duration   Duration of task
+     * @param deadline   Deadline of task
+     * @param recurrence Recurrence of task
+     * @param importance Importance of task
+     * @param notes      Additional notes of task
+     * @return Task added.
+     */
+    public Task addTask(String name, String startTime, String duration,
+                        String deadline, String recurrence,
+                        Importance importance, String notes, Boolean isFlexible)
+            throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException, TaskTooLongException,
+            InvalidRecurrenceException, InvalidDeadlineException {
+        incrementMaxNumber();
+        Task task = addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
+        return task;
+    }
+
+    /**
+     * Adds a task to the task list.
+     *
      * @param number     Number assigned to the task
      * @param name       Name of task
      * @param startTime  Start time of task
@@ -138,28 +160,6 @@ public class TaskList {
         return number;
     }
 
-
-    /**
-     * Adds a task to the task list.
-     *
-     * @param name       Name of task
-     * @param startTime  Start time of task
-     * @param duration   Duration of task
-     * @param deadline   Deadline of task
-     * @param recurrence Recurrence of task
-     * @param importance Importance of task
-     * @param notes      Additional notes of task
-     * @return Task added.
-     */
-    public Task addTask(String name, String startTime, String duration,
-                        String deadline, String recurrence,
-                        Importance importance, String notes, Boolean isFlexible)
-            throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException, TaskTooLongException,
-            InvalidRecurrenceException, InvalidDeadlineException {
-        incrementMaxNumber();
-        Task task = addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
-        return task;
-    }
 
     /**
      * Decrements maxNumber.
